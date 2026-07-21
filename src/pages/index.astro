@@ -179,7 +179,7 @@ const compare = {
         <nav class="nav-links" aria-label="Main">
           <a href="#templates">Features</a>
           <a href="#compare">Compare</a>
-          <a href="/docs/overview/">Docs</a>
+          <a href="/docs/overview/" target="_blank" rel="noopener noreferrer">Docs</a>
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
         </nav>
         <div class="nav-cta">
@@ -243,7 +243,7 @@ const compare = {
           </p>
           <div class="hero-actions">
             <RainbowLink href={RELEASES} label="Download for free" size="lg" />
-            <a class="btn btn-ghost btn-lg" href="/docs/overview/">Read the docs</a>
+            <a class="btn btn-ghost btn-lg" href="/docs/overview/" target="_blank" rel="noopener noreferrer">Read the docs</a>
           </div>
           <figure class="shot shot-hero">
             <Image
@@ -634,7 +634,7 @@ const compare = {
           <p class="eyebrow">Download</p>
           <h2>Free. Open source. Yours.</h2>
           <p class="sub">
-            Grab a prebuilt installer from the latest release, or <a href="/docs/install/">build from source</a>. No account, no telemetry.
+            Grab a prebuilt installer from the latest release, or <a href="/docs/install/" target="_blank" rel="noopener noreferrer">build from source</a>. No account, no telemetry.
           </p>
           <div class="dl-cta">
             <RainbowLink href={RELEASES} label="Download the latest release" size="lg" />
@@ -660,7 +660,7 @@ const compare = {
             </a>
           </div>
           <p class="aside-note">
-            Builds aren't code-signed yet, so your OS warns on first launch. The <a href="/docs/install/">install guide</a> has the one-time unlock.
+            Builds aren't code-signed yet, so your OS warns on first launch. The <a href="/docs/install/" target="_blank" rel="noopener noreferrer">install guide</a> has the one-time unlock.
           </p>
         </div>
       </section>
@@ -1152,6 +1152,17 @@ const compare = {
       .aside-note a {
         color: var(--brand-text);
         text-decoration: none;
+      }
+
+      /* Small arrow for external text links (not buttons/cards) */
+      .nav-links a[target="_blank"]::after,
+      .sub a[target="_blank"]::after,
+      .aside-note a[target="_blank"]::after,
+      .footer-col a[target="_blank"]::after {
+        content: "\2197";
+        font-size: 0.7em;
+        margin-left: 2px;
+        vertical-align: super;
       }
 
       .split {
