@@ -1,6 +1,12 @@
 ---
 title: "FAQ & troubleshooting"
 description: "Common questions about accounts, offline use, ATS output, compiling, AI providers, GitHub sync, backups, and what to do when something misbehaves."
+head:
+  - tag: script
+    attrs:
+      type: application/ld+json
+    content: >-
+      {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I need an account to use Oleafly?","acceptedAnswer":{"@type":"Answer","text":"No. Oleafly has no accounts and no login. Install it and write."}},{"@type":"Question","name":"Does Oleafly need the internet?","acceptedAnswer":{"@type":"Answer","text":"Only for a few explicit things: fetching a LaTeX package the first time a document uses it, citation lookups, cloud AI providers (local Ollama excepted), GitHub sync, and update checks. Writing, compiling, spellcheck, grammar, diagrams, and Preflight all run offline."}},{"@type":"Question","name":"Where are my files stored?","acceptedAnswer":{"@type":"Answer","text":"Plain folders under ~/.openleaf/projects/, each with your .tex, .bib, images, and a real .git repo. Back them up, copy them, or open them with other tools freely."}},{"@type":"Question","name":"Is the PDF output ATS-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. The Tectonic engine emits real selectable Unicode text with embedded subset fonts, and the ATS-badged resume templates follow single-column, linear-reading-order rules. Preflight shows you exactly what a parser extracts from your PDF."}},{"@type":"Question","name":"How is Oleafly different from Overleaf?","acceptedAnswer":{"@type":"Answer","text":"Everything runs on your machine, offline, for free, with your files in real Git repos."}},{"@type":"Question","name":"Can I run the AI fully offline?","acceptedAnswer":{"@type":"Answer","text":"Yes: install Ollama, pull a local model, and connect it in settings. No key, no cloud."}}]}
 ---
 
 ## General

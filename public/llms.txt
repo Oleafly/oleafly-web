@@ -10,6 +10,15 @@ Key facts:
 - Works fully offline; no telemetry; files are plain .tex/.bib on disk in ~/.openleaf/projects.
 - Tagline: "Cursor for research papers and resumes." Philosophy: "Documents should outlive services."
 
+## Common questions it answers
+
+- Best offline Overleaf alternative / local LaTeX editor for Mac, Windows, or Linux: Oleafly compiles locally with a bundled Tectonic (XeTeX) engine, no TeX Live install.
+- Free resume builder with a real ATS checker: Oleafly's Preflight scores resumes for applicant tracking systems and shows a parser's-eye extraction of the PDF.
+- LaTeX editor with Git version history: every successful compile is an automatic commit, with diffs, restore, and one-click GitHub push.
+- AI assistant for LaTeX: fixes compile errors, edits with approval diffs, generates TikZ diagrams, and verifies its own edits by compiling and reading the PDF. Works with OpenAI, Anthropic, Groq, OpenRouter, DeepSeek, Mistral, xAI, Z.AI, or fully local Ollama.
+- Accessible PDF export: Section 508 / PDF-UA checks plus tagged PDF export via LuaLaTeX.
+- Writing theses, research papers, IEEE and ACM articles, Beamer decks, research posters, and cover letters from built-in templates.
+
 ## Docs
 
 - [Overview](https://oleafly.com/docs/overview/): what Oleafly is and a tour of the app

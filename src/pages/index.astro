@@ -43,9 +43,9 @@ const heroPreload = await getImage({
 const GITHUB = "https://github.com/Oleafly/Oleafly";
 const RELEASES = `${GITHUB}/releases/latest`;
 
-const title = "Oleafly: Write LaTeX like you write code. Local-first, AI-native LaTeX studio.";
+const title = "Oleafly · Free local-first LaTeX editor & AI resume builder for Mac, Windows, Linux";
 const description =
-  "Oleafly is a free, open-source, AI-native LaTeX studio for macOS, Windows, and Linux. Think Cursor, but for research papers and resumes. No account, no cloud, no TeX install. Every compile becomes a Git commit, and the AI verifies its own edits by reading the PDF.";
+  "A free, open-source LaTeX editor and ATS-friendly resume builder that runs fully offline. An Overleaf alternative with real Git history and a built-in AI assistant that compiles and verifies its own edits. No account, no TeX install. Mac, Windows, Linux.";
 
 // Apple and Linux marks from simple-icons; Windows is the classic four panes.
 const APPLE_PATH =
@@ -81,6 +81,9 @@ const jsonLd = {
       downloadUrl: RELEASES,
       description,
       softwareHelp: "https://oleafly.com/docs/overview/",
+      screenshot: "https://oleafly.com/og.png",
+      keywords:
+        "LaTeX editor, offline LaTeX editor, Overleaf alternative, resume builder, ATS resume checker, research paper writing, thesis writing, TikZ diagrams, LaTeX resume, AI LaTeX assistant, Section 508 PDF, tagged PDF export, Git version control for documents",
       featureList: [
         "Local LaTeX compilation with a bundled Tectonic (XeTeX) engine, no TeX install",
         "Automatic Git version history: every successful compile becomes a commit",
@@ -93,6 +96,13 @@ const jsonLd = {
       "@type": "WebSite",
       name: "Oleafly",
       url: "https://oleafly.com/",
+    },
+    {
+      "@type": "Organization",
+      name: "Oleafly",
+      url: "https://oleafly.com/",
+      logo: "https://oleafly.com/favicon.png",
+      sameAs: ["https://github.com/Oleafly/Oleafly"],
     },
   ],
 };
@@ -129,11 +139,15 @@ const compare = {
     <meta property="og:title" content="Oleafly: Write LaTeX like you write code" />
     <meta property="og:description" content={description} />
     <meta property="og:url" content="https://oleafly.com/" />
-    <meta property="og:image" content="https://oleafly.com/media/hero-editor.png" />
+    <meta property="og:image" content="https://oleafly.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Oleafly editor with LaTeX source and a live PDF preview" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="keywords" content="LaTeX editor, offline LaTeX editor, Overleaf alternative, LaTeX resume builder, ATS resume checker, AI LaTeX assistant, free LaTeX app Mac Windows Linux" />
     <meta name="twitter:title" content="Oleafly: Write LaTeX like you write code" />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://oleafly.com/media/hero-editor.png" />
+    <meta name="twitter:image" content="https://oleafly.com/og.png" />
 
     <link
       rel="preload"
