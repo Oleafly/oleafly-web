@@ -1,10 +1,11 @@
 # Standalone workspace root: makes pnpm resolve the docs site independently of
 # the app's workspace at the repo root (own node_modules and lockfile).
 packages: []
+
 allowBuilds:
   esbuild: true
   sharp: true
-  workerd: set this to true or false
+  workerd: true
 
 minimumReleaseAgeExclude:
   - astro@7.1.2
