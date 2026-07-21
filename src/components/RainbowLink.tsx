@@ -14,7 +14,7 @@ export function RainbowLink({
 }) {
   return (
     <RainbowButton asChild size={size}>
-      <a href={href} rel="noopener" style={{ textDecoration: "none" }}>
+      <a href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
         {label}
       </a>
     </RainbowButton>
