@@ -1,26 +1,62 @@
 ---
-title: "Oleafly: local-first LaTeX and resume editor"
-description: Oleafly is a free, local-first LaTeX and resume editor for macOS, Windows, and Linux. An offline Overleaf alternative with Git, GitHub sync, SyncTeX, and bring-your-own-key AI.
+title: "Oleafly documentation"
+description: Everything about Oleafly, the free local-first LaTeX studio, from first install to tagged PDF export. Guides for writing, compiling, resumes, AI setup, Git history, and GitHub sync.
 template: splash
 hero:
-  title: Oleafly
-  tagline: A free, local-first LaTeX and resume editor for macOS, Windows, and Linux. An offline Overleaf alternative that keeps every project as a real Git repo, on your own disk.
+  title: Oleafly documentation
+  tagline: From first install to tagged PDF export. Every feature, explained.
   image:
     file: ../../../assets/leaf.svg
   actions:
     - text: Get started
       link: /docs/getting-started/
       icon: right-arrow
-    - text: Download
-      link: https://github.com/Oleafly/Oleafly/releases/latest
-      icon: external
-      variant: secondary
-    - text: View on GitHub
-      link: https://github.com/Oleafly/Oleafly
-      icon: github
+    - text: Back to oleafly.com
+      link: /
       variant: minimal
 ---
 
-import Landing from "../../../components/Landing.astro";
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-<Landing />
+<CardGrid>
+  <LinkCard
+    title="Getting started"
+    href="/docs/getting-started/"
+    description="First project to first PDF in a couple of minutes. No TeX install, no account."
+  />
+  <LinkCard
+    title="Templates"
+    href="/docs/templates/"
+    description="Resumes, IEEE and ACM papers, theses, posters, and Beamer decks with live previews."
+  />
+  <LinkCard
+    title="The editor"
+    href="/docs/editor/"
+    description="Autocomplete, slash commands, code intelligence, Vim mode, and offline spellcheck."
+  />
+  <LinkCard
+    title="Compiling & preview"
+    href="/docs/compiling/"
+    description="The bundled Tectonic engine, live PDF preview, and word-level SyncTeX."
+  />
+  <LinkCard
+    title="Preflight: ATS & accessibility"
+    href="/docs/preflight/"
+    description="Score your document for resume parsers and screen readers before you submit."
+  />
+  <LinkCard
+    title="AI assistant"
+    href="/docs/ai-setup/"
+    description="Bring your own key or run local Ollama. Approval diffs on every change."
+  />
+  <LinkCard
+    title="Git history & GitHub"
+    href="/docs/git-history/"
+    description="Every compile is a commit. Diffs, one-click restore, and GitHub sync."
+  />
+  <LinkCard
+    title="FAQ & troubleshooting"
+    href="/docs/faq/"
+    description="Accounts, offline use, ATS output, compile errors, and quick fixes."
+  />
+</CardGrid>

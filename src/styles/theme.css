@@ -25,14 +25,14 @@
   --sl-color-accent: #2563eb;
   --sl-color-accent-high: #bfdbfe;
 
-  --sl-color-white: #f9fafb; /* text primary */
+  --sl-color-white: #f7f8f8; /* text primary */
   --sl-color-gray-1: #e5e7eb;
-  --sl-color-gray-2: #d1d5db;
-  --sl-color-gray-3: #9ca3af; /* text secondary */
+  --sl-color-gray-2: #c9cdd6;
+  --sl-color-gray-3: #8a8f98; /* text secondary, same as the website */
   --sl-color-gray-4: #6b7280;
-  --sl-color-gray-5: #2d3748; /* border */
-  --sl-color-gray-6: #1a1d27; /* surface: code, cards, sidebar */
-  --sl-color-black: #0f1117; /* page ground */
+  --sl-color-gray-5: #22252a; /* border */
+  --sl-color-gray-6: #101113; /* surface: code, cards, sidebar */
+  --sl-color-black: #08090a; /* page ground, same as the website */
 
   /* Links read brighter than the CTA blue for contrast on the dark ground. */
   --sl-color-text-accent: #60a5fa;
@@ -40,9 +40,9 @@
   /* Local design tokens. */
   --ol-accent: #2563eb;
   --ol-accent-hover: #1d4ed8;
-  --ol-code-bg: #1a1d27;
-  --ol-surface: #1a1d27;
-  --ol-border: #2d3748;
+  --ol-code-bg: #0d0e10;
+  --ol-surface: #101113;
+  --ol-border: #22252a;
   --ol-info: #3b82f6;
   --ol-success: #10b981;
   --ol-warning: #f59e0b;
