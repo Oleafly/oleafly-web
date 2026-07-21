@@ -24,11 +24,12 @@ pnpm preview
 
 ## Deploy (Cloudflare Pages)
 
-- **Build command:** `pnpm build`
-- **Build output directory:** `dist`
-- **Custom domain:** `oleafly.com`
+Every push to `main` deploys automatically via GitHub Actions (`.github/workflows/deploy.yml`), which builds the site and uploads `dist/` to the `oleafly` Cloudflare Pages project with wrangler. The workflow needs two repo secrets: `CLOUDFLARE_API_TOKEN` (Account: Cloudflare Pages Edit) and `CLOUDFLARE_ACCOUNT_ID`.
 
-No environment variables or server functions required — the site is 100% static. A sitemap is generated automatically at `/sitemap-index.xml` (Starlight's built-in integration), referenced from `public/robots.txt`.
+Manual deploy from a checkout: `pnpm deploy` (reads the same credentials from `.env`, see `.env` in `.gitignore`).
+
+- **Production:** [oleafly.com](https://oleafly.com) (`www.` and `docs.` 301-redirect to it, `docs.oleafly.com/x` lands on `/docs/x`)
+- The site is 100% static: no environment variables at runtime, no server functions. A sitemap is generated at `/sitemap-index.xml` and referenced from `public/robots.txt`.
 
 ## Updating docs
 
