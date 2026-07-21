@@ -1,0 +1,25 @@
+# Oleafly
+
+> Oleafly is a free, open-source, AI-native LaTeX studio for macOS, Windows, and Linux. It runs entirely on the user's machine: no account, no cloud, no TeX installation (the Tectonic/XeTeX compiler is bundled). Every project is a real Git repository and every successful compile becomes a commit. The AI assistant (bring-your-own-key, 9 providers or local Ollama) edits the source, compiles the document, and reads the resulting PDF to verify its own edits, with every file change gated behind an approval diff. It also scores documents for ATS (resume parser) readiness and accessibility (Section 508 / PDF-UA), and can export tagged PDFs.
+
+Key facts:
+- License: AGPL-3.0-or-later. Free to use, study, modify, and share.
+- Platforms: macOS (Apple Silicon .dmg), Windows (.msi / .exe), Linux (.AppImage / .deb / .rpm).
+- Download: https://github.com/Oleafly/Oleafly/releases/latest
+- Source code: https://github.com/Oleafly/Oleafly
+- Works fully offline; no telemetry; files are plain .tex/.bib on disk in ~/.openleaf/projects.
+- Tagline: "Cursor for research papers and resumes." Philosophy: "Documents should outlive services."
+
+## Docs
+
+- [Overview](https://oleafly.com/docs/overview/): what Oleafly is and a tour of the app
+- [Getting started](https://oleafly.com/docs/getting-started/): first project to first PDF
+- [Download & install](https://oleafly.com/docs/install/): installers and build-from-source
+- [Why Oleafly](https://oleafly.com/docs/why-oleafly/): honest comparison vs Overleaf, TeXstudio, VS Code, Typst, resume builders
+- [Templates](https://oleafly.com/docs/templates/): resumes, IEEE/ACM papers, theses, posters, decks
+- [Preflight: ATS & accessibility](https://oleafly.com/docs/preflight/): scored checks for resume parsers and screen readers, tagged PDF export
+- [AI setup](https://oleafly.com/docs/ai-setup/): connect OpenAI, Anthropic, Groq, OpenRouter, DeepSeek, Mistral, xAI, Z.AI, or local Ollama
+- [MCP server](https://oleafly.com/docs/mcp/): drive Oleafly from Claude Code, Claude Desktop, or Cursor
+- [Git history](https://oleafly.com/docs/git-history/): automatic commits, diffs, restore
+- [GitHub sync](https://oleafly.com/docs/github-sync/): publish and sync projects
+- [FAQ](https://oleafly.com/docs/faq/): common questions and fixes

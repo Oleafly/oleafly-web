@@ -1,0 +1,148 @@
+---
+// Magic UI's code-comparison, adapted for Astro: the original highlights with
+// shiki in the browser (plus next-themes); here shiki runs at build time so
+// the diff ships as pure HTML with zero client JS. Diff lines are passed by
+// 1-based line number instead of shiki notation comments (which don't support
+// LaTeX's % comments).
+import { codeToHtml } from "shiki";
+
+interface Props {
+  beforeCode: string;
+  afterCode: string;
+  language: string;
+  filename: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  removeLines?: number[];
+  addLines?: number[];
+}
+
+const {
+  beforeCode,
+  afterCode,
+  language,
+  filename,
+  beforeLabel = "before",
+  afterLabel = "after",
+  removeLines = [],
+  addLines = [],
+} = Astro.props;
+
+const theme = "github-dark-default";
+
+function markLines(html: string, lines: number[], cls: string): string {
+  let n = 0;
+  return html.replace(/<span class="line"/g, (m) => {
+    n += 1;
+    return lines.includes(n) ? `<span class="line ${cls}"` : m;
+  });
+}
+
+const before = markLines(
+  await codeToHtml(beforeCode, { lang: language, theme }),
+  removeLines,
+  "diff-remove"
+);
+const after = markLines(
+  await codeToHtml(afterCode, { lang: language, theme }),
+  addLines,
+  "diff-add"
+);
+---
+
+<div class="cc">
+  <div class="cc-pane">
+    <div class="cc-head">
+      <span class="cc-file">{filename}</span>
+      <span class="cc-tag cc-tag-before">{beforeLabel}</span>
+    </div>
+    <div class="cc-code" set:html={before} />
+  </div>
+  <div class="cc-pane">
+    <div class="cc-head">
+      <span class="cc-file">{filename}</span>
+      <span class="cc-tag cc-tag-after">{afterLabel}</span>
+    </div>
+    <div class="cc-code" set:html={after} />
+  </div>
+</div>
+
+<style>
+  .cc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #060607;
+  }
+  .cc-pane + .cc-pane {
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .cc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .cc-file {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    color: #8a8f98;
+  }
+  .cc-tag {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 1px 7px;
+  }
+  .cc-tag-before {
+    color: #f0888a;
+    background: rgba(235, 87, 87, 0.12);
+  }
+  .cc-tag-after {
+    color: #7ed492;
+    background: rgba(52, 180, 74, 0.12);
+  }
+  .cc-code {
+    overflow-x: auto;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .cc-code :global(pre) {
+    margin: 0;
+    padding: 10px 0;
+    background: transparent !important;
+  }
+  .cc-code :global(code) {
+    display: block;
+    min-width: 100%;
+    width: fit-content;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .cc-code :global(.line) {
+    display: inline-block;
+    width: 100%;
+    padding: 0 12px;
+  }
+  .cc-code :global(.line.diff-remove) {
+    background: rgba(235, 87, 87, 0.13);
+  }
+  .cc-code :global(.line.diff-add) {
+    background: rgba(52, 180, 74, 0.13);
+  }
+  @media (max-width: 640px) {
+    .cc {
+      grid-template-columns: 1fr;
+    }
+    .cc-pane + .cc-pane {
+      border-left: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  }
+</style>

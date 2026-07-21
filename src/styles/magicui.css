@@ -1,0 +1,611 @@
+@import "./fonts.css";
+/* Tailwind + Magic UI animations — imported ONLY by the landing page.
+   The docs (Starlight) keep their own theme and never load this file. */
+@import "tailwindcss";
+
+/* rainbow-button gradient stops — plain :root vars (not @theme inline) so the
+   var() references inside arbitrary-value utilities resolve at runtime */
+:root {
+  --color-1: oklch(66.2% 0.225 25.9);
+  --color-2: oklch(60.4% 0.26 302);
+  --color-3: oklch(69.6% 0.165 251);
+  --color-4: oklch(80.2% 0.134 225);
+  --color-5: oklch(90.7% 0.231 133);
+
+  /* magic-card reads these at runtime via var() in a motion template */
+  --color-background: #0a0a0a;
+  --color-border: rgba(255, 255, 255, 0.1);
+}
+
+@theme inline {
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  --animate-shiny-text: shiny-text 8s infinite;
+  --animate-rainbow: rainbow var(--speed, 2s) infinite linear;
+  --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
+  --animate-meteor: meteor 5s linear infinite;
+  --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
+
+  /* minimal shadcn-style tokens some vendored components reference */
+  --color-muted: rgba(255, 255, 255, 0.06);
+  --color-background: #0a0a0a;
+  --color-border: rgba(255, 255, 255, 0.1);
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes shiny-text {
+    0%,
+    90%,
+    100% {
+      background-position: calc(-100% - var(--shiny-width)) 0;
+    }
+    30%,
+    60% {
+      background-position: calc(100% + var(--shiny-width)) 0;
+    }
+  }
+  @keyframes rainbow {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 200%;
+    }
+  }
+  @keyframes orbit {
+    0% {
+      transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px))
+        rotate(calc(var(--angle) * -1deg));
+    }
+    100% {
+      transform: rotate(calc(var(--angle) * 1deg + 360deg))
+        translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));
+    }
+  }
+  @keyframes spotlight {
+    0% {
+      opacity: 0;
+      transform: translate(-72%, -62%) scale(0.5);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -40%) scale(1);
+    }
+  }
+  @keyframes meteor {
+    0% {
+      transform: rotate(var(--angle)) translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(var(--angle)) translateX(-500px);
+      opacity: 0;
+    }
+  }
+}
+
+/* Diagram Composer card: looping compose sequence (build -> hold -> reset).
+   All elements share one 9s cycle; timing lives in keyframe percentages so
+   the loop restarts cleanly. */
+.dc-n1,
+.dc-n2,
+.dc-n3,
+.dc-out,
+.dc-badge {
+  opacity: 0;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.dc-a1,
+.dc-a2,
+.dc-c1,
+.dc-c2 {
+  opacity: 0;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.dc-n1 { animation: dc-n1 9s ease-in-out infinite; }
+.dc-n2 { animation: dc-n2 9s ease-in-out infinite; }
+.dc-n3 { animation: dc-n3 9s ease-in-out infinite; }
+.dc-a1 { animation: dc-a1 9s linear infinite; }
+.dc-a2 { animation: dc-a2 9s linear infinite; }
+.dc-c1 { animation: dc-c1 9s linear infinite; }
+.dc-c2 { animation: dc-c2 9s linear infinite; }
+.dc-out { animation: dc-out 9s ease-in-out infinite; }
+.dc-badge { animation: dc-badge 9s ease-in-out infinite; }
+
+@keyframes dc-n1 {
+  0%, 2% { opacity: 0; transform: translateY(5px) scale(0.96); }
+  6% { opacity: 1; transform: none; }
+  90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes dc-n2 {
+  0%, 9% { opacity: 0; transform: translateY(5px) scale(0.96); }
+  13% { opacity: 1; transform: none; }
+  90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes dc-n3 {
+  0%, 16% { opacity: 0; transform: translateY(5px) scale(0.96); }
+  20% { opacity: 1; transform: none; }
+  90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes dc-a1 {
+  0%, 6% { opacity: 0; stroke-dashoffset: 1; }
+  7% { opacity: 1; }
+  11% { stroke-dashoffset: 0; }
+  90% { opacity: 1; stroke-dashoffset: 0; }
+  97%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+@keyframes dc-a2 {
+  0%, 13% { opacity: 0; stroke-dashoffset: 1; }
+  14% { opacity: 1; }
+  18% { stroke-dashoffset: 0; }
+  90% { opacity: 1; stroke-dashoffset: 0; }
+  97%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+@keyframes dc-c1 {
+  0%, 21% { opacity: 0; stroke-dashoffset: 1; }
+  22% { opacity: 1; }
+  28% { stroke-dashoffset: 0; }
+  90% { opacity: 1; stroke-dashoffset: 0; }
+  97%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+@keyframes dc-c2 {
+  0%, 24% { opacity: 0; stroke-dashoffset: 1; }
+  25% { opacity: 1; }
+  31% { stroke-dashoffset: 0; }
+  90% { opacity: 1; stroke-dashoffset: 0; }
+  97%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+@keyframes dc-out {
+  0%, 30% { opacity: 0; transform: translateY(5px) scale(0.96); }
+  35% { opacity: 1; transform: none; }
+  90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes dc-badge {
+  0%, 38% { opacity: 0; transform: scale(0.8); }
+  42% { opacity: 1; transform: scale(1.06); }
+  45% { transform: scale(1); }
+  90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-n1, .dc-n2, .dc-n3, .dc-out, .dc-badge,
+  .dc-a1, .dc-a2, .dc-c1, .dc-c2 {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* SyncTeX card: 8s loop. The cursor clicks a PDF line (pair A lights up in
+   both panes), then clicks a source line (pair B lights up). */
+.st-hl-a,
+.st-hl-b {
+  transition: none;
+}
+.st-hl-a {
+  animation: st-hl-a 8s ease-in-out infinite;
+}
+.st-hl-b {
+  animation: st-hl-b 8s ease-in-out infinite;
+}
+.st-cursor {
+  animation: st-cursor 8s ease-in-out infinite;
+  left: 0;
+  top: 0;
+}
+@keyframes st-hl-a {
+  0%, 12% { background-color: transparent; color: #6d727b; box-shadow: none; }
+  16%, 42% { background-color: rgba(37, 99, 235, 0.28); color: #a8c3f5; box-shadow: 0 0 10px rgba(37, 99, 235, 0.25); }
+  48%, 100% { background-color: transparent; color: #6d727b; box-shadow: none; }
+}
+@keyframes st-hl-b {
+  0%, 54% { background-color: transparent; color: #6d727b; box-shadow: none; }
+  58%, 88% { background-color: rgba(52, 180, 74, 0.25); color: #8fd6a0; box-shadow: 0 0 10px rgba(52, 180, 74, 0.25); }
+  94%, 100% { background-color: transparent; color: #6d727b; box-shadow: none; }
+}
+/* PDF bars have no text; recolor the bar itself */
+div.st-hl-a.rounded-full {
+  animation-name: st-bar-a;
+}
+div.st-hl-b.rounded-full {
+  animation-name: st-bar-b;
+}
+@keyframes st-bar-a {
+  0%, 12% { background-color: #3a3d42; box-shadow: none; }
+  16%, 42% { background-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+  48%, 100% { background-color: #3a3d42; box-shadow: none; }
+}
+@keyframes st-bar-b {
+  0%, 54% { background-color: #3a3d42; box-shadow: none; }
+  58%, 88% { background-color: #34b44a; box-shadow: 0 0 10px rgba(52, 180, 74, 0.5); }
+  94%, 100% { background-color: #3a3d42; box-shadow: none; }
+}
+/* cursor path: hover PDF line 2 -> click -> glide to source line 4 -> click */
+@keyframes st-cursor {
+  0% { opacity: 0; left: 80%; top: 40%; transform: scale(1); }
+  8% { opacity: 1; left: 71%; top: 48%; transform: scale(1); }
+  14% { transform: scale(0.7); left: 71%; top: 48%; }
+  18% { transform: scale(1); left: 71%; top: 48%; }
+  44% { opacity: 1; left: 71%; top: 48%; }
+  52% { opacity: 1; left: 24%; top: 72%; }
+  56% { transform: scale(0.7); left: 24%; top: 72%; }
+  60% { transform: scale(1); left: 24%; top: 72%; }
+  86% { opacity: 1; left: 24%; top: 72%; }
+  94%, 100% { opacity: 0; left: 50%; top: 55%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-hl-a, .st-hl-b, .st-cursor { animation: none; }
+  .st-cursor { opacity: 0; }
+}
+
+/* "From one page to six hundred" card: pages drop onto the stack while the
+   counter climbs and the compile bar fills (8s cycle; drop is 1.6s). */
+.pg-drop {
+  animation: pg-drop 1.6s ease-in-out infinite;
+}
+@keyframes pg-drop {
+  0% { opacity: 0; transform: translateY(-12px) rotate(-3deg); }
+  35% { opacity: 1; transform: translateY(0) rotate(0deg); }
+  82% { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(0) rotate(0deg); }
+}
+.pg-c1 { animation: pg-c1 8s linear infinite; opacity: 0; }
+.pg-c2 { animation: pg-c2 8s linear infinite; opacity: 0; }
+.pg-c3 { animation: pg-c3 8s linear infinite; opacity: 0; }
+.pg-c4 { animation: pg-c4 8s linear infinite; opacity: 0; }
+@keyframes pg-c1 { 0%, 2% { opacity: 0; } 4%, 22% { opacity: 1; } 26%, 100% { opacity: 0; } }
+@keyframes pg-c2 { 0%, 26% { opacity: 0; } 30%, 46% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes pg-c3 { 0%, 50% { opacity: 0; } 54%, 68% { opacity: 1; } 72%, 100% { opacity: 0; } }
+@keyframes pg-c4 { 0%, 72% { opacity: 0; } 76%, 94% { opacity: 1; } 98%, 100% { opacity: 0; } }
+.pg-bar {
+  animation: pg-bar 8s ease-in-out infinite;
+}
+@keyframes pg-bar {
+  0% { width: 2%; background-color: #3b82f6; }
+  72% { width: 100%; background-color: #3b82f6; }
+  76%, 94% { width: 100%; background-color: #34b44a; }
+  98%, 100% { width: 2%; background-color: #3b82f6; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-drop, .pg-c1, .pg-c2, .pg-c3, .pg-c4, .pg-bar { animation: none; }
+  .pg-drop, .pg-c4 { opacity: 1; }
+  .pg-bar { width: 100%; background-color: #34b44a; }
+}
+
+/* Command palette card: type -> results -> pick (7s cycle). */
+.cp-type {
+  display: inline-block;
+  width: 0;
+  animation: cp-type 7s steps(9, end) infinite;
+}
+.cp-r { opacity: 0; animation: cp-rows 7s ease-in-out infinite; }
+.cp-r1 { animation-name: cp-r1; }
+@keyframes cp-type {
+  0%, 4% { width: 0; }
+  30% { width: 9ch; }
+  90% { width: 9ch; }
+  94%, 100% { width: 0; }
+}
+@keyframes cp-rows {
+  0%, 30% { opacity: 0; }
+  36%, 88% { opacity: 1; }
+  94%, 100% { opacity: 0; }
+}
+@keyframes cp-r1 {
+  0%, 30% { opacity: 0; background-color: transparent; }
+  36% { opacity: 1; }
+  44%, 62% { opacity: 1; background-color: rgba(37, 99, 235, 0.25); color: #a8c3f5; }
+  68%, 82% { opacity: 1; background-color: rgba(52, 180, 74, 0.22); color: #8fd6a0; }
+  88% { opacity: 1; background-color: transparent; }
+  94%, 100% { opacity: 0; }
+}
+
+/* Code intelligence card: rename once, every file updates (8s cycle). */
+.ci-chip { opacity: 0; animation: ci-chip 8s ease-in-out infinite; }
+.ci-old { animation: ci-old 8s ease-in-out infinite; }
+.ci-new { opacity: 0; animation: ci-new 8s ease-in-out infinite; color: #8fd6a0; }
+@keyframes ci-chip {
+  0%, 14% { opacity: 0; transform: translateY(3px); }
+  20%, 52% { opacity: 1; transform: none; }
+  58%, 100% { opacity: 0; }
+}
+@keyframes ci-old {
+  0%, 22% { opacity: 1; background-color: transparent; color: #7cabf8; }
+  28%, 46% { opacity: 1; background-color: rgba(37, 99, 235, 0.25); color: #a8c3f5; }
+  52%, 94% { opacity: 0; }
+  100% { opacity: 1; background-color: transparent; color: #7cabf8; }
+}
+@keyframes ci-new {
+  0%, 52% { opacity: 0; }
+  58%, 78% { opacity: 1; background-color: rgba(52, 180, 74, 0.22); }
+  84%, 90% { opacity: 1; background-color: transparent; }
+  96%, 100% { opacity: 0; }
+}
+
+/* Citations card: DOI in -> BibTeX fetched -> cite inserted (8s cycle). */
+.ct-doi { opacity: 0; animation: ct-doi 8s ease-in-out infinite; }
+.ct-bib { opacity: 0; animation: ct-bib 8s ease-in-out infinite; }
+.ct-cite { opacity: 0; animation: ct-cite 8s ease-in-out infinite; }
+@keyframes ct-doi {
+  0%, 4% { opacity: 0; transform: translateY(-4px) scale(0.97); }
+  10%, 88% { opacity: 1; transform: none; }
+  94%, 100% { opacity: 0; }
+}
+@keyframes ct-bib {
+  0%, 22% { opacity: 0; transform: translateY(4px); }
+  30%, 88% { opacity: 1; transform: none; }
+  94%, 100% { opacity: 0; }
+}
+@keyframes ct-cite {
+  0%, 48% { opacity: 0; transform: scale(0.9); }
+  56% { opacity: 1; transform: scale(1.04); }
+  60%, 88% { opacity: 1; transform: scale(1); }
+  94%, 100% { opacity: 0; }
+}
+
+/* Spell & grammar card: squiggle -> suggestion -> healed word (8s cycle). */
+.sg-bad {
+  color: #8a8f98;
+  animation: sg-bad 8s ease-in-out infinite;
+  text-decoration-color: #eb5757;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.sg-good {
+  opacity: 0;
+  color: #8fd6a0;
+  animation: sg-good 8s ease-in-out infinite;
+  text-decoration-color: #34b44a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.sg-pop { opacity: 0; animation: sg-pop 8s ease-in-out infinite; }
+@keyframes sg-bad {
+  0%, 12% { opacity: 1; text-decoration-line: none; }
+  16%, 52% { opacity: 1; text-decoration-line: underline; text-decoration-style: wavy; }
+  58%, 94% { opacity: 0; }
+  100% { opacity: 1; text-decoration-line: none; }
+}
+@keyframes sg-good {
+  0%, 52% { opacity: 0; }
+  58%, 78% { opacity: 1; text-decoration-line: underline; text-decoration-style: solid; }
+  84%, 90% { opacity: 1; text-decoration-line: none; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes sg-pop {
+  0%, 26% { opacity: 0; transform: translateY(3px); }
+  32%, 52% { opacity: 1; transform: none; }
+  58%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-type, .cp-r, .cp-r1, .ci-chip, .ci-old, .ci-new,
+  .ct-doi, .ct-bib, .ct-cite, .sg-bad, .sg-good, .sg-pop {
+    animation: none;
+  }
+  .cp-type { width: 9ch; }
+  .cp-r, .ct-doi, .ct-bib, .ct-cite, .sg-bad { opacity: 1; }
+}
+
+/* Slash commands card: type "/" -> menu -> pick /figure (7s cycle). */
+.sl-type {
+  width: 0;
+  animation: sl-type 7s steps(4, end) infinite;
+}
+.sl-menu { opacity: 0; animation: sl-menu 7s ease-in-out infinite; transform-origin: top left; }
+.sl-i1 { animation: sl-i1 7s ease-in-out infinite; }
+@keyframes sl-type {
+  0%, 8% { width: 0; }
+  24% { width: 4ch; }
+  90% { width: 4ch; }
+  95%, 100% { width: 0; }
+}
+@keyframes sl-menu {
+  0%, 24% { opacity: 0; transform: translateY(3px) scale(0.97); }
+  30%, 86% { opacity: 1; transform: none; }
+  92%, 100% { opacity: 0; }
+}
+@keyframes sl-i1 {
+  0%, 34% { background-color: transparent; color: #8a8f98; }
+  40%, 62% { background-color: rgba(37, 99, 235, 0.25); color: #a8c3f5; }
+  68%, 80% { background-color: rgba(52, 180, 74, 0.22); color: #8fd6a0; }
+  86%, 100% { background-color: transparent; color: #8a8f98; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sl-type, .sl-menu, .sl-i1 { animation: none; }
+  .sl-type { width: 4ch; }
+  .sl-menu { opacity: 1; }
+}
+
+/* Resume fork diagram: timeline draws, commits tick in, forks peel off
+   (10s cycle). */
+.fk-main, .fk-f1, .fk-f2, .fk-f3 {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+.fk-main { animation: fk-main 10s linear infinite; }
+.fk-f1 { animation: fk-f1 10s linear infinite; }
+.fk-f2 { animation: fk-f2 10s linear infinite; }
+.fk-f3 { animation: fk-f3 10s linear infinite; }
+.fk-l1, .fk-l2, .fk-l3 { opacity: 0; }
+.fk-l1 { animation: fk-l1 10s ease-in-out infinite; }
+.fk-l2 { animation: fk-l2 10s ease-in-out infinite; }
+.fk-l3 { animation: fk-l3 10s ease-in-out infinite; }
+@keyframes fk-main {
+  0%, 2% { opacity: 0; stroke-dashoffset: 1; }
+  3% { opacity: 1; }
+  9% { stroke-dashoffset: 0; }
+  90% { opacity: 1; stroke-dashoffset: 0; }
+  96%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+@keyframes fk-f1 {
+  0%, 16% { opacity: 0; stroke-dashoffset: 1; }
+  17% { opacity: 1; }
+  22% { stroke-dashoffset: 0; }
+  90% { opacity: 1; stroke-dashoffset: 0; }
+  96%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+@keyframes fk-f2 {
+  0%, 26% { opacity: 0; stroke-dashoffset: 1; }
+  27% { opacity: 1; }
+  32% { stroke-dashoffset: 0; }
+  90% { opacity: 1; stroke-dashoffset: 0; }
+  96%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+@keyframes fk-f3 {
+  0%, 34% { opacity: 0; stroke-dashoffset: 1; }
+  35% { opacity: 1; }
+  40% { stroke-dashoffset: 0; }
+  90% { opacity: 1; stroke-dashoffset: 0; }
+  96%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+@keyframes fk-l1 {
+  0%, 22% { opacity: 0; }
+  25%, 90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-l2 {
+  0%, 32% { opacity: 0; }
+  35%, 90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-l3 {
+  0%, 40% { opacity: 0; }
+  43%, 90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+.fk-p6, .fk-p10, .fk-p14, .fk-p26, .fk-p28, .fk-p34, .fk-p36, .fk-p38, .fk-p42, .fk-p44, .fk-p46, .fk-p48 {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.fk-p6 { animation: fk-p6 10s ease-out infinite; }
+.fk-p10 { animation: fk-p10 10s ease-out infinite; }
+.fk-p14 { animation: fk-p14 10s ease-out infinite; }
+.fk-p26 { animation: fk-p26 10s ease-out infinite; }
+.fk-p28 { animation: fk-p28 10s ease-out infinite; }
+.fk-p34 { animation: fk-p34 10s ease-out infinite; }
+.fk-p36 { animation: fk-p36 10s ease-out infinite; }
+.fk-p38 { animation: fk-p38 10s ease-out infinite; }
+.fk-p42 { animation: fk-p42 10s ease-out infinite; }
+.fk-p44 { animation: fk-p44 10s ease-out infinite; }
+.fk-p46 { animation: fk-p46 10s ease-out infinite; }
+.fk-p48 { animation: fk-p48 10s ease-out infinite; }
+@keyframes fk-p6 {
+  0%, 5% { opacity: 0; transform: scale(0); }
+  7% { opacity: 1; transform: scale(1.35); }
+  9% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p10 {
+  0%, 9% { opacity: 0; transform: scale(0); }
+  11% { opacity: 1; transform: scale(1.35); }
+  13% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p14 {
+  0%, 13% { opacity: 0; transform: scale(0); }
+  15% { opacity: 1; transform: scale(1.35); }
+  17% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p26 {
+  0%, 25% { opacity: 0; transform: scale(0); }
+  27% { opacity: 1; transform: scale(1.35); }
+  29% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p28 {
+  0%, 27% { opacity: 0; transform: scale(0); }
+  29% { opacity: 1; transform: scale(1.35); }
+  31% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p34 {
+  0%, 33% { opacity: 0; transform: scale(0); }
+  35% { opacity: 1; transform: scale(1.35); }
+  37% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p36 {
+  0%, 35% { opacity: 0; transform: scale(0); }
+  37% { opacity: 1; transform: scale(1.35); }
+  39% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p38 {
+  0%, 37% { opacity: 0; transform: scale(0); }
+  39% { opacity: 1; transform: scale(1.35); }
+  41% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p42 {
+  0%, 41% { opacity: 0; transform: scale(0); }
+  43% { opacity: 1; transform: scale(1.35); }
+  45% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p44 {
+  0%, 43% { opacity: 0; transform: scale(0); }
+  45% { opacity: 1; transform: scale(1.35); }
+  47% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p46 {
+  0%, 45% { opacity: 0; transform: scale(0); }
+  47% { opacity: 1; transform: scale(1.35); }
+  49% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes fk-p48 {
+  0%, 47% { opacity: 0; transform: scale(0); }
+  49% { opacity: 1; transform: scale(1.35); }
+  51% { transform: scale(1); }
+  90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fk-main, .fk-f1, .fk-f2, .fk-f3, .fk-l1, .fk-l2, .fk-l3,
+  .fk-p6, .fk-p10, .fk-p14, .fk-p26, .fk-p28, .fk-p34, .fk-p36, .fk-p38, .fk-p42, .fk-p44, .fk-p46, .fk-p48 {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+    transform: none;
+  }
+}
