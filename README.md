@@ -51,12 +51,7 @@ A few other places you might touch:
 
 Typo fixes and small improvements: open a pull request directly, no need to ask first.
 
-Bigger changes (new sections, layout changes, new pages): open an issue first so we can talk it through. The page is deliberately tight and we say no to most additions, not because they're bad ideas but because a short page that loads fast is the point.
-
-Two writing rules for anything user-facing, learned the hard way:
-
-1. Be accurate. Don't claim things the app doesn't do. When in doubt, check the [app's README](https://github.com/Oleafly/Oleafly) or ask.
-2. Keep the copy plain. No em dashes, no semicolons, no marketing fluff.
+Bigger changes (new sections, layout changes, new pages): open an issue first so we can talk it through. The page is deliberately tight and we say no to most additions, not because they're bad ideas but because a short page that loads fast is one of our primary goals.
 
 Run `pnpm build` before you push. If the build passes locally it will pass in CI.
 

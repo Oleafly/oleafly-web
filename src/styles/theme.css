@@ -522,3 +522,35 @@ starlight-toc a[aria-current="true"] {
 .pagination-links a[rel="next"]:hover svg {
   transform: translateX(3px);
 }
+
+/* Docs home link cards: dotted texture, blue hover ring, gentle lift. */
+.sl-link-card {
+  border-radius: 8px;
+  border-color: var(--ol-border);
+  background-color: var(--ol-code-bg);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 18px 18px;
+  transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+.sl-link-card:hover {
+  border-color: rgba(59, 130, 246, 0.55);
+  background-color: var(--ol-surface);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.sl-link-card:hover .sl-link-card-arrow,
+.sl-link-card:hover svg {
+  color: #3b82f6;
+}
+:root[data-theme="light"] .sl-link-card {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+}
+
+/* Docs home has its own hero; hide the auto-rendered page title there. */
+main:has(.docs-hero) h1#_top {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
