@@ -14,7 +14,6 @@ import { AsciiQuill } from "./AsciiQuill";
           Get started
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </a>
-        <a class="dh-link" href="/">Back to oleafly.com</a>
       </div>
     </div>
     <div class="dh-art">
@@ -26,12 +25,16 @@ import { AsciiQuill } from "./AsciiQuill";
 <style>
   .docs-hero {
     position: relative;
-    padding: 4.5rem 0 1.5rem;
+    padding: 1.5rem 0 1.5rem;
+  }
+  :global(main:has(.docs-hero) .sl-markdown-content) {
+    margin-top: 0;
+    padding-top: 0;
   }
   .docs-hero::before {
     content: "";
     position: absolute;
-    inset: -2rem -4rem 0;
+    inset: -6rem -4rem 0;
     background-image: radial-gradient(rgba(255, 255, 255, 0.13) 1.1px, transparent 1.1px);
     background-size: 22px 22px;
     -webkit-mask-image: radial-gradient(75% 85% at 50% 30%, black, transparent);
@@ -69,6 +72,11 @@ import { AsciiQuill } from "./AsciiQuill";
     gap: 1.25rem;
     flex-wrap: wrap;
   }
+  .dh-btn,
+  .dh-btn:visited,
+  .dh-btn:hover {
+    color: #fff !important;
+  }
   .dh-btn {
     display: inline-flex;
     align-items: center;
@@ -85,15 +93,6 @@ import { AsciiQuill } from "./AsciiQuill";
   .dh-btn:hover {
     background: #3b82f6;
     color: #fff;
-  }
-  .dh-link {
-    color: var(--sl-color-gray-3);
-    font-size: 0.95rem;
-    text-decoration: none;
-    transition: color 150ms ease;
-  }
-  .dh-link:hover {
-    color: var(--sl-color-white);
   }
   .dh-art {
     display: flex;
