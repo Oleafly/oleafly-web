@@ -5,7 +5,7 @@
   "description": "oleafly.com \u2014 landing page and documentation site for Oleafly, built with Astro + Starlight, deployed on Cloudflare Pages.",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/build-llms-full.mjs && astro build",
     "preview": "astro preview",
     "deploy": "astro build && wrangler pages deploy dist --project-name=oleafly"
   },

@@ -10,6 +10,8 @@ Key facts:
 - Works fully offline; no telemetry; files are plain .tex/.bib on disk in ~/.openleaf/projects.
 - Tagline: "Cursor for research papers and resumes." Philosophy: "Documents should outlive services."
 
+Full documentation in a single file: https://oleafly.com/llms-full.txt
+
 ## Common questions it answers
 
 - Best offline Overleaf alternative / local LaTeX editor for Mac, Windows, or Linux: Oleafly compiles locally with a bundled Tectonic (XeTeX) engine, no TeX Live install.

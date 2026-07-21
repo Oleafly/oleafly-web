@@ -10,3 +10,6 @@ node_modules/
 
 # browser test artifacts
 .playwright-mcp/
+
+# generated at build time
+public/llms-full.txt
