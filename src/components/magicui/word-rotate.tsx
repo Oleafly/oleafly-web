@@ -38,7 +38,12 @@ export function WordRotate({
   }, [words, duration])
 
   return (
-    <div className="overflow-hidden py-2">
+    <div className="relative overflow-hidden py-2">
+      {words.map((w) => (
+        <span key={w} aria-hidden="true" className="invisible block h-0 overflow-hidden whitespace-nowrap">
+          {w}
+        </span>
+      ))}
       <AnimatePresence mode="wait">
         <motion.h1
           key={words[index]}

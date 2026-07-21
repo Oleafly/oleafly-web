@@ -60,19 +60,19 @@ function DiagramVisual() {
         <span className="flex size-5 items-center justify-center rounded-[4px] bg-[rgba(37,99,235,0.25)] text-[#a8c3f5]">
           <svg width="10" height="10" viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.3" /></svg>
         </span>
-        <span className="flex size-5 items-center justify-center text-[#6d727b]">
+        <span className="flex size-5 items-center justify-center text-[#7d828b]">
           <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="none" stroke="currentColor" strokeWidth="1.3" /></svg>
         </span>
-        <span className="flex size-5 items-center justify-center text-[#6d727b]">
+        <span className="flex size-5 items-center justify-center text-[#7d828b]">
           <svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 1 L9 5 L5 9 L1 5 Z" fill="none" stroke="currentColor" strokeWidth="1.2" /></svg>
         </span>
-        <span className="flex size-5 items-center justify-center text-[#6d727b]">
+        <span className="flex size-5 items-center justify-center text-[#7d828b]">
           <svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 5 H8 M6 2.5 L9 5 L6 7.5" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /></svg>
         </span>
         <span className="my-[2px] h-px w-4 bg-white/10" />
-        <span className="flex size-5 items-center justify-center font-mono text-[11px] text-[#6d727b]">+</span>
-        <span className="flex size-5 items-center justify-center font-mono text-[11px] text-[#6d727b]">−</span>
-        <span className="flex size-5 items-center justify-center text-[#6d727b]">
+        <span className="flex size-5 items-center justify-center font-mono text-[11px] text-[#7d828b]">+</span>
+        <span className="flex size-5 items-center justify-center font-mono text-[11px] text-[#7d828b]">−</span>
+        <span className="flex size-5 items-center justify-center text-[#7d828b]">
           <svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 3.5 V1 H3.5 M6.5 1 H9 V3.5 M9 6.5 V9 H6.5 M3.5 9 H1 V6.5" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /></svg>
         </span>
       </div>
@@ -90,7 +90,7 @@ function DiagramVisual() {
             <path
               d="M 0 1 L 9 5 L 0 9"
               fill="none"
-              stroke="#6d727b"
+              stroke="#7d828b"
               strokeWidth="1.6"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -114,10 +114,10 @@ function DiagramVisual() {
             <rect x="226" y="170" width="128" height="44" rx="8" fill="rgba(52,180,74,0.08)" stroke="rgba(52,180,74,0.5)" strokeWidth="1.5" />
             <text x="290" y="197" fill="#8fd6a0">Output</text>
           </g>
-          <line className="dc-a1" pathLength={1} x1="168" y1="74" x2="220" y2="74" stroke="#6d727b" strokeWidth="1.5" markerEnd="url(#dc-arrow)" />
-          <line className="dc-a2" pathLength={1} x1="354" y1="74" x2="406" y2="74" stroke="#6d727b" strokeWidth="1.5" markerEnd="url(#dc-arrow)" />
-          <path className="dc-c1" pathLength={1} d="M 476 96 C 476 140 360 150 360 178" fill="none" stroke="#6d727b" strokeWidth="1.5" markerEnd="url(#dc-arrow)" />
-          <path className="dc-c2" pathLength={1} d="M 104 96 C 104 140 220 150 220 178" fill="none" stroke="#6d727b" strokeWidth="1.5" markerEnd="url(#dc-arrow)" />
+          <line className="dc-a1" pathLength={1} x1="168" y1="74" x2="220" y2="74" stroke="#7d828b" strokeWidth="1.5" markerEnd="url(#dc-arrow)" />
+          <line className="dc-a2" pathLength={1} x1="354" y1="74" x2="406" y2="74" stroke="#7d828b" strokeWidth="1.5" markerEnd="url(#dc-arrow)" />
+          <path className="dc-c1" pathLength={1} d="M 476 96 C 476 140 360 150 360 178" fill="none" stroke="#7d828b" strokeWidth="1.5" markerEnd="url(#dc-arrow)" />
+          <path className="dc-c2" pathLength={1} d="M 104 96 C 104 140 220 150 220 178" fill="none" stroke="#7d828b" strokeWidth="1.5" markerEnd="url(#dc-arrow)" />
         </g>
         <g className="dc-badge" fontFamily="JetBrains Mono, monospace" fontSize="11">
           <rect x="404" y="238" width="136" height="26" rx="13" fill="rgba(52,180,74,0.1)" stroke="rgba(52,180,74,0.4)" strokeWidth="1" />
@@ -140,13 +140,13 @@ function SyncTexVisual() {
       className="pointer-events-none absolute inset-x-5 top-4 bottom-[124px] flex gap-2"
     >
       <div className="relative flex-1 overflow-hidden rounded-md border border-white/10 bg-[#0d0e10] p-2">
-        <div className="mb-1 font-mono text-[7px] uppercase tracking-wider text-[#5d6167]">main.tex</div>
+        <div className="mb-1 font-mono text-[7px] uppercase tracking-wider text-[#8b9096]">main.tex</div>
         <div className="flex flex-col gap-[5px]">
           {texLines.map((l, i) => (
             <div
               key={i}
               className={cn(
-                "rounded-[3px] px-1 py-[1px] font-mono text-[8px] leading-[1.4] text-[#6d727b] whitespace-nowrap",
+                "rounded-[3px] px-1 py-[1px] font-mono text-[8px] leading-[1.4] text-[#7d828b] whitespace-nowrap",
                 i === 1 && "st-hl-a",
                 i === 2 && "st-hl-b"
               )}
@@ -157,7 +157,7 @@ function SyncTexVisual() {
         </div>
       </div>
       <div className="relative flex-1 overflow-hidden rounded-md border border-white/10 bg-[#101113] p-2">
-        <div className="mb-1 font-mono text-[7px] uppercase tracking-wider text-[#5d6167]">PDF</div>
+        <div className="mb-1 font-mono text-[7px] uppercase tracking-wider text-[#8b9096]">PDF</div>
         <div className="flex flex-col gap-[7px] pt-[2px]">
           {pdfWidths.map((w, i) => (
             <div
@@ -204,7 +204,7 @@ function PagesVisual() {
         <div className="h-[3px] w-28 overflow-hidden rounded-full bg-white/10">
           <div className="pg-bar h-full rounded-full bg-[#3b82f6]" />
         </div>
-        <span className="font-mono text-[8.5px] uppercase tracking-wider text-[#5d6167]">still smooth</span>
+        <span className="font-mono text-[8.5px] uppercase tracking-wider text-[#8b9096]">still smooth</span>
       </div>
     </div>
   );
@@ -214,7 +214,7 @@ function PagesVisual() {
 function SlashVisual() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-3 bottom-[116px] flex flex-col items-start gap-[5px]">
-      <div className="font-mono text-[9px] text-[#6d727b]">
+      <div className="font-mono text-[9px] text-[#7d828b]">
         …shown in Figure 3. <span className="sl-type inline-block overflow-hidden whitespace-nowrap border-r-[1.5px] border-[#3b82f6] align-bottom text-[#c9cdd6]">/fig</span>
       </div>
       <div className="sl-menu w-full max-w-[150px] rounded-md border border-white/10 bg-[#0d0e10] p-1 font-mono text-[8.5px] leading-[1.6] text-[#8a8f98] shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
@@ -232,7 +232,7 @@ function PaletteVisual() {
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-3 bottom-[116px] flex items-start justify-center">
       <div className="w-full max-w-[230px] rounded-md border border-white/10 bg-[#0d0e10] shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
         <div className="flex items-center gap-1.5 border-b border-white/10 px-2 py-[5px] font-mono text-[9px] text-[#c9cdd6]">
-          <span className="text-[#5d6167]">⌘K</span>
+          <span className="text-[#8b9096]">⌘K</span>
           <span className="cp-type overflow-hidden whitespace-nowrap border-r-[1.5px] border-[#3b82f6] pr-[1px]">recompile</span>
         </div>
         <div className="p-1 font-mono text-[8.5px] leading-[1.5] text-[#8a8f98]">
@@ -257,13 +257,13 @@ function RenameToken() {
 }
 function CodeIntelVisual() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[116px] flex flex-col justify-center gap-[6px] font-mono text-[8.5px] text-[#6d727b]">
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[116px] flex flex-col justify-center gap-[6px] font-mono text-[8.5px] text-[#7d828b]">
       <div className="ci-chip self-end rounded-full border border-white/15 bg-[#141517] px-2 py-[1px] text-[8px] text-[#c9cdd6]">F2 · rename symbol</div>
       <div className="rounded-md border border-white/10 bg-[#0d0e10] px-2 py-[4px] whitespace-nowrap">
-        <span className="text-[#5d6167]">intro.tex&nbsp;&nbsp;</span>\ref{"{"}<RenameToken />{"}"}
+        <span className="text-[#8b9096]">intro.tex&nbsp;&nbsp;</span>\ref{"{"}<RenameToken />{"}"}
       </div>
       <div className="rounded-md border border-white/10 bg-[#0d0e10] px-2 py-[4px] whitespace-nowrap">
-        <span className="text-[#5d6167]">results.tex&nbsp;</span>\ref{"{"}<RenameToken />{"}"}
+        <span className="text-[#8b9096]">results.tex&nbsp;</span>\ref{"{"}<RenameToken />{"}"}
       </div>
     </div>
   );
@@ -274,7 +274,7 @@ function CitationsVisual() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-3 bottom-[116px] flex flex-col justify-start gap-[5px] font-mono">
       <div className="ct-doi self-start rounded border border-white/15 bg-[#141517] px-1.5 py-[1px] text-[8.5px] text-[#c9cdd6]">doi:10.1145/3576915.3616679</div>
-      <div className="ct-bib self-stretch rounded border border-white/10 bg-[#0d0e10] px-1.5 py-[3px] text-[8px] leading-[1.55] text-[#6d727b]">
+      <div className="ct-bib self-stretch rounded border border-white/10 bg-[#0d0e10] px-1.5 py-[3px] text-[8px] leading-[1.55] text-[#7d828b]">
         @inproceedings{"{"}<span className="text-[#7cabf8]">gatto24</span>,<br />
         &nbsp;&nbsp;title = {"{"}Raft-based KV stores{"}"}, …
       </div>

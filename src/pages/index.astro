@@ -8,7 +8,7 @@
 // WordRotate, Highlighter, TextReveal, KineticText, VelocityScroll,
 // GlyphMatrix, NoiseTexture, FileTree, CodeComparison (build-time shiki),
 // AnimatedCircularProgressBar, ScrollProgress.
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import heroEditor from "../assets/hero-editor.png";
 import gitDiff from "../assets/git-diff.png";
 import preflightAts from "../assets/preflight-ats.png";
@@ -32,6 +32,13 @@ import { VelocityStrip } from "../components/VelocityStrip";
 import { PhilosophyReveal } from "../components/PhilosophyReveal";
 import CodeComparison from "../components/CodeComparison.astro";
 import "../styles/magicui.css";
+
+const heroPreload = await getImage({
+  src: heroEditor,
+  widths: [720, 1200, 1800],
+  sizes: "(max-width: 760px) 94vw, 1080px",
+  format: "webp",
+});
 
 const GITHUB = "https://github.com/Oleafly/Oleafly";
 const RELEASES = `${GITHUB}/releases/latest`;
@@ -128,6 +135,13 @@ const compare = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="https://oleafly.com/media/hero-editor.png" />
 
+    <link
+      rel="preload"
+      as="image"
+      imagesrcset={heroPreload.srcSet.attribute}
+      imagesizes="(max-width: 760px) 94vw, 1080px"
+      fetchpriority="high"
+    />
     <link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/jbmono-var-latin.woff2" as="font" type="font/woff2" crossorigin />
 
@@ -136,7 +150,7 @@ const compare = {
 
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <ScrollProgress client:load className="h-[2px]" />
+    <ScrollProgress client:idle className="h-[2px]" />
 
     <header class="nav" id="nav">
       <div class="nav-inner">
@@ -155,7 +169,7 @@ const compare = {
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
         </nav>
         <div class="nav-cta">
-          <a class="btn btn-ghost btn-sm stars" href={GITHUB} target="_blank" rel="noopener noreferrer" aria-label="Star Oleafly on GitHub">
+          <a class="btn btn-ghost btn-sm stars" href={GITHUB} target="_blank" rel="noopener noreferrer">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path
                 d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
@@ -181,7 +195,7 @@ const compare = {
           <a class="pill" href={GITHUB} target="_blank" rel="noopener noreferrer">
             <span class="pill-dot" aria-hidden="true"></span>
             <AnimatedShinyText shimmerWidth={120}>
-              Free &amp; open source · AGPL-3.0 · macOS / Windows / Linux
+              Free · Open source · AGPL-3.0 · Mac · Windows · Linux
             </AnimatedShinyText>
           </a>
           <h1>
@@ -256,7 +270,7 @@ const compare = {
           <h2 class="h2-rotate-line">
             Start from a real&nbsp;<span class="rotate-slot rotate-slot-h2">
               <WordRotate
-                client:load
+                client:visible
                 words={["resume.", "IEEE paper.", "thesis.", "Beamer deck.", "poster.", "cover letter."]}
                 wordClassNames={[
                   "text-[#60a5fa]",
@@ -342,7 +356,7 @@ const compare = {
                 <span class="tree-dot" aria-hidden="true"></span>
                 <span class="tree-title">resume: Finder-proof, script-proof, future-proof</span>
               </div>
-              <ProjectFileTree client:load />
+              <ProjectFileTree client:visible={{rootMargin: "200px"}} />
             </div>
             <ul class="ticks">
               <li>Plain <code>.tex</code>, <code>.bib</code>, and images. No proprietary format</li>
@@ -361,7 +375,7 @@ const compare = {
           <h2>The AI closes the loop.</h2>
           <p class="sub">
             Most AI editors stop after editing. Oleafly's assistant reads your files, edits the
-            source, compiles the document, then <Highlighter client:load action="highlight" color="rgba(37,99,235,0.28)" isView multiline>reads the rendered PDF to check the edit actually worked</Highlighter>. Every file change waits for your approval behind a red/green diff.
+            source, compiles the document, then <Highlighter client:visible action="highlight" color="rgba(37,99,235,0.28)" isView multiline>reads the rendered PDF to check the edit actually worked</Highlighter>. Every file change waits for your approval behind a red/green diff.
           </p>
           <div class="ai-card">
             <NoiseTexture frequency={0.8} noiseOpacity={0.25} className="opacity-30" />
@@ -534,7 +548,7 @@ const compare = {
         <div class="container">
           <p class="eyebrow">Built like a code editor</p>
           <h2>Everything else you'd expect. On your machine.</h2>
-          <BentoSection client:load />
+          <BentoSection client:visible={{rootMargin: "200px"}} />
         </div>
       </section>
 
@@ -569,7 +583,7 @@ const compare = {
 
       <!-- ========================= Velocity strip ========================= -->
       <section class="velocity" aria-hidden="true">
-        <VelocityStrip client:load />
+        <VelocityStrip client:visible={{rootMargin: "200px"}} />
       </section>
 
       <!-- ========================= Philosophy ========================= -->
@@ -590,13 +604,13 @@ const compare = {
             />
           </div>
         </div>
-        <PhilosophyReveal client:load />
+        <PhilosophyReveal client:visible={{rootMargin: "200px"}} />
       </section>
 
       <!-- ========================= Download ========================= -->
       <section class="section download" id="download">
         <GlyphMatrix
-          client:load
+          client:visible
           glyphs={"\\{}[]$%&#_^∫∑αβπ"}
           cellSize={16}
           color="#3b82f6"
@@ -653,21 +667,21 @@ const compare = {
           <p class="footer-license">AGPL-3.0 © 2026 Oleafly and contributors</p>
         </div>
         <nav class="footer-col" aria-label="Product">
-          <h4>Product</h4>
+          <p class="footer-h">Product</p>
           <a href={RELEASES} target="_blank" rel="noopener noreferrer">Download</a>
           <a href="/docs/templates/">Templates</a>
           <a href="/docs/preflight/">Preflight</a>
           <a href="/docs/mcp/">MCP server</a>
         </nav>
         <nav class="footer-col" aria-label="Documentation">
-          <h4>Docs</h4>
+          <p class="footer-h">Docs</p>
           <a href="/docs/overview/">Overview</a>
           <a href="/docs/getting-started/">Getting started</a>
           <a href="/docs/ai-setup/">Set up AI</a>
           <a href="/docs/faq/">FAQ</a>
         </nav>
         <nav class="footer-col" aria-label="Project">
-          <h4>Project</h4>
+          <p class="footer-h">Project</p>
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href={`${GITHUB}/discussions`} target="_blank" rel="noopener noreferrer">Discussions</a>
           <a href={`${GITHUB}/blob/main/CONTRIBUTING.md`} target="_blank" rel="noopener noreferrer">Contributing</a>
@@ -698,7 +712,7 @@ const compare = {
         --radius-lg: 8px;
         --shadow-popup: 0 4px 16px rgba(0, 0, 0, 0.4);
         --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.5);
-        --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --font: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
       }
 
@@ -1491,14 +1505,13 @@ const compare = {
       }
       .footer-license {
         font-size: 12px !important;
-        opacity: 0.75;
       }
       .footer-col {
         display: flex;
         flex-direction: column;
         gap: 10px;
       }
-      .footer-col h4 {
+      .footer-col .footer-h {
         font-size: 12px;
         font-weight: 600;
         text-transform: uppercase;
