@@ -61,8 +61,6 @@ Every push to `main` deploys automatically. A GitHub Action builds the site and 
 
 `www.oleafly.com` and `docs.oleafly.com` both redirect to the main domain (`docs.oleafly.com/faq` lands on `oleafly.com/docs/faq`).
 
-One thing to know if you add images or video: Cloudflare rejects files over 25MB. Use MP4 for screen recordings, not GIF. An `ffmpeg` one-liner gets a 45MB GIF down to 2MB.
-
 ## License
 
 MIT. The Oleafly app itself is AGPL-3.0, but this website's code is free to reuse however you like.
