@@ -1,0 +1,119 @@
+---
+// Custom hero for the docs home: dotted backdrop, ASCII quill with
+// pointer-dispersal particles, and the get-started actions.
+import { AsciiQuill } from "./AsciiQuill";
+---
+
+<section class="docs-hero">
+  <div class="dh-inner">
+    <div class="dh-text">
+      <h1>Oleafly documentation</h1>
+      <p class="dh-tagline">From first install to tagged PDF export. Every feature, explained.</p>
+      <div class="dh-actions">
+        <a class="dh-btn" href="/docs/getting-started/">
+          Get started
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+        <a class="dh-link" href="/">Back to oleafly.com</a>
+      </div>
+    </div>
+    <div class="dh-art">
+      <AsciiQuill client:load size={380} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .docs-hero {
+    position: relative;
+    padding: 4.5rem 0 1.5rem;
+  }
+  .docs-hero::before {
+    content: "";
+    position: absolute;
+    inset: -2rem -4rem 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.13) 1.1px, transparent 1.1px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(75% 85% at 50% 30%, black, transparent);
+    mask-image: radial-gradient(75% 85% at 50% 30%, black, transparent);
+    pointer-events: none;
+  }
+  :global([data-theme="light"]) .docs-hero::before {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.12) 1.1px, transparent 1.1px);
+  }
+  .dh-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    gap: 2rem;
+  }
+  .dh-text h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0 0 1rem;
+    color: var(--sl-color-white);
+  }
+  .dh-tagline {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--sl-color-gray-3);
+    margin: 0 0 1.75rem;
+    max-width: 34rem;
+  }
+  .dh-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .dh-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--ol-accent, #2563eb);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.65rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 150ms ease;
+  }
+  .dh-btn:hover {
+    background: #3b82f6;
+    color: #fff;
+  }
+  .dh-link {
+    color: var(--sl-color-gray-3);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .dh-link:hover {
+    color: var(--sl-color-white);
+  }
+  .dh-art {
+    display: flex;
+    justify-content: center;
+    cursor: crosshair;
+  }
+  @media (max-width: 800px) {
+    .dh-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .dh-actions {
+      justify-content: center;
+    }
+    .dh-art {
+      order: -1;
+    }
+    .dh-art :global(canvas) {
+      width: 260px !important;
+      height: 260px !important;
+    }
+  }
+</style>

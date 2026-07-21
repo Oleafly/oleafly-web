@@ -2,21 +2,13 @@
 title: "Oleafly documentation"
 description: Everything about Oleafly, the free local-first LaTeX studio, from first install to tagged PDF export. Guides for writing, compiling, resumes, AI setup, Git history, and GitHub sync.
 template: splash
-hero:
-  title: Oleafly documentation
-  tagline: From first install to tagged PDF export. Every feature, explained.
-  image:
-    file: ../../../assets/leaf.svg
-  actions:
-    - text: Get started
-      link: /docs/getting-started/
-      icon: right-arrow
-    - text: Back to oleafly.com
-      link: /
-      variant: minimal
+tableOfContents: false
 ---
 
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
+import DocsHero from "../../../components/DocsHero.astro";
+
+<DocsHero />
 
 <CardGrid>
   <LinkCard
