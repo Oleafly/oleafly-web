@@ -1,0 +1,44 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import LabSearch from "../../components/tools/LabSearch.tsx";
+import "../../styles/tools.css";
+---
+
+<SiteLayout
+  title="Lab search: find research institutions worldwide | Oleafly"
+  description="Search millions of research institutions by name, powered by the open OpenAlex and ROR datasets. Publication counts, citations, and official links, straight from your browser."
+  path="/tools/lab-search/"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Free tool</p>
+      <h1>Search labs and institutions worldwide</h1>
+      <p class="sub">
+        Find research institutions by name with publication and citation counts, official
+        websites, and <a href="https://ror.org" target="_blank" rel="noopener noreferrer">ROR</a>
+        records. Powered by the open
+        <a href="https://openalex.org" target="_blank" rel="noopener noreferrer">OpenAlex</a>
+        dataset; queries go directly from your browser to their public API.
+      </p>
+      <LabSearch client:load />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">About the data</p>
+      <h2>Open infrastructure, no gatekeeping</h2>
+      <p class="sub">
+        OpenAlex indexes hundreds of millions of scholarly works and the institutions
+        behind them, released as open data. ROR (Research Organization Registry) assigns
+        persistent identifiers to research organizations. Both are free to query and free
+        to build on, which is why this page needs no account and no key.
+      </p>
+      <p class="sub">
+        Writing a paper with people you found here? The
+        <a href="/">Oleafly desktop app</a> handles the manuscript side: LaTeX, Typst, and
+        Markdown with live preview, real Git versioning, and citation fetching by DOI.
+      </p>
+    </div>
+  </section>
+</SiteLayout>
