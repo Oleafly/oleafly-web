@@ -1,0 +1,59 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import data from "../../data/template-packs.json";
+import "../../styles/tools.css";
+
+const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
+const total = data.packs.reduce((n, p) => n + p.templates.length, 0);
+---
+
+<SiteLayout
+  title={`${total}+ free LaTeX and Typst templates | Oleafly`}
+  description="Open-licensed LaTeX and Typst templates for journals, conferences, resumes, CVs, slide decks, and posters. Browse online or install them inside the free Oleafly app."
+  path="/templates/"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Templates</p>
+      <h1>Free LaTeX and Typst templates</h1>
+      <p class="sub">
+        Every template is open-licensed and lives in the public
+        <a href="https://github.com/Oleafly/template-packs" target="_blank" rel="noopener noreferrer">
+          template-packs</a> catalog. Browse the source here, or install whole packs in one
+        click inside the <a href="/">free desktop app</a>, where the catalog grows without
+        app updates. The app also bundles 23 more starters out of the box.
+      </p>
+    </div>
+  </section>
+
+  <section style="padding-top: 8px">
+    <div class="container">
+      {
+        data.packs.map((pack) => (
+          <div>
+            <div class="pack-head">
+              <h3>{pack.label}</h3>
+              <span>{pack.templates.length} templates</span>
+            </div>
+            <div class="card-grid">
+              {pack.templates.map((t) => (
+                <a class="ol-card" href={`/templates/${t.id}/`} style="text-decoration:none">
+                  <h3>{t.name}</h3>
+                  <p>{t.description}</p>
+                  <p style="margin-top:10px">
+                    <span class="badge blue">{t.engine === "typst" ? "Typst" : "LaTeX"}</span>
+                  </p>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+      <p style="margin-top:48px">
+        <a class="btn btn-primary btn-lg" href={RELEASES} target="_blank" rel="noopener noreferrer">
+          Get these in Oleafly for free
+        </a>
+      </p>
+    </div>
+  </section>
+</SiteLayout>

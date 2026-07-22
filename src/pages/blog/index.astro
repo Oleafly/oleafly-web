@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<SiteLayout
+  title="Blog | Oleafly"
+  description="Writing about LaTeX, local-first software, research workflows, and building Oleafly."
+  path="/blog/"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Blog</p>
+      <h1>Notes from building a local-first LaTeX studio</h1>
+      <p class="sub">
+        LaTeX workflows, privacy, research tooling, and honest comparisons. Also available
+        as an <a href="/rss.xml">RSS feed</a>.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:16px; max-width:760px">
+        {
+          posts.map((post) => (
+            <a class="ol-card" href={`/blog/${post.id}/`} style="text-decoration:none">
+              <p class="eyebrow" style="margin-bottom:8px">{fmt(post.data.date)}</p>
+              <h3 style="font-size:17px">{post.data.title}</h3>
+              <p style="margin-top:6px">{post.data.description}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</SiteLayout>

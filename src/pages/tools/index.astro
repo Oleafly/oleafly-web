@@ -1,0 +1,93 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
+
+const tools = [
+  {
+    href: "/tools/bibtex-validator/",
+    name: "BibTeX validator",
+    desc: "Paste a .bib file and catch missing required fields, duplicate keys, and duplicate DOIs before they become [?] in your PDF.",
+  },
+  {
+    href: "/tools/equation-preview/",
+    name: "Equation preview",
+    desc: "Type LaTeX math and see it rendered instantly. Switch between inline and display mode and copy ready-to-paste code.",
+  },
+  {
+    href: "/tools/table-generator/",
+    name: "Table generator",
+    desc: "Fill a visual grid and get clean tabular code out, with booktabs rules, per-column alignment, and a caption.",
+  },
+];
+
+const appOnly = [
+  {
+    name: "PDF to LaTeX",
+    desc: "Convert any text-based PDF into an editable LaTeX project, fully offline, with figures extracted. Built into the free desktop app.",
+  },
+  {
+    name: "Word to LaTeX",
+    desc: "Import a .docx and get a compiling LaTeX project with images preserved. Built into the free desktop app.",
+  },
+  {
+    name: "Image to LaTeX",
+    desc: "Photograph an equation or table and insert it as LaTeX using your own AI key. Built into the free desktop app.",
+  },
+];
+---
+
+<SiteLayout
+  title="Free LaTeX tools that run in your browser | Oleafly"
+  description="Free browser-based LaTeX tools from Oleafly: BibTeX validator, live equation preview, and a LaTeX table generator. Everything runs client-side; nothing is uploaded."
+  path="/tools/"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Free tools</p>
+      <h1>LaTeX tools that run in your browser</h1>
+      <p class="sub">
+        Every tool on this page runs entirely in your browser. Nothing is uploaded anywhere,
+        which is the same promise the <a href="/">Oleafly desktop app</a> makes about your
+        documents.
+      </p>
+      <div class="card-grid">
+        {
+          tools.map((t) => (
+            <a class="ol-card" href={t.href} style="text-decoration:none">
+              <h3>{t.name}</h3>
+              <p>{t.desc}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">In the desktop app</p>
+      <h2>Heavier conversions live in the free app</h2>
+      <p class="sub">
+        Some conversions need a real compiler or your own AI key, so they run in the free,
+        open-source desktop app instead of the browser. Your files never leave your machine
+        there either.
+      </p>
+      <div class="card-grid">
+        {
+          appOnly.map((t) => (
+            <div class="ol-card">
+              <h3>{t.name}</h3>
+              <p>{t.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p style="margin-top:28px">
+        <a class="btn btn-primary btn-lg" href={RELEASES} target="_blank" rel="noopener noreferrer">
+          Download Oleafly for free
+        </a>
+      </p>
+    </div>
+  </section>
+</SiteLayout>

@@ -1,0 +1,48 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import EquationPreview from "../../components/tools/EquationPreview.tsx";
+import "../../styles/tools.css";
+---
+
+<SiteLayout
+  title="Free LaTeX equation preview, runs in your browser | Oleafly"
+  description="Type LaTeX math and see it rendered live with KaTeX. Inline and display modes, copy-ready output. Client-side only; nothing is uploaded."
+  path="/tools/equation-preview/"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Free tool</p>
+      <h1>LaTeX equation preview</h1>
+      <p class="sub">
+        Live-render LaTeX math as you type, then copy it wrapped for inline or display use.
+        Runs entirely in your browser; nothing is uploaded.
+      </p>
+      <EquationPreview client:load />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Cheat sheet</p>
+      <h2>Common constructs</h2>
+      <table class="ol-table">
+        <thead><tr><th>You want</th><th>You type</th></tr></thead>
+        <tbody>
+          <tr><td>Fraction</td><td><code>\frac{"{a}{b}"}</code></td></tr>
+          <tr><td>Square root</td><td><code>\sqrt{"{x}"}</code>, nth root <code>\sqrt[n]{"{x}"}</code></td></tr>
+          <tr><td>Sum and product</td><td><code>{"\\sum_{i=1}^{n}"}</code>, <code>{"\\prod_{i}"}</code></td></tr>
+          <tr><td>Integral</td><td><code>{"\\int_{0}^{\\infty}"}</code></td></tr>
+          <tr><td>Greek letters</td><td><code>\alpha \beta \gamma \Delta \Omega</code></td></tr>
+          <tr><td>Comparison</td><td><code>\le \ge \ne \approx \equiv</code></td></tr>
+          <tr><td>Sub and superscript</td><td><code>x_i</code>, <code>x^2</code>, <code>{"x_{ij}^{2}"}</code></td></tr>
+          <tr><td>Matrix</td><td><code>{"\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}"}</code></td></tr>
+        </tbody>
+      </table>
+      <p class="sub" style="margin-top:28px">
+        The <a href="/">Oleafly desktop app</a> gives you the same instant feedback across a
+        whole paper: live PDF preview, SyncTeX jump between source and output, and humanized
+        compile errors when something breaks.
+      </p>
+    </div>
+  </section>
+</SiteLayout>

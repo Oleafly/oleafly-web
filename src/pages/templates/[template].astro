@@ -1,0 +1,57 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import data from "../../data/template-packs.json";
+import "../../styles/tools.css";
+
+export function getStaticPaths() {
+  return data.packs.flatMap((pack) =>
+    pack.templates.map((t) => ({
+      params: { template: t.id },
+      props: { template: t, packLabel: pack.label },
+    })),
+  );
+}
+
+const { template, packLabel } = Astro.props;
+const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
+const engineLabel = template.engine === "typst" ? "Typst" : "LaTeX";
+---
+
+<SiteLayout
+  title={`${template.name}: free ${engineLabel} template | Oleafly`}
+  description={`${template.description} Open-licensed, ready to compile, and installable in one click inside the free Oleafly app.`}
+  path={`/templates/${template.id}/`}
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">{packLabel}</p>
+      <h1>{template.name}</h1>
+      <p class="sub">{template.description}</p>
+      <p>
+        <span class="badge blue">{engineLabel}</span>
+        {template.license && <span class="badge" style="margin-left:8px">{template.license}</span>}
+      </p>
+      <p style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn btn-primary btn-lg" href={RELEASES} target="_blank" rel="noopener noreferrer">
+          Open in Oleafly (free)
+        </a>
+        <a
+          class="btn btn-ghost btn-lg"
+          href={`https://github.com/Oleafly/template-packs/tree/main/packs`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View in the catalog
+        </a>
+      </p>
+      <div class="tpl-source">
+        <pre>{template.source}</pre>
+      </div>
+      <p class="sub" style="margin-top:24px">
+        In the app: open the New Project gallery, install the {packLabel} pack under
+        "Get more templates", and this template appears with a live preview and one-click
+        project creation. Compilation runs locally on the bundled engine.
+      </p>
+    </div>
+  </section>
+</SiteLayout>

@@ -1,0 +1,102 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
+---
+
+<SiteLayout
+  title="Privacy: your files never leave your machine | Oleafly"
+  description="Oleafly is local-first: documents live on your disk, there is no account, no telemetry, and AI runs only with your own key against the provider you choose."
+  path="/privacy/"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Privacy</p>
+      <h1>The strongest privacy policy is not needing one</h1>
+      <p class="sub">
+        Cloud editors promise to encrypt your documents on their servers and to comply with
+        deletion requests. Oleafly makes a simpler promise: your documents never reach a
+        server in the first place.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card-grid">
+        <div class="ol-card">
+          <h3>Your files stay on your disk</h3>
+          <p>
+            Projects live in a plain folder on your machine, versioned with real Git. Open
+            it in Finder or Explorer any time. Sync it, back it up, or move it; it is yours.
+          </p>
+        </div>
+        <div class="ol-card">
+          <h3>No account, no telemetry</h3>
+          <p>
+            There is nothing to sign up for and nothing phones home. No analytics, no usage
+            tracking, no crash reports unless you choose to share one.
+          </p>
+        </div>
+        <div class="ol-card">
+          <h3>AI only on your terms</h3>
+          <p>
+            AI features are off until you add your own key. Text goes directly from your
+            machine to the provider you chose, under their terms, never through our servers.
+            Local models via Ollama keep even that on your machine.
+          </p>
+        </div>
+        <div class="ol-card">
+          <h3>Nothing to delete</h3>
+          <p>
+            Deletion requests, retention windows, and grace periods exist because a company
+            holds your data. We never had it, so there is nothing to request back.
+          </p>
+        </div>
+        <div class="ol-card">
+          <h3>Open source, auditable</h3>
+          <p>
+            The entire app is AGPL-3.0 open source. Do not take our word for any of this;
+            read the code or build it yourself.
+          </p>
+        </div>
+        <div class="ol-card">
+          <h3>Works fully offline</h3>
+          <p>
+            Compile, preview, version, and export with the network cable unplugged. Offline
+            is not a degraded mode; it is the default assumption.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Compared</p>
+      <h2>Local-first vs cloud editors</h2>
+      <table class="ol-table">
+        <thead>
+          <tr><th>Question</th><th>Typical cloud editor</th><th>Oleafly</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Where do documents live?</td><td>Their servers, encrypted</td><td>Your disk, in plain files</td></tr>
+          <tr><td>Is an account required?</td><td>Yes</td><td>No</td></tr>
+          <tr><td>Who can read your drafts?</td><td>Whoever the policy allows</td><td>You</td></tr>
+          <tr><td>What happens if the service shuts down?</td><td>Export before the deadline</td><td>Nothing; the app keeps working</td></tr>
+          <tr><td>How does deletion work?</td><td>Request, grace period, finalization</td><td>Press delete</td></tr>
+          <tr><td>Does AI see your text?</td><td>Via their pipeline</td><td>Only with your key, to your chosen provider</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:28px">
+        <a class="btn btn-primary btn-lg" href={RELEASES} target="_blank" rel="noopener noreferrer">
+          Download Oleafly for free
+        </a>
+      </p>
+      <p class="sub" style="margin-top:16px">
+        This page describes the desktop app. The free tools on this website also run
+        entirely in your browser; this site itself is a static page with no analytics.
+      </p>
+    </div>
+  </section>
+</SiteLayout>

@@ -1,0 +1,178 @@
+{
+  "packs": [
+    {
+      "id": "resume-plus",
+      "label": "Resume & CV expansion",
+      "description": "Two-column tech resume, minimal resume, long-form academic CV, cover letter, and a Typst CV.",
+      "count": 5,
+      "templates": [
+        {
+          "id": "academic-cv",
+          "name": "Academic CV (long form)",
+          "description": "A multi-page academic CV with publications, teaching, service, and grants sections.",
+          "category": "CVs & Resumes",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[11pt]{article}\n\\usepackage[margin=1in]{geometry}\n\\usepackage{enumitem}\n\\usepackage[hidelinks]{hyperref}\n\\setlist[itemize]{leftmargin=1.2em, itemsep=2pt}\n\\newcommand{\\sect}[1]{\\vspace{12pt}{\\large\\bfseries #1}\\\\[-7pt]\\rule{\\linewidth}{0.4pt}\\\\[4pt]}\n\\pagestyle{plain}\n\n\\begin{document}\n\n\\begin{center}\n{\\LARGE\\bfseries Your Name}\\\\[3pt]\nDepartment of Examples, Example University\\\\\nyou@example.edu \\, | \\, orcid.org/0000-0000-0000-0000\n\\end{center}\n\n\\sect{Appointments}\n\\textbf{Assistant Professor}, Example University \\hfill 2024 -- present\\\\\n\\textbf{Postdoctoral Fellow}, Example Institute \\hfill 2022 -- 2024\n\n\\sect{Education}\n\\textbf{Ph.D., Field}, Example University \\hfill 2022\\\\\n\\textbf{B.S., Field}, Another University \\hfill 2016\n\n\\sect{Publications}\n\\begin{enumerate}[leftmargin=1.6em]\n  \\item Your Name and Coauthor. Paper title one. \\textit{Venue}, 2025.\n  \\item Coauthor and Your Name. Paper title two. \\textit{Venue}, 2024.\n\\end{enumerate}\n\n\\sect{Grants and Awards}\n\\begin{itemize}\n  \\item Example Foundation Early Career Grant, 2025.\n  \\item Best Paper Award, Venue, 2024.\n\\end{itemize}\n\n\\sect{Teaching}\n\\begin{itemize}\n  \\item Course 101: Introduction to Examples (Fall 2024, Spring 2025).\n\\end{itemize}\n\n\\sect{Service}\n\\begin{itemize}\n  \\item Reviewer: Venue A, Venue B. Program committee: Venue C.\n\\end{itemize}\n\n\\end{document}\n"
+        },
+        {
+          "id": "cover-letter",
+          "name": "Cover Letter",
+          "description": "A clean one-page cover letter matched to the resume templates.",
+          "category": "Letters",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[11pt]{article}\n\\usepackage[margin=1in]{geometry}\n\\usepackage[hidelinks]{hyperref}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{0.7em}\n\n\\begin{document}\n\n{\\large\\bfseries Your Name}\\\\\nyou@example.com \\, | \\, +1 555 000 0000 \\, | \\, City, Country\n\n\\vspace{1.5em}\nHiring Team\\\\\nExample Corp\\\\\nCity, Country\n\n\\vspace{1.5em}\nDear Hiring Team,\n\nI am writing to apply for the Senior Engineer role. In my current position at\nStartup Inc I own the platform that serves 2M monthly users, and I have led\nthe projects closest to what your team is building.\n\nThree things I would bring on day one: deep experience with your stack,\na habit of writing down decisions so teams move faster, and a track record\nof mentoring engineers into senior roles.\n\nI would welcome the chance to talk about how I can help. Thank you for your\nconsideration.\n\nSincerely,\\\\\nYour Name\n\n\\end{document}\n"
+        },
+        {
+          "id": "deedy-style-resume",
+          "name": "Two-Column Tech Resume",
+          "description": "A dense two-column resume in the popular Deedy style: name banner, left column for experience, right column for skills and education.",
+          "category": "CVs & Resumes",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[10pt]{article}\n\\usepackage[margin=0.6in]{geometry}\n\\usepackage{paracol}\n\\usepackage{enumitem}\n\\usepackage[hidelinks]{hyperref}\n\\usepackage{xcolor}\n\\definecolor{accent}{HTML}{2B7A4B}\n\\setlist[itemize]{leftmargin=1.1em, itemsep=1pt, topsep=2pt, parsep=0pt}\n\\newcommand{\\sect}[1]{\\vspace{6pt}{\\color{accent}\\large\\bfseries #1}\\\\[-6pt]\\rule{\\linewidth}{0.6pt}\\\\[2pt]}\n\\newcommand{\\role}[3]{\\textbf{#1} \\hfill {\\small #3}\\\\ {\\small\\itshape #2}}\n\\pagestyle{empty}\n\n\\begin{document}\n\n{\\Huge\\bfseries Your Name}\\hfill\n\\begin{minipage}[b]{2.6in}\\small\\raggedleft\nyou@example.com \\\\ github.com/you \\\\ City, Country\n\\end{minipage}\n\n\\vspace{4pt}\\hrule\\vspace{8pt}\n\n\\columnratio{0.62}\n\\begin{paracol}{2}\n\n\\sect{Experience}\n\\role{Senior Engineer}{Example Corp}{2023 -- present}\n\\begin{itemize}\n  \\item Led the migration of the build system, cutting CI time by 40 percent.\n  \\item Shipped a customer-facing feature used by 2M monthly users.\n\\end{itemize}\n\n\\role{Engineer}{Startup Inc}{2020 -- 2023}\n\\begin{itemize}\n  \\item Built the data pipeline processing 10M events per day.\n  \\item Mentored three junior engineers.\n\\end{itemize}\n\n\\sect{Projects}\n\\role{Open Source Tool}{github.com/you/tool}{2024}\n\\begin{itemize}\n  \\item A CLI with 1k stars that does one thing well.\n\\end{itemize}\n\n\\switchcolumn\n\n\\sect{Skills}\n\\textbf{Languages:} Rust, TypeScript, Python\\\\[2pt]\n\\textbf{Systems:} Linux, Kubernetes, Postgres\\\\[2pt]\n\\textbf{Practices:} TDD, code review, incident response\n\n\\sect{Education}\n\\role{B.S. Computer Science}{Example University}{2016 -- 2020}\n\n\\sect{Awards}\n\\begin{itemize}\n  \\item Dean's list, 2019\n  \\item Hackathon winner, 2018\n\\end{itemize}\n\n\\end{paracol}\n\n\\end{document}\n"
+        },
+        {
+          "id": "rendercv-style-resume",
+          "name": "Minimal Single-Column Resume",
+          "description": "A restrained single-column resume with strong typography and generous whitespace, in the RenderCV spirit.",
+          "category": "CVs & Resumes",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[11pt]{article}\n\\usepackage[margin=0.8in]{geometry}\n\\usepackage{enumitem}\n\\usepackage[hidelinks]{hyperref}\n\\setlist[itemize]{leftmargin=1.1em, itemsep=1pt, topsep=2pt}\n\\newcommand{\\sect}[1]{\\vspace{10pt}{\\large\\bfseries #1}\\\\[-7pt]\\rule{\\linewidth}{0.4pt}\\\\[3pt]}\n\\pagestyle{empty}\n\n\\begin{document}\n\n\\begin{center}\n{\\LARGE\\bfseries Your Name}\\\\[3pt]\n{\\small you@example.com \\, | \\, +1 555 000 0000 \\, | \\, City, Country \\, | \\, github.com/you}\n\\end{center}\n\n\\sect{Experience}\n\\textbf{Senior Engineer, Example Corp} \\hfill 2023 -- present\n\\begin{itemize}\n  \\item Owned the storage layer; reduced p99 latency from 120ms to 30ms.\n  \\item Drove the quarterly reliability review across four teams.\n\\end{itemize}\n\n\\textbf{Engineer, Startup Inc} \\hfill 2020 -- 2023\n\\begin{itemize}\n  \\item First hire on the platform team; built deploys, metrics, and alerts.\n\\end{itemize}\n\n\\sect{Education}\n\\textbf{B.S. Computer Science, Example University} \\hfill 2016 -- 2020\n\n\\sect{Skills}\nRust, TypeScript, Python, Postgres, Kubernetes, AWS\n\n\\end{document}\n"
+        },
+        {
+          "id": "typst-modern-cv",
+          "name": "Typst Modern CV",
+          "description": "A modern single-page CV written in Typst with an accent color and compact entries.",
+          "category": "CVs & Resumes",
+          "engine": "typst",
+          "mainDoc": "main.typ",
+          "license": "CC0-1.0",
+          "source": "#set page(paper: \"us-letter\", margin: 0.7in)\n#set text(size: 10.5pt)\n#let accent = rgb(\"#2B7A4B\")\n#let sect(title) = [\n  #v(8pt)\n  #text(fill: accent, weight: \"bold\", size: 13pt)[#title]\n  #line(length: 100%, stroke: 0.6pt + accent)\n]\n\n#text(size: 22pt, weight: \"bold\")[Your Name]\n#h(1fr)\n#text(size: 9pt)[you\\@example.com | github.com/you | City, Country]\n\n#sect[Experience]\n*Senior Engineer, Example Corp* #h(1fr) 2023 - present\n- Led the storage migration; cut p99 latency by 75 percent.\n- Shipped the feature used by 2M monthly users.\n\n*Engineer, Startup Inc* #h(1fr) 2020 - 2023\n- Built the event pipeline handling 10M events per day.\n\n#sect[Education]\n*B.S. Computer Science, Example University* #h(1fr) 2016 - 2020\n\n#sect[Skills]\nRust, TypeScript, Python, Postgres, Kubernetes\n"
+        }
+      ]
+    },
+    {
+      "id": "slides-posters",
+      "label": "Slides & posters",
+      "description": "Metropolis beamer deck, tikzposter portrait and landscape, and a better-poster layout.",
+      "count": 4,
+      "templates": [
+        {
+          "id": "beamer-metropolis",
+          "name": "Beamer Deck (Metropolis)",
+          "description": "A minimal, modern slide deck using the Metropolis beamer theme with title, agenda, content, and closing slides.",
+          "category": "Presentations",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[aspectratio=169]{beamer}\n\\usetheme{metropolis}\n\\usepackage{booktabs}\n\n\\title{Talk Title}\n\\subtitle{A one-line subtitle}\n\\author{Your Name}\n\\institute{Example University}\n\\date{\\today}\n\n\\begin{document}\n\n\\maketitle\n\n\\begin{frame}{Agenda}\n  \\tableofcontents\n\\end{frame}\n\n\\section{Problem}\n\n\\begin{frame}{The problem}\n  \\begin{itemize}\n    \\item What hurts today\n    \\item Why existing approaches fall short\n  \\end{itemize}\n\\end{frame}\n\n\\section{Approach}\n\n\\begin{frame}{Our approach}\n  One idea per slide. Math renders as usual:\n  \\[ \\hat{y} = f_\\theta(x) \\]\n\\end{frame}\n\n\\section{Results}\n\n\\begin{frame}{Results}\n  \\begin{table}\n    \\centering\n    \\begin{tabular}{lrr}\n      \\toprule\n      Method & Metric A & Metric B \\\\\n      \\midrule\n      Baseline & 0.71 & 0.64 \\\\\n      Ours & \\textbf{0.83} & \\textbf{0.79} \\\\\n      \\bottomrule\n    \\end{tabular}\n  \\end{table}\n\\end{frame}\n\n\\begin{frame}[standout]\n  Thank you. Questions?\n\\end{frame}\n\n\\end{document}\n"
+        },
+        {
+          "id": "better-poster",
+          "name": "Better Poster (big finding)",
+          "description": "A Mike Morrison style better poster: giant central takeaway, skimmable side panels.",
+          "category": "Posters",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[25pt,a0paper,landscape]{tikzposter}\n\\usepackage{amsmath}\n\\usetheme{Simple}\n\n\\title{}\\author{}\\institute{}\n\n\\begin{document}\n\n\\begin{columns}\n\\column{0.25}\n\\block{Study}{\n  What we did, in plain words. Methods details live in the QR-linked paper,\n  not on the poster.\n}\n\\block{Data}{\n  Where the data came from and how much of it there is.\n}\n\n\\column{0.5}\n\\block{}{\n  \\vspace{6cm}\n  \\begin{center}\n    {\\fontsize{72}{80}\\selectfont\\bfseries The one-sentence finding\\\\ goes here.}\n  \\end{center}\n  \\vspace{6cm}\n}\n\n\\column{0.25}\n\\block{Evidence}{\n  The single most convincing chart or table.\n}\n\\block{So what}{\n  What a practitioner should do differently after reading this.\n}\n\\end{columns}\n\n\\end{document}\n"
+        },
+        {
+          "id": "tikzposter-landscape",
+          "name": "Research Poster (landscape)",
+          "description": "An A0 landscape research poster using tikzposter with a wide results band.",
+          "category": "Posters",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[25pt,a0paper,landscape]{tikzposter}\n\\usepackage{amsmath}\n\n\\title{Poster Title Goes Here}\n\\author{First Author, Second Author}\n\\institute{Example University}\n\n\\usetheme{Default}\n\n\\begin{document}\n\\maketitle\n\n\\begin{columns}\n\\column{0.33}\n\\block{Motivation}{\n  Why this problem matters, readable from three meters away.\n}\n\\column{0.33}\n\\block{Method}{\n  The core idea and its one equation:\n  \\[ k = A e^{-E_a / RT}. \\]\n}\n\\column{0.34}\n\\block{Results}{\n  Headline numbers, one chart, and the takeaway sentence.\n}\n\\end{columns}\n\n\\end{document}\n"
+        },
+        {
+          "id": "tikzposter-portrait",
+          "name": "Research Poster (portrait)",
+          "description": "An A0 portrait research poster using tikzposter with header, three-column blocks, and a findings panel.",
+          "category": "Posters",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[25pt,a0paper,portrait]{tikzposter}\n\\usepackage{amsmath}\n\n\\title{Poster Title Goes Here}\n\\author{First Author, Second Author}\n\\institute{Example University}\n\n\\usetheme{Default}\n\n\\begin{document}\n\\maketitle\n\n\\begin{columns}\n\\column{0.5}\n\\block{Motivation}{\n  Why this problem matters, in two or three sentences a passerby can read\n  from a distance.\n}\n\\block{Method}{\n  The core idea, with the one equation that matters:\n  \\[ \\mathcal{L}(\\theta) = \\mathbb{E}_x\\left[\\ell(f_\\theta(x))\\right]. \\]\n}\n\n\\column{0.5}\n\\block{Results}{\n  The headline numbers and one figure. Keep text minimal.\n}\n\\block{Takeaways}{\n  \\begin{itemize}\n    \\item Finding one.\n    \\item Finding two.\n    \\item What to try next.\n  \\end{itemize}\n}\n\\end{columns}\n\n\\end{document}\n"
+        }
+      ]
+    },
+    {
+      "id": "venue-classes",
+      "label": "Journal & conference classes",
+      "description": "REVTeX, ACS achemso, Elsevier, ACM sigconf, and Typst journal starters.",
+      "count": 6,
+      "templates": [
+        {
+          "id": "achemso-article",
+          "name": "ACS Chemistry Article (achemso)",
+          "description": "American Chemical Society article using the achemso class with abstract, scheme placeholders, and ACS-style references.",
+          "category": "Journals & Conferences",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[journal=jacsat,manuscript=article]{achemso}\n\\usepackage{amsmath}\n\\usepackage{graphicx}\n\n\\author{First Author}\n\\affiliation{Department of Chemistry, Example University}\n\\email{first.author@example.edu}\n\\author{Second Author}\n\\affiliation{Example National Laboratory}\n\n\\title{A Working Title for an ACS Manuscript}\n\n\\begin{document}\n\n\\begin{abstract}\nReplace with the abstract: context, method, and the key quantitative result.\n\\end{abstract}\n\n\\section{Introduction}\nIntroduce the chemistry problem and prior art.\n\n\\section{Experimental Methods}\nDescribe synthesis, characterization, and instrumentation.\n\n\\section{Results and Discussion}\nPresent spectra, yields, and mechanistic interpretation. Equations work as\nusual:\n\\begin{equation}\n  k = A e^{-E_a / RT}.\n\\end{equation}\n\n\\section{Conclusions}\nSummarize the contribution.\n\n\\begin{acknowledgement}\nFunding and thanks.\n\\end{acknowledgement}\n\n\\end{document}\n"
+        },
+        {
+          "id": "acmart-sigconf",
+          "name": "ACM Conference Paper (sigconf)",
+          "description": "ACM sigconf conference paper (acmart) with CCS concepts placeholders, teaser-free layout, and ACM reference format.",
+          "category": "Journals & Conferences",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[sigconf,nonacm]{acmart}\n\\usepackage{graphicx}\n\n\\begin{document}\n\n\\title{A Working Title for an ACM Conference Paper}\n\n\\author{First Author}\n\\affiliation{%\n  \\institution{Example University}\n  \\city{City}\n  \\country{Country}}\n\\email{first@example.edu}\n\n\\author{Second Author}\n\\affiliation{%\n  \\institution{Example Labs}\n  \\city{City}\n  \\country{Country}}\n\\email{second@example.com}\n\n\\begin{abstract}\nReplace with the abstract: problem, approach, evaluation, and headline result.\n\\end{abstract}\n\n\\maketitle\n\n\\section{Introduction}\nMotivate the problem and list contributions.\n\n\\section{Approach}\nDescribe the system or method.\n\n\\section{Evaluation}\nReport the experimental setup and results.\n\n\\section{Conclusion}\nSummarize and discuss limitations.\n\n\\begin{thebibliography}{9}\n\\bibitem{example2024} A. Author and B. Author. 2024. Example paper title. In \\textit{Proceedings of EX '24}. 1--10.\n\\end{thebibliography}\n\n\\end{document}\n"
+        },
+        {
+          "id": "elsarticle-2col",
+          "name": "Elsevier Two-Column Article",
+          "description": "Elsevier journal article (elsarticle, 3p two-column) with frontmatter, highlights, and numbered bibliography.",
+          "category": "Journals & Conferences",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[3p,twocolumn]{elsarticle}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}\n\n\\journal{Journal Name}\n\n\\begin{document}\n\n\\begin{frontmatter}\n\\title{A Working Title for an Elsevier Manuscript}\n\\author[a]{First Author}\n\\author[b]{Second Author}\n\\affiliation[a]{organization={Example University}, city={City}, country={Country}}\n\\affiliation[b]{organization={Example Institute}, city={City}, country={Country}}\n\n\\begin{abstract}\nReplace with the abstract. Keep it self-contained and quantitative.\n\\end{abstract}\n\n\\begin{keyword}\nkeyword one \\sep keyword two \\sep keyword three\n\\end{keyword}\n\\end{frontmatter}\n\n\\section{Introduction}\nSet up the problem and contributions.\n\n\\section{Method}\n\\begin{equation}\n  \\mathcal{L}(\\theta) = \\mathbb{E}_{x}\\left[\\ell(f_\\theta(x))\\right].\n\\end{equation}\n\n\\section{Results}\nReport findings with tables and figures.\n\n\\section{Conclusion}\nWrap up and point to future work.\n\n\\begin{thebibliography}{9}\n\\bibitem{example2024} A. Author, B. Author, Example paper title, Journal 1 (2024) 100.\n\\end{thebibliography}\n\n\\end{document}\n"
+        },
+        {
+          "id": "revtex-aps-article",
+          "name": "APS Physics Article (REVTeX)",
+          "description": "REVTeX 4.2 two-column article for APS journals (PRL, PRB, PRX) with abstract, equations, and bibliography.",
+          "category": "Journals & Conferences",
+          "engine": "xetex",
+          "mainDoc": "main.tex",
+          "license": "CC0-1.0",
+          "source": "\\documentclass[aps,prl,twocolumn,superscriptaddress]{revtex4-2}\n\\usepackage{amsmath,amssymb}\n\\usepackage{graphicx}\n\\usepackage{hyperref}\n\n\\begin{document}\n\n\\title{Manuscript Title: Working Draft}\n\\author{First Author}\n\\affiliation{Department of Physics, Example University}\n\\author{Second Author}\n\\affiliation{Institute for Advanced Examples}\n\n\\begin{abstract}\nReplace this abstract with a concise summary of the problem, approach, and\nprincipal result. APS abstracts are typically under 600 characters.\n\\end{abstract}\n\n\\maketitle\n\n\\section{Introduction}\nState the problem and why it matters. Cite prior work like\nRef.~\\cite{example2024}.\n\n\\section{Model}\nDisplay equations use the standard environments:\n\\begin{equation}\n  H = \\sum_{i} \\epsilon_i c_i^\\dagger c_i + \\frac{U}{2} \\sum_{i \\ne j} n_i n_j.\n  \\label{eq:model}\n\\end{equation}\nReference them as Eq.~(\\ref{eq:model}).\n\n\\section{Results}\nSummarize the main findings. Figures use the standard figure environment.\n\n\\section{Conclusions}\nClose with implications and open questions.\n\n\\begin{acknowledgments}\nFunding sources and helpful discussions go here.\n\\end{acknowledgments}\n\n\\begin{thebibliography}{9}\n\\bibitem{example2024} A. Author and B. Author, Journal Name \\textbf{1}, 100 (2024).\n\\end{thebibliography}\n\n\\end{document}\n"
+        },
+        {
+          "id": "typst-conference-paper",
+          "name": "Typst Conference Paper (two-column)",
+          "description": "A two-column conference paper layout in Typst modeled on IEEE-style proceedings.",
+          "category": "Journals & Conferences",
+          "engine": "typst",
+          "mainDoc": "main.typ",
+          "license": "CC0-1.0",
+          "source": "#set document(title: \"A Working Title\", author: (\"First Author\",))\n#set page(paper: \"us-letter\", margin: (x: 0.75in, y: 1in))\n#set text(size: 10pt)\n#set heading(numbering: \"I.A.1.\")\n#set par(justify: true)\n\n#align(center)[\n  #text(size: 16pt, weight: \"bold\")[A Working Title for a Conference Paper]\n\n  First Author and Second Author\n\n  #text(size: 9pt)[Example University, City, Country]\n]\n#v(1em)\n\n#show: rest => columns(2, gutter: 0.3in, rest)\n\n*Abstract - * Replace with the abstract: problem, approach, evaluation, and\nthe headline result.\n\n= Introduction\nMotivate the problem and list the contributions.\n\n= Method\nDisplay math works across the column:\n$ h_t = sigma(W x_t + U h_(t-1) + b) $\n\n= Evaluation\nDescribe the setup and report results.\n\n= Conclusion\nSummarize the contribution.\n"
+        },
+        {
+          "id": "typst-journal-article",
+          "name": "Typst Journal Article",
+          "description": "A clean single-column journal article in Typst with abstract, numbered headings, math, and references.",
+          "category": "Journals & Conferences",
+          "engine": "typst",
+          "mainDoc": "main.typ",
+          "license": "CC0-1.0",
+          "source": "#set document(title: \"A Working Title\", author: (\"First Author\",))\n#set page(paper: \"us-letter\", margin: 1in, numbering: \"1\")\n#set text(size: 11pt)\n#set heading(numbering: \"1.1\")\n#set par(justify: true)\n\n#align(center)[\n  #text(size: 17pt, weight: \"bold\")[A Working Title for a Journal Article]\n\n  First Author #super[1] and Second Author #super[2]\n\n  #text(size: 9pt)[#super[1] Example University #h(1em) #super[2] Example Institute]\n]\n\n#v(1em)\n#align(center)[#box(width: 85%)[\n  *Abstract.* Replace with a concise abstract: problem, approach, and the\n  principal quantitative result.\n]]\n#v(1em)\n\n= Introduction\nState the problem, why it matters, and the contributions.\n\n= Method\nInline math like $e = m c^2$ and display math:\n$ cal(L)(theta) = EE_x [ ell(f_theta (x)) ] $\n\n= Results\nReport findings; tables and figures use standard Typst syntax.\n\n= Conclusion\nSummarize and note open questions.\n"
+        }
+      ]
+    }
+  ]
+}

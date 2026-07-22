@@ -1,0 +1,58 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import BibtexValidator from "../../components/tools/BibtexValidator.tsx";
+import "../../styles/tools.css";
+---
+
+<SiteLayout
+  title="Free BibTeX validator, runs in your browser | Oleafly"
+  description="Validate a .bib file instantly: missing required fields per entry type, duplicate citation keys, and duplicate DOIs. Client-side only; your bibliography is never uploaded."
+  path="/tools/bibtex-validator/"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Free tool</p>
+      <h1>BibTeX validator</h1>
+      <p class="sub">
+        Paste your <code>.bib</code> file and catch problems before they render as
+        <code>[?]</code> in your PDF. Runs entirely in your browser; nothing is uploaded.
+      </p>
+      <BibtexValidator client:load />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Reference</p>
+      <h2>BibTeX entry types and their fields</h2>
+      <p class="sub">
+        The validator checks each entry against the classic BibTeX contract. Required
+        fields must be present; optional fields are fine either way.
+      </p>
+      <table class="ol-table">
+        <thead>
+          <tr><th>Entry type</th><th>Required fields</th><th>Optional fields</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>@article</code></td><td>author, title, journal, year</td><td>volume, number, pages, month, doi, url</td></tr>
+          <tr><td><code>@book</code></td><td>title, publisher, year, author or editor</td><td>volume, series, edition, address, isbn, doi</td></tr>
+          <tr><td><code>@inproceedings</code></td><td>author, title, booktitle, year</td><td>pages, address, publisher, doi</td></tr>
+          <tr><td><code>@conference</code></td><td>author, title, booktitle, year</td><td>pages, address, publisher</td></tr>
+          <tr><td><code>@phdthesis</code></td><td>author, title, school, year</td><td>address, month, type, doi</td></tr>
+          <tr><td><code>@mastersthesis</code></td><td>author, title, school, year</td><td>address, month, type</td></tr>
+          <tr><td><code>@techreport</code></td><td>author, title, institution, year</td><td>type, number, address, month</td></tr>
+          <tr><td><code>@misc</code></td><td>none</td><td>author, title, year, url, note, howpublished</td></tr>
+          <tr><td><code>@unpublished</code></td><td>author, title, note</td><td>year, month</td></tr>
+          <tr><td><code>@proceedings</code></td><td>title, year</td><td>editor, publisher, address, volume</td></tr>
+          <tr><td><code>@manual</code></td><td>title</td><td>author, organization, year, edition</td></tr>
+          <tr><td><code>@incollection</code></td><td>author, title, booktitle, publisher, year</td><td>editor, chapter, pages, address</td></tr>
+        </tbody>
+      </table>
+      <p class="sub" style="margin-top:28px">
+        In the <a href="/">Oleafly desktop app</a>, this validation runs continuously against
+        your project, and Add citation can fetch a correct entry from a DOI, arXiv id, or
+        title so you never hand-type one again.
+      </p>
+    </div>
+  </section>
+</SiteLayout>

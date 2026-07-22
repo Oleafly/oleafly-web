@@ -1,0 +1,127 @@
+---
+// Landing-theme chrome for interior pages: same nav, footer, tokens, and
+// section language as index.astro (which stays self-contained).
+import "../styles/magicui.css";
+import "../styles/landing.css";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string; // canonical path with leading and trailing slash, e.g. "/tools/"
+}
+
+const { title, description, path } = Astro.props;
+const GITHUB = "https://github.com/Oleafly/Oleafly";
+const RELEASES = `${GITHUB}/releases/latest`;
+const canonical = `https://oleafly.com${path}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Oleafly" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://oleafly.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://oleafly.com/og.png" />
+
+    <link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/jbmono-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="nav" id="nav">
+      <div class="nav-inner">
+        <a class="brand" href="/">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path
+              d="M21 2C6 2 4 16 3 22h1.998c.666-3.333 2.333-5.166 5.002-5.5 4-.5 7-4 8-7l-1.5-1 1-1c1-1 2.004-2.5 3.5-5.5z"
+              fill="#34B44A"></path>
+          </svg>
+          <span>Oleafly</span>
+        </a>
+        <nav class="nav-links" aria-label="Main">
+          <a href="/tools/">Tools</a>
+          <a href="/templates/">Templates</a>
+          <a href="/deadlines/">Deadlines</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/overview/">Docs</a>
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+        <div class="nav-cta">
+          <a class="btn btn-primary btn-sm" href={RELEASES} target="_blank" rel="noopener noreferrer">
+            Download
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <a class="brand" href="/">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path
+                d="M21 2C6 2 4 16 3 22h1.998c.666-3.333 2.333-5.166 5.002-5.5 4-.5 7-4 8-7l-1.5-1 1-1c1-1 2.004-2.5 3.5-5.5z"
+                fill="#34B44A"></path>
+            </svg>
+            <span>Oleafly</span>
+          </a>
+          <p>The local-first, AI-native LaTeX studio.</p>
+          <p class="footer-license">AGPL-3.0 © 2026 Oleafly and contributors</p>
+        </div>
+        <nav class="footer-col" aria-label="Product">
+          <p class="footer-h">Product</p>
+          <a href={RELEASES} target="_blank" rel="noopener noreferrer">Download</a>
+          <a href="/templates/">Templates</a>
+          <a href="/deadlines/">Deadlines</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+        <nav class="footer-col" aria-label="Free tools">
+          <p class="footer-h">Free tools</p>
+          <a href="/tools/bibtex-validator/">BibTeX validator</a>
+          <a href="/tools/equation-preview/">Equation preview</a>
+          <a href="/tools/table-generator/">Table generator</a>
+          <a href="/blog/">Blog</a>
+        </nav>
+        <nav class="footer-col" aria-label="Project">
+          <p class="footer-h">Project</p>
+          <a href="/docs/overview/">Docs</a>
+          <a href="/docs/learn/latex-in-10-minutes/">Learn LaTeX</a>
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={`${GITHUB}/discussions`} target="_blank" rel="noopener noreferrer">Discussions</a>
+        </nav>
+      </div>
+      <div class="footer-wordmark" aria-hidden="true">Oleafly</div>
+    </footer>
+
+    <script>
+      const nav = document.getElementById("nav");
+      const onScroll = () => nav?.classList.toggle("scrolled", window.scrollY > 8);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    </script>
+  </body>
+</html>

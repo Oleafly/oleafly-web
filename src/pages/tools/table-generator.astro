@@ -1,0 +1,42 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import TableGenerator from "../../components/tools/TableGenerator.tsx";
+import "../../styles/tools.css";
+---
+
+<SiteLayout
+  title="Free LaTeX table generator, runs in your browser | Oleafly"
+  description="Build LaTeX tables visually: set rows, columns, alignment, and booktabs rules, then copy clean tabular code. Client-side only; nothing is uploaded."
+  path="/tools/table-generator/"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Free tool</p>
+      <h1>LaTeX table generator</h1>
+      <p class="sub">
+        Fill in the grid, pick alignments, and copy publication-ready
+        <code>tabular</code> code with proper <code>booktabs</code> rules. Runs entirely
+        in your browser; nothing is uploaded.
+      </p>
+      <TableGenerator client:load />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Why booktabs</p>
+      <h2>Rules, not grids</h2>
+      <p class="sub">
+        Professional tables use three horizontal rules (<code>\toprule</code>,
+        <code>\midrule</code>, <code>\bottomrule</code>) and no vertical lines. That is what
+        journals typeset and what this generator produces by default; the plain
+        <code>\hline</code> style is one toggle away when a class requires it.
+      </p>
+      <p class="sub">
+        Working on a full paper? The <a href="/">Oleafly desktop app</a> compiles as you
+        type, catches overfull tables in preflight, and lets AI restructure a table from a
+        plain-language instruction.
+      </p>
+    </div>
+  </section>
+</SiteLayout>

@@ -117,6 +117,18 @@ export default defineConfig({
           ],
         },
         {
+          label: "Learn LaTeX",
+          items: [
+            { label: "LaTeX in 10 minutes", slug: "docs/learn/latex-in-10-minutes" },
+            { label: "The document skeleton", slug: "docs/learn/document-skeleton" },
+            { label: "Text and formatting", slug: "docs/learn/text-formatting" },
+            { label: "Math mode", slug: "docs/learn/math" },
+            { label: "Tables and figures", slug: "docs/learn/tables-figures" },
+            { label: "Citations and bibliography", slug: "docs/learn/citations" },
+            { label: "Cheatsheet", slug: "docs/learn/cheatsheet" },
+          ],
+        },
+        {
           label: "Help",
           items: [{ label: "FAQ", slug: "docs/faq" }],
         },

@@ -1,0 +1,30 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DeadlineBoard from "../../components/tools/DeadlineBoard.tsx";
+import data from "../../data/deadlines.json";
+import "../../styles/tools.css";
+
+const generated = data.generated_at?.slice(0, 10) ?? "";
+---
+
+<SiteLayout
+  title="Conference deadlines with live countdowns | Oleafly"
+  description="Upcoming CS conference submission deadlines with live countdowns, CCF and CORE ranks, field filters, and search. Data from the open ccf-deadlines dataset."
+  path="/deadlines/"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Deadlines</p>
+      <h1>Conference deadlines, counting down live</h1>
+      <p class="sub">
+        Submission deadlines for {data.venues.length} conference cycles from the
+        MIT-licensed
+        <a href="https://github.com/ccfddl/ccf-deadlines" target="_blank" rel="noopener noreferrer">
+          ccf-deadlines</a> dataset, refreshed on every site deploy (last: {generated}).
+        The <a href="/">Oleafly desktop app</a> has the same board offline, one click from
+        your manuscripts.
+      </p>
+      <DeadlineBoard client:load venues={data.venues} />
+    </div>
+  </section>
+</SiteLayout>
