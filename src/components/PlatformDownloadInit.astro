@@ -1,0 +1,81 @@
+---
+/**
+ * Client script + shared styles for .dl-platform download buttons.
+ * Include once per page (SiteLayout covers interior; landing includes it too).
+ */
+---
+
+<style is:global>
+  .btn.dl-platform,
+  a.dl-platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn.dl-platform .dl-icon,
+  a.dl-platform .dl-icon {
+    flex-shrink: 0;
+    display: block;
+  }
+  .btn.dl-platform .dl-icon path[hidden],
+  a.dl-platform .dl-icon path[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  (() => {
+    const detectOs = () => {
+      const ua = navigator.userAgent || "";
+      const plat = navigator.platform || "";
+      const uaPlat = (navigator.userAgentData && navigator.userAgentData.platform) || "";
+      if (/Win/i.test(plat) || /Windows/i.test(ua) || /Windows/i.test(uaPlat)) return "windows";
+      if (/Linux/i.test(plat) || /Linux/i.test(ua) || /Linux/i.test(uaPlat) || /X11/i.test(plat)) return "linux";
+      if (/Mac/i.test(plat) || /Mac OS|Macintosh/i.test(ua) || /macOS/i.test(uaPlat) || /iPhone|iPad|iPod/.test(ua)) {
+        return "mac";
+      }
+      return "mac";
+    };
+
+    const shortLabels = { mac: "Mac", windows: "Windows", linux: "Linux" };
+    const fullLabels = {
+      mac: "Download for Mac",
+      windows: "Download for Windows",
+      linux: "Download for Linux",
+    };
+
+    const os = detectOs();
+    const osName = shortLabels[os] || "Mac";
+
+    for (const btn of document.querySelectorAll(".dl-platform")) {
+      const useShort = btn.classList.contains("btn-sm");
+      const labelEl = btn.querySelector(".dl-label");
+      if (labelEl) {
+        const custom = btn.getAttribute("data-dl-label");
+        if (custom) {
+          labelEl.textContent = custom.replace(/\{os\}/g, osName);
+        } else if (useShort) {
+          labelEl.textContent = "Download · " + osName;
+        } else {
+          labelEl.textContent = fullLabels[os] || "Download";
+        }
+      }
+      for (const path of btn.querySelectorAll(".dl-icon path")) {
+        if (path.getAttribute("data-os") === os) path.removeAttribute("hidden");
+        else path.setAttribute("hidden", "");
+      }
+      btn.setAttribute("aria-label", fullLabels[os] || "Download Oleafly");
+    }
+
+    // Highlight the matching OS card on the landing download grid.
+    for (const card of document.querySelectorAll(".dl-card[data-os]")) {
+      const match = card.getAttribute("data-os") === os;
+      card.classList.toggle("is-current", match);
+      if (match) {
+        card.setAttribute("aria-current", "true");
+      } else {
+        card.removeAttribute("aria-current");
+      }
+    }
+  })();
+</script>

@@ -12,16 +12,17 @@ trigger a check from the **Oleafly → Check for Updates** menu, or from
 The same application menu provides **Reload Views** for refreshing webviews and
 **Restart Application** for a full process restart.
 
-Oleafly 0.2.5 is an unsigned developer beta. This local beta build does not
-generate updater artifacts because no release-signing private key is configured,
-and the macOS and Windows applications do not have operating-system code
-signatures. Update failure handling remains available for a future signed feed.
+Release builds generate minisign-signed updater artifacts when the repository's
+signing secrets are configured. The macOS and Windows applications still do not
+have operating-system code signatures (Gatekeeper/SmartScreen); that is a
+separate concern from updater signing.
 
 ## How it works
 
-1. A future signed release can build **updater artifacts** and a `latest.json`
-   manifest for the GitHub Release. The unsigned 0.2.5 developer-beta
-   configuration keeps `bundle.createUpdaterArtifacts` disabled.
+1. Each release builds **updater artifacts** and a `latest.json`
+   manifest for the GitHub Release (`bundle.createUpdaterArtifacts` is enabled
+   in `tauri.conf.json`). Local development builds without the signing key do
+   not produce a usable update feed.
 2. The app fetches `latest.json` from the release's
    `.../releases/latest/download/latest.json` endpoint (see the `plugins.updater`
    block in `tauri.conf.json`).
@@ -36,21 +37,23 @@ changed, with install help as a link rather than the headline), and
 tauri-action copies that body into `latest.json`'s `notes`, which the window
 displays.
 
-## One-time maintainer setup (required)
+## One-time maintainer setup
 
-The signing **key pair** was generated already. The **public** key is committed
+This is already done for the main repository; keep it for reference when
+rotating keys or setting up a fork. The signing **key pair** was generated
+already. The **public** key is committed
 in `src-tauri/tauri.conf.json` (`plugins.updater.pubkey`). The **private** key is
 NOT in the repo. It lives at:
 
-    ~/.openleaf-keys/openleaf-updater.key      (private, keep secret, 0600)
-    ~/.openleaf-keys/openleaf-updater.key.pub  (public, already in the repo)
+    ~/.oleafly-keys/oleafly-updater.key      (private, keep secret, 0600)
+    ~/.oleafly-keys/oleafly-updater.key.pub  (public, already in the repo)
 
 Add the private key to the repo's **GitHub Actions secrets** so the release
 workflow can sign. From a machine with `gh` authenticated to the repo:
 
 ```sh
 # The private key contents (this file is the whole secret):
-gh secret set TAURI_SIGNING_PRIVATE_KEY < ~/.openleaf-keys/openleaf-updater.key
+gh secret set TAURI_SIGNING_PRIVATE_KEY < ~/.oleafly-keys/oleafly-updater.key
 
 # The key was generated WITHOUT a password, so set the password secret to empty:
 printf '' | gh secret set TAURI_SIGNING_PRIVATE_KEY_PASSWORD
@@ -88,7 +91,7 @@ and can be retried from About or the application menu. Signature verification
 failure blocks installation. The application restarts only after
 `downloadAndInstall` completes successfully.
 
-Oleafly 0.2.5 does not provide automatic rollback after a successful update.
+Oleafly does not provide automatic rollback after a successful update.
 To return to an earlier version, close Oleafly, download the earlier official
 installer, verify its checksum, and install it over the current version. Back
 up important projects before changing application versions.

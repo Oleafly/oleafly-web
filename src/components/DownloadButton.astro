@@ -1,0 +1,48 @@
+---
+/**
+ * Primary download CTA with OS glyph (Mac / Windows / Linux).
+ * Detection runs client-side via PlatformDownloadInit (SiteLayout + landing).
+ */
+import { APPLE_PATH, WINDOWS_PATH, LINUX_PATH } from "../lib/os-icons";
+
+interface Props {
+  href: string;
+  /** Fallback label before JS runs */
+  label?: string;
+  /**
+   * After detect, replace {os} with Mac / Windows / Linux.
+   * Example: "Download Oleafly for {os}"
+   */
+  labelTemplate?: string;
+  size?: "sm" | "lg" | "default";
+  class?: string;
+  /** Icon pixel size */
+  iconSize?: number;
+}
+
+const {
+  href,
+  label = "Download",
+  labelTemplate,
+  size = "lg",
+  class: className = "",
+  iconSize = size === "sm" ? 14 : 16,
+} = Astro.props;
+
+const sizeClass = size === "sm" ? "btn-sm" : size === "lg" ? "btn-lg" : "";
+---
+
+<a
+  class:list={["btn", "btn-primary", sizeClass, "dl-platform", className]}
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  data-dl-label={labelTemplate}
+>
+  <svg class="dl-icon" width={iconSize} height={iconSize} viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+    <path data-os="mac" d={APPLE_PATH}></path>
+    <path data-os="windows" d={WINDOWS_PATH} hidden></path>
+    <path data-os="linux" d={LINUX_PATH} hidden></path>
+  </svg>
+  <span class="dl-label">{label}</span>
+</a>

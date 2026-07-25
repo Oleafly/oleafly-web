@@ -20,7 +20,7 @@ On a fresh installation, choose **Show me around** on the welcome screen. The pr
    - **IEEE Research Paper**: a two-column conference paper with figures, tables, and a bibliography.
 3. Click your pick, give the project a name, choose a cover color, and hit **Create project**.
 
-The full catalog of 19 templates is on the [Templates](/docs/templates/) page.
+The full catalog of 23 bundled templates, plus the 99 downloadable ones, is on the [Templates](/docs/templates/) page.
 
 ## 3. Write and compile
 
@@ -39,11 +39,11 @@ More in [SyncTeX](/docs/synctex/).
 
 ## 5. Export
 
-Click the **Export** button (download icon) in the toolbar, then **Export as PDF**. The output is ATS-clean by default: real selectable text with embedded fonts. The same menu exports your full source as a `.zip`, and Word, HTML, Markdown, and plain text via pandoc (downloaded on demand the first time). Details in [Export formats](/docs/export/).
+Click the **Export** button (download icon) in the toolbar, then **Export as PDF**. Default output uses real selectable text with embedded fonts, which is what parsers and archives need. The same menu exports your full source as a `.zip`, and Word, HTML, Markdown, and plain text via pandoc (downloaded on demand the first time). Details in [Export formats](/docs/export/).
 
 ## 6. Where your files live
 
-Every project is a plain folder under `~/.openleaf/projects/` containing your `.tex`, `.bib`, images, and a real `.git` repository. They're just files: browse, copy, or back them up with any tool. See [Where your data lives](/docs/where-your-data-lives/).
+Every project is a plain folder under `~/.oleafly/projects/` containing your `.tex`, `.bib`, images, and a real `.git` repository. They're just files: browse, copy, or back them up with any tool. See [Where your data lives](/docs/where-your-data-lives/).
 
 ## Keep going
 

@@ -10,7 +10,7 @@ clone to a working dev build, and covers how we review and land changes.
 
 - Report a bug: open a [bug report](https://github.com/Oleafly/Oleafly/issues/new/choose).
 - Request a feature: open a [feature request](https://github.com/Oleafly/Oleafly/issues/new/choose).
-- Report a vulnerability: please do not open a public issue; see [SECURITY.md](https://github.com/Oleafly/Oleafly/blob/main/docs/SECURITY.md).
+- Report a vulnerability: please do not open a public issue; see [SECURITY.md](https://github.com/Oleafly/Oleafly/blob/main/SECURITY.md).
 - Send a pull request: see below.
 
 For anything larger than a small fix, open an issue first so we can agree on the
@@ -55,10 +55,11 @@ Installers land in `src-tauri/target/release/bundle/`.
 ## Project layout
 
 ```
-src/                 React + TypeScript frontend
+src/                 React + TypeScript app shell
   components/         UI (editor, pdf, ai, layout, files, …)
   lib/               framework-agnostic helpers (ai-providers, github, …)
   store/             Zustand state slices
+packages/            @oleafly/* engine packages, consumed as TypeScript source
 src-tauri/src/       Rust backend (Tauri commands)
   commands.rs        compile pipeline (Tectonic sidecar)
   project.rs         project/file CRUD (path-sandboxed - see `resolve`)
@@ -111,7 +112,7 @@ style is appreciated but not required (e.g. `fix: reject absolute paths in resol
 ## Releases (maintainers)
 
 Releases are cut by pushing a version tag; the
-[`Release` workflow](.github/workflows/release.yml) builds installers for macOS
+[`Release` workflow](https://github.com/Oleafly/Oleafly/blob/main/.github/workflows/release.yml) builds installers for macOS
 (Apple Silicon), Windows x64, and Linux x64 and attaches them to a **draft**
 GitHub Release for review before publishing.
 
@@ -125,4 +126,4 @@ git tag v0.2.0 && git push origin v0.2.0
 ```
 
 By contributing, you agree that your contributions are licensed under the
-project's [GNU Affero General Public License v3.0 or later](LICENSE).
+project's [GNU Affero General Public License v3.0 or later](https://github.com/Oleafly/Oleafly/blob/main/LICENSE).

@@ -10,7 +10,7 @@ export function ProjectFileTree() {
       className="overflow-hidden rounded-none bg-transparent p-1 font-mono text-[13px]"
       initialExpandedItems={["root", "git", "figures"]}
     >
-      <Folder element="~/.openleaf/projects/resume" value="root">
+      <Folder element="~/.oleafly/projects/resume" value="root">
         <Folder element=".git" value="git">
           <File value="git-head">
             <p>HEAD</p>

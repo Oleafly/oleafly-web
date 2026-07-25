@@ -41,7 +41,7 @@ The **History** button (clock icon, top toolbar) lists every commit with its mes
 
 Oleafly snapshots your work on its own, so history exists even if you never open the Source Control panel:
 
-- **"Update: `<files>`"**: written right after every successful compile, and again a quiet moment (about 30 seconds) after you stop editing. The message lists exactly which files changed.
+- **"Update: `<files>`"**: written after a successful compile that changed files, and again a quiet moment (about 30 seconds) after you stop editing. The message lists exactly which files changed, and an unchanged tree never produces an empty commit.
 - **"Oleafly AI checkpoint"**: committed automatically before the [AI assistant's](/docs/ai-chat/) first edit of a run, so any AI session can be rolled back in one restore.
 - **"Initial commit"**: created when you first publish a project to GitHub.
 - **Manual commits are still yours.** The Source Control panel stages and commits exactly what you pick, with your message, and automatic commits pause while that panel is open so nothing gets swept out from under you mid-staging.
@@ -50,4 +50,4 @@ A good rhythm: let the automatic snapshots cover the keystrokes, and write a man
 
 ## Power users welcome
 
-It's a plain repo at `~/.openleaf/projects/<project>/.git`. Branch, rebase, cherry-pick, or inspect it from the command line freely; the app reads the repo fresh whenever it needs it. In-app UI covers the everyday flow (stage, commit, push, pull, restore); the exotic stuff is a terminal away.
+It's a plain repo at `~/.oleafly/projects/<project>/.git`. Branch, rebase, cherry-pick, or inspect it from the command line freely; the app reads the repo fresh whenever it needs it. In-app UI covers the everyday flow (stage, commit, push, pull, restore); the exotic stuff is a terminal away.

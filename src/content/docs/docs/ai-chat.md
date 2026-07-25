@@ -13,7 +13,7 @@ Type in the composer (Enter sends, Shift+Enter for a newline) or start from a su
 
 ## What the assistant can do
 
-Its toolbox, verbatim:
+The agent has 25 file, build, research, memory, and figure tools. The core set:
 
 | Tool | What it does |
 |---|---|
@@ -33,11 +33,28 @@ Its toolbox, verbatim:
 | `set_main_doc` | Change the compile entry point |
 | `toggle_theme` | Flip light/dark mode |
 
+Plan and memory tools keep long jobs organized:
+
+| Tool | What it does |
+|---|---|
+| `update_todos` / `get_todos` | Maintain the plan checklist rendered in the panel |
+| `remember_note` / `list_notes` / `forget_note` | Sticky per-project notes that survive new chats and restarts |
+
+Research tools reach outside the project (network required):
+
+| Tool | What it does |
+|---|---|
+| `literature_search` | Search the OpenAlex scholarly index in natural language |
+| `verify_citation` | Check a DOI or title against Crossref and return the metadata |
+| `alphaxiv_search` / `alphaxiv_paper_content` | Search alphaXiv and fetch full paper content (needs an alphaXiv API key, Settings, Integrations) |
+
+Figure mode swaps in its own tools (`preview_figure`, `insert_figure`, `load_image`); see [Draw figures with AI](/docs/ai-figures/). Research results are leads, not proof: a returned citation still needs your judgment that the paper supports the sentence.
+
 Tool calls appear in the chat as chips (spinner while running, then a check, or an X if rejected); click one to expand its output.
 
 ## You approve every change
 
-Any file-changing tool pauses the whole run and shows an approval card: which tool, what it wants to do, and a red/green diff of exactly what would change. **Approve** or **Reject**; the decision is stamped on the tool chip permanently, so the conversation records what you allowed.
+Any file-changing tool pauses the whole run and shows an approval card: which tool, what it wants to do, and a red/green diff of exactly what would change. **Approve**, **Reject**, or **Always allow** writes for the rest of the session; the decision is stamped on the tool chip permanently, so the conversation records what you allowed. Session allow covers only non-delete writes: `delete_file` asks every single time, no matter what.
 
 ![The approval card: a diff you approve or reject](/media/ai-approval-diff.png)
 
@@ -80,7 +97,7 @@ The **+** button starts a new chat; the clock opens history: up to 50 chats per 
 
 ## What the assistant knows
 
-It starts with your project's name and main document, and pulls everything else through tools: it reads files when it needs them and uses `project_map` to reason about structure (the same [index](/docs/code-intelligence/) that powers go-to-definition). Your [custom instructions](/docs/ai-setup/#custom-instructions) ride along on every request.
+It starts each run with bounded context: the project's identity and engine, the active file and selection, the file tree, the current compile state and diagnostics, relevant source excerpts, its own sticky notes and plan, and a packed view of the conversation so far. Everything else it pulls through tools: it reads files when it needs them and uses `project_map` to reason about structure (the same [index](/docs/code-intelligence/) that powers go-to-definition). Your [custom instructions](/docs/ai-setup/#custom-instructions) ride along on every request. With a hosted provider, that selected context is what gets sent; with Ollama it stays on your machine.
 
 ## Figures are their own mode
 

@@ -1,0 +1,79 @@
+---
+import { getCollection, render } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<SiteLayout
+  title={`${post.data.title} | Oleafly`}
+  description={post.data.description}
+  path={`/blog/${post.id}/`}
+>
+  <article class="page-hero">
+    <div class="container" style="max-width: 780px">
+      <p class="eyebrow">{fmt(post.data.date)}</p>
+      <h1>{post.data.title}</h1>
+      <p class="sub">{post.data.description}</p>
+      <div class="prose">
+        <Content />
+      </div>
+      <p style="margin-top:48px">
+        <a class="btn btn-ghost btn-sm" href="/blog/">All posts</a>
+      </p>
+    </div>
+  </article>
+
+  <style is:global>
+    .prose {
+      color: #d6d9e0;
+      font-size: 15.5px;
+      line-height: 1.75;
+    }
+    .prose h2 {
+      font-size: 1.35rem;
+      margin: 40px 0 12px;
+    }
+    .prose h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 28px 0 10px;
+    }
+    .prose p {
+      margin: 14px 0;
+    }
+    .prose ul,
+    .prose ol {
+      margin: 14px 0;
+      padding-left: 1.4em;
+    }
+    .prose li {
+      margin: 6px 0;
+    }
+    .prose a {
+      color: var(--brand-text);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(96, 165, 250, 0.35);
+    }
+    .prose a:hover {
+      color: #93c5fd;
+    }
+    .prose strong {
+      color: #f7f8f8;
+    }
+    .prose blockquote {
+      border-left: 3px solid var(--line-strong);
+      padding-left: 16px;
+      color: var(--muted);
+      margin: 18px 0;
+    }
+  </style>
+</SiteLayout>

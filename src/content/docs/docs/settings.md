@@ -1,6 +1,6 @@
 ---
 title: "Settings reference"
-description: "Every Oleafly setting: General, Appearance, Dictionary, Data Storage, AI Assistant, LaTeX Engine, Offline & Downloads, GitHub, Keyboard Shortcuts, MCP, and Help & About."
+description: "Every Oleafly setting: General, Appearance, Dictionary, Data Storage, AI Assistant, LaTeX Engine, Downloads, Integrations, Keyboard Shortcuts, MCP, and Help & About."
 ---
 
 Open Settings from the gear in the rail, `/settings` in the search omnibar, or **Open settings** in the ⌘K palette. General appears first. Turn on **Show Advanced** at the bottom of the navigation to reveal every section.
@@ -39,7 +39,7 @@ Every word you told the [spellchecker](/docs/spellcheck-grammar/#fixing-and-igno
 
 ## Data Storage
 
-Shows where your library lives on disk (`~/.openleaf/projects`) and explains the local-first layout, with a shortcut to the GitHub section. Development builds also provide a Finder shortcut beside the path. Cloud sync is listed as coming soon. The full storage story is on [Where your data lives](/docs/where-your-data-lives/).
+Shows where your library lives on disk (`~/.oleafly/projects`) and explains the local-first layout, with a shortcut to the GitHub section. Development builds also provide a Finder shortcut beside the path. Cloud sync is listed as coming soon. The full storage story is on [Where your data lives](/docs/where-your-data-lives/).
 
 ## AI Assistant
 
@@ -49,13 +49,22 @@ Provider cards for all nine providers, the model picker, the Ollama detector, cu
 
 The tagged/accessible export engine: system LuaLaTeX detection, the one-click **Install TinyTeX (~100 MB)** (and its delete button), and the `tlmgr` package manager with tagging-compatibility badges. Documented on [LaTeX engines & packages](/docs/latex-engines/).
 
-## Offline & Downloads
+## Downloads
 
-The on-demand font packs used by richer [templates](/docs/templates/#on-demand-fonts-the-setup-badge): each row shows the font, its size, its open-source license, and a **Download** or **Remove** button, plus a **Download all** for pre-loading everything before a flight. (The LuaLaTeX engine has its own section above.)
+The on-demand assets that keep the base app small:
 
-## GitHub
+- **Font packs** used by richer [templates](/docs/templates/#on-demand-fonts-the-setup-badge): each row shows the font, its size, its open-source license, and a **Download** or **Remove** button, plus a **Download all** for pre-loading everything before a flight.
+- **Template packs**: the 11 downloadable packs holding 99 extra [templates](/docs/templates/#downloadable-template-packs). Download a pack to use its templates offline, or remove it later to free space.
 
-Account connection (device flow or personal access token) and, with a project open, that project's repository controls: remote URL, **Push**, **Pull**, **Unlink**, and **Create & link**. Documented on [GitHub sync](/docs/github-sync/).
+(The LuaLaTeX engine has its own section above.)
+
+## Integrations
+
+Three tabs connect Oleafly to outside services:
+
+- **GitHub**: account connection (device flow or personal access token) and, with a project open, that project's repository controls: remote URL, **Push**, **Pull**, **Unlink**, and **Create & link**. Documented on [GitHub sync](/docs/github-sync/).
+- **alphaXiv**: an API key that unlocks the [AI assistant's](/docs/ai-chat/#what-the-assistant-can-do) alphaXiv paper-search tools. The card links to the key page.
+- **Zotero**: a user ID and API key for importing citations and references from your Zotero library.
 
 ## Keyboard Shortcuts
 

@@ -9,13 +9,22 @@ import tailwindcss from "@tailwindcss/vite";
 // Deployed as a fully static site on Cloudflare Pages.
 export default defineConfig({
   site: "https://oleafly.com",
+  redirects: {
+    "/docs/learn/latex-in-10-minutes": "/learn/first-document/",
+    "/docs/learn/document-skeleton": "/learn/document-skeleton/",
+    "/docs/learn/text-formatting": "/learn/bold-italic/",
+    "/docs/learn/math": "/learn/math-mode/",
+    "/docs/learn/tables-figures": "/learn/create-table/",
+    "/docs/learn/citations": "/learn/add-citations/",
+    "/docs/learn/cheatsheet": "/learn/cheatsheet/",
+  },
   vite: { plugins: [tailwindcss()] },
   integrations: [
     react(),
     starlight({
       title: "Oleafly",
       description:
-        "Free, local-first LaTeX and resume editor for macOS, Windows, and Linux. An offline Overleaf alternative with Git, GitHub sync, SyncTeX, and bring-your-own-key AI.",
+        "The local-first research workspace for LaTeX, Typst, and Markdown on macOS, Windows, and Linux. An open-source, offline-capable Overleaf alternative with real Git history, GitHub sync, SyncTeX, and bring-your-own-key AI.",
       logo: { src: "./src/assets/leaf.svg", alt: "Oleafly" },
       favicon: "/favicon.png",
       customCss: ["./src/styles/fonts.css", "./src/styles/theme.css"],
@@ -115,6 +124,10 @@ export default defineConfig({
             { label: "Settings reference", slug: "docs/settings" },
             { label: "Updates", slug: "docs/updates" },
           ],
+        },
+        {
+          label: "Learn LaTeX",
+          items: [{ label: "Oleafly Learn: the full curriculum", link: "/learn/" }],
         },
         {
           label: "Help",

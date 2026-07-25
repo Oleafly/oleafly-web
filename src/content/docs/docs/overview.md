@@ -20,7 +20,9 @@ You write on the left, the PDF builds on the right, and everything in between is
 
 ### A complete LaTeX environment, zero setup
 
-The compiler ([Tectonic](/docs/compiling/), XeTeX-based) ships inside the app. Packages download automatically the first time you use them and are cached forever after, so your second compile onward works fully offline. There is nothing to install, configure, or update by hand.
+The compiler ([Tectonic](/docs/compiling/), XeTeX-based) ships inside the app. Packages download automatically the first time you use them and are cached from then on, so editing and cached compilation work offline. There is nothing to install, configure, or update by hand.
+
+LaTeX is not the only engine: Typst projects compile with a bundled Typst engine, and Markdown projects build to PDF through a managed Pandoc, so one workspace covers all three document formats.
 
 ### A serious editor
 
@@ -60,7 +62,7 @@ PDF always, plus Word, HTML, Markdown, and plain text via pandoc (fetched on dem
 
 ## Where everything lives
 
-Your projects are plain folders under `~/.openleaf/projects/`, each with your `.tex`, `.bib`, images, and a `.git` history. No proprietary formats, no lock-in: back them up, copy them, or open them with any other tool whenever you like. See [Where your data lives](/docs/where-your-data-lives/).
+Your projects are plain folders under `~/.oleafly/projects/`, each with your `.tex`, `.bib`, images, and a `.git` history. No proprietary formats, no lock-in: back them up, copy them, or open them with any other tool whenever you like. See [Where your data lives](/docs/where-your-data-lives/).
 
 ## Start here
 

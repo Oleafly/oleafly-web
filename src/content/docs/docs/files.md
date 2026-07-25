@@ -53,6 +53,6 @@ You never press save. Edits write to disk about 1.5 seconds after you pause typi
 
 ## Adding existing files
 
-Files currently enter a project by being created in the app, saved from the [PDF preview](/docs/pdf-preview/#save-the-pdf-into-the-project), produced by the [diagram composer](/docs/figures-diagrams/), or written by the [AI assistant](/docs/ai-chat/). There is no upload button yet.
+Use **Import file(s)** or **Import folder** (in the panel header's menu and the right-click menu) to copy images, `.bib` files, or whole directories from anywhere on disk into the project. Importing into a selected folder puts the copies there; otherwise they land at the project root.
 
-Because a project is a plain folder, the practical workaround is direct: drop your images or `.bib` into `~/.openleaf/projects/<project>/` with your file manager, then reopen the project so Oleafly picks them up. Do the copy while the project is closed (or reopen right after), since the app's autosave writes what it has in memory.
+Because a project is also a plain folder, the direct route works too: drop files into `~/.oleafly/projects/<project>/` with your file manager, then reopen the project so Oleafly picks them up. Do the copy while the project is closed (or reopen right after), since the app's autosave writes what it has in memory.

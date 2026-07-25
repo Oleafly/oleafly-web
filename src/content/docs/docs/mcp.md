@@ -23,7 +23,7 @@ Settings shows copy-paste snippets for common clients. Copy the live URL because
 ### Claude Code
 
 ```bash
-claude mcp add --transport http openleaf http://127.0.0.1:5323/mcp --header "Authorization: Bearer <token>"
+claude mcp add --transport http oleafly http://127.0.0.1:5323/mcp --header "Authorization: Bearer <token>"
 ```
 
 ### Claude Desktop
@@ -33,7 +33,7 @@ Add to `claude_desktop_config.json` (stdio bridge via `mcp-remote`, because Desk
 ```json
 {
   "mcpServers": {
-    "openleaf": {
+    "oleafly": {
       "command": "npx",
       "args": [
         "-y",
@@ -56,7 +56,7 @@ In `.cursor/mcp.json` (or your client's MCP config):
 ```json
 {
   "mcpServers": {
-    "openleaf": {
+    "oleafly": {
       "url": "http://127.0.0.1:5323/mcp",
       "headers": {
         "Authorization": "Bearer <token>"
@@ -71,7 +71,7 @@ In `.cursor/mcp.json` (or your client's MCP config):
 In `~/.grok/config.toml`:
 
 ```toml
-[mcp_servers.openleaf]
+[mcp_servers.oleafly]
 url = "http://127.0.0.1:5323/mcp"
 headers = { Authorization = "Bearer <token>" }
 ```
@@ -138,7 +138,7 @@ Your MCP client already asks you to approve tool use on its side before it ever 
 Two more switches back this up:
 
 - **Read-only mode** (separate toggle) removes the mutating tools from `tools/list` entirely, so an external app can read and compile but never modify files, whatever the policy above.
-- **Bearer token**: a 256-bit random value stored in authenticated encrypted local storage under `~/.openleaf/`. Regenerate it to invalidate old clients. General config reads never expose the token; only the running server's connection controls can reveal it in Settings.
+- **Bearer token**: a 256-bit random value stored in authenticated encrypted local storage under `~/.oleafly/`. Regenerate it to invalidate old clients. General config reads never expose the token; only the running server's connection controls can reveal it in Settings.
 
 And two invariants you do not configure:
 

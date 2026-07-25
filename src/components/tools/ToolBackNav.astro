@@ -1,0 +1,48 @@
+---
+/**
+ * Back link for individual free-tool pages → /tools/
+ */
+---
+
+<nav class="tool-back" aria-label="Back">
+  <a class="tool-back-link" href="/tools/">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M15 18l-6-6 6-6"></path>
+    </svg>
+    <span>Back to tools</span>
+  </a>
+</nav>
+
+<style>
+  .tool-back {
+    margin-bottom: 18px;
+  }
+  .tool-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--brand-text);
+    text-decoration: none;
+    padding: 6px 0;
+    transition: color 120ms ease;
+  }
+  .tool-back-link:hover {
+    color: #93c5fd;
+  }
+  .tool-back-link svg {
+    flex-shrink: 0;
+    opacity: 0.9;
+  }
+</style>

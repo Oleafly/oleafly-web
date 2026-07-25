@@ -48,8 +48,10 @@ Tectonic downloads a LaTeX package the first time a document needs it, then cach
 
 ## Limits and safety valves
 
-- One compile runs at a time per project; newer requests supersede stale ones, so switching projects mid-build never paints the wrong PDF.
+- One compile runs at a time per project, in a latest-only queue: newer requests supersede stale ones, so switching projects mid-build never paints the wrong PDF, and a compile storm never forms while you type.
+- A superseded or timed-out build is actually cancelled: Oleafly terminates the compiler's whole process tree, on every platform, instead of leaving it running in the background.
 - A hard 300-second timeout kills a wedged build rather than letting it spin forever.
+- Results carry an identity tied to the request, so a stale PDF from an out-of-order finish is refused rather than displayed.
 
 ## Common failures, quick fixes
 
@@ -59,4 +61,10 @@ Tectonic downloads a LaTeX package the first time a document needs it, then cach
 
 ## Beyond Tectonic
 
-Tectonic covers everyday compiling. For tagged, accessible PDFs (Section 508 / PDF-UA), Oleafly can use LuaLaTeX via a system TeX Live or a self-contained TinyTeX install. That story lives on [LaTeX engines & packages](/docs/latex-engines/).
+Tectonic covers everyday LaTeX compiling, but it is not the only engine:
+
+- **Typst projects** compile with a bundled Typst engine; the [Typst templates](/docs/templates/) create them.
+- **Markdown projects** build to PDF through a managed Pandoc with Tectonic as the PDF engine.
+- **Tagged, accessible PDFs** (prepared for a Section 508 / PDF-UA oriented workflow) use LuaLaTeX via a system TeX Live or a self-contained TinyTeX install. That story lives on [LaTeX engines & packages](/docs/latex-engines/).
+
+The engine is a per-project choice made when the project is created, and the interface adapts to it: actions an engine cannot support are hidden rather than left to fail.
