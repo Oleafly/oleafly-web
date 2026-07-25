@@ -294,41 +294,6 @@ const compare = {
         </div>
       </section>
 
-      <!-- ========================= How it works ========================= -->
-      <section class="section howitworks" id="how">
-        <div class="container">
-          <p class="eyebrow">How it works</p>
-          <h2>Source in, trustworthy output back.</h2>
-          <p class="sub">
-            A document is an engineered artifact: source files, dependencies, compiler failures,
-            references, and history. Oleafly runs the whole loop in one place, and every step stays
-            inspectable.
-          </p>
-          <ol class="loop-grid">
-            <li class="loop-step">
-              <span class="loop-num">1</span>
-              <h3>Write</h3>
-              <p>Plain LaTeX, Typst, or Markdown files in an ordinary folder. Whole-project code intelligence: definitions, references, rename, outline.</p>
-            </li>
-            <li class="loop-step">
-              <span class="loop-num">2</span>
-              <h3>Compile</h3>
-              <p>Bundled Tectonic and Typst engines build locally, with cancellation, humanized errors, and full logs at the source line.</p>
-            </li>
-            <li class="loop-step">
-              <span class="loop-num">3</span>
-              <h3>Inspect</h3>
-              <p>A virtualized PDF preview with word-level SyncTeX, plus Preflight: what a parser and a screen reader can actually extract.</p>
-            </li>
-            <li class="loop-step">
-              <span class="loop-num">4</span>
-              <h3>Restore</h3>
-              <p>Automatic Git checkpoints, staged diffs, and one-click restore. See what changed, understand what failed, roll back anytime.</p>
-            </li>
-          </ol>
-        </div>
-      </section>
-
       <!-- ============== Feature stack: sticky 3D card deck ============== -->
       <div class="stack">
       <!-- ========================= Templates ========================= -->
@@ -712,6 +677,41 @@ const compare = {
           </div>
         </div>
         <PhilosophyReveal client:visible={{rootMargin: "200px"}} />
+      </section>
+
+      <!-- ========================= The research loop ========================= -->
+      <section class="section howitworks" id="how">
+        <div class="container">
+          <p class="eyebrow">The research loop</p>
+          <h2>Research, write, verify, publish.</h2>
+          <p class="sub">
+            A paper is an engineered artifact: sources, references, figures, compiler output, and
+            history. Oleafly runs the entire loop in one workspace, and every step stays
+            inspectable.
+          </p>
+          <ol class="loop-grid">
+            <li class="loop-step">
+              <span class="loop-num">1</span>
+              <h3>Research</h3>
+              <p>Resolve DOIs and arXiv ids into BibTeX, search Crossref and OpenAlex, track conference deadlines, and keep your references beside the writing.</p>
+            </li>
+            <li class="loop-step">
+              <span class="loop-num">2</span>
+              <h3>Write</h3>
+              <p>Plain LaTeX, Typst, or Markdown files in an ordinary folder, with templates, whole-project code intelligence, and an optional approval-gated AI agent.</p>
+            </li>
+            <li class="loop-step">
+              <span class="loop-num">3</span>
+              <h3>Verify</h3>
+              <p>Bundled engines compile locally with readable errors. The PDF preview syncs to the source word by word, Preflight shows what parsers and screen readers extract, and Git checkpoints make every state recoverable.</p>
+            </li>
+            <li class="loop-step">
+              <span class="loop-num">4</span>
+              <h3>Publish</h3>
+              <p>Export the PDF, DOCX, or HTML, zip the source for submission systems and arXiv, and push to GitHub. The paper ships from the same folder it was written in.</p>
+            </li>
+          </ol>
+        </div>
       </section>
 
       <!-- ========================= Craft (hidden via SHOW_CRAFT) ========================= -->
