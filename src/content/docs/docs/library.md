@@ -17,7 +17,7 @@ First time in the app? You'll see a welcome card instead: **"Create your first p
 
 ## Creating a project
 
-Click **New project** in the header. The template gallery opens with 19 starting points across categories like Resume, Journals, Diagrams, Theses & Reports, and Presentations. Pick one, name the project, choose a cover color, and you're writing. The gallery is covered in detail on the [Templates](/docs/templates/) page.
+Click **New project** in the header. The template gallery opens with 23 bundled starting points across categories like Resume, Journals, Diagrams, Theses & Reports, and Presentations, plus 99 more templates in downloadable packs. Pick one, name the project, choose a cover color, and you're writing. The gallery is covered in detail on the [Templates](/docs/templates/) page.
 
 You can also open the gallery from anywhere with the search omnibar: press **⌘⇧F** (Ctrl+Shift+F) and type `/create`.
 
@@ -81,11 +81,28 @@ You can also mix filters with ordinary words:
 name:resume typst
 ```
 
-## Also in the header
+## The home dock
 
+A small dock on the home screen collects everything that is not a project:
+
+- **New project**: the [template gallery](/docs/templates/).
+- **Search Documents**: the search omnibar (**⌘⇧F** / Ctrl+Shift+F).
+- **Diagram Composer**: the standalone [figure editor](/docs/figures-diagrams/), without opening a project first.
+- **Oleafly Tools**: a searchable gallery of document utilities (below).
 - **Theme toggle**: switch light and dark mode.
 - **Settings**: the gear opens the full [settings](/docs/settings/) window.
 
+## Oleafly Tools
+
+The **Oleafly Tools** gallery opens six utilities, each in its own full workspace:
+
+- **PDF to LaTeX**: convert a text-based PDF (or a `.docx`) into an editable project. The PDF reconstruction runs locally and heuristically, without OCR, and shows the generated source before creating the project; an optional AI pass can refine the result.
+- **Equation Preview**: a scratchpad that renders a LaTeX equation so you can check it before it goes into a document.
+- **BibTeX Validator**: paste a `.bib` and get syntax problems, missing required fields by entry type, and duplicate keys, with concrete examples.
+- **Visual Table Generator**: pick table dimensions visually, fill in cells, choose alignment, and copy the generated LaTeX.
+- **Academic Lab Search**: a network-backed search for labs and research groups.
+- **Conference Deadlines**: a deadline browser with live countdowns and field filters, backed by the open ccf-deadlines dataset. It ships with an offline seed and a **Refresh** button that fetches the latest data; entries come from a community dataset, so verify a deadline on the venue's site before planning around it.
+
 ## Where the shelf lives on disk
 
-Every book is a plain folder under `~/.openleaf/projects/`, with a human-readable random name like `flying-pink-pikachu`. Nothing about the library is proprietary: see [Where your data lives](/docs/where-your-data-lives/).
+Every book is a plain folder under `~/.oleafly/projects/`, with a human-readable random name like `flying-pink-pikachu`. Nothing about the library is proprietary: see [Where your data lives](/docs/where-your-data-lives/).

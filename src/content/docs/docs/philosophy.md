@@ -7,7 +7,7 @@ Oleafly is built on a small number of firm convictions. They explain most of the
 
 ## Your work lives on your disk
 
-Every Oleafly project is a plain folder on your computer: your `.tex` files, your `.bib`, your images, and a real `.git` repository, sitting under `~/.openleaf/projects/`. There is no proprietary format, no database, no cloud copy you have to trust.
+Every Oleafly project is a plain folder on your computer: your `.tex` files, your `.bib`, your images, and a real `.git` repository, sitting under `~/.oleafly/projects/`. There is no proprietary format, no database, no cloud copy you have to trust.
 
 This is not a caching strategy or an offline mode bolted onto a web app. Local is the architecture. The consequence is simple: you can open your project folder with any editor, sync it with any tool, back it up however you back up everything else, and if you ever stop using Oleafly, you lose nothing.
 

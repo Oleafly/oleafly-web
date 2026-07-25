@@ -7,7 +7,7 @@ GitHub sync gives every project an off-machine backup and a way to move between 
 
 ## Connecting your account
 
-Settings, **GitHub**, then either route:
+Settings, **Integrations**, **GitHub**, then either route:
 
 - **Connect GitHub** (recommended): a device-code flow. Oleafly shows a short code, your browser opens `github.com/login/device` (with a **Copy** button for the code), you approve, and the app detects it within seconds. The connection requests only the `repo` and `read:user` scopes.
 - **Personal access token**: expand "Advanced: use a personal access token" and paste a PAT if you prefer minting your own credentials.
@@ -16,7 +16,7 @@ Once connected, your avatar and username appear in Settings and in the top toolb
 
 ### How your token is protected
 
-The token is stored in Oleafly's local config and never handed to the app's UI layer; the interface only ever learns "connected as @you". When Git needs to authenticate, the token is injected through an in-memory credential helper, so it never appears in a command line, in `.git/config`, or in your shell history. Older builds that embedded tokens in remote URLs are cleaned up automatically at startup.
+The token is stored in an AES-256-GCM encrypted, owner-restricted local file and never handed to the app's UI layer; the interface only ever learns "connected as @you". When Git needs to authenticate, the token is injected through an in-memory credential helper, so it never appears in a command line, in `.git/config`, or in your shell history. Older builds that embedded tokens in remote URLs are cleaned up automatically at startup.
 
 ## Publishing a project
 
@@ -34,7 +34,7 @@ The Source Control panel's **Push** and **Pull** buttons do what they say, again
 ### Two computers
 
 1. On machine A: publish the project, work, **Push**.
-2. On machine B: connect the same GitHub account and get the repo into `~/.openleaf/projects/` (clone it there with Git, or copy the project folder once). From then on, **Pull**, work, **Push**.
+2. On machine B: connect the same GitHub account and get the repo into `~/.oleafly/projects/` (clone it there with Git, or copy the project folder once). From then on, **Pull**, work, **Push**.
 3. Back on A: **Pull** before you start. The indicator reminds you.
 
 Cover color, main-document choice, and history all travel, because they live in the project folder itself.
@@ -54,6 +54,6 @@ Cover color, main-document choice, and history all travel, because they live in 
 
 - "No remote 'origin'": publish first; Push and Pull need a remote.
 - Push rejected because the remote has commits: pull first, then push.
-- "No GitHub token set": connect in Settings, GitHub.
+- "No GitHub token set": connect in Settings, Integrations, GitHub.
 
 More in the [FAQ](/docs/faq/#github-sync).

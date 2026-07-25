@@ -6,10 +6,12 @@ order: 1
 level: "beginner"
 tags: ["formatting"]
 featured: false
-updated: 2026-07-24
+updated: 2026-07-25
 ---
 
 # Emphasis without fighting the font
+
+Emphasis in LaTeX comes from a small set of commands that each take the affected text as a braced argument. The interesting design decision is that LaTeX separates two ideas most word processors merge: applying a specific typeface, and marking a span as emphasized. Knowing which command expresses which idea keeps documents consistent when styles change.
 
 ```latex
 \textbf{bold}
@@ -20,8 +22,20 @@ updated: 2026-07-24
 \textsc{Small Caps}
 ```
 
-## Why `\emph`?
+## The commands
 
-It nests correctly: emphasized text inside emphasized text flips back to roman. Hard-coded `\textit` does not.
+`\textbf` sets bold, the standard treatment for strong emphasis and for headwords in definitions. `\textit` sets italic type directly. `\texttt` switches to the monospaced typewriter font, the convention for file names, commands, and code identifiers in running text. `\textsc` sets small caps, common for author names in bibliographies and for acronyms that would otherwise dominate a line of text.
 
-For math bold, see [bold math](/learn/bold-math/).
+`\underline` exists but earns its comment in the example. Underlining is a typewriter-era substitute for italics, and in LaTeX it has a mechanical problem too: the underlined text is placed in a box, so it cannot break across lines, and a long underlined phrase will overflow the margin. In print typography, italics do the job underlining used to do.
+
+The commands nest, so `\textbf{\textit{bold italic}}` combines both when the font provides the face.
+
+## Why \emph
+
+`\emph` marks meaning rather than appearance: it says "emphasize this" and lets context decide how. In upright text it prints italics, and inside text that is already italic it flips back to upright, so emphasis within emphasis stays visible. Hard-coded `\textit` inside italic text simply stays italic and the inner emphasis vanishes. Marking intent also pays off later, since a class or package can redefine what emphasis looks like in one place without edits throughout the document.
+
+The practical division of labor: use `\emph` for emphasis in running prose, and reserve `\textit` for things that are conventionally italic regardless of context, such as book titles, foreign phrases, and species names.
+
+## Boundaries and habits
+
+These are all text-mode commands, and they misbehave inside formulas; bold math symbols need `\mathbf` or `\boldsymbol`, covered in [bold math](/learn/bold-math/). Resist stacking emphasis, because when everything is bold, nothing stands out. And build headings from structural commands like `\section` rather than manual bold, since structure also feeds the table of contents and PDF bookmarks; [bigger and smaller type](/learn/font-size/) makes the same argument for font sizes.

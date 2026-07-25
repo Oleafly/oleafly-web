@@ -54,6 +54,12 @@ Four-space indent unit with auto-indent as you type. **Tab** indents (or accepts
 
 Settings, General, **Vim mode** (or run "Enable vim mode" from the ⌘K palette) switches on full Vim keybindings: `hjkl`, operators and text objects (`dd`, `ciw`), `:w`, visual mode, the lot. It applies live, no restart, and all the Oleafly shortcuts on this page keep working alongside it.
 
+## Visual editing
+
+LaTeX and Markdown documents have a **Code / Visual** toggle at the right end of the toolbar. Visual mode renders the document body as formatted text you edit directly: headings, paragraphs, bold and italic, lists, blockquotes, and links.
+
+It is a constrained visual editor, not a universal LaTeX WYSIWYG. Commands and environments outside that supported set stay visible as clearly marked raw blocks you can still edit as source, and switching back to Code preserves them exactly; nothing is silently discarded or rewritten. Use Visual for prose passes and Code for everything structural. Typst documents are edited as source.
+
 ## The built-in LaTeX linter
 
 The editor checks structural problems as you type, before any compile:

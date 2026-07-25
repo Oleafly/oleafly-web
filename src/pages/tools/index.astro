@@ -16,6 +16,11 @@ const tools = [
     desc: "Paste a .bib file and catch missing required fields, duplicate keys, and duplicate DOIs before they become [?] in your PDF.",
   },
   {
+    href: "/live/",
+    name: "Live LaTeX playground",
+    desc: "Type LaTeX and watch it render as you type: mixed prose and math, align, matrices, cases. Loads any example from the Learn course.",
+  },
+  {
     href: "/tools/equation-preview/",
     name: "Equation preview",
     desc: "Type LaTeX math and see it rendered instantly. Switch between inline and display mode and copy ready-to-paste code.",
@@ -25,16 +30,21 @@ const tools = [
     name: "Table generator",
     desc: "Fill a visual grid and get clean tabular code out, with booktabs rules, per-column alignment, and a caption.",
   },
+  {
+    href: "/deadlines/",
+    name: "Conference deadlines",
+    desc: "Live countdowns to CS conference submission deadlines, with CCF and CORE ranks, from the open ccf-deadlines dataset.",
+  },
 ];
 
 const appOnly = [
   {
     name: "PDF to LaTeX",
-    desc: "Convert any text-based PDF into an editable LaTeX project, fully offline, with figures extracted. Built into the free desktop app.",
+    desc: "Reconstruct many text-based PDFs into editable LaTeX projects locally, figures extracted, no AI required. Built into the free desktop app.",
   },
   {
     name: "Word to LaTeX",
-    desc: "Import a .docx and get a compiling LaTeX project with images preserved. Built into the free desktop app.",
+    desc: "Import a .docx through a managed Pandoc and get a compiling LaTeX project with images preserved. Built into the free desktop app.",
   },
   {
     name: "Image to LaTeX",
@@ -45,7 +55,7 @@ const appOnly = [
 
 <SiteLayout
   title="Free LaTeX tools that run in your browser | Oleafly"
-  description="Free browser-based LaTeX tools from Oleafly: BibTeX validator, live equation preview, and a LaTeX table generator. Everything runs client-side; nothing is uploaded."
+  description="Free browser-based research tools from Oleafly: BibTeX validator, live equation preview, LaTeX table generator, academic lab search, and conference deadline countdowns."
   path="/tools/"
 >
   <section class="page-hero">
@@ -53,9 +63,10 @@ const appOnly = [
       <p class="eyebrow">Free tools</p>
       <h1>LaTeX tools that run in your browser</h1>
       <p class="sub">
-        Every tool on this page runs entirely in your browser. Nothing is uploaded anywhere,
-        which is the same promise the <a href="/">Oleafly</a> desktop app makes about your
-        documents.
+        Free, no sign-up, no upload of your work. The validator, equation preview, and table
+        generator run entirely in your browser; lab search and deadlines query open datasets
+        (OpenAlex, ccf-deadlines). Your source never leaves the page, the same local-first
+        posture the <a href="/">Oleafly</a> desktop app takes with your documents.
       </p>
       <div class="card-grid">
         {
@@ -76,8 +87,8 @@ const appOnly = [
       <h2>Heavier conversions live in the free app</h2>
       <p class="sub">
         Some conversions need a real compiler or your own AI key, so they run in the free,
-        open-source desktop app instead of the browser. Your files never leave your machine
-        there either.
+        open-source desktop app instead of the browser. Your projects stay as plain files on
+        your disk there too.
       </p>
       <div class="card-grid">
         {

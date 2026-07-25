@@ -20,11 +20,22 @@ Click **Look up**, review the fetched BibTeX in the preview, and hit **Add to .b
 
 1. **Appends the entry to your project's `.bib`**, with a clean, auto-generated citation key.
 2. **Deduplicates by DOI**: if the paper is already in your bibliography under any key, no duplicate is created and the existing key is reused.
-3. **Inserts `\cite{key}` at your cursor** and confirms with a toast.
+3. **Inserts the citation at your cursor** and confirms with a toast. The syntax follows the project's engine: `\cite{key}` in LaTeX, `@key` in Typst (adding the bibliography declaration if the document lacks one), `[@key]` in Markdown.
 
 ## Which .bib file it uses
 
 Oleafly targets the bibliography your document actually loads: the file named in `\bibliography{}` or `\addbibresource{}`. If neither exists, it uses the project's first `.bib`, and if the project has none at all, it creates `references.bib`. You never have to think about it, but the behavior is predictable when you do.
+
+## Import a whole reference library
+
+Moving from a reference manager? The **Connect sources** dialog (reachable from the [chat panel](/docs/ai-chat/)) imports an exported library in one pass. Four formats parse:
+
+- **BibTeX** (`.bib`)
+- **RIS** (`.ris`)
+- **EndNote XML** (`.xml`)
+- **Zotero RDF** (`.rdf`, from Zotero's File, Export Library)
+
+Every record is mapped into a BibTeX entry, deduplicated by DOI against both your existing bibliography and the rest of the batch, given a collision-free key, and appended to your `.bib` in a single write. A batch import deliberately does not insert anything at your cursor; the entries are simply there for autocomplete and `\cite` from then on.
 
 ## Autocomplete from your .bib
 

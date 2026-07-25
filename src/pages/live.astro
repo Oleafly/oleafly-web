@@ -1,0 +1,321 @@
+---
+// /live: a live LaTeX preview. CodeMirror on the left with LaTeX syntax
+// highlighting, KaTeX rendering on the right through the same pipeline the
+// /learn lesson previews use. A chapter → snippet picker exposes renderable
+// examples from the Learn course.
+import { getCollection } from "astro:content";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { LEARN_CATEGORIES } from "../data/learn-categories";
+import "../styles/tools.css";
+import "../styles/learn.css";
+import "../styles/live.css";
+import "katex/dist/katex.min.css";
+
+// Build-time snippet library: every ```latex block from every lesson that the
+// client pipeline stands a chance of rendering (math environments, delimited
+// math, or bare command lines). Document-level blocks are excluded.
+const SKIP =
+  /\\documentclass|\\begin\{document\}|\\usepackage|\\(?:sub)*section\{|\\chapter|\\begin\{(?:figure|table|tabular|itemize|enumerate|description|frame|tikzpicture|abstract|thebibliography|minipage|lstlisting|verbatim|algorithm)\b|\\includegraphics|\\cite|\\bibliograph|\\addbibresource|\\printbibliography|\\maketitle|\\tableofcontents|\\newcommand|\\renewcommand|\\NewDocumentCommand|\\def\\|\\input\{|\\include\{|\\pagestyle|\\geometry|\\setlength|\\item\b|\\titleformat|\\fancyhead|\\hypersetup|\\newtheorem|\\caption|\\centering|@(?:article|book|misc|online|inproceedings)/;
+const MATHISH =
+  /(?<!\\)\$|\\\[|\\begin\{(align|aligned|gather|gathered|cases|dcases|rcases|split|equation|array|pmatrix|bmatrix|Bmatrix|vmatrix|Vmatrix|smallmatrix|matrix|alignat|CD)/;
+
+const articles = await getCollection("learn");
+type SnippetLesson = { title: string; slug: string; snippets: string[] };
+const byTrack = new Map<string, SnippetLesson[]>();
+for (const a of articles) {
+  const blocks: string[] = [];
+  for (const m of a.body?.matchAll(/```(?:latex|tex)\n([\s\S]*?)```/g) ?? []) {
+    const code = m[1].trimEnd();
+    if (SKIP.test(code) || !code.trim()) continue;
+    if (!MATHISH.test(code) && !/\\[a-zA-Z]/.test(code)) continue;
+    blocks.push(code);
+    if (blocks.length >= 3) break;
+  }
+  if (!blocks.length) continue;
+  const list = byTrack.get(a.data.category) ?? [];
+  list.push({ title: a.data.title, slug: a.id, snippets: blocks });
+  byTrack.set(a.data.category, list);
+}
+const library = LEARN_CATEGORIES.filter((c) => byTrack.has(c.id)).map((c) => ({
+  track: c.label,
+  lessons: byTrack.get(c.id)!,
+}));
+
+const DEFAULT_SAMPLE = String.raw`Inline: $E=mc^2$ or \(E=mc^2\)
+
+Display:
+\[
+ \int_0^1 x^2 \, dx = \frac{1}{3}
+\]
+
+\begin{align}
+ \nabla \cdot \vec{E} &= \frac{\rho}{\varepsilon_0} \\
+ \nabla \cdot \vec{B} &= 0
+\end{align}`;
+---
+
+<SiteLayout
+  title="Live LaTeX preview | Oleafly"
+  description="A live LaTeX preview with syntax highlighting: write LaTeX on the left and see it render instantly on the right. Load examples from the Oleafly Learn course. Free, browser-based, nothing uploaded."
+  path="/live/"
+>
+  <section class="page-hero live-hero">
+    <div class="container">
+      <p class="eyebrow">Live preview</p>
+      <h1>Live LaTeX preview</h1>
+      <p class="sub">
+        Write LaTeX on the left and see it render instantly on the right. Everything runs in your browser with KaTeX; nothing is uploaded. Load any example from the <a href="/learn/">Learn course</a>, or start typing. Document-level LaTeX (preamble, floats, bibliographies) requires a full compiler: that is what the free, open-source <a href="/">Oleafly app</a> provides.
+      </p>
+
+      <div class="live-toolbar" role="toolbar" aria-label="Playground toolbar">
+        <div class="live-dd" id="dd-chapter">
+          <button type="button" class="live-dd-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span class="live-dd-label">Browse chapters</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+          </button>
+          <ul class="live-dd-menu" role="listbox" hidden></ul>
+        </div>
+        <div class="live-dd" id="dd-snippet">
+          <button type="button" class="live-dd-btn" aria-haspopup="listbox" aria-expanded="false" disabled>
+            <span class="live-dd-label">Choose a snippet</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+          </button>
+          <ul class="live-dd-menu" role="listbox" hidden></ul>
+        </div>
+        <span class="live-sep" aria-hidden="true"></span>
+        <span class="live-inserts">
+          <button type="button" data-insert="\frac{a}{b}" title="Fraction"><span class="mono">a/b</span></button>
+          <button type="button" data-insert="\sqrt{x}" title="Square root"><span class="mono">√x</span></button>
+          <button type="button" data-insert="x^{2}" title="Superscript"><span class="mono">x²</span></button>
+          <button type="button" data-insert="x_{i}" title="Subscript"><span class="mono">x₁</span></button>
+          <button type="button" data-insert="\sum_{i=1}^{n} " title="Sum"><span class="mono">Σ</span></button>
+          <button type="button" data-insert="\int_{0}^{1} " title="Integral"><span class="mono">∫</span></button>
+          <button type="button" data-insert="\alpha" title="Greek letter"><span class="mono">α</span></button>
+          <button type="button" data-insert={"\\begin{pmatrix}\n a & b \\\\\n c & d\n\\end{pmatrix}"} title="Matrix"><span class="mono">[ ]</span></button>
+          <button type="button" data-insert={"\\begin{align}\n a &= b \\\\\n c &= d\n\\end{align}"} title="Aligned equations"><span class="mono">a=b</span></button>
+          <button type="button" data-insert={"\\begin{cases}\n 1 & x > 0 \\\\\n 0 & x \\le 0\n\\end{cases}"} title="Cases"><span class="mono">{"{"}</span></button>
+        </span>
+        <span class="live-sep" aria-hidden="true"></span>
+        <button type="button" id="live-copy" class="live-action" title="Copy LaTeX to clipboard">Copy</button>
+        <button type="button" id="live-clear" class="live-action" title="Clear the editor">Clear</button>
+      </div>
+
+      <div class="tool-split live-split">
+        <div class="tool-pane">
+          <div class="tool-pane-head">
+            <span>LaTeX</span>
+            <span class="tool-count" id="live-mode"></span>
+          </div>
+          <div class="live-editor-host" id="live-editor"></div>
+        </div>
+        <div class="tool-pane">
+          <div class="tool-pane-head">
+            <span>Preview</span>
+          </div>
+          <div class="tool-results live-out" id="live-out"></div>
+        </div>
+      </div>
+
+      <p class="aside-note">
+        Rendering uses KaTeX, the same engine as the Learn lesson previews, so anything that works here works there. For complete documents, templates, citations, and a compiled PDF, use the free and open-source <a href="/">Oleafly app</a>.
+      </p>
+    </div>
+  </section>
+
+  <script type="application/json" id="live-library" set:html={JSON.stringify(library)} />
+  <script type="application/json" id="live-sample" set:html={JSON.stringify(DEFAULT_SAMPLE)} />
+
+  <script>
+    import { EditorView, keymap, highlightActiveLine } from "@codemirror/view";
+    import { EditorState } from "@codemirror/state";
+    import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
+    import {
+      StreamLanguage,
+      syntaxHighlighting,
+      HighlightStyle,
+      bracketMatching,
+    } from "@codemirror/language";
+    import { stex } from "@codemirror/legacy-modes/mode/stex";
+    import { tags } from "@lezer/highlight";
+    import { stripComments, renderLatexSnippet } from "../lib/latex-live-preview";
+
+    const out = document.getElementById("live-out") as HTMLElement;
+    const mode = document.getElementById("live-mode") as HTMLElement;
+    const library = JSON.parse(document.getElementById("live-library")!.textContent!) as {
+      track: string;
+      lessons: { title: string; slug: string; snippets: string[] }[];
+    }[];
+
+    // ---- Rendering.
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    function render(source: string) {
+      const cleaned = stripComments(source);
+      out.innerHTML = "";
+      if (!cleaned) {
+        mode.textContent = "";
+        out.innerHTML = '<p class="tool-hint">Write LaTeX on the left, or load a snippet from the toolbar.</p>';
+        return;
+      }
+      const body = renderLatexSnippet(cleaned);
+      if (body) {
+        body.classList.add("latex-preview-body");
+        out.appendChild(body);
+        mode.textContent = "rendering live";
+      } else {
+        mode.textContent = "";
+        out.innerHTML =
+          '<p class="tool-hint">Nothing renderable yet. This preview covers math and mixed prose; document-level LaTeX such as preambles, floats, and bibliographies is not supported in the browser and compiles in the free, open-source <a href="/">Oleafly app</a>.</p>';
+      }
+    }
+
+    // ---- CodeMirror editor with LaTeX (stex) highlighting.
+    const latexHighlight = HighlightStyle.define([
+      { tag: tags.tagName, color: "#c39bf9" },
+      { tag: tags.keyword, color: "#c39bf9" },
+      { tag: tags.atom, color: "#f7bc55" },
+      { tag: tags.number, color: "#f7bc55" },
+      { tag: tags.bracket, color: "#8fd6a0" },
+      { tag: tags.comment, color: "#6b7280", fontStyle: "italic" },
+      { tag: tags.string, color: "#7ed492" },
+    ]);
+    const theme = EditorView.theme(
+      {
+        "&": { backgroundColor: "transparent", color: "#d6d9e0", height: "100%" },
+        ".cm-placeholder": { color: "#5c6068" },
+      },
+      { dark: true },
+    );
+    const view = new EditorView({
+      parent: document.getElementById("live-editor")!,
+      state: EditorState.create({
+        doc: "",
+        extensions: [
+          history(),
+          keymap.of([...defaultKeymap, ...historyKeymap]),
+          StreamLanguage.define(stex),
+          syntaxHighlighting(latexHighlight),
+          bracketMatching(),
+          highlightActiveLine(),
+          EditorView.lineWrapping,
+          theme,
+          EditorView.updateListener.of((u) => {
+            if (!u.docChanged) return;
+            clearTimeout(timer);
+            timer = setTimeout(() => render(view.state.doc.toString()), 120);
+          }),
+        ],
+      }),
+    });
+    const setDoc = (text: string) => {
+      view.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: text } });
+      render(text);
+    };
+
+    // ---- Custom dropdowns (chapter → snippet).
+    type Item = { label: string; value: string };
+    function makeDropdown(rootId: string, onSelect: (value: string) => void) {
+      const root = document.getElementById(rootId)!;
+      const btn = root.querySelector(".live-dd-btn") as HTMLButtonElement;
+      const label = root.querySelector(".live-dd-label") as HTMLElement;
+      const menu = root.querySelector(".live-dd-menu") as HTMLElement;
+      const defaultLabel = label.textContent ?? "";
+      const close = () => {
+        menu.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+      };
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const willOpen = menu.hidden;
+        for (const m of document.querySelectorAll<HTMLElement>(".live-dd-menu")) m.hidden = true;
+        menu.hidden = !willOpen;
+        btn.setAttribute("aria-expanded", String(willOpen));
+      });
+      document.addEventListener("click", close);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
+      return {
+        setItems(items: Item[]) {
+          menu.innerHTML = "";
+          for (const it of items) {
+            const li = document.createElement("li");
+            li.setAttribute("role", "option");
+            li.textContent = it.label;
+            li.addEventListener("click", () => {
+              for (const sib of menu.children) sib.removeAttribute("aria-selected");
+              li.setAttribute("aria-selected", "true");
+              label.textContent = it.label;
+              close();
+              onSelect(it.value);
+            });
+            menu.appendChild(li);
+          }
+        },
+        setEnabled(on: boolean) {
+          btn.disabled = !on;
+          if (!on) {
+            label.textContent = defaultLabel;
+            close();
+          }
+        },
+        reset() {
+          label.textContent = defaultLabel;
+        },
+      };
+    }
+
+    const snippetDd = makeDropdown("dd-snippet", (value) => {
+      const [ti, li, si] = value.split(":").map(Number);
+      setDoc(library[ti].lessons[li].snippets[si]);
+    });
+    const chapterDd = makeDropdown("dd-chapter", (value) => {
+      const ti = Number(value);
+      const t = library[ti];
+      snippetDd.setItems(
+        t.lessons.flatMap((l, li) =>
+          l.snippets.map((_, si) => ({
+            label: l.snippets.length > 1 ? `${l.title} (${si + 1})` : l.title,
+            value: `${ti}:${li}:${si}`,
+          })),
+        ),
+      );
+      snippetDd.setEnabled(true);
+      snippetDd.reset();
+    });
+    chapterDd.setItems(library.map((t, i) => ({ label: t.track, value: String(i) })));
+
+    // ---- Insert-at-cursor toolbar.
+    for (const btn of document.querySelectorAll<HTMLButtonElement>(".live-inserts button")) {
+      btn.addEventListener("click", () => {
+        const text = btn.dataset.insert ?? "";
+        const { from, to } = view.state.selection.main;
+        view.dispatch({
+          changes: { from, to, insert: text },
+          selection: { anchor: from + text.length },
+        });
+        view.focus();
+        render(view.state.doc.toString());
+      });
+    }
+
+    // ---- Copy and clear.
+    const copyBtn = document.getElementById("live-copy") as HTMLButtonElement;
+    copyBtn.addEventListener("click", () => {
+      void navigator.clipboard.writeText(view.state.doc.toString());
+      copyBtn.textContent = "Copied";
+      setTimeout(() => (copyBtn.textContent = "Copy"), 1400);
+    });
+    document.getElementById("live-clear")!.addEventListener("click", () => {
+      setDoc("");
+      view.focus();
+    });
+
+    // ---- Seed from ?latex= (how lesson "Edit live" links arrive) or sample.
+    const fromUrl = new URLSearchParams(window.location.search).get("latex");
+    setDoc(
+      fromUrl?.trim()
+        ? fromUrl
+        : (JSON.parse(document.getElementById("live-sample")!.textContent!) as string),
+    );
+  </script>
+</SiteLayout>

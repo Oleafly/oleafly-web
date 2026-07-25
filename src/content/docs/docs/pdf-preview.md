@@ -3,9 +3,9 @@ title: "PDF preview"
 description: "The built-in PDF viewer: zoom and pinch, single or two-page spreads, a detached window for a second monitor, fullscreen, invert colors, and text you can select."
 ---
 
-The right-hand pane is a full PDF reader built for the write-compile loop: it updates on every build, stays smooth on documents hundreds of pages long, and supports the reading habits a desktop viewer should.
+The right-hand pane is a full PDF reader built for the write-compile loop: it updates on every build, is designed for long papers, theses, and books, and supports the reading habits a desktop viewer should.
 
-The viewer is virtualized: only pages near your viewport are rasterized, so a 300-page thesis scrolls as lightly as a one-page letter.
+The viewer is virtualized: only pages near your viewport are rasterized, which is what keeps a long thesis light to scroll.
 
 ![Two-page spread view in the PDF preview](/media/pdf-preview-spread.png)
 
@@ -14,7 +14,7 @@ The viewer is virtualized: only pages near your viewport are rasterized, so a 30
 - **Logs**: flips to the [compile log view](/docs/compiling/#reading-the-logs), with an error/warning badge.
 - **Single page view / Two-page view**: continuous scrolling in one column, or side-by-side spreads like an open book. Spreads are ideal for proofing facing pages of a thesis or book.
 - **Page navigation**: previous, next, and a "N of M" box. Type a number and press Enter to jump; the counter tracks your scroll position automatically.
-- **Zoom out / Zoom in** with a live percentage, from 40% to 400%. Zoom is instant (existing pages scale immediately, then re-render crisply a moment later).
+- **Zoom out / Zoom in** with a live percentage, from 40% to 400%. Zoom is instant (existing pages scale immediately, then re-render crisply a moment later). Clicking the percentage opens a menu with **Fit to width**, **Fit to height**, and fixed presets.
 - **Save PDF to project**: writes the compiled PDF into your project tree under a name you choose, committed via Git so it shows up in [history](/docs/git-history/). For image projects this becomes **Save image to project** and saves a high-resolution PNG.
 - **Invert PDF preview colors**: a dark-reading filter for late-night sessions. Toggle **Restore colors** to go back.
 - **Open preview in a new window**: see below.

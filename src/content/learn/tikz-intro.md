@@ -6,10 +6,12 @@ order: 6
 level: "intermediate"
 tags: ["tikz", "figures"]
 featured: false
-updated: 2026-07-24
+updated: 2026-07-25
 ---
 
 # Your first TikZ picture
+
+TikZ is a drawing language that lives inside your LaTeX document. Instead of importing a diagram exported from another tool, you describe it in text, and the compiler draws it. The payoff is that the output is vector graphics using your document's own fonts, so labels match the surrounding text exactly and stay sharp at any zoom. The cost is that you write coordinates and options instead of dragging boxes. For diagrams built from boxes and arrows, the tradeoff is usually worth it. Here is a three-box pipeline, the canonical first picture:
 
 ```latex
 \usepackage{tikz}
@@ -19,8 +21,19 @@ updated: 2026-07-24
  \node[draw, rounded corners] (a) {Input};
  \node[draw, rounded corners, right=of a] (b) {Model};
  \node[draw, rounded corners, right=of b] (c) {Output};
- \draw[-Latex] (a) -- (b) -- (c);
+ \draw[-Latex] (a) -- (b);
+ \draw[-Latex] (b) -- (c);
 \end{tikzpicture}
 ```
 
-More: [nodes & arrows](/learn/tikz-nodes-arrows/), [flowcharts](/learn/tikz-flowchart/).
+## Nodes
+
+A node is a piece of content, usually text, placed at a position, optionally with a shape drawn around it. In `\node[draw, rounded corners] (a) {Input};` the options in square brackets say to draw the node's border and round its corners, the `(a)` gives the node a name you can refer to later, and `{Input}` is the text inside. The second node uses `right=of a`, provided by the `positioning` library, which places it to the right of node `a` at the distance set by `node distance=1.5cm` in the environment's options. Positioning nodes relative to each other, rather than at absolute coordinates, means the whole diagram adjusts when one label gets longer.
+
+## Edges
+
+An edge is a line connecting two points, and because the nodes are named, you connect them by name: `\draw (a) -- (b);` draws a straight line from node `a` to node `b`. TikZ is smart about anchors, so the line starts and ends at the node borders rather than their centers. The `[-Latex]` option sets the arrow tip style from the `arrows.meta` library, giving the line a solid arrowhead at its destination. Note that the tip applies once per path, at its end, which is why the example uses two `\draw` commands: a single `(a) -- (b) -- (c)` path would put an arrowhead only at `c`.
+
+## Where to go next
+
+Wrap the `tikzpicture` in a `figure` environment when it needs a caption and a number, exactly like an image. TikZ code does not render in these in-page previews, so compile the snippet in a project to see the result; in Oleafly, the Diagram Composer can also produce editable TikZ as a starting point. The most common beginner error is forgetting the semicolon that ends every TikZ command, which produces a long confusing error. When a diagram grows past three boxes, continue with [nodes and arrows](/learn/tikz-nodes-arrows/) and [aligned flowchart boxes](/learn/tikz-flowchart/).

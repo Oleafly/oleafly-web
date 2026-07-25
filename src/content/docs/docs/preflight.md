@@ -58,10 +58,10 @@ Every check is an accordion with its own enable checkbox and **Run** button, plu
 The **Accessible export** card turns a regular document into one ready for tagging:
 
 1. **Prepare for accessible export** rewrites your source with what a tagging engine needs (the `\DocumentMetadata` first line, unicode-math, alt-text placeholders), showing every change before you apply it.
-2. **Compile tagged and verify** builds with LuaLaTeX and immediately audits the result, including a full tag-tree inspection, ending in a clear verdict: is this PDF Section 508 / PDF-UA ready?
+2. **Compile tagged and verify** builds with LuaLaTeX and immediately audits the result, including a full tag-tree inspection, and reports what it found against Section 508 / PDF-UA oriented expectations.
 
 The LuaLaTeX engine comes from your system TeX Live or a one-click TinyTeX install; see [LaTeX engines](/docs/latex-engines/). Your everyday Tectonic compiles are untouched by any of this.
 
 ## Honest scope
 
-A clean Preflight means your document is ready for parsers and screen readers. It's a readiness aid built on real extraction and real tag audits, not a formal accessibility certification.
+Preflight is risk detection, not certification. It finds the common source and PDF defects that break parsers and screen readers, shows you what a machine can actually extract, and prepares a tagged-export path; a clean run means those detected risks are gone, not that any specific ATS or a formal accessibility audit is guaranteed to pass. The scores prioritize your work; they are not compliance evidence.

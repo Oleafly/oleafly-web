@@ -14,7 +14,7 @@ Overleaf is the reference cloud LaTeX editor, and it is excellent at real-time m
 | | Oleafly | Overleaf |
 |---|---|---|
 | Where your files live | Your disk, plain folder + Git repo | Their servers |
-| Works offline | Fully, including compile | No |
+| Works offline | Yes: editing always, compiles with cached packages, strict Offline mode | No |
 | Compile | Local, no queue, your hardware | Server-side, time limits on free tier |
 | Account required | None | Yes |
 | Price | Free, open source (AGPL) | Free tier + subscriptions |
@@ -45,7 +45,7 @@ If you live in VS Code for code and want your thesis in the same keybindings wit
 
 TeXstudio and TeXmaker are capable, mature desktop editors. Like the VS Code route, they require you to install and maintain a TeX distribution separately, and their interaction model has aged: dialog-heavy configuration, no integrated version control, no AI, and no template gallery.
 
-Oleafly is what a desktop LaTeX editor looks like designed today: bundled compiler, a template gallery with 19 starting points, Git history built in, GitHub sync, citation lookup, code intelligence, and a fast interface with light and dark themes.
+Oleafly is what a desktop LaTeX editor looks like designed today: bundled compilers (Tectonic for LaTeX, plus first-class Typst and Markdown engines), a template gallery with 23 bundled starting points and 99 downloadable ones, Git history built in, GitHub sync, citation lookup, code intelligence, and a fast interface with light and dark themes.
 
 ## vs Word, Google Docs, and resume builders
 

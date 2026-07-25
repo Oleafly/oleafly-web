@@ -23,29 +23,29 @@ const total = articles.length;
 
 const paths = [
   {
+    href: "/learn/what-is-a-research-paper/",
+    kicker: "Research fundamentals",
+    title: "Understand the research world",
+    desc: "Papers, journals, peer review, arXiv, ACM, IEEE, et al.: the terminology and the system, explained before you write a line of LaTeX.",
+  },
+  {
     href: "/learn/first-document/",
-    kicker: "Track 1",
+    kicker: "First compile",
     title: "Compile your first PDF",
     desc: "Open the loop: a tiny article, one compile, and the three ideas that unlock most of the language.",
   },
   {
-    href: "/learn/math-mode/",
-    kicker: "Equation craft",
-    title: "Math in the sentence or alone",
-    desc: "Inline vs display, numbering, and the symbol card people keep next to the editor.",
-  },
-  {
-    href: "/learn/oleafly-workflow/",
-    kicker: "Local studio",
-    title: "A week of writing in Oleafly",
-    desc: "Templates, SyncTeX, citations, Git history, and optional AI with your own key on disk.",
+    href: "/learn/first-paper-roadmap/",
+    kicker: "The capstone",
+    title: "Your first paper, end to end",
+    desc: "Idea to camera-ready: venue choice, deadlines, writing, figures, citations, submission, rebuttal, and the talk.",
   },
 ];
 ---
 
 <SiteLayout
-  title="Oleafly Learn: a local-first LaTeX course map | Oleafly"
-  description="Oleafly Learn is a LaTeX course map for people who write on their own machines: compile loop, math, floats, citations, log literacy, TikZ, talks, and AI with your key."
+  title="Oleafly Learn: LaTeX and research writing, taught properly | Oleafly"
+  description="A free, structured curriculum covering LaTeX from first compile to advanced typesetting, and the research publishing process from paper anatomy to camera-ready submission. With live-rendered examples."
   path="/learn/"
 >
   <section class="learn-hero">
@@ -53,20 +53,28 @@ const paths = [
       <div class="learn-hero-grid">
         <div class="learn-hero-copy">
           <p class="eyebrow">Oleafly Learn</p>
-          <h1>A LaTeX course map for people who own their files</h1>
+          <h1>Learn LaTeX and the craft of research writing</h1>
           <p class="sub">
-            Tracks you can walk in order or search by panic keyword. Written for the free
+            A structured curriculum that covers the tools and the territory: how journals, peer
+            review, and arXiv work; LaTeX from your first compile through mathematics, figures,
+            and citations; then venue formats, deadlines, and the submission process. Follow the
+            tracks in order, or search for the problem in front of you. Written for the free
             {" "}
             <a href="/">Oleafly</a>
             {" "}
-            app and any other local engine: first PDF through thesis chapters, citations, TikZ,
-            log errors, and AI with your own key.
+            app and any other local LaTeX setup.
           </p>
           <div class="learn-stats" aria-label="Library size">
             <span class="learn-stat"><strong>{total}</strong> lessons</span>
             <span class="learn-stat"><strong>{LEARN_CATEGORIES.length}</strong> tracks</span>
-            <span class="learn-stat"><strong>Paste-ready</strong> examples</span>
+            <span class="learn-stat"><strong>Live</strong> previews</span>
             <span class="learn-stat"><strong>Free</strong></span>
+          </div>
+          <div class="learn-level-legend" aria-label="Difficulty levels">
+            <span class="level level-beginner">beginner</span>
+            <span class="level level-intermediate">intermediate</span>
+            <span class="level level-advanced">advanced</span>
+            <span class="legend-note">Every lesson is tagged so you always know what you're walking into.</span>
           </div>
           <div class="learn-search-wrap">
             <span class="learn-search-icon" aria-hidden="true">
@@ -129,22 +137,17 @@ const paths = [
         LEARN_CATEGORIES.map((cat) => {
           const items = byCategory.get(cat.id) ?? [];
           if (!items.length) return null;
-          const badgeClass =
-            cat.badge === "depth"
-              ? "learn-badge depth"
-              : cat.badge === "oleafly"
-                ? "learn-badge oleafly"
-                : cat.badge === "essentials"
-                  ? "learn-badge"
-                  : "learn-badge";
+          const badgeClass = cat.badge ? `learn-badge ${cat.badge}` : "learn-badge";
           const badgeLabel =
             cat.badge === "depth"
               ? "Depth"
               : cat.badge === "oleafly"
                 ? "Oleafly"
-                : cat.badge === "essentials"
-                  ? "Core"
-                  : null;
+                : cat.badge === "research"
+                  ? "Research"
+                  : cat.badge === "essentials"
+                    ? "Core"
+                    : null;
           return (
             <section class="learn-section" id={cat.id} data-section={cat.id}>
               <div class="learn-section-head">
@@ -163,7 +166,7 @@ const paths = [
                     <span class="meta">
                       <span class="title">{a.data.title}</span>
                       <span class="desc">{a.data.description}</span>
-                      <span class="level">{a.data.level}</span>
+                      <span class={`level level-${a.data.level}`}>{a.data.level}</span>
                     </span>
                   </a>
                 ))}
@@ -186,6 +189,7 @@ const paths = [
             label="Download Oleafly"
             labelTemplate="Download for {os}"
           />
+          <a class="btn btn-ghost btn-lg" href="/live/">Live LaTeX playground</a>
           <a class="btn btn-ghost btn-lg" href="/tools/">Free browser tools</a>
           <a class="btn btn-ghost btn-lg" href="/templates/">Templates</a>
         </div>

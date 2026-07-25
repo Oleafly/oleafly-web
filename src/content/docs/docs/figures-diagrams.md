@@ -5,7 +5,7 @@ description: "The diagram composer: draw shapes and arrows visually or write Tik
 
 Publication figures usually force a choice: a GUI tool that exports pixels and forgets, or hand-written TikZ with no visual feedback. Oleafly's diagram composer gives you both in one window, with a live compiled preview, and the figures it makes stay editable forever.
 
-No API key, no network. This is a fully offline feature. (For AI-generated figures, see [Draw with AI](/docs/ai-figures/).)
+No API key and no cloud service: the composer runs locally, and once the TikZ packages are cached it works offline. (For AI-generated figures, see [Draw with AI](/docs/ai-figures/).)
 
 ![The diagram composer: visual canvas, TikZ code, and live preview](/media/diagram-composer.png)
 
@@ -32,7 +32,9 @@ If a compile fails and you have an AI provider connected, a **Fix with AI** butt
 
 ## The live preview
 
-The preview pane compiles your figure in isolation, in its own build sandbox, so your main document is never touched by a half-finished diagram. You can adjust the PNG scale and choose a transparent or page-colored background for raster output.
+The preview pane compiles your figure in isolation, in its own build sandbox, so your main document is never touched by a half-finished diagram. For raster output you can pick a 1x, 2x, or 3x PNG scale and a transparent or page-colored background.
+
+Raster export is PNG only; SVG export is not available yet (it shows as coming soon in the app). If you need vector output, the TikZ source itself is the vector artifact, and an [image project](#save-as-project) exports a vector PDF.
 
 ## Inserting
 

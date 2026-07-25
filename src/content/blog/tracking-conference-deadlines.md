@@ -32,9 +32,15 @@ without depending on a single portal.
 
 ## Countdown next to the manuscript
 
-A separate website still requires remembering to look. The
+We publish a free [live deadline board](/deadlines/) built on that dataset:
+countdowns, CCF and CORE ranks, field filters, and search, no sign-up. And a
+separate website still requires remembering to look, so the
 [Oleafly desktop app](https://github.com/Oleafly/Oleafly/releases/latest)
-can put the same board one click from your projects, work offline from a
-bundled snapshot, and refresh on demand. The useful place for a deadline
+puts the same board one click from your projects, works offline from a
+bundled snapshot, and refreshes on demand. The useful place for a deadline
 countdown is next to the paper you are racing to finish.
+
+New to the deadline dance? The Learn track on
+[the deadline lifecycle](/learn/deadline-lifecycle/) decodes AoE, abstract
+registration, rebuttals, and camera-ready dates from scratch.
 

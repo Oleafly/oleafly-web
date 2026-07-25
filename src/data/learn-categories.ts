@@ -1,19 +1,35 @@
 /**
  * Oleafly Learn course map.
  *
- * Tracks are ordered for a real writing week: open the compile loop, own the
- * files, shape text, typeset math, build the paper, cite, debug, then optional
- * depth (TikZ, talks, AI). Topic coverage overlaps what any serious LaTeX
- * school teaches; the track names, sequencing, and Oleafly-local focus are ours.
+ * The map covers two journeys that interleave: research literacy (what a
+ * paper is, where papers live, how publishing works, how to ship one) and
+ * LaTeX craft (compile loop, math, floats, citations, debugging, TikZ,
+ * talks, AI). Tracks are ordered so a complete beginner can walk top to
+ * bottom: decode the research world, learn the anatomy of a paper, then
+ * build one for real, and finally target a venue and ship.
  */
 export type LearnCategory = {
   id: string;
   label: string;
   description: string;
-  badge?: "essentials" | "oleafly" | "depth";
+  badge?: "essentials" | "oleafly" | "depth" | "research";
 };
 
 export const LEARN_CATEGORIES: LearnCategory[] = [
+  {
+    id: "research-101",
+    label: "Research, decoded",
+    description:
+      "Papers, journals, conferences, peer review, arXiv, ACM, IEEE, open access, et al.: every buzzword, decoded for someone starting from zero.",
+    badge: "research",
+  },
+  {
+    id: "paper-anatomy",
+    label: "Anatomy of a paper",
+    description:
+      "Title to appendix: abstracts vs introductions, sections, figures, footnotes, references, authorship, columns, and how much math a paper needs.",
+    badge: "research",
+  },
   {
     id: "open-the-loop",
     label: "Open the loop",
@@ -107,8 +123,22 @@ export const LEARN_CATEGORIES: LearnCategory[] = [
     description: "Beamer decks, overlays, conference posters.",
   },
   {
+    id: "venue-formats",
+    label: "Venues and formats",
+    description:
+      "Choosing a target venue, IEEE vs ACM vs Springer classes, one column vs two, page limits, anonymization, and thesis vs paper formatting.",
+    badge: "research",
+  },
+  {
+    id: "ship-your-paper",
+    label: "Ship your paper",
+    description:
+      "Deadlines and AoE, submission systems, posting to arXiv, rebuttals, camera-ready, and the full end-to-end first-paper roadmap.",
+    badge: "research",
+  },
+  {
     id: "human-plus-model",
-    label: "Human + model",
+    label: "Human + Model",
     description: "Prompting for compiling code, image equations, paper help, Oleafly with your key.",
     badge: "oleafly",
   },

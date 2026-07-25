@@ -40,9 +40,9 @@ chmod +x Oleafly_*.AppImage && ./Oleafly_*.AppImage
 
 ## The first compile downloads TeX packages
 
-The first time you compile a document, the bundled Tectonic engine downloads the LaTeX packages that document needs and caches them locally. This needs an internet connection and can take a minute, so the first build is slower than every build after it. From then on, compiles are fast and fully offline. See [Compiling](/docs/compiling/) for details, including the strict Offline mode.
+The first time you compile a document, the bundled Tectonic engine downloads the LaTeX packages that document needs and caches them locally. This needs an internet connection and can take a minute, so the first build is slower than every build after it. From then on, compiles of that document are fast and work offline; a document that needs packages you have not cached yet triggers another one-time fetch. See [Compiling](/docs/compiling/) for details, including the strict Offline mode.
 
-Your files, tokens, and AI keys never leave your machine. See the [Philosophy](/docs/philosophy/) page for how Oleafly treats your data.
+Your files stay as plain folders on your disk, and tokens and AI keys are stored in encrypted, owner-restricted local files. The network is used only for actions you take, like hosted AI, GitHub sync, and package downloads. See the [Philosophy](/docs/philosophy/) page for how Oleafly treats your data.
 
 ## Staying up to date
 
@@ -65,4 +65,4 @@ The full guide, including prerequisites and production builds, is in [Developmen
 ## Next steps
 
 - [Getting started](/docs/getting-started/): first project to first PDF in about two minutes.
-- [Templates](/docs/templates/): the 19 starting points that ship with the app.
+- [Templates](/docs/templates/): the 23 starting points that ship with the app.

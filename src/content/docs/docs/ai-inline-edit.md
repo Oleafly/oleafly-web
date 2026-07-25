@@ -25,6 +25,8 @@ The response is constrained to be a pure replacement for the selected text: no c
 
 ## Details worth knowing
 
+- The prompt box has its own **model picker**, so a quick fix can use a fast cheap model while the chat keeps a stronger one.
+- Outgrown the inline box? **Hand off to chat**: your instruction and context move to the full agent's composer, tools and all. See [Chat & tools](/docs/ai-chat/#handing-off-from-an-inline-edit).
 - **⌘L again** closes an open session; so does Esc.
 - Empty or whitespace-only targets are ignored; select something real.
 - Errors show inline with **Retry** and **Dismiss**; if no provider is connected you get an **Open Settings → AI** shortcut instead.

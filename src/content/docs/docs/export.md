@@ -8,7 +8,7 @@ The **Export** menu (the download icon in the top toolbar) gets your work out of
 ## Always available
 
 - **Export source (.zip)**: the complete project source, cleanly archived (no build caches, no `.git`). This is the "send it to a co-author" and "upload to the journal submission system" format.
-- **Export as PDF**: the compiled PDF via a native save dialog. It needs a compile first; the menu says so if you haven't. Output is ATS-clean by default: real selectable Unicode text, embedded subset fonts.
+- **Export as PDF**: the compiled PDF via a native save dialog. It needs a compile first; the menu says so if you haven't. Default output uses real selectable Unicode text and embedded subset fonts, and [Preflight](/docs/preflight/) checks the parser risks that remain.
 
 ## Document formats, via pandoc
 
@@ -16,7 +16,7 @@ The **Export** menu (the download icon in the top toolbar) gets your work out of
 - **Export as HTML (.html)**: a single self-contained file with embedded resources and MathML for equations.
 - **Export as Markdown (.md)** and **Export as Plain text (.txt)**.
 
-These run through [pandoc](https://pandoc.org). You don't install it: the first export downloads pandoc automatically into Oleafly's own folder, with progress shown, and reuses it from then on.
+These run through [pandoc](https://pandoc.org). You don't install it: the first export downloads a pinned, SHA-256 verified pandoc build into Oleafly's own folder, with progress shown, and reuses it from then on. (A compatible pandoc already on your system is used directly.) Conversion fidelity varies with the source: complex LaTeX may need cleanup in the exported document.
 
 ## Context-aware formats
 

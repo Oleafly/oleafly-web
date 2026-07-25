@@ -11,6 +11,12 @@ export default function EquationPreview() {
   const [display, setDisplay] = useState(true);
   const [copied, setCopied] = useState(false);
 
+  // Learn lessons deep-link snippets into the tool via ?latex=.
+  useEffect(() => {
+    const fromUrl = new URLSearchParams(window.location.search).get("latex");
+    if (fromUrl?.trim()) setInput(fromUrl);
+  }, []);
+
   const rendered = useMemo(() => {
     if (!input.trim()) return { html: "", error: null as string | null };
     try {

@@ -2,7 +2,9 @@
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import { CATEGORY_BY_ID } from "../../data/learn-categories";
+import { LATEX_COMMANDS } from "../../data/latex-commands";
 import "../../styles/learn.css";
+import "katex/dist/katex.min.css";
 
 export async function getStaticPaths() {
   const articles = await getCollection("learn");
@@ -33,27 +35,29 @@ const { Content } = await render(article);
 const cat = CATEGORY_BY_ID[article.data.category];
 const catLabel = cat?.label ?? article.data.category;
 
-const toolHints: Record<string, { label: string; href: string }[]> = {
-  "equation-craft": [
-    { label: "Equation preview", href: "/tools/equation-preview/" },
-    { label: "Symbol desk card", href: "/learn/math-symbols-cheatsheet/" },
-  ],
-  "notation-depth": [{ label: "Equation preview", href: "/tools/equation-preview/" }],
-  "cite-your-sources": [{ label: "BibTeX validator", href: "/tools/bibtex-validator/" }],
-  "floats-and-ink": [{ label: "Table generator", href: "/tools/table-generator/" }],
-  "float-surgery": [{ label: "Table generator", href: "/tools/table-generator/" }],
-  "log-literacy": [{ label: "BibTeX validator", href: "/tools/bibtex-validator/" }],
-  "human-plus-model": [{ label: "AI setup docs", href: "/docs/ai-setup/" }],
-  "local-studio": [
-    { label: "Download Oleafly", href: "https://github.com/Oleafly/Oleafly/releases/latest" },
-    { label: "Templates", href: "/templates/" },
-  ],
-};
-const tools = toolHints[article.data.category] ?? [
-  { label: "Free tools", href: "/tools/" },
-  { label: "Cheatsheet", href: "/learn/cheatsheet/" },
-];
 const backToTrack = `/learn/#${article.data.category}`;
+
+// "LaTeX used on this page": every command/environment appearing in this
+// lesson's code blocks, with one-line meanings from the global reference.
+const GLOSSARY_CAP = 18;
+const usedKeys = new Set<string>();
+if (article.id !== "every-command-explained") {
+  for (const block of article.body?.matchAll(/```(?:latex|tex)\n([\s\S]*?)```/g) ?? []) {
+    for (const e of block[1].matchAll(/\\begin\{([a-zA-Z*]+)\}/g)) usedKeys.add(`env:${e[1]}`);
+    for (const c of block[1].matchAll(/\\([a-zA-Z]+)/g)) {
+      if (c[1] !== "begin" && c[1] !== "end") usedKeys.add(c[1]);
+    }
+  }
+}
+const glossaryAll = [...usedKeys]
+  .filter((k) => LATEX_COMMANDS[k])
+  .sort((a, b) => a.replace(/^env:/, "").localeCompare(b.replace(/^env:/, "")))
+  .map((k) => ({
+    name: k.startsWith("env:") ? `\\begin{${k.slice(4)}}` : `\\${k}`,
+    desc: LATEX_COMMANDS[k],
+  }));
+const glossary = glossaryAll.slice(0, GLOSSARY_CAP);
+const glossaryMore = glossaryAll.length - glossary.length;
 ---
 
 <SiteLayout
@@ -85,7 +89,7 @@ const backToTrack = `/learn/#${article.data.category}`;
       <p class="lede">{article.data.description}</p>
       <div class="learn-article-meta">
         <span class="learn-pill">{catLabel}</span>
-        <span class="learn-pill">{article.data.level}</span>
+        <span class={`learn-pill level level-${article.data.level}`}>{article.data.level}</span>
         {
           article.data.tags.slice(0, 3).map((t) => (
             <span class="learn-pill">{t}</span>
@@ -97,22 +101,31 @@ const backToTrack = `/learn/#${article.data.category}`;
         <Content />
       </div>
 
-      <div class="learn-related-tools">
-        <h3>Practice in the browser</h3>
-        <p>
-          Free Oleafly tools that never upload your source. Use them next to the examples above.
-        </p>
-        <div class="tool-row">
-          {
-            tools.map((t) => (
-              <a href={t.href} target={t.href.startsWith("http") ? "_blank" : undefined} rel={t.href.startsWith("http") ? "noopener noreferrer" : undefined}>
-                {t.label}
-              </a>
-            ))
-          }
-          <a href="/learn/">All tracks</a>
-        </div>
-      </div>
+      {
+        glossary.length > 0 && (
+          <aside class="latex-glossary" aria-label="LaTeX used on this page">
+            <h3>LaTeX used on this page</h3>
+            <p class="latex-glossary-sub">
+              One-line meanings for every command in the examples above. The full A-to-Z lives in{" "}
+              <a href="/learn/every-command-explained/">every \command explained</a>.
+            </p>
+            <dl>
+              {glossary.map((g) => (
+                <>
+                  <dt>{g.name}</dt>
+                  <dd>{g.desc}</dd>
+                </>
+              ))}
+            </dl>
+            {glossaryMore > 0 && (
+              <p class="latex-glossary-sub" style="margin-top:10px;margin-bottom:0">
+                Plus {glossaryMore} more on{" "}
+                <a href="/learn/every-command-explained/">the full reference page</a>.
+              </p>
+            )}
+          </aside>
+        )
+      }
 
       <nav class="learn-pager" aria-label="More in this track">
         {
@@ -153,4 +166,75 @@ const backToTrack = `/learn/#${article.data.category}`;
       </p>
     </div>
   </article>
+
+  <script>
+    // Live previews for LaTeX code snippets (shared pipeline with /live), a
+    // copy button on every code block, and an "Edit live" jump into /live.
+    import { SKIP, stripComments, renderLatexSnippet } from "../../lib/latex-live-preview";
+
+    const COPY_ICON =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    const CHECK_ICON =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
+
+    const attachPanel = (pre: HTMLElement, body: HTMLElement, editSource: string) => {
+      const panel = document.createElement("div");
+      panel.className = "latex-preview";
+      const head = document.createElement("div");
+      head.className = "latex-preview-head";
+      const label = document.createElement("span");
+      label.textContent = "Rendered preview";
+      head.appendChild(label);
+      const edit = document.createElement("a");
+      edit.href = `/live/?latex=${encodeURIComponent(editSource)}`;
+      edit.textContent = "Edit live →";
+      edit.title = "Open in the live LaTeX playground";
+      head.appendChild(edit);
+      body.classList.add("latex-preview-body");
+      panel.appendChild(head);
+      panel.appendChild(body);
+      pre.insertAdjacentElement("afterend", panel);
+    };
+
+    for (const pre of document.querySelectorAll<HTMLElement>(".learn-prose pre")) {
+      const raw = pre.textContent ?? "";
+
+      // Copy button on every code block, whatever the language.
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "code-copy";
+      btn.setAttribute("aria-label", "Copy code");
+      btn.title = "Copy to clipboard";
+      btn.innerHTML = COPY_ICON;
+      btn.addEventListener("click", () => {
+        void navigator.clipboard.writeText(raw.replace(/\n$/, ""));
+        btn.innerHTML = CHECK_ICON;
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.innerHTML = COPY_ICON;
+          btn.classList.remove("copied");
+        }, 1400);
+      });
+      pre.appendChild(btn);
+
+      // Live preview panel for renderable LaTeX blocks; document-level
+      // blocks get an honest note instead of silence, so every snippet on
+      // every lesson page has a preview area.
+      const lang = pre.dataset.language;
+      if (lang !== "latex" && lang !== "tex") continue;
+      const cleaned = stripComments(raw);
+      if (!cleaned) continue;
+      const body = SKIP.test(raw) ? null : renderLatexSnippet(cleaned);
+      if (body) {
+        attachPanel(pre, body, cleaned);
+      } else {
+        const note = document.createElement("div");
+        note.className = "latex-preview latex-preview-note";
+        note.innerHTML =
+          '<span>Document-level LaTeX: browser preview is not supported for code that shapes the compiled document (preamble, floats, bibliographies). Copy it into the free, open-source <a href="/">Oleafly app</a> to see it build.</span>' +
+          `<a href="/live/?latex=${encodeURIComponent(cleaned)}">Open in playground →</a>`;
+        pre.insertAdjacentElement("afterend", note);
+      }
+    }
+  </script>
 </SiteLayout>

@@ -15,8 +15,8 @@ localeaf/
 │   ├── features/           compile, synctex, export
 │   ├── lib/                tauri wrappers, github, spellcheck, utils, package shims
 │   └── store/              zustand stores
-├── packages/               @openleaf/* engine packages (consumed as TS source)
-│   ├── latex/  ai-core/  registry/  preflight/
+├── packages/               @oleafly/* engine packages (consumed as TS source)
+│   ├── latex/  ai-core/  registry/  preflight/  pdf-to-latex/  wysiwyg/
 │   └── editor/  preview/  diagram/  ai-tools/  templates/
 ├── src-tauri/
 │   ├── src/                rust: commands, DocumentEngine, config, git, paths, project, synctex
@@ -77,7 +77,7 @@ current results on every code change. An offline local run cannot certify that
 the dependency graph is advisory-free.
 
 For user-facing changes, also run the end-to-end suite (real app, real
-compiles; see [e2e/README.md](../e2e/README.md)):
+compiles; see [e2e/README.md](https://github.com/Oleafly/Oleafly/blob/main/e2e/README.md)):
 
 ```bash
 pnpm test:e2e:app                         # builds + launches the app, runs Playwright, tears down
@@ -87,7 +87,7 @@ pnpm test:e2e:app                         # builds + launches the app, runs Play
 
 1. The frontend loads the backend `project_engine` descriptor and its capability flags, then calls `compileProject(projectId, mainDoc, offline)` through Tauri IPC.
 2. Rust dispatches through `DocumentEngine`. UI code must not infer engine behavior from a filename.
-3. LaTeX writes `_openleaf_entry.tex` and invokes Tectonic with `--synctex --keep-logs --print` and, when requested, `--only-cached`.
+3. LaTeX writes `_oleafly_entry.tex` and invokes Tectonic with `--synctex --keep-logs --print` and, when requested, `--only-cached`.
 4. Typst invokes the pinned Typst CLI directly against the selected `.typ` main document with short diagnostics and an explicit PDF output path.
 5. Markdown invokes Pandoc directly against `.md`/`.markdown`, with an explicit
    output path and `--pdf-engine=<absolute bundled Tectonic path>`. Pandoc's
@@ -125,14 +125,14 @@ engine capability becomes truthful. Do not add extension-based UI exceptions.
 
 ## Where state lives
 
-- Config: `~/.openleaf/config.json` (`0600` on Unix). Non-secret preferences
+- Config: `~/.oleafly/config.json` (`0600` on Unix). Non-secret preferences
   live here.
-- Secrets: `~/.openleaf/ai-secrets.json` and
-  `~/.openleaf/app-secrets.json`, encrypted with the owner-only
-  `~/.openleaf/ai-secrets.key`. GitHub and MCP share `app-secrets.json`. AI
+- Secrets: `~/.oleafly/ai-secrets.json` and
+  `~/.oleafly/app-secrets.json`, encrypted with the owner-only
+  `~/.oleafly/ai-secrets.key`. GitHub and MCP share `app-secrets.json`. AI
   provider credentials use `ai-secrets.json`.
-- Projects: `~/.openleaf/projects/<id>/`, plain folders with `.git`.
-- App log: `~/.openleaf/app.log`.
+- Projects: `~/.oleafly/projects/<id>/`, plain folders with `.git`.
+- App log: `~/.oleafly/app.log`.
 
 ## Key extension points
 

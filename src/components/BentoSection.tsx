@@ -349,6 +349,53 @@ function ProviderStack() {
   );
 }
 
+// Three engines: the active file tab cycles between .tex, .typ, and .md while
+// the shared library line stays put.
+function EnginesVisual() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[128px] flex flex-col justify-center gap-2">
+      <div className="flex gap-1.5 font-mono text-[9.5px]">
+        <span className="eng-t1 rounded-md border border-white/10 px-2 py-1 text-[#8a8f98]">main.tex</span>
+        <span className="eng-t2 rounded-md border border-white/10 px-2 py-1 text-[#8a8f98]">paper.typ</span>
+        <span className="eng-t3 rounded-md border border-white/10 px-2 py-1 text-[#8a8f98]">notes.md</span>
+      </div>
+      <div className="flex items-center gap-1.5 font-mono text-[8.5px] uppercase tracking-wider text-[#8b9096]">
+        <span className="eng-dot inline-block size-1.5 rounded-full bg-[#34b44a]" />
+        one library · one Git history
+      </div>
+    </div>
+  );
+}
+
+// Import: a PDF chip converts into a .tex chip, the dot travels the arrow.
+function ImportVisual() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[128px] flex items-center justify-center gap-2 font-mono text-[9.5px]">
+      <span className="rounded-md border border-[#eb5757]/30 bg-[#eb5757]/10 px-2 py-1 text-[#f0a1a1]">paper.pdf</span>
+      <span className="relative h-[2px] w-12 overflow-hidden rounded bg-white/10">
+        <span className="im-dot absolute top-1/2 size-[5px] -translate-y-1/2 rounded-full bg-[#3b82f6]" />
+      </span>
+      <span className="im-out rounded-md border border-[#3b82f6]/35 bg-[#2563eb]/10 px-2 py-1 text-[#a8c3f5]">main.tex</span>
+      <span className="im-badge absolute -bottom-1 right-0 rounded border border-[#34b44a]/40 bg-[#34b44a]/10 px-1.5 py-0.5 text-[8.5px] text-[#8fd6a0]">local ✓</span>
+    </div>
+  );
+}
+
+// Export: main.tex fans out into format chips that light up in turn.
+function ExportVisual() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[128px] flex items-center justify-center gap-2.5 font-mono text-[9.5px]">
+      <span className="rounded-md border border-white/15 bg-white/[0.04] px-2 py-1 text-[#c9cdd6]">main.tex</span>
+      <span className="text-[#7d828b]">→</span>
+      <span className="flex flex-col gap-1">
+        <span className="ex-c1 rounded border border-white/10 px-1.5 py-0.5 text-[#8a8f98]">PDF</span>
+        <span className="ex-c2 rounded border border-white/10 px-1.5 py-0.5 text-[#8a8f98]">DOCX</span>
+        <span className="ex-c3 rounded border border-white/10 px-1.5 py-0.5 text-[#8a8f98]">HTML</span>
+      </span>
+    </div>
+  );
+}
+
 export function BentoSection() {
   return (
     <div className="grid auto-rows-[minmax(200px,auto)] grid-cols-1 gap-3 md:grid-cols-3">
@@ -397,6 +444,21 @@ export function BentoSection() {
         visual={<PagesVisual />}
         name="From one page to six hundred"
         desc="The editor and virtualized PDF viewer stay smooth whether it's a one-page resume or a book-length thesis."
+      />
+      <Card
+        visual={<EnginesVisual />}
+        name="Three engines, one workspace"
+        desc="LaTeX, Typst, and Markdown projects side by side in the same library, with the same Git history, preview, search, and AI workflow."
+      />
+      <Card
+        visual={<ImportVisual />}
+        name="Import what you have"
+        desc="Reconstruct many text-based PDFs into editable LaTeX locally, and convert DOCX through a managed Pandoc, with optional AI refinement."
+      />
+      <Card
+        visual={<ExportVisual />}
+        name="Export where you're going"
+        desc="PDF always; DOCX, HTML, Markdown, and more through Pandoc-backed contextual export menus. Or grab the whole project as a source ZIP."
       />
     </div>
   );

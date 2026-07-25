@@ -2,7 +2,7 @@
 // On any fetch failure the committed snapshot in src/data/ is left untouched,
 // so builds stay green offline.
 //
-// Deadlines route is disabled for now (src/pages/deadlines/_index.astro).
+// Also refreshes the /deadlines board data.
 import { readFileSync, writeFileSync } from "node:fs";
 import { parse as parseYaml } from "yaml";
 

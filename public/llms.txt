@@ -1,14 +1,14 @@
 # Oleafly
 
-> Oleafly is a free, open-source, AI-native LaTeX studio for macOS, Windows, and Linux. It runs entirely on the user's machine: no account, no cloud, no TeX installation (the Tectonic/XeTeX compiler is bundled). Every project is a real Git repository and every successful compile becomes a commit. The AI assistant (bring-your-own-key, 9 providers or local Ollama) edits the source, compiles the document, and reads the resulting PDF to verify its own edits, with every file change gated behind an approval diff. It also scores documents for ATS (resume parser) readiness and accessibility (Section 508 / PDF-UA), and can export tagged PDFs.
+> Oleafly is an open-source, local-first research workspace for LaTeX, Typst, Markdown, papers, theses, figures, and technical resumes, for macOS, Windows, and Linux. It combines managed local compilation (Tectonic/XeTeX and Typst ship in the app, no TeX install), a research-aware editor, real Git history with automatic checkpoints after successful compiles and idle edits, and an optional approval-gated AI agent (bring-your-own-key, 9 providers or local Ollama) that edits the source, compiles the document, and reads the resulting PDF to verify its own edits. It also runs ATS (resume parser) and accessibility preflight checks and prepares tagged-PDF export via an optional LuaLaTeX path. No account, no telemetry.
 
 Key facts:
 - License: AGPL-3.0-or-later. Free to use, study, modify, and share.
 - Platforms: macOS (Apple Silicon .dmg), Windows (.msi / .exe), Linux (.AppImage / .deb / .rpm).
 - Download: https://github.com/Oleafly/Oleafly/releases/latest
 - Source code: https://github.com/Oleafly/Oleafly
-- Works fully offline; no telemetry; files are plain .tex/.bib on disk in ~/.openleaf/projects.
-- Tagline: "Cursor for research papers and resumes." Philosophy: "Documents should outlive services."
+- Editing and cached compilation work offline (strict Offline mode included); no telemetry; files are plain .tex/.bib on disk in ~/.oleafly/projects.
+- Category: "The local-first research workspace." Philosophy: "Documents should outlive services."
 
 Full documentation in a single file: https://oleafly.com/llms-full.txt
 

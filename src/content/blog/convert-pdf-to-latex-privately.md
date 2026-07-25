@@ -50,4 +50,6 @@ with no AI key and no network, plus an optional "Refine with AI" pass using
 your own key. Every extracted figure is downloadable on its own, and the
 converter reports what it kept as plain text rather than guessing.
 
-Your PDF never leaves your machine in either tier. That is the whole point.
+The deterministic tier never touches the network. The AI tier sends pages only
+to the provider you chose, with your key, and only when you click Refine.
+Nothing routes through anyone else's server. That is the whole point.

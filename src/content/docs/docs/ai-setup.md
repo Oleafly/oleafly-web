@@ -51,7 +51,7 @@ Instructions are sandboxed: they steer tone, style, and content, but they can't 
 
 ## Where your keys live, precisely
 
-- Keys and host URLs are stored in Oleafly's local config on your disk. The settings screen says it plainly: keys are stored locally only.
+- Keys are stored in AES-256-GCM encrypted, owner-restricted local files under `~/.oleafly/`. They never leave your machine except to the provider they belong to. Note the boundary: the encryption prevents plaintext storage on disk, but it cannot protect you from someone who already controls your device account.
 - Requests go app-to-provider over HTTPS (or app-to-localhost for Ollama).
 - Attachment bytes are never saved into chat history; only file names and types are.
 
