@@ -353,7 +353,7 @@ function ProviderStack() {
 // the shared library line stays put.
 function EnginesVisual() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[128px] flex flex-col justify-center gap-2">
+    <div aria-hidden="true" className="pointer-events-none relative mb-4 flex min-h-[84px] flex-1 flex-col justify-center gap-2">
       <div className="flex gap-1.5 font-mono text-[9.5px]">
         <span className="eng-t1 rounded-md border border-white/10 px-2 py-1 text-[#8a8f98]">main.tex</span>
         <span className="eng-t2 rounded-md border border-white/10 px-2 py-1 text-[#8a8f98]">paper.typ</span>
@@ -370,7 +370,7 @@ function EnginesVisual() {
 // Import: a PDF chip converts into a .tex chip, the dot travels the arrow.
 function ImportVisual() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[128px] flex items-center justify-center gap-2 font-mono text-[9.5px]">
+    <div aria-hidden="true" className="pointer-events-none relative mb-4 flex min-h-[84px] flex-1 items-center justify-center gap-2 font-mono text-[9.5px]">
       <span className="rounded-md border border-[#eb5757]/30 bg-[#eb5757]/10 px-2 py-1 text-[#f0a1a1]">paper.pdf</span>
       <span className="relative h-[2px] w-12 overflow-hidden rounded bg-white/10">
         <span className="im-dot absolute top-1/2 size-[5px] -translate-y-1/2 rounded-full bg-[#3b82f6]" />
@@ -384,7 +384,7 @@ function ImportVisual() {
 // Export: main.tex fans out into format chips that light up in turn.
 function ExportVisual() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[128px] flex items-center justify-center gap-2.5 font-mono text-[9.5px]">
+    <div aria-hidden="true" className="pointer-events-none relative mb-4 flex min-h-[84px] flex-1 items-center justify-center gap-2.5 font-mono text-[9.5px]">
       <span className="rounded-md border border-white/15 bg-white/[0.04] px-2 py-1 text-[#c9cdd6]">main.tex</span>
       <span className="text-[#7d828b]">→</span>
       <span className="flex flex-col gap-1">
