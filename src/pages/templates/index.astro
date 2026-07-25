@@ -1,5 +1,6 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
+import DownloadButton from "../../components/DownloadButton.astro";
 import data from "../../data/template-packs.json";
 import "../../styles/tools.css";
 
@@ -50,9 +51,12 @@ const total = data.packs.reduce((n, p) => n + p.templates.length, 0);
         ))
       }
       <p style="margin-top:48px">
-        <a class="btn btn-primary btn-lg" href={RELEASES} target="_blank" rel="noopener noreferrer">
-          Get these in Oleafly for free
-        </a>
+        <DownloadButton
+          href={RELEASES}
+          size="lg"
+          label="Get these in Oleafly for free"
+          labelTemplate="Download Oleafly for {os}"
+        />
       </p>
     </div>
   </section>

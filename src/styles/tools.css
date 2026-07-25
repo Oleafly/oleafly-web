@@ -178,15 +178,26 @@
   outline: none;
 }
 
-/* Deadlines board */
+/* Deadlines board
+ * Use minmax(0, 1fr) + min-width:0 so long conference titles cannot force
+ * the 3-column grid wider than the container (classic grid overflow). */
+.dl-board {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
 .dl-filters {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   margin: 20px 0;
+  max-width: 100%;
+  min-width: 0;
 }
 .dl-chip {
+  position: relative;
   font-family: var(--mono);
   font-size: 11.5px;
   font-weight: 600;
@@ -197,18 +208,65 @@
   border-radius: 999px;
   padding: 5px 12px;
   cursor: pointer;
-  transition: color 150ms ease, border-color 150ms ease;
+  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+  flex: 0 0 auto;
 }
-.dl-chip:hover {
+.dl-chip:hover,
+.dl-chip:focus-visible {
   color: #fff;
+  border-color: rgba(96, 165, 250, 0.45);
 }
 .dl-chip.active {
   color: var(--brand-text);
   border-color: rgba(96, 165, 250, 0.5);
 }
+.dl-chip-tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%) translateY(2px);
+  z-index: 20;
+  width: max-content;
+  max-width: 220px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong, rgba(255, 255, 255, 0.14));
+  background: #141518;
+  color: #e5e7eb;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 120ms ease,
+    visibility 120ms ease,
+    transform 120ms ease;
+}
+.dl-chip-tip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #141518;
+}
+.dl-chip:hover .dl-chip-tip,
+.dl-chip:focus-visible .dl-chip-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
 .dl-search {
-  flex: 1;
-  min-width: 180px;
+  flex: 1 1 160px;
+  min-width: 0;
   max-width: 280px;
   background: var(--surface-2);
   border: 1px solid var(--line);
@@ -217,16 +275,22 @@
   padding: 7px 12px;
   font-size: 13px;
   outline: none;
+  box-sizing: border-box;
 }
 .dl-count {
   margin-left: auto;
   font-size: 12.5px;
   color: var(--muted);
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 .dl-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 .dl-card {
   background: #0b0c0e;
@@ -236,6 +300,10 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 .dl-card-title {
   display: flex;
@@ -243,6 +311,13 @@
   gap: 8px;
   font-weight: 600;
   font-size: 15px;
+  min-width: 0;
+}
+.dl-card-title > span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .dl-rank {
   font-family: var(--mono);
@@ -252,6 +327,7 @@
   border: 1px solid rgba(96, 165, 250, 0.4);
   border-radius: 4px;
   padding: 1px 6px;
+  flex: 0 0 auto;
 }
 .dl-sub {
   margin-left: auto;
@@ -259,6 +335,7 @@
   font-size: 10.5px;
   color: var(--muted);
   text-transform: uppercase;
+  flex: 0 0 auto;
 }
 .dl-full {
   font-size: 12.5px;
@@ -266,12 +343,18 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
 }
 .dl-countdown {
   font-family: var(--mono);
   font-size: 15px;
   font-weight: 700;
   color: #d6a243;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 0;
+  min-width: 0;
 }
 .dl-kind {
   font-size: 10.5px;
@@ -280,16 +363,22 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-left: 8px;
+  flex: 0 0 auto;
 }
 .dl-meta {
   font-size: 12px;
   color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 .dl-link {
   font-size: 12.5px;
   color: var(--brand-text);
   text-decoration: none;
   width: fit-content;
+  max-width: 100%;
 }
 .dl-link:hover {
   text-decoration: underline;
@@ -332,6 +421,18 @@
     grid-template-columns: 1fr;
   }
   .dl-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .dl-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dl-search {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+  .dl-count {
+    margin-left: 0;
   }
 }

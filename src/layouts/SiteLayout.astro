@@ -3,6 +3,8 @@
 // section language as index.astro (which stays self-contained).
 import "../styles/magicui.css";
 import "../styles/landing.css";
+import DownloadButton from "../components/DownloadButton.astro";
+import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
 
 interface Props {
   title: string;
@@ -59,17 +61,16 @@ const canonical = `https://oleafly.com${path}`;
           <span>Oleafly</span>
         </a>
         <nav class="nav-links" aria-label="Main">
-          <a href="/tools/">Tools</a>
-          <a href="/templates/">Templates</a>
-          <a href="/deadlines/">Deadlines</a>
-          <a href="/blog/">Blog</a>
+          <a href="/#templates">Features</a>
           <a href="/docs/overview/">Docs</a>
+          <a href="/learn/">Learn</a>
+          <a href="/templates/">Templates</a>
+          <a href="/blog/">Blog</a>
+          <a href="/tools/">Tools</a>
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
         </nav>
         <div class="nav-cta">
-          <a class="btn btn-primary btn-sm" href={RELEASES} target="_blank" rel="noopener noreferrer">
-            Download
-          </a>
+          <DownloadButton href={RELEASES} size="sm" label="Download" />
         </div>
       </div>
     </header>
@@ -96,21 +97,20 @@ const canonical = `https://oleafly.com${path}`;
           <p class="footer-h">Product</p>
           <a href={RELEASES} target="_blank" rel="noopener noreferrer">Download</a>
           <a href="/templates/">Templates</a>
-          <a href="/deadlines/">Deadlines</a>
           <a href="/privacy/">Privacy</a>
         </nav>
         <nav class="footer-col" aria-label="Free tools">
           <p class="footer-h">Free tools</p>
+          <a href="/learn/">Learn LaTeX</a>
           <a href="/tools/bibtex-validator/">BibTeX validator</a>
           <a href="/tools/equation-preview/">Equation preview</a>
           <a href="/tools/table-generator/">Table generator</a>
           <a href="/tools/lab-search/">Lab search</a>
-          <a href="/blog/">Blog</a>
         </nav>
         <nav class="footer-col" aria-label="Project">
           <p class="footer-h">Project</p>
           <a href="/docs/overview/">Docs</a>
-          <a href="/docs/learn/latex-in-10-minutes/">Learn LaTeX</a>
+          <a href="/learn/">Learn LaTeX</a>
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href={`${GITHUB}/discussions`} target="_blank" rel="noopener noreferrer">Discussions</a>
         </nav>
@@ -124,5 +124,6 @@ const canonical = `https://oleafly.com${path}`;
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
     </script>
+    <PlatformDownloadInit />
   </body>
 </html>

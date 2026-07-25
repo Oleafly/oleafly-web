@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import LabSearch from "../../components/tools/LabSearch.tsx";
+import ToolBackNav from "../../components/tools/ToolBackNav.astro";
 import "../../styles/tools.css";
 ---
 
@@ -11,13 +12,17 @@ import "../../styles/tools.css";
 >
   <section class="page-hero">
     <div class="container">
+      <ToolBackNav />
       <p class="eyebrow">Free tool</p>
       <h1>Search labs and institutions worldwide</h1>
       <p class="sub">
         Find research institutions by name with publication and citation counts, official
-        websites, and <a href="https://ror.org" target="_blank" rel="noopener noreferrer">ROR</a>
-        records. Powered by the open
+        websites, and{" "}
+        <a href="https://ror.org" target="_blank" rel="noopener noreferrer">ROR</a>
+        {" "}
+        records. Powered by the open{" "}
         <a href="https://openalex.org" target="_blank" rel="noopener noreferrer">OpenAlex</a>
+        {" "}
         dataset; queries go directly from your browser to their public API.
       </p>
       <LabSearch client:load />
@@ -35,8 +40,8 @@ import "../../styles/tools.css";
         to build on, which is why this page needs no account and no key.
       </p>
       <p class="sub">
-        Writing a paper with people you found here? The
-        <a href="/">Oleafly desktop app</a> handles the manuscript side: LaTeX, Typst, and
+        Writing a paper with people you found here? The{" "}
+        <a href="/">Oleafly</a> desktop app handles the manuscript side: LaTeX, Typst, and
         Markdown with live preview, real Git versioning, and citation fetching by DOI.
       </p>
     </div>

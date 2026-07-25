@@ -38,6 +38,24 @@ function nextDeadline(v: Venue, now: Date): { kind: string; when: Date } | null 
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
+/** CCF sub-field codes used by ccf-deadlines (see their README matching table). */
+const FIELD_LABELS: Record<string, string> = {
+  AI: "Artificial Intelligence",
+  CG: "Computer Graphics",
+  CT: "Computing Theory",
+  DB: "Database / Data Mining / Information Retrieval",
+  DS: "Computer Architecture / Parallel / Storage",
+  HI: "Computer-Human Interaction",
+  MX: "Interdisciplinary / Emerging",
+  NW: "Network Systems",
+  SC: "Network and System Security",
+  SE: "Software Engineering / OS / Programming Languages",
+};
+
+function fieldTitle(code: string): string {
+  return FIELD_LABELS[code] ?? code;
+}
+
 export default function DeadlineBoard({ venues }: { venues: Venue[] }) {
   const [now, setNow] = useState(() => new Date());
   const [sub, setSub] = useState<string | null>(null);
@@ -69,21 +87,36 @@ export default function DeadlineBoard({ venues }: { venues: Venue[] }) {
   }, [venues, sub, query, now]);
 
   return (
-    <div>
+    <div className="dl-board">
       <div className="dl-filters">
-        <button type="button" className={`dl-chip${sub === null ? " active" : ""}`} onClick={() => setSub(null)}>
+        <button
+          type="button"
+          className={`dl-chip${sub === null ? " active" : ""}`}
+          onClick={() => setSub(null)}
+          title="All fields"
+          aria-label="All fields"
+        >
           All
         </button>
-        {subs.map((s) => (
-          <button
-            key={s}
-            type="button"
-            className={`dl-chip${sub === s ? " active" : ""}`}
-            onClick={() => setSub(sub === s ? null : s)}
-          >
-            {s}
-          </button>
-        ))}
+        {subs.map((s) => {
+          const label = fieldTitle(s);
+          return (
+            <button
+              key={s}
+              type="button"
+              className={`dl-chip${sub === s ? " active" : ""}`}
+              onClick={() => setSub(sub === s ? null : s)}
+              title={label}
+              aria-label={`${s}: ${label}`}
+              data-tip={label}
+            >
+              <span className="dl-chip-code">{s}</span>
+              <span className="dl-chip-tip" role="tooltip">
+                {label}
+              </span>
+            </button>
+          );
+        })}
         <input
           className="dl-search"
           value={query}
@@ -102,17 +135,23 @@ export default function DeadlineBoard({ venues }: { venues: Venue[] }) {
           return (
             <div key={v.id} className="dl-card">
               <div className="dl-card-title">
-                <span>{v.title}</span>
+                <span title={v.title}>{v.title}</span>
                 {v.rank && <span className="dl-rank">{v.rank}</span>}
-                <span className="dl-sub">{v.sub}</span>
+                <span className="dl-sub" title={fieldTitle(v.sub)}>
+                  {v.sub}
+                </span>
               </div>
-              <div className="dl-full">{v.full_name}</div>
+              <div className="dl-full" title={v.full_name}>
+                {v.full_name}
+              </div>
               <div className="dl-countdown">
-                {pad(Math.floor(s / 86400))}d : {pad(Math.floor((s % 86400) / 3600))}h :{" "}
-                {pad(Math.floor((s % 3600) / 60))}m : {pad(s % 60)}s
+                <span>
+                  {pad(Math.floor(s / 86400))}d : {pad(Math.floor((s % 86400) / 3600))}h :{" "}
+                  {pad(Math.floor((s % 3600) / 60))}m : {pad(s % 60)}s
+                </span>
                 <span className="dl-kind">{next.kind}</span>
               </div>
-              <div className="dl-meta">
+              <div className="dl-meta" title={`${v.conf_date}${v.place ? ` · ${v.place}` : ""}`}>
                 {v.conf_date}
                 {v.place ? ` · ${v.place}` : ""}
               </div>

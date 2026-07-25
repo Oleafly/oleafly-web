@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import EquationPreview from "../../components/tools/EquationPreview.tsx";
+import ToolBackNav from "../../components/tools/ToolBackNav.astro";
 import "../../styles/tools.css";
 ---
 
@@ -11,6 +12,7 @@ import "../../styles/tools.css";
 >
   <section class="page-hero">
     <div class="container">
+      <ToolBackNav />
       <p class="eyebrow">Free tool</p>
       <h1>LaTeX equation preview</h1>
       <p class="sub">
@@ -39,7 +41,7 @@ import "../../styles/tools.css";
         </tbody>
       </table>
       <p class="sub" style="margin-top:28px">
-        The <a href="/">Oleafly desktop app</a> gives you the same instant feedback across a
+        The <a href="/">Oleafly</a> desktop app gives you the same instant feedback across a
         whole paper: live PDF preview, SyncTeX jump between source and output, and humanized
         compile errors when something breaks.
       </p>

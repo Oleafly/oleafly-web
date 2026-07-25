@@ -2,6 +2,8 @@
    Copied from index.astro's scoped styles so new pages match the landing
    pixel-for-pixel; index.astro keeps its own scoped copy. */
 
+@import "./external-links.css";
+
 :root {
   --brand: #2563eb;
   --brand-hover: #3b82f6;
@@ -50,6 +52,20 @@ body {
   max-width: 1080px;
   margin: 0 auto;
   padding: 0 24px;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+/* Prevent any wide child (deadline grid, filter chips) from blowing out the page */
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+main {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
 }
 .rel {
   position: relative;

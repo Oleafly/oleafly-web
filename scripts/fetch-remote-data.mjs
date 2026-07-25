@@ -1,6 +1,8 @@
-// Refreshes build-time data for /templates and /deadlines. On any fetch
-// failure the committed snapshot in src/data/ is left untouched, so builds
-// stay green offline.
+// Refreshes build-time data for /templates (and optionally /deadlines).
+// On any fetch failure the committed snapshot in src/data/ is left untouched,
+// so builds stay green offline.
+//
+// Deadlines route is disabled for now (src/pages/deadlines/_index.astro).
 import { readFileSync, writeFileSync } from "node:fs";
 import { parse as parseYaml } from "yaml";
 
@@ -95,7 +97,8 @@ async function refreshDeadlines() {
 
 for (const [name, task] of [
   ["templates", refreshTemplates],
-  ["deadlines", refreshDeadlines],
+  // Disabled while /deadlines is off the site. Re-enable with the page.
+  // ["deadlines", refreshDeadlines],
 ]) {
   try {
     await task();

@@ -7,32 +7,306 @@ const posts = (await getCollection("blog")).sort(
 );
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const fmtShort = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 ---
 
 <SiteLayout
   title="Blog | Oleafly"
-  description="Writing about LaTeX, local-first software, research workflows, and building Oleafly."
+  description="LaTeX workflows for researchers and students across ML, physics, chemistry, biology, engineering, humanities, and more. Local-first tooling notes from Oleafly."
   path="/blog/"
 >
   <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Blog</p>
-      <h1>Notes from building a local-first LaTeX studio</h1>
-      <p class="sub">
-        LaTeX workflows, privacy, research tooling, and honest comparisons. Also available
-        as an <a href="/rss.xml">RSS feed</a>.
-      </p>
-      <div style="display:flex; flex-direction:column; gap:16px; max-width:760px">
+    <div class="container blog-page">
+      <div class="blog-header">
+        <div class="blog-header-copy">
+          <p class="eyebrow">Blog</p>
+          <h1>LaTeX notes for researchers and students</h1>
+          <p class="sub">
+            Field-specific writing advice, thesis structure, Git for papers, privacy, and local-first
+            tooling. Also available as an <a href="/rss.xml">RSS feed</a>.
+          </p>
+        </div>
+        <div class="blog-layout-toggle" role="group" aria-label="Post layout">
+          <button
+            type="button"
+            class="blog-layout-btn is-active"
+            data-layout="list"
+            aria-pressed="true"
+            title="List layout"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"></path>
+            </svg>
+            <span>List</span>
+          </button>
+          <button
+            type="button"
+            class="blog-layout-btn"
+            data-layout="grid"
+            aria-pressed="false"
+            title="Grid layout"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+              <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+              <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+              <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+            </svg>
+            <span>Grid</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="blog-feed blog-feed--list" id="blog-feed">
         {
           posts.map((post) => (
-            <a class="ol-card" href={`/blog/${post.id}/`} style="text-decoration:none">
-              <p class="eyebrow" style="margin-bottom:8px">{fmt(post.data.date)}</p>
-              <h3 style="font-size:17px">{post.data.title}</h3>
-              <p style="margin-top:6px">{post.data.description}</p>
+            <a class="blog-card" href={`/blog/${post.id}/`}>
+              <p class="blog-card-date">
+                <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+                <span class="blog-card-date-short" aria-hidden="true">
+                  {fmtShort(post.data.date)}
+                </span>
+              </p>
+              <h3 class="blog-card-title">{post.data.title}</h3>
+              <p class="blog-card-desc">{post.data.description}</p>
+              {
+                post.data.tags?.length ? (
+                  <div class="blog-card-tags">
+                    {post.data.tags.slice(0, 3).map((t) => (
+                      <span class="blog-tag">{t}</span>
+                    ))}
+                  </div>
+                ) : null
+              }
             </a>
           ))
         }
       </div>
     </div>
   </section>
+
+  <style is:global>
+    .blog-page {
+      max-width: 1080px;
+    }
+    .blog-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .blog-header-copy {
+      flex: 1 1 280px;
+      min-width: 0;
+    }
+    .blog-header-copy .sub {
+      margin-bottom: 0;
+      max-width: 54ch;
+    }
+    .blog-layout-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0b0c0e;
+      flex-shrink: 0;
+    }
+    .blog-layout-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition:
+        color 120ms ease,
+        background 120ms ease;
+    }
+    .blog-layout-btn:hover {
+      color: var(--text);
+    }
+    .blog-layout-btn.is-active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .blog-layout-btn svg {
+      display: block;
+      opacity: 0.85;
+    }
+
+    .blog-feed {
+      width: 100%;
+    }
+    .blog-feed--list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 880px;
+      margin-inline: auto;
+      width: 100%;
+    }
+    /* Keep list cards visually centered under the full-width header row */
+    .blog-feed--list .blog-card {
+      width: 100%;
+    }
+    .blog-feed--grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      max-width: none;
+    }
+
+    .blog-card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      background: #0b0c0e;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 22px;
+      transition:
+        border-color 150ms ease,
+        transform 150ms ease,
+        background 150ms ease;
+      min-height: 0;
+      height: 100%;
+    }
+    .blog-card:hover {
+      border-color: var(--line-strong);
+      background: #0d0e11;
+    }
+    .blog-card-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--brand-text);
+      margin-bottom: 10px;
+    }
+    .blog-card-date-short {
+      display: none;
+    }
+    .blog-card-title {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+      margin: 0;
+      color: var(--text);
+    }
+    .blog-card-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 8px 0 0;
+    }
+    .blog-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 16px;
+    }
+    .blog-tag {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 8px;
+    }
+
+    /* Grid: denser cards, clamp description, show short date */
+    .blog-feed--grid .blog-card {
+      padding: 18px;
+    }
+    .blog-feed--grid .blog-card-title {
+      font-size: 15.5px;
+    }
+    .blog-feed--grid .blog-card-desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 13px;
+    }
+    .blog-feed--grid .blog-card-date time {
+      display: none;
+    }
+    .blog-feed--grid .blog-card-date-short {
+      display: inline;
+    }
+
+    @media (max-width: 900px) {
+      .blog-feed--grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 560px) {
+      .blog-feed--grid {
+        grid-template-columns: 1fr;
+      }
+      .blog-layout-btn span {
+        /* keep labels; still readable */
+      }
+      .blog-header {
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+  <script>
+    const STORAGE_KEY = "oleafly-blog-layout";
+    const feed = document.getElementById("blog-feed");
+    const buttons = Array.from(document.querySelectorAll(".blog-layout-btn"));
+
+    function applyLayout(layout) {
+      if (!feed) return;
+      feed.classList.toggle("blog-feed--list", layout === "list");
+      feed.classList.toggle("blog-feed--grid", layout === "grid");
+      for (const btn of buttons) {
+        const active = btn.dataset.layout === layout;
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-pressed", active ? "true" : "false");
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, layout);
+      } catch (_) {
+        /* ignore */
+      }
+    }
+
+    let initial = "list";
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === "list" || saved === "grid") initial = saved;
+    } catch (_) {
+      /* ignore */
+    }
+    applyLayout(initial);
+
+    for (const btn of buttons) {
+      btn.addEventListener("click", () => {
+        const layout = btn.dataset.layout === "grid" ? "grid" : "list";
+        applyLayout(layout);
+      });
+    }
+  </script>
 </SiteLayout>

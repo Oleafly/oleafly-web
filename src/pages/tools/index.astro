@@ -1,5 +1,6 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
+import DownloadButton from "../../components/DownloadButton.astro";
 
 const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
 
@@ -53,7 +54,7 @@ const appOnly = [
       <h1>LaTeX tools that run in your browser</h1>
       <p class="sub">
         Every tool on this page runs entirely in your browser. Nothing is uploaded anywhere,
-        which is the same promise the <a href="/">Oleafly desktop app</a> makes about your
+        which is the same promise the <a href="/">Oleafly</a> desktop app makes about your
         documents.
       </p>
       <div class="card-grid">
@@ -89,9 +90,12 @@ const appOnly = [
         }
       </div>
       <p style="margin-top:28px">
-        <a class="btn btn-primary btn-lg" href={RELEASES} target="_blank" rel="noopener noreferrer">
-          Download Oleafly for free
-        </a>
+        <DownloadButton
+          href={RELEASES}
+          size="lg"
+          label="Download Oleafly for free"
+          labelTemplate="Download Oleafly for {os}"
+        />
       </p>
     </div>
   </section>

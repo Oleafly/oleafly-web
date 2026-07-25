@@ -27,15 +27,14 @@ hundreds of venues as reviewable YAML files: deadlines, timezones, ranks,
 and official links, all MIT-licensed. Because it is data rather than a
 website, anyone can build views on top of it.
 
-We publish one such view at [oleafly.com/deadlines](/deadlines/): live
-countdowns computed in your browser, field filters, and search, refreshed
-from the dataset on every deploy.
+Anyone can build views on top of that open YAML (filters, countdowns, search)
+without depending on a single portal.
 
 ## Countdown next to the manuscript
 
-A web page still requires remembering to look. The
+A separate website still requires remembering to look. The
 [Oleafly desktop app](https://github.com/Oleafly/Oleafly/releases/latest)
-puts the same board one click from your projects, works offline from a
-bundled snapshot, and refreshes on demand. The deadline countdown lives in
-the same window as the paper you are racing to finish, which is where it
-belongs.
+can put the same board one click from your projects, work offline from a
+bundled snapshot, and refresh on demand. The useful place for a deadline
+countdown is next to the paper you are racing to finish.
+

@@ -14,4 +14,17 @@ export const collections = {
       tags: z.array(z.string()).default([]),
     }),
   }),
+  learn: defineCollection({
+    loader: glob({ pattern: "**/*.md", base: "./src/content/learn" }),
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      category: z.string(),
+      order: z.number().default(0),
+      level: z.enum(["beginner", "intermediate", "advanced"]).default("beginner"),
+      tags: z.array(z.string()).default([]),
+      featured: z.boolean().default(false),
+      updated: z.coerce.date().optional(),
+    }),
+  }),
 };

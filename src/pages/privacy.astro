@@ -1,5 +1,6 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
+import DownloadButton from "../components/DownloadButton.astro";
 
 const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
 ---
@@ -89,9 +90,12 @@ const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
         </tbody>
       </table>
       <p style="margin-top:28px">
-        <a class="btn btn-primary btn-lg" href={RELEASES} target="_blank" rel="noopener noreferrer">
-          Download Oleafly for free
-        </a>
+        <DownloadButton
+          href={RELEASES}
+          size="lg"
+          label="Download Oleafly for free"
+          labelTemplate="Download Oleafly for {os}"
+        />
       </p>
       <p class="sub" style="margin-top:16px">
         This page describes the desktop app. The free tools on this website also run

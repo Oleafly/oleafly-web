@@ -1,0 +1,156 @@
+---
+import { getCollection, render } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { CATEGORY_BY_ID } from "../../data/learn-categories";
+import "../../styles/learn.css";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("learn");
+  const byCat = new Map<string, typeof articles>();
+  for (const a of articles) {
+    const list = byCat.get(a.data.category) ?? [];
+    list.push(a);
+    byCat.set(a.data.category, list);
+  }
+  for (const list of byCat.values()) {
+    list.sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+  }
+
+  return articles.map((article) => {
+    const siblings = byCat.get(article.data.category) ?? [];
+    const idx = siblings.findIndex((s) => s.id === article.id);
+    const prev = idx > 0 ? siblings[idx - 1] : null;
+    const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
+    return {
+      params: { slug: article.id },
+      props: { article, prev, next },
+    };
+  });
+}
+
+const { article, prev, next } = Astro.props;
+const { Content } = await render(article);
+const cat = CATEGORY_BY_ID[article.data.category];
+const catLabel = cat?.label ?? article.data.category;
+
+const toolHints: Record<string, { label: string; href: string }[]> = {
+  "equation-craft": [
+    { label: "Equation preview", href: "/tools/equation-preview/" },
+    { label: "Symbol desk card", href: "/learn/math-symbols-cheatsheet/" },
+  ],
+  "notation-depth": [{ label: "Equation preview", href: "/tools/equation-preview/" }],
+  "cite-your-sources": [{ label: "BibTeX validator", href: "/tools/bibtex-validator/" }],
+  "floats-and-ink": [{ label: "Table generator", href: "/tools/table-generator/" }],
+  "float-surgery": [{ label: "Table generator", href: "/tools/table-generator/" }],
+  "log-literacy": [{ label: "BibTeX validator", href: "/tools/bibtex-validator/" }],
+  "human-plus-model": [{ label: "AI setup docs", href: "/docs/ai-setup/" }],
+  "local-studio": [
+    { label: "Download Oleafly", href: "https://github.com/Oleafly/Oleafly/releases/latest" },
+    { label: "Templates", href: "/templates/" },
+  ],
+};
+const tools = toolHints[article.data.category] ?? [
+  { label: "Free tools", href: "/tools/" },
+  { label: "Cheatsheet", href: "/learn/cheatsheet/" },
+];
+const backToTrack = `/learn/#${article.data.category}`;
+---
+
+<SiteLayout
+  title={`${article.data.title} | Learn LaTeX | Oleafly`}
+  description={article.data.description}
+  path={`/learn/${article.id}/`}
+>
+  <article class="learn-article">
+    <div class="learn-article-inner">
+      <nav class="learn-back" aria-label="Back">
+        <a class="learn-back-link" href={backToTrack}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+          <span>Back to {catLabel}</span>
+        </a>
+        <a class="learn-back-all" href="/learn/">All tracks</a>
+      </nav>
+
+      <nav class="learn-breadcrumb" aria-label="Breadcrumb">
+        <a href="/learn/">Learn</a>
+        <span class="sep">/</span>
+        <a href={backToTrack}>{catLabel}</a>
+        <span class="sep">/</span>
+        <span>{article.data.title}</span>
+      </nav>
+
+      <h1>{article.data.title}</h1>
+      <p class="lede">{article.data.description}</p>
+      <div class="learn-article-meta">
+        <span class="learn-pill">{catLabel}</span>
+        <span class="learn-pill">{article.data.level}</span>
+        {
+          article.data.tags.slice(0, 3).map((t) => (
+            <span class="learn-pill">{t}</span>
+          ))
+        }
+      </div>
+
+      <div class="learn-prose">
+        <Content />
+      </div>
+
+      <div class="learn-related-tools">
+        <h3>Practice in the browser</h3>
+        <p>
+          Free Oleafly tools that never upload your source. Use them next to the examples above.
+        </p>
+        <div class="tool-row">
+          {
+            tools.map((t) => (
+              <a href={t.href} target={t.href.startsWith("http") ? "_blank" : undefined} rel={t.href.startsWith("http") ? "noopener noreferrer" : undefined}>
+                {t.label}
+              </a>
+            ))
+          }
+          <a href="/learn/">All tracks</a>
+        </div>
+      </div>
+
+      <nav class="learn-pager" aria-label="More in this track">
+        {
+          prev ? (
+            <a href={`/learn/${prev.id}/`} class="prev">
+              <div class="dir">Previous</div>
+              <div class="name">{prev.data.title}</div>
+            </a>
+          ) : (
+            <a href={backToTrack} class="prev">
+              <div class="dir">Back</div>
+              <div class="name">{catLabel}</div>
+            </a>
+          )
+        }
+        {
+          next ? (
+            <a href={`/learn/${next.id}/`} class="next">
+              <div class="dir">Next</div>
+              <div class="name">{next.data.title}</div>
+            </a>
+          ) : (
+            <a href="/learn/" class="next">
+              <div class="dir">Course map</div>
+              <div class="name">All tracks</div>
+            </a>
+          )
+        }
+      </nav>
+
+      <p class="learn-back-bottom">
+        <a class="learn-back-link" href={backToTrack}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+          <span>Back to {catLabel}</span>
+        </a>
+      </p>
+    </div>
+  </article>
+</SiteLayout>

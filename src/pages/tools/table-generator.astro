@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import TableGenerator from "../../components/tools/TableGenerator.tsx";
+import ToolBackNav from "../../components/tools/ToolBackNav.astro";
 import "../../styles/tools.css";
 ---
 
@@ -11,6 +12,7 @@ import "../../styles/tools.css";
 >
   <section class="page-hero">
     <div class="container">
+      <ToolBackNav />
       <p class="eyebrow">Free tool</p>
       <h1>LaTeX table generator</h1>
       <p class="sub">
@@ -33,7 +35,7 @@ import "../../styles/tools.css";
         <code>\hline</code> style is one toggle away when a class requires it.
       </p>
       <p class="sub">
-        Working on a full paper? The <a href="/">Oleafly desktop app</a> compiles as you
+        Working on a full paper? The <a href="/">Oleafly</a> desktop app compiles as you
         type, catches overfull tables in preflight, and lets AI restructure a table from a
         plain-language instruction.
       </p>

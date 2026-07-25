@@ -18,6 +18,7 @@ import { DotPattern } from "../components/magicui/dot-pattern";
 import { AnimatedShinyText } from "../components/magicui/animated-shiny-text";
 import { BorderBeam } from "../components/magicui/border-beam";
 import { RainbowLink } from "../components/RainbowLink";
+import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
 import { WordRotate } from "../components/magicui/word-rotate";
 import { Highlighter } from "../components/magicui/highlighter";
 import { KineticText } from "../components/magicui/kinetic-text";
@@ -32,6 +33,7 @@ import { VelocityStrip } from "../components/VelocityStrip";
 import { PhilosophyReveal } from "../components/PhilosophyReveal";
 import CodeComparison from "../components/CodeComparison.astro";
 import "../styles/magicui.css";
+import "../styles/external-links.css";
 
 const heroPreload = await getImage({
   src: heroEditor,
@@ -178,11 +180,11 @@ const compare = {
         </a>
         <nav class="nav-links" aria-label="Main">
           <a href="#templates">Features</a>
-          <a href="/tools/">Tools</a>
-          <a href="/templates/">Templates</a>
-          <a href="/deadlines/">Deadlines</a>
-          <a href="/blog/">Blog</a>
           <a href="/docs/overview/">Docs</a>
+          <a href="/learn/">Learn</a>
+          <a href="/templates/">Templates</a>
+          <a href="/blog/">Blog</a>
+          <a href="/tools/">Tools</a>
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
         </nav>
         <div class="nav-cta">
@@ -245,7 +247,13 @@ const compare = {
             verifies its own edits by reading the PDF.
           </p>
           <div class="hero-actions">
-            <RainbowLink href={RELEASES} label="Download for free" size="lg" />
+            <RainbowLink
+              href={RELEASES}
+              label="Download for free"
+              size="lg"
+              platformAware
+              labelTemplate="Download for {os}"
+            />
             <a class="btn btn-ghost btn-lg" href="/docs/overview/">Read the docs</a>
           </div>
           <figure class="shot shot-hero">
@@ -640,26 +648,35 @@ const compare = {
             Grab a prebuilt installer from the latest release, or <a href="/docs/install/">build from source</a>. No account, no telemetry.
           </p>
           <div class="dl-cta">
-            <RainbowLink href={RELEASES} label="Download the latest release" size="lg" />
+            <RainbowLink
+              href={RELEASES}
+              label="Download the latest release"
+              size="lg"
+              platformAware
+              labelTemplate="Download for {os}"
+            />
           </div>
-          <div class="dl-grid">
-            <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer">
+          <div class="dl-grid" id="dl-os-grid">
+            <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer" data-os="mac">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
                 <path d={APPLE_PATH}></path>
               </svg>
               <span class="dl-os">macOS</span>
+              <span class="dl-card-badge">Your platform</span>
             </a>
-            <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer">
+            <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer" data-os="windows">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
                 <path d={WINDOWS_PATH}></path>
               </svg>
               <span class="dl-os">Windows</span>
+              <span class="dl-card-badge">Your platform</span>
             </a>
-            <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer">
+            <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer" data-os="linux">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
                 <path d={LINUX_PATH}></path>
               </svg>
               <span class="dl-os">Linux</span>
+              <span class="dl-card-badge">Your platform</span>
             </a>
           </div>
           <p class="aside-note">
@@ -692,6 +709,7 @@ const compare = {
         </nav>
         <nav class="footer-col" aria-label="Documentation">
           <p class="footer-h">Docs</p>
+          <a href="/learn/">Learn LaTeX</a>
           <a href="/docs/overview/">Overview</a>
           <a href="/docs/getting-started/">Getting started</a>
           <a href="/docs/ai-setup/">Set up AI</a>
@@ -1462,6 +1480,7 @@ const compare = {
         margin: 0 auto;
       }
       .dl-card {
+        position: relative;
         display: flex;
         flex-direction: column;
         gap: 6px;
@@ -1472,18 +1491,48 @@ const compare = {
         border-radius: var(--radius-lg);
         padding: 22px 16px;
         color: #d6d9e0;
-        transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+        transition:
+          border-color 150ms ease,
+          background 150ms ease,
+          color 150ms ease,
+          box-shadow 150ms ease,
+          transform 150ms ease;
       }
       .dl-card:hover {
         border-color: rgba(37, 99, 235, 0.55);
         background: #141517;
         color: #fff;
       }
+      .dl-card.is-current {
+        border-color: rgba(37, 99, 235, 0.75);
+        background: linear-gradient(180deg, rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0.04));
+        color: #fff;
+        box-shadow:
+          0 0 0 1px rgba(37, 99, 235, 0.25),
+          0 8px 28px rgba(37, 99, 235, 0.18);
+        transform: translateY(-2px);
+      }
+      .dl-card.is-current svg {
+        color: #93c5fd;
+      }
       .dl-os {
         font-weight: 600;
         font-size: 15px;
         color: #fff;
         margin-top: 4px;
+      }
+      .dl-card-badge {
+        display: none;
+        margin-top: 2px;
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #93c5fd;
+      }
+      .dl-card.is-current .dl-card-badge {
+        display: block;
       }
 
       /* ===== Footer ===== */
@@ -1723,5 +1772,6 @@ const compare = {
         })
         .catch(() => {});
     </script>
+    <PlatformDownloadInit />
   </body>
 </html>
