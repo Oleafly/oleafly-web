@@ -45,6 +45,9 @@ const heroPreload = await getImage({
 const GITHUB = "https://github.com/Oleafly/Oleafly";
 const RELEASES = `${GITHUB}/releases/latest`;
 
+// The craft/test-counts section is parked for now; flip to true to restore it.
+const SHOW_CRAFT = false;
+
 const title = "Oleafly · The local-first research workspace: free LaTeX, Typst & Markdown editor for Mac, Windows, Linux";
 const description =
   "Oleafly is a free, open-source, local-first research workspace for LaTeX, Typst, and Markdown: an offline-capable Overleaf alternative with real Git history, ATS and accessibility preflight, and an optional AI agent that compiles and verifies its own edits. No account, no TeX install. Mac, Windows, Linux.";
@@ -711,7 +714,8 @@ const compare = {
         <PhilosophyReveal client:visible={{rootMargin: "200px"}} />
       </section>
 
-      <!-- ========================= Craft ========================= -->
+      <!-- ========================= Craft (hidden via SHOW_CRAFT) ========================= -->
+      {SHOW_CRAFT && (
       <section class="section craft" id="craft">
         <div class="container">
           <p class="eyebrow">Open source, seriously built</p>
@@ -745,6 +749,7 @@ const compare = {
           </p>
         </div>
       </section>
+      )}
 
       <!-- ========================= Download ========================= -->
       <section class="section download" id="download">
