@@ -10,6 +10,10 @@ node_modules/
 
 # browser test artifacts
 .playwright-mcp/
+.lighthouseci/
+
+# macOS
+.DS_Store
 
 # generated at build time
 public/llms-full.txt
