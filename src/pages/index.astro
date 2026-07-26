@@ -166,7 +166,7 @@ const compare = {
     <link rel="preload" href="/fonts/jbmono-var-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  </head>
+    </head>
 
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -202,6 +202,9 @@ const compare = {
             </svg>
             <span>Star on GitHub</span><span class="stars-count" id="stars-count"></span>
           </a>
+          <button class="nav-burger" id="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+          </button>
         </div>
       </div>
     </header>
@@ -220,8 +223,13 @@ const compare = {
           <a class="pill no-ext-icon" href={GITHUB} target="_blank" rel="noopener noreferrer">
             <span class="pill-dot" aria-hidden="true"></span>
             <AnimatedShinyText shimmerWidth={120}>
-              Free · Open source · AGPL-3.0 · Mac · Windows · Linux
+              Free · Open source · AGPL-3.0
             </AnimatedShinyText>
+            <span class="pill-os" aria-label="Available for macOS, Windows, and Linux">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d={APPLE_PATH}></path></svg>
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d={WINDOWS_PATH}></path></svg>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d={LINUX_PATH}></path></svg>
+            </span>
           </a>
           <h1>
             <span class="h1-line">
@@ -1019,7 +1027,51 @@ const compare = {
       .nav-cta {
         margin-left: auto;
         display: flex;
+        align-items: center;
         gap: 8px;
+      }
+      .nav-burger {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: transparent;
+        border: 1px solid var(--line-strong);
+        border-radius: var(--radius-md);
+        color: #d6d9e0;
+        cursor: pointer;
+      }
+      .nav-burger:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+      }
+      @media (max-width: 760px) {
+        .nav-burger {
+          display: inline-flex;
+        }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          gap: 2px;
+          margin: 0;
+          padding: 10px 16px 16px;
+          background: rgba(8, 9, 10, 0.98);
+          -webkit-backdrop-filter: blur(12px);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid var(--line);
+        }
+        .nav.nav-open .nav-links {
+          display: flex;
+        }
+        .nav-links a {
+          font-size: 15px;
+          padding: 10px 12px;
+        }
       }
 
       /* ===== Hero ===== */
@@ -1061,6 +1113,18 @@ const compare = {
         height: 6px;
         border-radius: 50%;
         background: var(--green);
+      }
+      .pill-os {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-left: 4px;
+        padding-left: 10px;
+        border-left: 1px solid var(--line);
+        color: #a6abb5;
+      }
+      .pill-os svg {
+        display: block;
       }
       h1 {
         position: relative;
@@ -1886,9 +1950,6 @@ const compare = {
         }
       }
       @media (max-width: 640px) {
-        .nav-links {
-          display: none;
-        }
         .hero {
           padding-top: 64px;
         }
@@ -1949,6 +2010,23 @@ const compare = {
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
 
+      // Mobile menu toggle.
+      const burger = document.getElementById("nav-burger");
+      burger?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const open = nav.classList.toggle("nav-open");
+        burger.setAttribute("aria-expanded", String(open));
+      });
+      document.addEventListener("click", (e) => {
+        if (nav && !nav.contains(e.target)) nav.classList.remove("nav-open");
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") nav?.classList.remove("nav-open");
+      });
+      nav?.querySelectorAll(".nav-links a").forEach((a) => {
+        a.addEventListener("click", () => nav.classList.remove("nav-open"));
+      });
+
       // Feature stack: as the next card slides up, the pinned card recedes
       // (scale down, tilt back, dim). Skipped for reduced motion.
       const stackCards = [...document.querySelectorAll(".stack-card")];
@@ -1959,6 +2037,17 @@ const compare = {
         const update = () => {
           ticking = false;
           const vh = window.innerHeight;
+          if (matchMedia("(max-width: 760px)").matches) {
+            // Mobile: cards flow normally (no pinning, content never clips),
+            // but each one rises and scales in as it enters the viewport.
+            for (const card of stackCards) {
+              const r = card.getBoundingClientRect();
+              const p = Math.min(1, Math.max(0, (vh * 0.92 - r.top) / (vh * 0.35)));
+              card.style.transform = `translateY(${18 * (1 - p)}px) scale(${0.95 + 0.05 * p})`;
+              card.style.filter = "";
+            }
+            return;
+          }
           for (let i = 0; i < stackCards.length; i++) {
             const card = stackCards[i];
             const next = stackCards[i + 1];
