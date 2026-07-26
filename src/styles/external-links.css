@@ -3,8 +3,8 @@
  * Buttons / OS download cards already carry their own icons — skip those.
  */
 
-a[href^="http://"]:not([href*="oleafly.com"]):not(.btn):not(.dl-platform):not(.dl-card):not(.no-ext-icon)::after,
-a[href^="https://"]:not([href*="oleafly.com"]):not(.btn):not(.dl-platform):not(.dl-card):not(.no-ext-icon)::after {
+a[href^="http://"]:not([href*="oleafly.com"]):not(.btn):not(.dl-platform):not(.dl-card):not(.no-ext-icon):not(.nav-links a)::after,
+a[href^="https://"]:not([href*="oleafly.com"]):not(.btn):not(.dl-platform):not(.dl-card):not(.no-ext-icon):not(.nav-links a)::after {
   content: "";
   display: inline-block;
   width: 0.85em;
