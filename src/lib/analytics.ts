@@ -22,6 +22,12 @@ import { detectOs } from "./os";
 
 type Props = Record<string, unknown>;
 
+declare global {
+  interface Window {
+    posthog?: PostHog;
+  }
+}
+
 let client: PostHog | null = null;
 let booted = false;
 const pending: Array<[string, Props]> = [];
@@ -52,13 +58,19 @@ const SECTIONS: Array<[RegExp, string]> = [
 ];
 
 function enabled(): boolean {
-  // An unset or malformed key means "analytics off" — forks and preview builds
-  // get a silent no-op rather than events landing in the production project.
+  // An unset or malformed key means "analytics off", so a fork gets a silent
+  // no-op rather than events landing in this project.
   if (!POSTHOG_KEY.startsWith("phc_")) return false;
-  // Keep `astro dev` out of the data. A production build served locally
-  // (`pnpm build && pnpm preview`) still reports, so the wiring is verifiable
-  // before it ships.
-  return !import.meta.env.DEV;
+
+  // Escape hatch for verifying the wiring against a local `astro preview`.
+  if (window.location.search.includes("ph_debug")) return true;
+
+  // Production domain only. `astro dev`, `astro preview`, the Lighthouse job in
+  // .github/workflows/pr-checks.yml (which loads the built pages in headless
+  // Chrome on every PR), and Cloudflare preview deploys would all otherwise
+  // report real events into the production project.
+  const host = window.location.hostname;
+  return host === "oleafly.com" || host.endsWith(".oleafly.com");
 }
 
 /**
@@ -84,7 +96,17 @@ function locationOf(el: Element): string {
   if (tagged) return tagged.getAttribute("data-ph-section") || "page";
   if (el.closest("header.nav, .nav-links")) return "nav";
   if (el.closest("footer")) return "footer";
-  return el.closest("section[id]")?.id || "page";
+
+  const section = el.closest("section");
+  if (!section) return "page";
+  if (section.id) return section.id;
+  // Sections without an id still carry a meaningful class, and one of them is
+  // the hero holding the primary CTA. Astro's scoped `astro-*` class and the
+  // generic `section` utility say nothing, so skip those.
+  for (const name of section.classList) {
+    if (name !== "section" && !name.startsWith("astro-")) return name;
+  }
+  return "page";
 }
 
 function onClick(event: Event): void {
@@ -179,6 +201,10 @@ function start(): void {
         },
         loaded: (ph) => {
           client = ph;
+          // The snippet install defines this global and the module install does
+          // not. The PostHog toolbar (heatmap authoring, element inspection)
+          // and `posthog.debug()` in the console both look for it.
+          window.posthog = ph;
           for (const [name, props] of pending.splice(0)) ph.capture(name, props);
         },
       });
