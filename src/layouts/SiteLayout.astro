@@ -5,6 +5,7 @@ import "../styles/magicui.css";
 import "../styles/landing.css";
 import DownloadButton from "../components/DownloadButton.astro";
 import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
+import Analytics from "../components/Analytics.astro";
 
 interface Props {
   title: string;
@@ -45,6 +46,7 @@ const canonical = `https://oleafly.com${path}`;
     <link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/jbmono-var-latin.woff2" as="font" type="font/woff2" crossorigin />
     <slot name="head" />
+    <Analytics />
     </head>
 
   <body>

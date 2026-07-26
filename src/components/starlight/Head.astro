@@ -1,0 +1,12 @@
+---
+/**
+ * Starlight <Head> override: the stock head tags, plus site analytics so the
+ * docs report into the same PostHog project as the landing page.
+ * Registered in astro.config.mjs under `starlight.components`.
+ */
+import Default from "@astrojs/starlight/components/Head.astro";
+import Analytics from "../Analytics.astro";
+---
+
+<Default />
+<Analytics />

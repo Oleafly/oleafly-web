@@ -1,0 +1,15 @@
+---
+/**
+ * Website analytics (PostHog). Include once per page — SiteLayout, the landing
+ * page, and the Starlight <Head> override each do, which covers every route.
+ *
+ * Renders nothing; the module script below is hoisted and bundled by Astro, so
+ * this adds one deferred request and no markup. See src/lib/analytics.ts.
+ */
+---
+
+<script>
+  import { boot } from "../lib/analytics";
+
+  boot();
+</script>

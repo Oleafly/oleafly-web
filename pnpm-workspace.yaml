@@ -3,6 +3,9 @@
 packages: []
 
 allowBuilds:
+  # Pulled in by posthog-js. Its install script only prints a funding notice,
+  # so skipping it keeps `pnpm install --frozen-lockfile` quiet in CI.
+  core-js: false
   esbuild: true
   sharp: true
   workerd: true

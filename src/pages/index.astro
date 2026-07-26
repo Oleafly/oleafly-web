@@ -19,6 +19,7 @@ import { AnimatedShinyText } from "../components/magicui/animated-shiny-text";
 import { BorderBeam } from "../components/magicui/border-beam";
 import { RainbowLink } from "../components/RainbowLink";
 import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
+import Analytics from "../components/Analytics.astro";
 import { WordRotate } from "../components/magicui/word-rotate";
 import { Highlighter } from "../components/magicui/highlighter";
 import { KineticText } from "../components/magicui/kinetic-text";
@@ -172,6 +173,7 @@ const compare = {
     <link rel="preload" href="/fonts/jbmono-var-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <Analytics />
     </head>
 
   <body>

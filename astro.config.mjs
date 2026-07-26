@@ -28,8 +28,12 @@ export default defineConfig({
       logo: { src: "./src/assets/leaf.svg", alt: "Oleafly" },
       favicon: "/favicon.png",
       customCss: ["./src/styles/fonts.css", "./src/styles/theme.css"],
-      // Swap Starlight's light/dark/auto <select> for a light/dark toggle button.
-      components: { ThemeSelect: "./src/components/ThemeToggle.astro" },
+      // Swap Starlight's light/dark/auto <select> for a light/dark toggle button,
+      // and extend the head with the same analytics the landing page uses.
+      components: {
+        ThemeSelect: "./src/components/ThemeToggle.astro",
+        Head: "./src/components/starlight/Head.astro",
+      },
       // Self-hosted Inter (body/UI) + JetBrains Mono (code). No third-party requests.
       head: [
         // Scroll-progress bar (same look as the landing page's Magic UI one,

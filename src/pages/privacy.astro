@@ -36,8 +36,8 @@ const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
         <div class="ol-card">
           <h3>No account, no telemetry</h3>
           <p>
-            There is nothing to sign up for and nothing phones home. No analytics, no usage
-            tracking, no crash reports unless you choose to share one.
+            There is nothing to sign up for and the app never phones home. No analytics in
+            the editor, no usage tracking, no crash reports unless you choose to share one.
           </p>
         </div>
         <div class="ol-card">
@@ -101,8 +101,26 @@ const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
       </p>
       <p class="sub" style="margin-top:16px">
         This page describes the desktop app. The free tools on this website also run
-        entirely in your browser; this site itself is a static page with no analytics.
+        entirely in your browser: nothing you type into them is uploaded.
       </p>
+      <div class="ol-card" style="margin-top:24px">
+        <h3>What this website measures</h3>
+        <p>
+          The app has no telemetry. This marketing site is a separate thing, and it does
+          use product analytics (<a
+            href="https://posthog.com"
+            target="_blank"
+            rel="noopener noreferrer">PostHog</a
+          >), because we need to know whether people can find the download and the docs.
+          It records page views, clicks on links and buttons, and anonymous session
+          replays of how the pages are used.
+        </p>
+        <p>
+          It does not ask for your name or email, it never sees your documents, and text
+          you type into the free tools is masked out of replays. Send a
+          <code>Do Not Track</code> header and the site records nothing at all.
+        </p>
+      </div>
     </div>
   </section>
 </SiteLayout>
