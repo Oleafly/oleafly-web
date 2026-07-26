@@ -1,0 +1,104 @@
+---
+/**
+ * "Elsewhere" row for the footer. Used by both footers: the landing page's
+ * self-contained one and SiteLayout's.
+ *
+ * All three glyphs are solid 24x24 marks so they read as one set. Mixing a
+ * stroke-drawn icon in among filled ones looks like a mistake at this size.
+ * X and GitHub are the official simple-icons paths, the globe is Material
+ * Symbols "public".
+ */
+// The Oleafly leaf, same path as the brand mark. A generic globe went muddy at
+// this size, and this is the proper logo for oleafly.com anyway.
+const LEAF_PATH =
+  "M21 2C6 2 4 16 3 22h1.998c.666-3.333 2.333-5.166 5.002-5.5 4-.5 7-4 8-7l-1.5-1 1-1c1-1 2.004-2.5 3.5-5.5z";
+
+const X_PATH =
+  "M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z";
+
+const GITHUB_PATH =
+  "M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12";
+
+// `data-ph` routes these through the analytics layer as one named event, so the
+// social row is countable on its own instead of scattering across
+// github_clicked and outbound_clicked.
+const LINKS = [
+  { label: "Oleafly website", network: "website", href: "https://oleafly.com", path: LEAF_PATH, external: false },
+  { label: "Oleafly on X", network: "x", href: "https://x.com/OleaflyHQ", path: X_PATH, external: true },
+  {
+    label: "GitHub Discussions",
+    network: "discussions",
+    href: "https://github.com/Oleafly/Oleafly/discussions",
+    path: GITHUB_PATH,
+    external: true,
+  },
+];
+---
+
+<nav class="footer-social" aria-label="Oleafly elsewhere">
+  {
+    LINKS.map((link) => (
+      <a
+        class="no-ext-icon"
+        href={link.href}
+        aria-label={link.label}
+        title={link.label}
+        data-ph="social_clicked"
+        data-ph-network={link.network}
+        target={link.external ? "_blank" : undefined}
+        rel={link.external ? "noopener noreferrer" : undefined}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d={link.path} />
+        </svg>
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  /* Scoped to this component on purpose. The landing page carries its own
+   * inline <style> and never imports landing.css, so a rule written there
+   * would style the interior footers and silently miss the landing one. */
+  .footer-social {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  /* Filled rounded square with the mark floated in the middle. 40px clears the
+   * 24px minimum touch target, and an 18px glyph inside leaves the padding that
+   * makes the shape read as a button rather than a bare icon. */
+  .footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+    background: var(--surface-2, #191a1c);
+    color: var(--muted, #8a8f98);
+    transition:
+      color 150ms ease,
+      border-color 150ms ease,
+      background 150ms ease;
+  }
+  .footer-social a:hover {
+    color: var(--text, #f7f8f8);
+    border-color: var(--line-strong, rgba(255, 255, 255, 0.14));
+    background: #212226;
+  }
+  .footer-social a:focus-visible {
+    outline: 2px solid var(--brand-text, #60a5fa);
+    outline-offset: 2px;
+  }
+  .footer-social svg {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer-social a {
+      transition: none;
+    }
+  }
+</style>

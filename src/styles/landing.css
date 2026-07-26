@@ -355,6 +355,9 @@ h2 {
 .footer-license {
   font-size: 12px !important;
 }
+/* .footer-social lives in SocialLinks.astro: the landing page has its own
+ * inline <style> and never imports this file, so component-scoped styles are
+ * the only way one definition covers both footers. */
 .footer-col {
   display: flex;
   flex-direction: column;

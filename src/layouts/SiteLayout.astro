@@ -6,6 +6,7 @@ import "../styles/landing.css";
 import DownloadButton from "../components/DownloadButton.astro";
 import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
 import Analytics from "../components/Analytics.astro";
+import SocialLinks from "../components/SocialLinks.astro";
 
 interface Props {
   title: string;
@@ -117,6 +118,7 @@ const canonical = `https://oleafly.com${path}`;
           </a>
           <p>The local-first research workspace.</p>
           <p class="footer-license">AGPL-3.0 © 2026 Oleafly and contributors</p>
+          <SocialLinks />
         </div>
         <nav class="footer-col" aria-label="Product">
           <p class="footer-h">Product</p>

@@ -53,8 +53,11 @@ export default defineConfig({
           attrs: { rel: "preload", href: "/fonts/inter-var-latin.woff2", as: "font", type: "font/woff2", crossorigin: true },
         },
       ],
+      // Docs pages use Starlight's own chrome, so they never render the landing
+      // footer's social row. These put the same links in the docs header.
       social: [
         { icon: "github", label: "GitHub", href: "https://github.com/Oleafly/Oleafly" },
+        { icon: "x.com", label: "Oleafly on X", href: "https://x.com/OleaflyHQ" },
       ],
       // Product docs: no "Edit this page" link (that's a contributor affordance).
       sidebar: [
