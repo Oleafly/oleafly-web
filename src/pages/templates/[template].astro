@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DownloadButton from "../../components/DownloadButton.astro";
 import data from "../../data/template-packs.json";
@@ -16,6 +17,13 @@ export function getStaticPaths() {
 const { template, packLabel } = Astro.props;
 const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
 const engineLabel = template.engine === "typst" ? "Typst" : "LaTeX";
+
+// Compiled first-page preview for this template, if present.
+const previews = import.meta.glob<{ default: ImageMetadata }>(
+  "../../assets/template-previews/*.png",
+  { eager: true },
+);
+const preview = previews[`../../assets/template-previews/${template.id}.png`]?.default;
 ---
 
 <SiteLayout
@@ -48,6 +56,17 @@ const engineLabel = template.engine === "typst" ? "Typst" : "LaTeX";
           View in the catalog
         </a>
       </p>
+      {preview && (
+        <span class="tpl-hero-preview">
+          <Image
+            src={preview}
+            alt={`Compiled first page of the ${template.name} template`}
+            widths={[440, 880]}
+            sizes="(max-width: 600px) 94vw, 440px"
+            loading="eager"
+          />
+        </span>
+      )}
       <div class="tpl-source">
         <pre>{template.source}</pre>
       </div>

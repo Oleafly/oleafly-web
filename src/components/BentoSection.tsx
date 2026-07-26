@@ -381,6 +381,159 @@ function ImportVisual() {
   );
 }
 
+// Visual editor: a Code ⇄ Visual segmented toggle flips, and the LaTeX
+// source morphs into rendered prose (and back). ve-* keyframes.
+function VisualEditorVisual() {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-x-0 top-0 bottom-[148px] [mask-image:linear-gradient(to_bottom,black_82%,transparent)]"
+    >
+      <DotPattern width={20} height={20} cr={0.9} className="fill-white/[0.06]" />
+      <div className="absolute left-1/2 top-5 z-10 flex -translate-x-1/2 items-center rounded-full border border-white/10 bg-[#0d0e10]/95 p-[3px] font-mono text-[9.5px] shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
+        <span className="ve-knob absolute left-[3px] top-[3px] h-[calc(100%-6px)] w-[52px] rounded-full bg-[rgba(37,99,235,0.3)] border border-[rgba(59,130,246,0.55)]" />
+        <span className="relative z-10 w-[52px] px-2 py-[3px] text-center text-[#c9cdd6]">Code</span>
+        <span className="relative z-10 w-[52px] px-2 py-[3px] text-center text-[#8a8f98]">Visual</span>
+      </div>
+      <div className="absolute inset-x-8 top-[64px] bottom-4 overflow-hidden rounded-md border border-white/10 bg-[#0d0e10] p-4">
+        {/* code face */}
+        <div className="ve-code absolute inset-4 font-mono text-[11px] leading-[1.85] text-[#7d828b]">
+          <div><span className="text-[#7cabf8]">\section</span>{"{"}<span className="text-[#c9cdd6]">Results</span>{"}"}</div>
+          <div>We find that <span className="text-[#7cabf8]">\textbf</span>{"{"}local-first{"}"}</div>
+          <div>editing <span className="text-[#7cabf8]">\emph</span>{"{"}wins{"}"} in every</div>
+          <div>benchmark we ran.</div>
+        </div>
+        {/* rendered face */}
+        <div className="ve-prose absolute inset-4 text-[12px] leading-[1.8] text-[#a6abb5]">
+          <div className="mb-1 text-[14.5px] font-semibold text-[#f7f8f8]">3&ensp;Results</div>
+          <div>
+            We find that <span className="font-semibold text-[#e6e8ec]">local-first</span> editing{" "}
+            <span className="italic">wins</span> in every benchmark we ran.
+          </div>
+          <span className="ve-caret ml-[1px] inline-block h-[13px] w-[1.5px] translate-y-[2px] bg-[#3b82f6]" />
+        </div>
+        <div className="ve-badge absolute bottom-3 right-3 rounded-full border border-white/10 bg-[#141517] px-2 py-[2px] font-mono text-[8.5px] text-[#8a8f98]">
+          unsupported LaTeX stays visible, never dropped
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Reference libraries: .bib/.ris/.xml/.rdf chips queue up and merge into
+// references.bib with a dedupe badge. zl-* keyframes.
+function LibraryImportVisual() {
+  const files: Array<[string, string]> = [
+    ["library.bib", "zl-f1"],
+    ["papers.ris", "zl-f2"],
+    ["endnote.xml", "zl-f3"],
+    ["zotero.rdf", "zl-f4"],
+  ];
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-3 bottom-[116px] flex flex-col justify-start gap-[6px] font-mono">
+      <div className="flex flex-wrap gap-1">
+        {files.map(([name, cls]) => (
+          <span key={name} className={cn(cls, "rounded border border-white/15 bg-[#141517] px-1.5 py-[1px] text-[8.5px] text-[#c9cdd6]")}>
+            {name}
+          </span>
+        ))}
+      </div>
+      <div className="zl-merge flex items-center gap-1.5 self-start rounded border border-[#3b82f6]/35 bg-[#2563eb]/10 px-1.5 py-[2px] text-[8.5px] text-[#a8c3f5]">
+        → references.bib
+      </div>
+      <div className="zl-badge self-start rounded-full border border-[rgba(52,180,74,0.4)] bg-[rgba(52,180,74,0.1)] px-2 py-[1px] text-[8.5px] text-[#7ed492]">
+        142 entries · 9 duplicates removed ✓
+      </div>
+    </div>
+  );
+}
+
+// Research connectors: a query goes out, papers come back, one citation gets
+// verified against Crossref. rs-* keyframes.
+function ResearchVisual() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-3 bottom-[116px] flex flex-col justify-start gap-[5px] font-mono [mask-image:linear-gradient(to_bottom,black_72%,transparent)]">
+      <div className="rs-q self-start rounded border border-white/15 bg-[#141517] px-1.5 py-[1px] text-[8.5px] text-[#c9cdd6]">
+        “raft consensus in KV stores”
+      </div>
+      <div className="rs-r1 self-stretch rounded border border-white/10 bg-[#0d0e10] px-1.5 py-[2px] text-[8px] text-[#7d828b]">
+        <span className="text-[#7cabf8]">alphaXiv</span> · Ongaro &amp; Ousterhout, 2014
+      </div>
+      <div className="rs-v self-end rounded-full border border-[rgba(52,180,74,0.4)] bg-[rgba(52,180,74,0.1)] px-2 py-[1px] text-[8.5px] text-[#7ed492]">
+        DOI verified via Crossref ✓
+      </div>
+    </div>
+  );
+}
+
+// Agent memory: a sticky note lands, then plan items check off one by one.
+// am-* keyframes.
+function MemoryVisual() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-3 bottom-[116px] flex flex-col justify-start gap-[6px] font-mono [mask-image:linear-gradient(to_bottom,black_72%,transparent)]">
+      <div className="am-note self-start rounded border border-[#f7bc55]/30 bg-[#f59e0b]/[0.08] px-1.5 py-[2px] text-[8.5px] text-[#f7bc55]">
+        ◈ remembered: “IEEE format, biblatex”
+      </div>
+      <div className="rounded-md border border-white/10 bg-[#0d0e10] p-1.5 text-[8.5px] leading-[1.8] text-[#8a8f98]">
+        <div className="am-t1 flex items-center gap-1.5"><span className="am-box">✓</span> Fix undefined refs</div>
+        <div className="am-t2 flex items-center gap-1.5"><span className="am-box">✓</span> Recompile chapter 3</div>
+        <div className="am-t3 flex items-center gap-1.5"><span className="am-box"></span> Verify PDF output</div>
+      </div>
+    </div>
+  );
+}
+
+// Detachable preview: a small PDF window pops out of the app frame and
+// floats to the side. pv-* keyframes.
+function DetachVisual() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[116px] flex items-center justify-center">
+      <div className="relative h-[72px] w-[104px] rounded-md border border-white/10 bg-[#0d0e10] p-1.5">
+        <div className="mb-1 flex gap-[3px]">
+          <span className="size-[4px] rounded-full bg-white/15" />
+          <span className="size-[4px] rounded-full bg-white/15" />
+        </div>
+        <div className="flex h-[calc(100%-10px)] gap-1">
+          <div className="flex-1 rounded-[3px] bg-white/[0.04]" />
+          <div className="pv-ghost flex-1 rounded-[3px] border border-dashed border-white/15" />
+        </div>
+        <div className="pv-win absolute left-[54px] top-[14px] h-[52px] w-[44px] rounded-[4px] border border-[#3b82f6]/50 bg-[#101113] p-1 shadow-[0_8px_24px_rgba(0,0,0,0.7)]">
+          <div className="mb-[3px] h-[3px] w-5 rounded bg-white/20" />
+          <div className="mb-[2px] h-[2px] w-full rounded bg-white/10" />
+          <div className="mb-[2px] h-[2px] w-4/5 rounded bg-white/10" />
+          <div className="h-[2px] w-full rounded bg-white/10" />
+        </div>
+      </div>
+      <span className="pv-badge absolute bottom-0 right-0 rounded-full border border-white/10 bg-[#141517] px-2 py-[1px] font-mono text-[8.5px] text-[#8a8f98]">
+        second monitor ✓
+      </span>
+    </div>
+  );
+}
+
+// Make it yours: `:wq` gets typed in a Vim statusline while accent-color
+// dots cycle. my-* keyframes.
+function YoursVisual() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-4 bottom-[116px] flex flex-col items-start justify-center gap-[8px]">
+      <div className="flex w-full max-w-[190px] items-center justify-between rounded-md border border-white/10 bg-[#0d0e10] px-2 py-[4px] font-mono text-[9.5px]">
+        <span className="text-[#8fd6a0]">-- NORMAL --</span>
+        <span className="my-type overflow-hidden whitespace-nowrap border-r-[1.5px] border-[#3b82f6] text-[#c9cdd6]">:wq</span>
+      </div>
+      <div className="flex items-center gap-[6px]">
+        {["#2563eb", "#34b44a", "#8b5cf6", "#f59e0b", "#f472b6"].map((c, i) => (
+          <span
+            key={c}
+            className={cn("size-3 rounded-full border border-white/20", `my-d${i + 1}`)}
+            style={{ backgroundColor: c }}
+          />
+        ))}
+        <span className="ml-1 font-mono text-[8.5px] uppercase tracking-wider text-[#8b9096]">accent · themes · layouts</span>
+      </div>
+    </div>
+  );
+}
+
 // Export: main.tex fans out into format chips that light up in turn.
 function ExportVisual() {
   return (
@@ -400,10 +553,25 @@ export function BentoSection() {
   return (
     <div className="grid auto-rows-[minmax(200px,auto)] grid-cols-1 gap-3 md:grid-cols-3">
       <Card
+        visual={<ImportVisual />}
+        name="Import what you have"
+        desc="Reconstruct many text-based PDFs into editable LaTeX locally, convert DOCX through a managed Pandoc, or let a vision model transcribe a photo of a page. Optional AI refinement after."
+      />
+      <Card
+        visual={<ExportVisual />}
+        name="Export where you're going"
+        desc="PDF always; DOCX, HTML, Markdown, and more through Pandoc-backed contextual export menus. Or grab the whole project as a source ZIP."
+      />
+      <Card
+        visual={<YoursVisual />}
+        name="Make it yours"
+        desc="Vim mode, light and dark themes, accent colors, seven layout presets, and editable keyboard shortcuts. An editor should fit your hands."
+      />
+      <Card
         className="min-h-[420px] md:col-span-2 md:row-span-2"
-        visual={<DiagramVisual />}
-        name="Diagram Composer"
-        desc="Describe a diagram, or select the paragraph that explains it. The AI writes the TikZ, compiles just the figure in isolation, looks at the render to fix overlaps and spacing, then inserts editable TikZ at your cursor. No AI key? The manual Figure Playground composes figures fully offline."
+        visual={<VisualEditorVisual />}
+        name="Write in Code or Visual"
+        desc="Flip any LaTeX or Markdown document into a visual editor: headings, lists, bold, links, edited directly, with coordinated undo across both modes. Unsupported commands stay visible as raw blocks instead of being silently dropped, so the round-trip back to source is non-destructive."
       />
       <Card
         visual={<SyncTexVisual />}
@@ -426,6 +594,11 @@ export function BentoSection() {
         desc="Paste a DOI, arXiv id, or URL. Oleafly fetches the BibTeX, dedupes it, and inserts the \cite."
       />
       <Card
+        visual={<LibraryImportVisual />}
+        name="Bring your whole library"
+        desc="Batch-import BibTeX, RIS, EndNote XML, and Zotero RDF. Everything is deduped against your project before a single entry lands in the .bib."
+      />
+      <Card
         visual={<PaletteVisual />}
         name="Command palette"
         desc="⌘K fuzzy-searches every action in the app: projects, files, settings, the lot."
@@ -436,9 +609,19 @@ export function BentoSection() {
         desc="Nine providers or local Ollama, all behind the same per-change approval. MCP clients like Claude Code and Cursor connect the same way. Or turn AI off. The editor doesn't need it."
       />
       <Card
+        visual={<ResearchVisual />}
+        name="Research on tap"
+        desc="The agent searches alphaXiv and OpenAlex, pulls paper content, and verifies citations against Crossref before they enter your bibliography."
+      />
+      <Card
         visual={<SpellVisual />}
         name="Offline spell & grammar"
         desc="Hunspell and Harper run as WASM on your machine, masking commands and math so only prose is checked."
+      />
+      <Card
+        visual={<MemoryVisual />}
+        name="An agent that remembers"
+        desc="Durable per-project memory notes and a visible plan checklist survive across chats, so the AI picks up where it left off."
       />
       <Card
         visual={<PagesVisual />}
@@ -446,19 +629,20 @@ export function BentoSection() {
         desc="The editor and virtualized PDF viewer stay smooth whether it's a one-page resume or a book-length thesis."
       />
       <Card
+        visual={<DetachVisual />}
+        name="A PDF viewer for real reading"
+        desc="Detach the preview to a second monitor, read two-page spreads, invert colors for late nights, or go fullscreen to present."
+      />
+      <Card
+        className="min-h-[420px] md:col-span-2 md:row-span-2"
+        visual={<DiagramVisual />}
+        name="Diagram Composer"
+        desc="Describe a diagram and the AI writes the TikZ, compiles the figure in isolation, and fixes overlaps by looking at the render. Or draw it yourself: shapes, edges, and an inspector on a real canvas that round-trips with the generated TikZ. Export transparent high-res PNGs, fully offline."
+      />
+      <Card
         visual={<EnginesVisual />}
         name="Three engines, one workspace"
         desc="LaTeX, Typst, and Markdown projects side by side in the same library, with the same Git history, preview, search, and AI workflow."
-      />
-      <Card
-        visual={<ImportVisual />}
-        name="Import what you have"
-        desc="Reconstruct many text-based PDFs into editable LaTeX locally, and convert DOCX through a managed Pandoc, with optional AI refinement."
-      />
-      <Card
-        visual={<ExportVisual />}
-        name="Export where you're going"
-        desc="PDF always; DOCX, HTML, Markdown, and more through Pandoc-backed contextual export menus. Or grab the whole project as a source ZIP."
       />
     </div>
   );

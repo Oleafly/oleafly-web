@@ -1,27 +1,15 @@
-/* External links: Lucide "external-link" glyph after the label.
- * Applied to absolute http(s) URLs that leave oleafly.com.
+/* External links: the same "\2197" north-east arrow the nav uses, after the
+ * label. Applied to absolute http(s) URLs that leave oleafly.com.
  * Buttons / OS download cards already carry their own icons — skip those.
  */
 
 a[href^="http://"]:not([href*="oleafly.com"]):not(.btn):not(.dl-platform):not(.dl-card):not(.no-ext-icon):not(.nav-links a)::after,
 a[href^="https://"]:not([href*="oleafly.com"]):not(.btn):not(.dl-platform):not(.dl-card):not(.no-ext-icon):not(.nav-links a)::after {
-  content: "";
-  display: inline-block;
-  width: 0.85em;
-  height: 0.85em;
-  margin-left: 0.28em;
-  vertical-align: -0.08em;
-  background-color: currentColor;
+  content: "\2197";
+  font-size: 0.7em;
+  margin-left: 2px;
+  vertical-align: super;
   opacity: 0.85;
-  /* Lucide ExternalLink (24x24 viewBox), stroke paths as mask */
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6'/%3E%3Cpath d='M10 14 21 3'/%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6'/%3E%3Cpath d='M10 14 21 3'/%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3C/svg%3E");
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
 }
 
 /* Download / platform buttons: keep OS glyph only, no second external icon */

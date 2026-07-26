@@ -609,3 +609,194 @@ div.st-hl-b.rounded-full {
     transform: none;
   }
 }
+
+/* Visual editor card: the segmented toggle flips Code -> Visual, the source
+   cross-fades into rendered prose, then flips back. One 10s cycle. */
+.ve-knob { animation: ve-knob 10s ease-in-out infinite; }
+.ve-code { animation: ve-code 10s ease-in-out infinite; }
+.ve-prose { opacity: 0; animation: ve-prose 10s ease-in-out infinite; }
+.ve-caret { animation: ve-caret 1s step-end infinite; }
+.ve-badge { opacity: 0; animation: ve-badge 10s ease-in-out infinite; }
+@keyframes ve-knob {
+  0%, 28% { transform: translateX(0); }
+  33%, 88% { transform: translateX(52px); }
+  93%, 100% { transform: translateX(0); }
+}
+@keyframes ve-code {
+  0%, 28% { opacity: 1; transform: translateY(0); }
+  33%, 88% { opacity: 0; transform: translateY(-6px); }
+  93%, 100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes ve-prose {
+  0%, 30% { opacity: 0; transform: translateY(6px); }
+  35%, 86% { opacity: 1; transform: translateY(0); }
+  91%, 100% { opacity: 0; transform: translateY(6px); }
+}
+@keyframes ve-caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes ve-badge {
+  0%, 38% { opacity: 0; }
+  44%, 84% { opacity: 1; }
+  90%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ve-knob, .ve-code, .ve-prose, .ve-caret, .ve-badge {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .ve-code { opacity: 0; }
+  .ve-knob { transform: translateX(52px); }
+}
+
+/* Library import card: reference files pop in one by one, merge into the
+   project .bib, and the dedupe badge confirms. 8s cycle. */
+.zl-f1 { opacity: 0; animation: zl-f1 8s ease-in-out infinite; }
+.zl-f2 { opacity: 0; animation: zl-f2 8s ease-in-out infinite; }
+.zl-f3 { opacity: 0; animation: zl-f3 8s ease-in-out infinite; }
+.zl-f4 { opacity: 0; animation: zl-f4 8s ease-in-out infinite; }
+.zl-merge { opacity: 0; animation: zl-merge 8s ease-in-out infinite; }
+.zl-badge { opacity: 0; animation: zl-badge 8s ease-in-out infinite; }
+@keyframes zl-f1 { 0%, 2% { opacity: 0; transform: translateY(4px); } 6%, 92% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
+@keyframes zl-f2 { 0%, 8% { opacity: 0; transform: translateY(4px); } 12%, 92% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
+@keyframes zl-f3 { 0%, 14% { opacity: 0; transform: translateY(4px); } 18%, 92% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
+@keyframes zl-f4 { 0%, 20% { opacity: 0; transform: translateY(4px); } 24%, 92% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
+@keyframes zl-merge {
+  0%, 30% { opacity: 0; transform: translateY(4px); }
+  36%, 92% { opacity: 1; transform: translateY(0); }
+  97%, 100% { opacity: 0; }
+}
+@keyframes zl-badge {
+  0%, 46% { opacity: 0; transform: scale(0.92); }
+  52%, 92% { opacity: 1; transform: scale(1); }
+  97%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zl-f1, .zl-f2, .zl-f3, .zl-f4, .zl-merge, .zl-badge {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Research connectors card: query -> results -> Crossref verification. 8s. */
+.rs-q { opacity: 0; animation: rs-q 8s ease-in-out infinite; }
+.rs-r1 { opacity: 0; animation: rs-r1 8s ease-in-out infinite; }
+.rs-r2 { opacity: 0; animation: rs-r2 8s ease-in-out infinite; }
+.rs-v { opacity: 0; animation: rs-v 8s ease-in-out infinite; }
+@keyframes rs-q {
+  0%, 2% { opacity: 0; transform: translateY(4px); }
+  7%, 92% { opacity: 1; transform: translateY(0); }
+  97%, 100% { opacity: 0; }
+}
+@keyframes rs-r1 {
+  0%, 16% { opacity: 0; transform: translateY(4px); }
+  22%, 92% { opacity: 1; transform: translateY(0); }
+  97%, 100% { opacity: 0; }
+}
+@keyframes rs-r2 {
+  0%, 26% { opacity: 0; transform: translateY(4px); }
+  32%, 92% { opacity: 1; transform: translateY(0); }
+  97%, 100% { opacity: 0; }
+}
+@keyframes rs-v {
+  0%, 44% { opacity: 0; transform: scale(0.92); }
+  50%, 92% { opacity: 1; transform: scale(1); }
+  97%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rs-q, .rs-r1, .rs-r2, .rs-v {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Agent memory card: the sticky note lands, then todos check off. The
+   checkbox glyph fades in per item. 9s cycle. */
+.am-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 11px;
+  height: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  font-size: 8px;
+  color: #7ed492;
+  flex-shrink: 0;
+}
+.am-note { opacity: 0; animation: am-note 9s ease-in-out infinite; }
+.am-t1 .am-box, .am-t2 .am-box { color: transparent; }
+.am-t1 .am-box { animation: am-check 9s ease-in-out infinite; }
+.am-t2 .am-box { animation: am-check2 9s ease-in-out infinite; }
+@keyframes am-note {
+  0%, 3% { opacity: 0; transform: translateY(-5px) rotate(-2deg); }
+  9%, 92% { opacity: 1; transform: translateY(0) rotate(0); }
+  97%, 100% { opacity: 0; }
+}
+@keyframes am-check {
+  0%, 24% { color: transparent; border-color: rgba(255, 255, 255, 0.2); }
+  30%, 100% { color: #7ed492; border-color: rgba(52, 180, 74, 0.5); }
+}
+@keyframes am-check2 {
+  0%, 44% { color: transparent; border-color: rgba(255, 255, 255, 0.2); }
+  50%, 100% { color: #7ed492; border-color: rgba(52, 180, 74, 0.5); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .am-note { animation: none; opacity: 1; transform: none; }
+  .am-t1 .am-box, .am-t2 .am-box { animation: none; color: #7ed492; border-color: rgba(52, 180, 74, 0.5); }
+}
+
+/* Detachable preview card: the PDF window pops out of the app frame and
+   drifts right, leaving a dashed ghost behind. 8s cycle. */
+.pv-win { animation: pv-win 8s ease-in-out infinite; }
+.pv-ghost { opacity: 0; animation: pv-ghost 8s ease-in-out infinite; }
+.pv-badge { opacity: 0; animation: pv-badge 8s ease-in-out infinite; }
+@keyframes pv-win {
+  0%, 18% { transform: translate(-8px, -4px) scale(0.9); box-shadow: none; }
+  32%, 88% { transform: translate(26px, 2px) scale(1.06); }
+  96%, 100% { transform: translate(-8px, -4px) scale(0.9); box-shadow: none; }
+}
+@keyframes pv-ghost {
+  0%, 22% { opacity: 0; }
+  34%, 88% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes pv-badge {
+  0%, 36% { opacity: 0; transform: translateY(3px); }
+  44%, 88% { opacity: 1; transform: translateY(0); }
+  96%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pv-win { animation: none; transform: translate(26px, 2px); }
+  .pv-ghost, .pv-badge { animation: none; opacity: 1; transform: none; }
+}
+
+/* Make-it-yours card: `:wq` types in the statusline; accent dots pulse in
+   sequence. */
+.my-type {
+  width: 0;
+  animation: my-type 6s steps(3, end) infinite;
+}
+@keyframes my-type {
+  0%, 18% { width: 0; }
+  34%, 88% { width: 3ch; }
+  94%, 100% { width: 0; }
+}
+.my-d1 { animation: my-dot 6s ease-in-out infinite; }
+.my-d2 { animation: my-dot 6s ease-in-out 0.25s infinite; }
+.my-d3 { animation: my-dot 6s ease-in-out 0.5s infinite; }
+.my-d4 { animation: my-dot 6s ease-in-out 0.75s infinite; }
+.my-d5 { animation: my-dot 6s ease-in-out 1s infinite; }
+@keyframes my-dot {
+  0%, 55% { transform: scale(1); }
+  60% { transform: scale(1.35); }
+  65%, 100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .my-type { animation: none; width: 3ch; }
+  .my-d1, .my-d2, .my-d3, .my-d4, .my-d5 { animation: none; }
+}

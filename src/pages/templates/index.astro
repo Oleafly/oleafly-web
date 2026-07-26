@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DownloadButton from "../../components/DownloadButton.astro";
 import data from "../../data/template-packs.json";
@@ -6,6 +7,13 @@ import "../../styles/tools.css";
 
 const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
 const total = data.packs.reduce((n, p) => n + p.templates.length, 0);
+
+// Compiled first-page previews, one per template id.
+const previews = import.meta.glob<{ default: ImageMetadata }>(
+  "../../assets/template-previews/*.png",
+  { eager: true },
+);
+const previewFor = (id: string) => previews[`../../assets/template-previews/${id}.png`]?.default;
 ---
 
 <SiteLayout
@@ -18,9 +26,7 @@ const total = data.packs.reduce((n, p) => n + p.templates.length, 0);
       <p class="eyebrow">Templates</p>
       <h1>Free LaTeX and Typst templates</h1>
       <p class="sub">
-        Every template is open-licensed and lives in the public
-        <a href="https://github.com/Oleafly/template-packs" target="_blank" rel="noopener noreferrer">
-          template-packs</a> catalog. Browse the source here, or install whole packs in one
+        Every template is open-licensed and lives in the public <a href="https://github.com/Oleafly/template-packs" target="_blank" rel="noopener noreferrer">template-packs</a> catalog. Browse the source here, or install whole packs in one
         click inside the <a href="/">free desktop app</a>, where the catalog grows without
         app updates. The app also bundles 23 more starters out of the box.
       </p>
@@ -38,7 +44,18 @@ const total = data.packs.reduce((n, p) => n + p.templates.length, 0);
             </div>
             <div class="card-grid">
               {pack.templates.map((t) => (
-                <a class="ol-card" href={`/templates/${t.id}/`} style="text-decoration:none">
+                <a class="ol-card tpl-card" href={`/templates/${t.id}/`} style="text-decoration:none">
+                  {previewFor(t.id) && (
+                    <span class="tpl-thumb">
+                      <Image
+                        src={previewFor(t.id)}
+                        alt={`Compiled first page of the ${t.name} template`}
+                        widths={[360, 720]}
+                        sizes="(max-width: 900px) 94vw, 330px"
+                        loading="lazy"
+                      />
+                    </span>
+                  )}
                   <h3>{t.name}</h3>
                   <p>{t.description}</p>
                   <p style="margin-top:10px">

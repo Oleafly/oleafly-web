@@ -46,7 +46,7 @@ const GITHUB = "https://github.com/Oleafly/Oleafly";
 const RELEASES = `${GITHUB}/releases/latest`;
 
 // The craft/test-counts section is parked for now; flip to true to restore it.
-const SHOW_CRAFT = false;
+const SHOW_CRAFT = true;
 
 const title = "Oleafly · The local-first research workspace: free LaTeX, Typst & Markdown editor for Mac, Windows, Linux";
 const description =
@@ -95,6 +95,9 @@ const jsonLd = {
         "Optional AI agent with 25 project tools that edits, compiles, and reads the PDF to verify its own edits",
         "ATS and accessibility preflight checks with tagged-PDF export preparation",
         "Bidirectional SyncTeX, template gallery, citation lookup, GitHub sync, offline editing and cached compilation",
+        "Visual WYSIWYG editing mode for LaTeX and Markdown with a non-destructive round-trip back to source",
+        "Reference library import from BibTeX, RIS, EndNote XML, and Zotero RDF with deduplication",
+        "Built-in research tools: BibTeX validator, visual table generator, equation preview, conference deadlines",
       ],
     },
     {
@@ -123,6 +126,9 @@ const compare = {
     ["Version history", "Real Git, automatic", "Paid feature", "Manual", "Manual", "No"],
     ["AI assistant", "9 providers or local Ollama", "Paid add-on", "None", "Paid Copilot", "Upsell"],
     ["AI verifies its own edits", "Yes, compiles & reads the PDF", "No", "n/a", "No", "n/a"],
+    ["Code + visual editing", "Both, non-destructive", "Rich text mode", "Source only", "Source only", "Visual only"],
+    ["Import Zotero / RIS / EndNote", "Yes, with dedupe", "Paid integrations", "No", "Via extensions", "No"],
+    ["MCP for external AI agents", "Yes, built in", "No", "No", "No", "No"],
     ["ATS resume checks", "Yes, scored", "No", "No", "No", "Opaque"],
     ["Accessibility preflight", "Yes + tagged-export prep", "No", "No", "No", "No"],
     ["Account required", "No", "Yes", "No", "No", "Yes"],
@@ -297,13 +303,119 @@ const compare = {
               <span class="chip">Real Git history, automatic</span>
               <span class="chip">MCP server built in</span>
               <span class="chip">ATS &amp; accessibility preflight</span>
+              <span class="chip">Code &amp; Visual editing modes</span>
+              <span class="chip">Zotero, RIS &amp; EndNote import</span>
+              <span class="chip">Vim mode, if that's your thing</span>
             </Marquee>
           </div>
         </div>
       </section>
 
+      <!-- =========================== Bento =========================== -->
+      <section class="section" id="more">
+        <div class="container">
+          <p class="eyebrow">Built like a code editor</p>
+          <h2>Everything else you'd expect. On your machine.</h2>
+          <BentoSection client:visible={{rootMargin: "200px"}} />
+        </div>
+      </section>
+
       <!-- ============== Feature stack: sticky 3D card deck ============== -->
       <div class="stack">
+      <!-- ========================= Library ========================= -->
+      <section class="stack-card" id="library">
+        <div class="container">
+          <p class="eyebrow">The library</p>
+          <h2>A shelf, not a file list.</h2>
+          <p class="sub">
+            Your projects sit on a shelf as covers you can tell apart at a glance: eleven cover
+            colors that persist in project metadata, engine badges, bookmarks, and fork lineage.
+            Hover a cover and the compiled first page peeks out. The omnibar searches names,
+            metadata, and even the text inside your documents.
+          </p>
+          <div class="shelf-wrap" role="img" aria-label="A shelf of project covers: thesis, IEEE paper, a bookmarked resume, a Typst paper, a Beamer deck, and a fork of the resume, each with its own cover color and engine badge">
+            <div class="shelf">
+              <div class="book book-lilac">
+                <span class="book-title">thesis</span>
+                <span class="book-badge">TeX</span>
+                <span class="book-preview" aria-hidden="true">
+                  <span class="bp-line bp-w60"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w80"></span>
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-cap">compiled first page</span>
+                </span>
+              </div>
+              <div class="book book-blue">
+                <span class="book-title">ieee-paper</span>
+                <span class="book-badge">TeX</span>
+                <span class="book-preview" aria-hidden="true">
+                  <span class="bp-line bp-w80"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w70"></span>
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-cap">compiled first page</span>
+                </span>
+              </div>
+              <div class="book book-spring">
+                <span class="book-star" aria-hidden="true">★</span>
+                <span class="book-title">resume</span>
+                <span class="book-badge">TeX</span>
+                <span class="book-preview" aria-hidden="true">
+                  <span class="bp-line bp-w60"></span>
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w75"></span>
+                  <span class="bp-cap">compiled first page</span>
+                </span>
+              </div>
+              <div class="book book-aqua">
+                <span class="book-title">paper</span>
+                <span class="book-badge">Typst</span>
+                <span class="book-preview" aria-hidden="true">
+                  <span class="bp-line bp-w70"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w80"></span>
+                  <span class="bp-line bp-w60"></span>
+                  <span class="bp-cap">compiled first page</span>
+                </span>
+              </div>
+              <div class="book book-peach">
+                <span class="book-title">beamer-deck</span>
+                <span class="book-badge">TeX</span>
+                <span class="book-preview" aria-hidden="true">
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-line bp-w65"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w70"></span>
+                  <span class="bp-cap">compiled first page</span>
+                </span>
+              </div>
+              <div class="book book-rose">
+                <span class="book-fork" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path></svg>
+                </span>
+                <span class="book-title">backend-swe</span>
+                <span class="book-badge">TeX</span>
+                <span class="book-preview" aria-hidden="true">
+                  <span class="bp-line bp-w60"></span>
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w75"></span>
+                  <span class="bp-cap">compiled first page</span>
+                </span>
+              </div>
+            </div>
+            <div class="shelf-edge" aria-hidden="true"></div>
+          </div>
+          <ul class="ticks ticks-row">
+            <li>Hover a cover for the compiled first page; bookmark the projects you live in</li>
+            <li>Filter by engine, kind, bookmark, or when you last touched it</li>
+            <li>Fork a project and the lineage stays visible on the cover</li>
+            <li>One search box for project names, metadata, and document content</li>
+          </ul>
+        </div>
+      </section>
       <!-- ========================= Templates ========================= -->
       <section class="stack-card" id="templates">
         <div class="container">
@@ -337,6 +449,8 @@ const compare = {
             letters, browsable by category with live previews: 23 starters bundled, 99 more across
             11 on-demand packs. Templates that use open-source font packs fetch them on demand and
             copy them into the project, so every document stays self-contained and compiles offline.
+            Save any project as your own template, or describe a document and let the AI draft one,
+            compiled and previewed before it joins the gallery.
           </p>
           <figure class="shot shot-wide">
             <Image
@@ -446,6 +560,8 @@ const compare = {
             <li>Explains cryptic compile errors, fixes bibliographies, cleans up formatting</li>
             <li>25 project tools: search, compile, logs, PDF text, citations, figures, research lookups</li>
             <li>Nine model providers or local Ollama, and the same tools exposed over a loopback MCP server</li>
+            <li>Durable per-project memory and a visible plan checklist, so the agent picks up where it left off</li>
+            <li>Ask AI from a text selection, or hand it a compile failure straight from the error card</li>
           </ul>
         </div>
       </section>
@@ -588,15 +704,6 @@ const compare = {
       </section>
       </div>
 
-      <!-- =========================== Bento =========================== -->
-      <section class="section" id="more">
-        <div class="container">
-          <p class="eyebrow">Built like a code editor</p>
-          <h2>Everything else you'd expect. On your machine.</h2>
-          <BentoSection client:visible={{rootMargin: "200px"}} />
-        </div>
-      </section>
-
       <!-- ========================= Comparison ========================= -->
       <section class="section" id="compare">
         <div class="container">
@@ -652,7 +759,7 @@ const compare = {
               <ul class="ticks ticks-net">
                 <li>Hosted AI providers receive the context you send them</li>
                 <li>GitHub publish, push, and pull</li>
-                <li>Citation lookup (DOI, arXiv, Crossref) and research connectors</li>
+                <li>Citation lookup (DOI, arXiv, Crossref) and research connectors (OpenAlex, alphaXiv)</li>
                 <li>First-use downloads: LaTeX packages, template packs, fonts, Pandoc, TinyTeX</li>
                 <li>Update checks and the deadlines refresh</li>
               </ul>
@@ -700,21 +807,37 @@ const compare = {
           <ol class="loop-grid">
             <li class="loop-step">
               <span class="loop-num">1</span>
+              <div class="loop-vis" aria-hidden="true">
+                <span class="lv-chip lvr-doi">doi:10.1145/3576915</span>
+                <span class="lv-chip lv-ok lvr-bib">@article{"{"}gatto24{"}"} ✓</span>
+              </div>
               <h3>Research</h3>
-              <p>Resolve DOIs and arXiv ids into BibTeX, search Crossref and OpenAlex, track conference deadlines, and keep your references beside the writing.</p>
+              <p>Resolve DOIs and arXiv ids into BibTeX, search Crossref, OpenAlex, and alphaXiv, verify citations before they land in the bibliography, and track conference deadlines beside the writing.</p>
             </li>
             <li class="loop-step">
               <span class="loop-num">2</span>
+              <div class="loop-vis" aria-hidden="true">
+                <span class="lvw-line"><span class="lvw-type">\section{"{"}Results{"}"}</span></span>
+              </div>
               <h3>Write</h3>
               <p>Plain LaTeX, Typst, or Markdown files in an ordinary folder, with templates, whole-project code intelligence, and an optional approval-gated AI agent.</p>
             </li>
             <li class="loop-step">
               <span class="loop-num">3</span>
+              <div class="loop-vis loop-vis-col" aria-hidden="true">
+                <span class="lvv-bar"><span class="lvv-fill"></span></span>
+                <span class="lv-chip lv-ok lvv-ok">compiled · 0 errors ✓</span>
+              </div>
               <h3>Verify</h3>
               <p>Bundled engines compile locally with readable errors. The PDF preview syncs to the source word by word, Preflight shows what parsers and screen readers extract, and Git checkpoints make every state recoverable.</p>
             </li>
             <li class="loop-step">
               <span class="loop-num">4</span>
+              <div class="loop-vis" aria-hidden="true">
+                <span class="lv-chip lvp-1">PDF</span>
+                <span class="lv-chip lvp-2">arXiv</span>
+                <span class="lv-chip lvp-3">GitHub ↑</span>
+              </div>
               <h3>Publish</h3>
               <p>Export the PDF, DOCX, or HTML, zip the source for submission systems and arXiv, and push to GitHub. The paper ships from the same folder it was written in.</p>
             </li>
@@ -728,33 +851,29 @@ const compare = {
         <div class="container">
           <p class="eyebrow">Open source, seriously built</p>
           <h2>An independent project with production discipline.</h2>
-          <p class="sub">
-            Oleafly is built in the open by an independent maintainer, and the unglamorous parts are
-            treated as product features too: compile cancellation, path safety, stale-result races,
-            Git recovery, PDF fallback, and cross-platform tests.
-          </p>
-          <div class="craft-grid">
-            <div class="craft-stat">
-              <strong>776</strong>
-              <span>frontend tests</span>
+          <div class="craft-card">
+            <NoiseTexture frequency={0.8} noiseOpacity={0.25} className="opacity-30" />
+            <div class="rel craft-inner">
+              <p>
+                Oleafly is built in the open by an independent maintainer, and the unglamorous parts
+                are treated as product features too: compile cancellation, path safety, stale-result
+                races, Git recovery, PDF fallback, and cross-platform tests on macOS, Windows, and
+                Linux.
+              </p>
+              <p class="craft-note">
+                AGPL-3.0 licensed. Read the source, file an issue, or send a PR on{" "}
+                <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>.
+              </p>
             </div>
-            <div class="craft-stat">
-              <strong>132</strong>
-              <span>Rust tests</span>
-            </div>
-            <div class="craft-stat">
-              <strong>176</strong>
-              <span>end-to-end app cases</span>
-            </div>
-            <div class="craft-stat">
-              <strong>3 OSes</strong>
-              <span>CI, CodeQL &amp; RustSec</span>
-            </div>
+            <BorderBeam
+              client:visible
+              size={140}
+              duration={9}
+              borderWidth={1.5}
+              colorFrom="#34b44a"
+              colorTo="#2563eb"
+            />
           </div>
-          <p class="aside-note">
-            AGPL-3.0 licensed. Read the source, file an issue, or send a PR on{" "}
-            <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>.
-          </p>
         </div>
       </section>
       )}
@@ -833,6 +952,7 @@ const compare = {
           <a href="/docs/templates/">Templates</a>
           <a href="/docs/preflight/">Preflight</a>
           <a href="/docs/mcp/">MCP server</a>
+          <a href="/tools/">Oleafly Tools</a>
         </nav>
         <nav class="footer-col" aria-label="Documentation">
           <p class="footer-h">Docs &amp; Learn</p>
@@ -1241,7 +1361,10 @@ const compare = {
         padding: 104px 0 0;
       }
 
-      /* ===== Feature stack: sticky 3D card deck ===== */
+      /* ===== Feature stack: sticky 3D card deck. Cards are never
+         height-capped; JS pins tall cards with a negative top so you scroll
+         through the full content before the card sticks and the next one
+         slides over it. ===== */
       .stack {
         position: relative;
         perspective: 1400px;
@@ -1256,8 +1379,6 @@ const compare = {
         background: #0b0c0e;
         border: 1px solid var(--line-strong);
         border-radius: 12px;
-        max-height: calc(100vh - 144px);
-        overflow: hidden;
         transform-origin: 50% 0;
         will-change: transform, filter;
         box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.5);
@@ -1266,6 +1387,7 @@ const compare = {
         content: "";
         position: absolute;
         inset: 0;
+        border-radius: inherit;
         background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.1px, transparent 1.1px);
         background-size: 22px 22px;
         -webkit-mask-image: radial-gradient(95% 75% at 50% 0%, black, transparent);
@@ -1283,19 +1405,12 @@ const compare = {
       .stack-card .sub {
         margin-bottom: 28px;
       }
-      .stack-card .shot img {
-        max-height: 48vh;
-        object-fit: cover;
-        object-position: top;
-      }
       @media (max-width: 760px) {
         .stack {
           perspective: none;
         }
         .stack-card {
           position: static;
-          max-height: none;
-          overflow: visible;
           padding: 28px 20px 32px;
           margin-bottom: 28px;
         }
@@ -1515,10 +1630,131 @@ const compare = {
       }
       .loop-step {
         position: relative;
+        overflow: hidden;
         background: var(--surface);
         border: 1px solid var(--line);
         border-radius: var(--radius-lg);
         padding: 20px 18px;
+        transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+      }
+      .loop-step:hover {
+        transform: translateY(-3px);
+        border-color: var(--line-strong);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+      }
+      /* Bento-style animated vignettes inside each loop card. */
+      .loop-vis {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        min-height: 44px;
+        margin: 12px 0 0;
+        font-family: var(--mono);
+      }
+      .loop-vis-col {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 7px;
+        justify-content: center;
+      }
+      .lv-chip {
+        font-size: 8.5px;
+        color: #c9cdd6;
+        background: #141517;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 4px;
+        padding: 2px 6px;
+        white-space: nowrap;
+      }
+      .lv-ok {
+        color: #7ed492;
+        background: rgba(52, 180, 74, 0.1);
+        border-color: rgba(52, 180, 74, 0.4);
+        border-radius: 999px;
+      }
+      /* 1 · Research: DOI resolves into a bib entry */
+      .lvr-doi { opacity: 0; animation: lv-in 7s ease-in-out infinite; }
+      .lvr-bib { opacity: 0; animation: lv-in 7s ease-in-out 1.2s infinite; }
+      /* 2 · Write: a line of LaTeX types itself */
+      .lvw-line {
+        font-size: 9.5px;
+        color: #a8c3f5;
+        background: #0d0e10;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 3px 7px;
+      }
+      .lvw-type {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        vertical-align: bottom;
+        border-right: 1.5px solid #3b82f6;
+        width: 0;
+        animation: lvw-type 7s steps(17, end) infinite;
+      }
+      /* 3 · Verify: compile bar fills, lands clean */
+      .lvv-bar {
+        width: 104px;
+        height: 3px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+      }
+      .lvv-fill {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #2563eb, #34b44a);
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: lvv-fill 7s ease-in-out infinite;
+      }
+      .lvv-ok { opacity: 0; animation: lv-in 7s ease-in-out 2.4s infinite; }
+      /* 4 · Publish: destinations light up in turn */
+      .lvp-1, .lvp-2, .lvp-3 { opacity: 0.45; animation: lvp-pulse 7s ease-in-out infinite; }
+      .lvp-2 { animation-delay: 0.9s; }
+      .lvp-3 { animation-delay: 1.8s; }
+      @keyframes lv-in {
+        0%, 3% { opacity: 0; transform: translateY(4px); }
+        10%, 88% { opacity: 1; transform: translateY(0); }
+        95%, 100% { opacity: 0; }
+      }
+      @keyframes lvw-type {
+        0%, 6% { width: 0; }
+        40%, 88% { width: 17ch; }
+        95%, 100% { width: 0; }
+      }
+      @keyframes lvv-fill {
+        0%, 5% { transform: scaleX(0); }
+        34%, 92% { transform: scaleX(1); }
+        98%, 100% { transform: scaleX(0); }
+      }
+      @keyframes lvp-pulse {
+        0%, 8% { opacity: 0.45; border-color: rgba(255, 255, 255, 0.15); color: #c9cdd6; }
+        16%, 80% { opacity: 1; border-color: rgba(59, 130, 246, 0.55); color: #a8c3f5; }
+        90%, 100% { opacity: 0.45; border-color: rgba(255, 255, 255, 0.15); color: #c9cdd6; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .loop-step,
+        .loop-step:hover {
+          transform: none;
+          transition: none;
+        }
+        .lvr-doi, .lvr-bib, .lvv-ok, .lvp-1, .lvp-2, .lvp-3 {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+        .lvw-type {
+          animation: none;
+          width: 17ch;
+        }
+        .lvv-fill {
+          animation: none;
+          transform: scaleX(1);
+        }
       }
       .loop-step h3 {
         font-size: 15px;
@@ -1603,34 +1839,46 @@ const compare = {
       }
 
       /* ===== Craft ===== */
-      .craft-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-      }
-      .craft-stat {
+      .craft-card {
+        position: relative;
+        overflow: hidden;
         background: var(--surface);
         border: 1px solid var(--line);
         border-radius: var(--radius-lg);
-        padding: 20px 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+        padding: 26px 28px;
+        box-shadow: var(--shadow-popup);
       }
-      .craft-stat strong {
-        font-size: 26px;
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        color: #f7f8f8;
-        font-variant-numeric: tabular-nums;
+      .craft-inner {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 40px;
+        align-items: center;
       }
-      .craft-stat span {
-        font-size: 12.5px;
+      .craft-card p {
+        color: #c9cdd6;
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .craft-card .craft-note {
+        margin-top: 0;
+        padding-left: 32px;
+        border-left: 1px solid var(--line);
+        font-size: 13px;
+        line-height: 1.65;
         color: var(--muted);
       }
-      @media (max-width: 980px) {
-        .craft-grid {
-          grid-template-columns: 1fr 1fr;
+      .craft-card a {
+        color: var(--brand-text);
+        text-decoration: none;
+      }
+      @media (max-width: 760px) {
+        .craft-inner {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .craft-card .craft-note {
+          padding-left: 0;
+          border-left: none;
         }
       }
 
@@ -1671,6 +1919,169 @@ const compare = {
 
       .shot-wide {
         max-width: 1080px;
+      }
+
+      /* ===== Library shelf ===== */
+      .shelf-wrap {
+        position: relative;
+        padding-top: 108px; /* headroom so hover previews stay inside the card */
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      .shelf {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 18px;
+        flex-wrap: wrap;
+        padding: 0 12px;
+      }
+      .book {
+        position: relative;
+        width: 104px;
+        height: 132px;
+        border-radius: 4px 8px 8px 4px;
+        padding: 12px 10px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 6px;
+        box-shadow:
+          inset 5px 0 8px -5px rgba(0, 0, 0, 0.5),
+          inset -1px 0 0 rgba(255, 255, 255, 0.3),
+          0 10px 24px rgba(0, 0, 0, 0.45);
+        transition: transform 250ms ease, box-shadow 250ms ease;
+        transform-origin: bottom center;
+      }
+      .book::before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: rgba(0, 0, 0, 0.16);
+      }
+      .book:hover {
+        transform: translateY(-12px) rotate(-1.5deg);
+        box-shadow:
+          inset 5px 0 8px -5px rgba(0, 0, 0, 0.5),
+          inset -1px 0 0 rgba(255, 255, 255, 0.3),
+          0 22px 40px rgba(0, 0, 0, 0.55);
+      }
+      .book-title {
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        font-family: var(--mono);
+      }
+      .book-badge {
+        align-self: flex-start;
+        font-family: var(--mono);
+        font-size: 8.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 1px 5px;
+        border-radius: 3px;
+        background: rgba(0, 0, 0, 0.14);
+      }
+      .book-star,
+      .book-fork {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 11px;
+        opacity: 0.65;
+      }
+      .book-lilac { background: linear-gradient(165deg, #cdbcf3, #b3a0e6); color: #35284f; }
+      .book-blue { background: linear-gradient(165deg, #b5cdf8, #9ab8f0); color: #1e2a44; }
+      .book-spring { background: linear-gradient(165deg, #c3ecab, #a9dd90); color: #2c4a20; }
+      .book-aqua { background: linear-gradient(165deg, #a3e2d3, #87ccba); color: #1e4038; }
+      .book-peach { background: linear-gradient(165deg, #f7cfa9, #eeb98a); color: #4f3520; }
+      .book-rose { background: linear-gradient(165deg, #f2a9ba, #e78ba0); color: #4c1f2b; }
+      .book-preview {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 10px);
+        transform: translateX(-50%) translateY(6px);
+        width: 92px;
+        padding: 9px 8px 6px;
+        background: #f3f4f2;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        opacity: 0;
+        pointer-events: none;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+        transition: opacity 250ms ease, transform 250ms ease;
+      }
+      .book:hover .book-preview {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .bp-line {
+        height: 3px;
+        border-radius: 2px;
+        background: #c6c9c4;
+      }
+      .book-preview .bp-line:first-child {
+        background: #9a9e98;
+      }
+      .bp-w60 { width: 60%; }
+      .bp-w65 { width: 65%; }
+      .bp-w70 { width: 70%; }
+      .bp-w75 { width: 75%; }
+      .bp-w80 { width: 80%; }
+      .bp-w85 { width: 85%; }
+      .bp-w90 { width: 90%; }
+      .bp-cap {
+        margin-top: 3px;
+        font-family: var(--mono);
+        font-size: 7.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #8a8f98;
+      }
+      .shelf-edge {
+        height: 10px;
+        margin: 0 24px;
+        border-radius: 3px;
+        background: linear-gradient(180deg, #26282c, #101113);
+        border: 1px solid var(--line);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5);
+      }
+      #library .ticks-row {
+        margin-top: 28px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .book,
+        .book-preview {
+          transition: none;
+        }
+        .book:hover {
+          transform: none;
+        }
+      }
+      @media (max-width: 640px) {
+        .shelf-wrap {
+          padding-top: 64px;
+        }
+        .shelf {
+          gap: 12px;
+        }
+        .book {
+          width: 86px;
+          height: 112px;
+          padding: 10px 8px 8px;
+        }
+        .book-title {
+          font-size: 10.5px;
+        }
+        .shelf-edge {
+          margin: 0 8px;
+        }
       }
 
       /* ===== Comparison table ===== */
@@ -2027,34 +2438,38 @@ const compare = {
         a.addEventListener("click", () => nav.classList.remove("nav-open"));
       });
 
-      // Feature stack: as the next card slides up, the pinned card recedes
-      // (scale down, tilt back, dim). Skipped for reduced motion.
+      // Feature stack: pinned deck without clipping. Each card's sticky top is
+      // min(80, viewport - card height - margin), so short cards pin near the
+      // top while tall cards pin only once their bottom is on screen — the
+      // whole card is always readable. As the next card slides up, the pinned
+      // card recedes (scale down, tilt back, dim). Skipped for reduced motion.
       const stackCards = [...document.querySelectorAll(".stack-card")];
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (stackCards.length && !reduceMotion) {
-        const PIN_TOP = 80;
         let ticking = false;
         const update = () => {
           ticking = false;
           const vh = window.innerHeight;
           if (matchMedia("(max-width: 760px)").matches) {
-            // Mobile: cards flow normally (no pinning, content never clips),
-            // but each one rises and scales in as it enters the viewport.
+            // Mobile: cards flow normally, rising and scaling in on entry.
             for (const card of stackCards) {
               const r = card.getBoundingClientRect();
               const p = Math.min(1, Math.max(0, (vh * 0.92 - r.top) / (vh * 0.35)));
               card.style.transform = `translateY(${18 * (1 - p)}px) scale(${0.95 + 0.05 * p})`;
               card.style.filter = "";
+              card.style.top = "";
             }
             return;
           }
           for (let i = 0; i < stackCards.length; i++) {
             const card = stackCards[i];
+            const pin = Math.min(80, vh - card.offsetHeight - 40);
+            card.style.top = `${pin}px`;
             const next = stackCards[i + 1];
             let t = 0;
-            if (next && card.getBoundingClientRect().top <= PIN_TOP + 1) {
+            if (next && card.getBoundingClientRect().top <= pin + 1) {
               const nTop = next.getBoundingClientRect().top;
-              t = Math.min(1, Math.max(0, (vh - nTop) / (vh - PIN_TOP)));
+              t = Math.min(1, Math.max(0, (vh - nTop) / (vh - Math.max(pin, 0))));
             }
             if (t > 0) {
               card.style.transform = `translateY(${-16 * t}px) scale(${1 - 0.055 * t}) rotateX(${4 * t}deg)`;
