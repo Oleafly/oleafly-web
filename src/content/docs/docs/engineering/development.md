@@ -156,5 +156,6 @@ OAuth device flow runs server-side in Rust (`src-tauri/src/github.rs`) because t
 ## Releasing
 
 Packaging targets macOS Apple Silicon, Windows x64, and Linux x64, each with
-matching Tectonic and Typst sidecars fetched and smoke-tested in CI. Signing and
-notarization are deferred until the maintainer explicitly reopens that work.
+matching Tectonic and Typst sidecars fetched and smoke-tested in CI. Recent
+macOS releases are code-signed and notarized; Windows signing may lag. See
+[releasing](/docs/engineering/releasing/) and user [install](/docs/install/).
