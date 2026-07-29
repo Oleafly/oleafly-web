@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Why you compile more than once
 
-Sooner or later you will compile a document, open the PDF, and find `??` where a figure number or citation should be. Nothing is broken. You have just met one of LaTeX's oldest design decisions: a single compile is one pass over your file, and some information genuinely cannot be known in one pass.
+Sooner or later you will compile a document, open the PDF, and find `??` where a figure number or citation should be. Nothing is broken. A single compile is one pass over your file, and some information genuinely cannot be known in one pass.
 
 Here is the problem in miniature. On page 2 you write "see Figure \ref{fig:results}", but that figure lands on page 7. When the engine typesets page 2, it has not reached page 7 yet, so it has no idea what number the figure will get. The same applies to the table of contents, which needs the page number of every section before page one is even finished.
 
@@ -27,7 +27,7 @@ Modern setups run these passes for you automatically, so in practice you rarely 
 
 ## Engines in one line each
 
-Several programs can play the role of "the engine". pdfLaTeX is the classic choice with the widest journal support. XeLaTeX adds full Unicode and lets you use fonts installed on your system. LuaLaTeX also speaks Unicode and embeds a scripting language for advanced packages. Tectonic is a modern engine that downloads packages on demand the first time you need them, which is the engine Oleafly bundles so a new project compiles without installing a TeX distribution first.
+Several programs can play the role of "the engine". pdfLaTeX is the classic choice with the widest journal support. XeLaTeX adds full Unicode and lets you use fonts installed on your system. LuaLaTeX also speaks Unicode and embeds a scripting language for advanced packages. Tectonic is a modern engine that downloads packages on demand the first time you need them. Oleafly bundles it so a new project compiles without installing a TeX distribution first.
 
 For most documents the differences barely matter; pick whatever your template or venue expects and move on. See [engines compared](/learn/engines-compared/) when you need to choose deliberately.
 

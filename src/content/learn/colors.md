@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Color that survives print
 
-Color in LaTeX comes from one package, `xcolor`, which supplies named colors, exact color specification, background boxes, and a way to define your own palette. Documents need it less often than you might expect, since journals typeset body text in black, but it earns its keep in slides, drafts with visible annotations, and anything carrying an organization's palette.
+Color in LaTeX comes from one package, `xcolor`. It gives you named colors, exact color specs, background boxes, and a way to define your own palette. Body text in journals is almost always black, so you need it less often than you might think. It still pays off in slides, drafts with visible annotations, and anything that has to match an organization's palette.
 
 ## The commands
 
@@ -30,10 +30,10 @@ Color in LaTeX comes from one package, `xcolor`, which supplies named colors, ex
 
 ## Define once, use everywhere
 
-`\definecolor{brand}{HTML}{2563EB}` registers a name of your own. After this line, `\textcolor{brand}{...}` works like any built-in color, and the hex value lives in exactly one place. When the palette changes, you edit one preamble line instead of hunting raw hex codes through the document. This is the same single-point-of-truth argument made for [custom macros](/learn/custom-commands/), applied to color.
+`\definecolor{brand}{HTML}{2563EB}` registers a name of your own. After this line, `\textcolor{brand}{...}` works like any built-in color, and the hex value lives in exactly one place. When the palette changes, you edit one preamble line instead of hunting raw hex codes through the document. Same idea as [custom macros](/learn/custom-commands/): define once, reuse everywhere.
 
 ## Grayscale is still real
 
-Use color for signal, not decoration, and assume some readers will not see it. Plenty of journals still print in grayscale, where red and blue collapse into similar grays, and a meaningful fraction of readers have some form of color vision deficiency. The practical rule is that color may reinforce a distinction but should never be the only thing carrying it: pair colored text with bold or a symbol, and pair colored plot lines with distinct markers or dash patterns.
+Use color for signal, not decoration, and assume some readers will not see it. Plenty of journals still print in grayscale, where red and blue collapse into similar grays, and a meaningful fraction of readers have some form of color vision deficiency. Rule of thumb: color may reinforce a distinction but should never be the only thing carrying it. Pair colored text with bold or a symbol, and pair colored plot lines with distinct markers or dash patterns.
 
-A closing caution about scope. Coloring headings or body text by hand quickly makes a document look homemade, and inside a venue's template it will be reverted anyway. Keep manual color for the places it means something, such as marking reviewer-requested changes in a revision, and remove it before the final version.
+One more thing about scope. Coloring headings or body text by hand quickly makes a document look homemade, and inside a venue's template it will get reverted anyway. Keep manual color for places it means something, such as marking reviewer-requested changes in a revision, and strip it before the final version.

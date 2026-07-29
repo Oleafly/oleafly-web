@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # The figure that flees the section
 
-You put a figure at the end of Section 4 and it prints in the middle of Section 5, or piles up with three others at the end of the chapter. This happens because figures are floats: LaTeX treats their position in the source as a starting point, not a destination, and moves them to keep pages full. Floats also must appear in order, so one figure that cannot be placed blocks every figure behind it. The general placement system is covered in [where floats actually land](/learn/position-figures/). This lesson is the escalation ladder for when a float ends up somewhere you cannot accept.
+You put a figure at the end of Section 4 and it prints in the middle of Section 5, or piles up with three others at the end of the chapter. Figures are floats: LaTeX treats their position in the source as a starting point, not a destination, and moves them to keep pages full. Floats also must appear in order, so one figure that cannot be placed blocks every figure behind it. The general placement system is covered in [where floats actually land](/learn/position-figures/). This lesson is the escalation ladder for when a float ends up somewhere you cannot accept.
 
 ## Step one: check the placement options
 
@@ -49,4 +49,4 @@ An `[H]` figure prints exactly where its code sits, like a large paragraph. The 
 
 Very large floats are deferred because few pages have room for them. Reducing `width=0.9\textwidth` to `0.7\textwidth`, or trimming whitespace from the image file, often lets LaTeX place a figure it had been pushing to the chapter's end.
 
-A final note on habit: do this tuning once, after the text is stable. Every paragraph you add or delete reshuffles the pages, so placement surgery during drafting is effort you will redo.
+One habit worth keeping: do this tuning once, after the text is stable. Every paragraph you add or delete reshuffles the pages, so placement surgery during drafting is effort you will redo.

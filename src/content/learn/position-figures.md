@@ -21,7 +21,7 @@ Every float environment takes an optional argument listing where LaTeX is allowe
 \begin{figure}[htbp] % here, top, bottom, page of floats
 ```
 
-Each letter is a permission. `h` allows the float "here", at the point in the text where the code appears. `t` allows the top of a page, `b` allows the bottom of a page, and `p` allows a dedicated float page containing only figures and tables. LaTeX evaluates them roughly in that order for each page it builds, taking the first placement that satisfies its internal rules about spacing and page balance. The letters grant options rather than express ranked wishes, so listing all four gives LaTeX the most room to place the float somewhere close and sensible. If you omit the argument entirely, the default is `[tbp]`, notably without `h`, which is why a bare figure so often jumps to the top of the next page.
+Each letter is a permission. `h` allows the float "here", at the point in the text where the code appears. `t` allows the top of a page, `b` allows the bottom of a page, and `p` allows a dedicated float page containing only figures and tables. LaTeX evaluates them roughly in that order for each page it builds, taking the first placement that satisfies its internal rules about spacing and page balance. The letters grant options rather than express ranked wishes, so listing all four gives LaTeX the most room to place the float somewhere close and sensible. If you omit the argument entirely, the default is `[tbp]`, without `h`, which is why a bare figure so often jumps to the top of the next page.
 
 ## Why forcing "here" backfires
 

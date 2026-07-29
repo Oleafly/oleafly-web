@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Figures, tables, and comparisons carry the paper
 
-Here is how a busy reviewer actually reads your paper: abstract, then a flip through every figure and table, then maybe the text. If your visuals tell the story on their own, you have won half the review before a single paragraph gets read. Design them like they are the paper, because for many readers they are.
+Here is how a busy reviewer actually reads your paper: abstract, then a flip through every figure and table, then maybe the text. If your visuals tell the story on their own, you have won half the review before a single paragraph gets read. Design them like they are the paper. For many readers, they are.
 
 ## Every figure needs a takeaway caption
 
@@ -50,7 +50,7 @@ Export vector formats (PDF, SVG) rather than screenshots wherever possible. Bitm
 
 ## Building them in LaTeX
 
-Placement, sizing, and wrangling the float system are covered in [inserting images](/learn/insert-images/), and professional-looking tables in [creating tables](/learn/create-table/). For diagrams, architecture sketches, and flowcharts, TikZ produces vector graphics that match your document fonts exactly; start with [the TikZ intro](/learn/tikz-intro/). If hand-writing TikZ feels slow, Oleafly's Diagram Composer can help draft TikZ figures visually that you then refine in code.
+Placement, sizing, and wrangling the float system are covered in [inserting images](/learn/insert-images/), and clean tables in [creating tables](/learn/create-table/). For diagrams, architecture sketches, and flowcharts, TikZ produces vector graphics that match your document fonts exactly. Start with [the TikZ intro](/learn/tikz-intro/). If hand-writing TikZ feels slow, Oleafly's Diagram Composer can help draft TikZ figures visually that you then refine in code.
 
 ## The five-minute audit
 

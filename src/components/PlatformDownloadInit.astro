@@ -2,6 +2,10 @@
 /**
  * Client script + shared styles for .dl-platform download buttons.
  * Include once per page (SiteLayout covers interior; landing includes it too).
+ *
+ * Also resolves the latest GitHub release asset for the visitor's OS and rewrites
+ * download links to direct installer URLs (dmg / setup.exe / AppImage). Fallback
+ * stays the releases page. Pure client-side: no build-time release fetch.
  */
 ---
 
@@ -25,6 +29,13 @@
 
 <script>
   (() => {
+    const RELEASES_API = "https://api.github.com/repos/Oleafly/Oleafly/releases/latest";
+    const RELEASES_PAGE = "https://github.com/Oleafly/Oleafly/releases/latest";
+    const CACHE_KEY = "oleafly-download-urls-v1";
+    const CACHE_MS = 30 * 60 * 1000; // 30 minutes
+
+    /** @typedef {"mac" | "windows" | "linux"} Os */
+
     const detectOs = () => {
       const ua = navigator.userAgent || "";
       const plat = navigator.platform || "";
@@ -42,6 +53,13 @@
       mac: "Download for Mac",
       windows: "Download for Windows",
       linux: "Download for Linux",
+    };
+
+    /** Primary installer per OS (skip .sig and latest.json). */
+    const pickAsset = {
+      mac: (name) => /\.dmg$/i.test(name) && /aarch64/i.test(name),
+      windows: (name) => /-setup\.exe$/i.test(name),
+      linux: (name) => /\.AppImage$/i.test(name),
     };
 
     const os = detectOs();
@@ -77,5 +95,121 @@
         card.removeAttribute("aria-current");
       }
     }
+
+    /**
+     * @returns {{ tag?: string, htmlUrl?: string, urls: Record<Os, string | null>, at: number } | null}
+     */
+    const readCache = () => {
+      try {
+        const raw = sessionStorage.getItem(CACHE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object" || !parsed.urls) return null;
+        if (typeof parsed.at !== "number" || Date.now() - parsed.at > CACHE_MS) return null;
+        return parsed;
+      } catch {
+        return null;
+      }
+    };
+
+    /** @param {{ tag?: string, htmlUrl?: string, urls: Record<Os, string | null>, at: number }} value */
+    const writeCache = (value) => {
+      try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify(value));
+      } catch {
+        /* private mode / quota */
+      }
+    };
+
+    /**
+     * @param {Array<{ name?: string, browser_download_url?: string }>} assets
+     * @returns {Record<Os, string | null>}
+     */
+    const pickUrls = (assets) => {
+      /** @type {Record<Os, string | null>} */
+      const urls = { mac: null, windows: null, linux: null };
+      for (const key of /** @type {Os[]} */ (["mac", "windows", "linux"])) {
+        const match = pickAsset[key];
+        const hit = assets.find(
+          (a) =>
+            a &&
+            typeof a.name === "string" &&
+            typeof a.browser_download_url === "string" &&
+            !/\.sig$/i.test(a.name) &&
+            match(a.name),
+        );
+        urls[key] = hit ? hit.browser_download_url : null;
+      }
+      return urls;
+    };
+
+    /**
+     * Apply direct asset URLs. Platform CTAs use the visitor OS;
+     * OS cards keep their own data-os so Mac/Win/Linux each get the right file.
+     * @param {Record<Os, string | null>} urls
+     * @param {string} [htmlUrl]
+     */
+    const applyUrls = (urls, htmlUrl) => {
+      const fallback = htmlUrl || RELEASES_PAGE;
+
+      for (const btn of document.querySelectorAll(".dl-platform")) {
+        const direct = urls[os];
+        if (direct) {
+          btn.setAttribute("href", direct);
+          // File download: stay in the same tab so the browser starts the save dialog.
+          btn.removeAttribute("target");
+          btn.removeAttribute("rel");
+        } else {
+          btn.setAttribute("href", fallback);
+          btn.setAttribute("target", "_blank");
+          btn.setAttribute("rel", "noopener noreferrer");
+        }
+      }
+
+      for (const card of document.querySelectorAll(".dl-card[data-os]")) {
+        const cardOs = card.getAttribute("data-os");
+        if (cardOs !== "mac" && cardOs !== "windows" && cardOs !== "linux") continue;
+        const direct = urls[cardOs];
+        if (direct) {
+          card.setAttribute("href", direct);
+          card.removeAttribute("target");
+          card.removeAttribute("rel");
+        } else {
+          card.setAttribute("href", fallback);
+          card.setAttribute("target", "_blank");
+          card.setAttribute("rel", "noopener noreferrer");
+        }
+      }
+    };
+
+    const resolveFromNetwork = async () => {
+      const res = await fetch(RELEASES_API, {
+        headers: { Accept: "application/vnd.github+json" },
+      });
+      if (!res.ok) throw new Error(`GitHub releases ${res.status}`);
+      const data = await res.json();
+      const assets = Array.isArray(data.assets) ? data.assets : [];
+      const urls = pickUrls(assets);
+      const payload = {
+        tag: typeof data.tag_name === "string" ? data.tag_name : undefined,
+        htmlUrl: typeof data.html_url === "string" ? data.html_url : RELEASES_PAGE,
+        urls,
+        at: Date.now(),
+      };
+      writeCache(payload);
+      return payload;
+    };
+
+    const cached = readCache();
+    if (cached) {
+      applyUrls(cached.urls, cached.htmlUrl);
+      return;
+    }
+
+    resolveFromNetwork()
+      .then((payload) => applyUrls(payload.urls, payload.htmlUrl))
+      .catch(() => {
+        // Leave existing hrefs pointing at the releases page.
+      });
   })();
 </script>

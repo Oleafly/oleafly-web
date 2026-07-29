@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Symbol desk card
 
-This page is a reference card rather than a lesson: the accents, big operators, number sets, and delimiters that cover most day-to-day mathematics, collected in one place. Every command here works in math mode only, and the number sets need `\usepackage{amssymb}` in the preamble. For the Greek alphabet and the basic relations, see [Greek and everyday symbols](/learn/greek-letters/); for how math mode itself works, start with [math mode basics](/learn/math-mode/).
+This page is a reference card rather than a lesson. Accents, big operators, number sets, and delimiters that cover most day-to-day mathematics, all in one place. Every command here works in math mode only, and the number sets need `\usepackage{amssymb}` in the preamble. For the Greek alphabet and the basic relations, see [Greek and everyday symbols](/learn/greek-letters/). For how math mode itself works, start with [math mode basics](/learn/math-mode/).
 
 ## Accents
 
@@ -47,7 +47,7 @@ The plain accents fit a single letter; the `wide` and `over` variants stretch to
 | `\lim_{x \to 0}` | Limit |
 | `\max_{x}`, `\inf_{x}` | Maximum, infimum over a variable |
 
-Bounds attach with the ordinary subscript and superscript syntax, braced when longer than one character. In display math, sums, products, and limits place their bounds above and below the symbol; integrals keep theirs at the side, which is the standard convention.
+Bounds attach with the ordinary subscript and superscript syntax, braced when longer than one character. In display math, sums, products, and limits place their bounds above and below the symbol. Integrals keep theirs at the side. That is the standard convention.
 
 ## Number sets
 
@@ -65,6 +65,6 @@ These are the naturals, integers, rationals, reals, and complex numbers in black
 \langle v, w \rangle
 ```
 
-`\left` and `\right` grow their delimiter to the height of the enclosed material, so parentheses around a tall fraction wrap it instead of clipping it at text height. They must come in pairs; to show only one side, close with `\right.` and the invisible partner satisfies the pairing. Braces are special characters, so set braces are written `\{` and `\}`. Angle brackets for inner products are `\langle` and `\rangle`, never the keyboard's less-than and greater-than signs, which are relation symbols with the wrong shape and spacing.
+`\left` and `\right` grow their delimiter to the height of the enclosed material, so parentheses around a tall fraction wrap it instead of clipping it at text height. They must come in pairs. To show only one side, close with `\right.` and the invisible partner satisfies the pairing. Braces are special characters, so set braces are written `\{` and `\}`. Angle brackets for inner products are `\langle` and `\rangle`, never the keyboard's less-than and greater-than signs, which are relation symbols with the wrong shape and spacing.
 
 Any row of this card can be pasted into the [live playground](/live/) to see the rendered form next to the source.

@@ -27,7 +27,7 @@ Nearly every TikZ diagram reduces to two ingredients. A node is a positioned pie
 
 In `\node[draw] (src) {Source};`, the bracket options style the node, and `draw` means draw its border, without which you get floating text. The `(src)` is the node's name, and `{Source}` is its content. The name is the important part: it lets other commands refer to this node without knowing its coordinates.
 
-The second node shows why that matters. `right=2cm of src` comes from the `positioning` library and places `dst` two centimeters to the right of `src`, measured between their borders. The library also provides `left=of`, `above=of`, `below=of`, and diagonal combinations like `above right=of`. Building a diagram this way, each node placed relative to an existing one, keeps the layout intact when text changes size. Absolute coordinates like `\node at (4,2)` still have uses, but a diagram built on them needs manual renumbering every time one box grows.
+The second node shows why that matters. `right=2cm of src` comes from the `positioning` library and places `dst` two centimeters to the right of `src`, measured between their borders. The library also provides `left=of`, `above=of`, `below=of`, and diagonal combinations like `above right=of`. Build a diagram this way (each node relative to an existing one) and the layout stays intact when text changes size. Absolute coordinates like `\node at (4,2)` still have uses, but a diagram built on them needs manual renumbering every time one box grows.
 
 ## Drawing the arrow
 
@@ -37,4 +37,4 @@ The mid-path `node[above] {edge}` is a label attached to the line itself. A node
 
 ## Habits that pay off
 
-Name every node, even in tiny diagrams, because unnamed nodes cannot be connected to and small diagrams rarely stay small. Prefer relative placement from `positioning` over absolute coordinates for the same reason. And remember that every TikZ statement ends with a semicolon; omitting one is the most common TikZ error and produces messages that point well away from the real problem. For arranging many boxes into tidy rows and columns, continue with [aligned flowchart boxes](/learn/tikz-flowchart/).
+Name every node, even in tiny diagrams. Unnamed nodes cannot be connected to, and small diagrams rarely stay small. Prefer relative placement from `positioning` over absolute coordinates for the same reason. Every TikZ statement ends with a semicolon. Omitting one is the most common TikZ error, and the messages often point well away from the real problem. For arranging many boxes into tidy rows and columns, continue with [aligned flowchart boxes](/learn/tikz-flowchart/).

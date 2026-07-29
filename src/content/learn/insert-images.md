@@ -7,11 +7,54 @@ level: "beginner"
 tags: ["figures"]
 featured: true
 updated: 2026-07-25
+quiz:
+  title: 'Figures check'
+  questions:
+    - prompt: 'Which package gives you \includegraphics?'
+      choices:
+        - 'amsmath'
+        - 'graphicx'
+        - 'babel'
+        - 'hyperref only'
+      answer: 'B'
+      level: beginner
+    - prompt: 'Why is width=0.8\textwidth a sensible default?'
+      choices:
+        - 'It always crops the image'
+        - 'It scales with the text width, so it still fits if margins change'
+        - 'It converts PNG to PDF'
+        - 'It turns floating off'
+      answer: 'B'
+      level: beginner
+    - prompt: 'What does float behavior mean for a figure?'
+      choices:
+        - 'The image is animated'
+        - 'LaTeX may move the figure to a better spot on the page, not always right at the source line'
+        - 'Images only appear on page 1'
+        - 'You can''t add captions'
+      answer: 'B'
+      level: beginner
+    - prompt: 'For plots and diagrams, which format is usually best?'
+      choices:
+        - 'A full-size 12-megapixel phone JPG'
+        - 'Vector PDF (stays sharp when scaled)'
+        - 'BMP only'
+        - 'Screenshots of equations instead of real math'
+      answer: 'B'
+      level: beginner
+    - prompt: 'Why is [htbp] usually safer than [h] alone?'
+      choices:
+        - 'It enables color'
+        - 'It gives LaTeX fallbacks (here, top, bottom, float page), so figures are less likely to pile up'
+        - 'graphicx requires it'
+        - 'It turns captions off'
+      answer: 'B'
+      level: intermediate
 ---
 
 # Drop in a figure
 
-LaTeX has no built-in image support. All of it comes from the `graphicx` package, which provides the `\includegraphics` command, and by convention the image is wrapped in a `figure` environment so it can carry a caption and a number. Here is the complete pattern you will use hundreds of times:
+LaTeX has no built-in image support. All of it comes from the `graphicx` package, which provides the `\includegraphics` command, and by convention the image is wrapped in a `figure` environment so it can carry a caption and a number. This is the pattern you will use hundreds of times:
 
 ```latex
 \usepackage{graphicx}

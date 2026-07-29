@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Shorter wait for the PDF
 
-A thesis that takes ninety seconds to compile changes how you write: you stop recompiling after small edits, errors pile up unseen, and the feedback loop that makes LaTeX pleasant disappears. Before optimizing, know where the time goes. In most long documents it is not the number of packages but a handful of heavy assets, above all large images and complex TikZ pictures, that dominate the build. The techniques below attack those directly.
+A thesis that takes ninety seconds to compile changes how you write. You stop recompiling after small edits, errors pile up unseen, and the feedback loop that makes LaTeX pleasant disappears. Before optimizing, know where the time goes. In most long documents it is not the number of packages but a handful of heavy assets, above all large images and complex TikZ pictures, that dominate the build. The techniques below attack those directly.
 
 ## Skip the figures while drafting
 

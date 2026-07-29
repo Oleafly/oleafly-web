@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Assistant inside Oleafly
 
-Oleafly includes an AI assistant that works inside your project rather than in a separate chat window. It differs from pasting LaTeX into a general chatbot in three ways: it runs on your own API key, it can read the project it is editing, and every change it proposes goes through an approval step before touching your files.
+Oleafly includes an AI assistant that works inside your project rather than in a separate chat window. Unlike pasting LaTeX into a general chatbot, it runs on your own API key, can read the project it is editing, and shows every proposed change for approval before touching your files.
 
 ## Your key, your provider
 
@@ -27,6 +27,6 @@ The assistant never writes into your files directly. It proposes changes as a di
 
 ## Closing the loop with the compiler
 
-Because the assistant lives next to the build, it can verify its own work instead of guessing. After an edit it can trigger a compile, read the log, and if the change was meant to fix an error, check whether that error is gone. It can also read the text of the compiled PDF, which lets it confirm that a requested change actually shows up in the output. This does not make it infallible; models still produce wrong LaTeX, and you should read what you accept. It does mean broken suggestions tend to get caught and corrected inside the loop rather than discovered by you later.
+Because the assistant lives next to the build, it can check its own work. After an edit it can trigger a compile, read the log, and if the change was meant to fix an error, check whether that error is gone. It can also read the text of the compiled PDF, so it can confirm a requested change actually shows up in the output. Models still produce wrong LaTeX, so read what you accept. The upside is that broken suggestions tend to get caught and corrected inside the loop rather than by you later.
 
 The day-to-day mechanics live in the docs for [chat](/docs/ai-chat/) and [inline edit](/docs/ai-inline-edit/), and [A week of writing in Oleafly](/learn/oleafly-workflow/) shows where the assistant fits in a full writing loop.

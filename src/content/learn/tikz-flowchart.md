@@ -30,11 +30,11 @@ A flowchart looks amateurish for exactly one reason: boxes that almost line up. 
 
 ## Defining a style once
 
-The `box/.style={...}` line creates a reusable style named `box`. Its contents are ordinary node options: `draw` gives the node a border, `rounded corners` softens it, `align=center` centers multi-line text inside the node, and `minimum width=2.8cm` forces every box to at least that width so short labels do not produce shrunken boxes. From then on, `\node[box]` applies the whole set. When you decide the boxes need a fill color or a larger width, you change one line and the entire chart updates, which is the difference between a diagram you maintain and one you redraw.
+The `box/.style={...}` line creates a reusable style named `box`. Its contents are ordinary node options: `draw` gives the node a border, `rounded corners` softens it, `align=center` centers multi-line text inside the node, and `minimum width=2.8cm` forces every box to at least that width so short labels do not shrink into tiny boxes. From then on, `\node[box]` applies the whole set. When you want a fill color or a larger width, change one line and the entire chart updates. That is a diagram you maintain, not one you redraw.
 
 ## Spacing in two directions
 
-`node distance=10mm and 14mm` sets the default gaps used by the `positioning` library: the first value is the vertical distance, the second the horizontal. With that in place, `below=of i` places the process box 10 mm below the input box, edge to edge, and perfectly centered on it. A second column would use `right=of p` and land 14 mm to the side. Because each placement chains off an existing node, inserting a step means adding one node and updating one `below=of` reference, and everything downstream shifts with it. You can also override the distance per node, as in `below=15mm of i`.
+`node distance=10mm and 14mm` sets the default gaps used by the `positioning` library: the first value is the vertical distance, the second the horizontal. With that in place, `below=of i` places the process box 10 mm below the input box, edge to edge, and perfectly centered on it. A second column would use `right=of p` and land 14 mm to the side. Because each placement chains off an existing node, inserting a step means adding one node and updating one `below=of` reference. Everything downstream shifts with it. You can also override the distance per node, as in `below=15mm of i`.
 
 ## Connecting the steps
 

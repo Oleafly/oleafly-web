@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # A font file next to the project
 
-Suppose your thesis uses a font that is not installed on every machine that will ever compile it: a co-author's laptop, a university build server, or your own computer after a reinstall. Installing the font system-wide on each of them is fragile and sometimes not permitted. The sturdier approach is to put the font files in the project folder and point `fontspec` at them, so the document carries its own typography. This requires XeLaTeX or LuaLaTeX, since `fontspec` does not work under pdfLaTeX; the reasons are covered in [why people switch to XeLaTeX](/learn/when-use-xelatex/).
+Suppose your thesis uses a font that is not installed on every machine that will ever compile it: a co-author's laptop, a university build server, or your own computer after a reinstall. Installing the font system-wide on each of them is fragile and sometimes not permitted. Put the font files in the project folder and point `fontspec` at them instead, so the document carries its own typography. This requires XeLaTeX or LuaLaTeX, since `fontspec` does not work under pdfLaTeX. The reasons are covered in [why people switch to XeLaTeX](/learn/when-use-xelatex/).
 
 ```latex
 \usepackage{fontspec}
@@ -26,7 +26,7 @@ Suppose your thesis uses a font that is not installed on every machine that will
 
 ## What each key does
 
-`\setmainfont{MyFont}` declares the main text family and gives it the base name used to build filenames. `Path = ./fonts/` tells `fontspec` to look for the files in a `fonts` folder inside the project, relative to the main `.tex` file, instead of asking the operating system. `Extension = .otf` states the file type once so it does not have to be repeated per file; use `.ttf` if that is what you have.
+`\setmainfont{MyFont}` declares the main text family and gives it the base name used to build filenames. `Path = ./fonts/` tells `fontspec` to look for the files in a `fonts` folder inside the project, relative to the main `.tex` file, instead of asking the operating system. `Extension = .otf` states the file type once so it does not have to be repeated per file. Use `.ttf` if that is what you have.
 
 The remaining keys map font shapes to files. In each, the `*` expands to the base name, so `UprightFont = *-Regular` resolves to `MyFont-Regular.otf`, and likewise `MyFont-Bold.otf` and `MyFont-Italic.otf`. These names must match the actual filenames exactly, including capitalization, because case matters on Linux servers even when your local system forgives it. If the family has a bold italic, add `BoldItalicFont = *-BoldItalic`. A shape you do not map is a shape the document cannot use: with no `BoldFont` line, `\textbf` has nothing to switch to, and the compiler warns that the bold shape is undefined.
 

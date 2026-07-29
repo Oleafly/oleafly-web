@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Paragraphs, breaks, and empty space
 
-In a word processor you shape paragraphs by pressing Enter and eyeballing the gaps. LaTeX works differently: the source text describes structure, and the compiler decides the spacing. Understanding how LaTeX decides where a paragraph starts, and how to override it when you genuinely need to, saves you from the most common formatting fights beginners have with it.
+In a word processor you shape paragraphs by pressing Enter and eyeballing the gaps. LaTeX works differently: the source text describes structure, and the compiler decides the spacing. Once you know how LaTeX starts a paragraph, and how to override it when you need to, you avoid the formatting fights beginners usually have with it.
 
 ## How paragraphs work
 

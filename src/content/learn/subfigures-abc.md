@@ -30,13 +30,13 @@ Papers constantly need multi-panel figures: the architecture in panel (a), the t
 \end{figure}
 ```
 
-Walk through what each piece does. The outer `figure` environment is a normal float, and `[htbp]` lists the placements LaTeX may try, in order: here in the text, top of a page, bottom of a page, or a dedicated float page. Each `subfigure` environment is a box of a stated width, here `0.48\textwidth`, meaning 48 percent of the text width. Two panels at 0.48 leave a small gap, and the `\hfill` between them stretches to fill that gap so the panels sit flush against the left and right margins. Inside each panel, `width=\linewidth` scales the image to the panel's width, not the whole page's, which is the detail people most often get wrong.
+Here is what each piece does. The outer `figure` environment is a normal float, and `[htbp]` lists the placements LaTeX may try, in order: here in the text, top of a page, bottom of a page, or a dedicated float page. Each `subfigure` is a box of a stated width, here `0.48\textwidth` (48 percent of the text width). Two panels at 0.48 leave a small gap, and the `\hfill` between them stretches so the panels sit flush against the left and right margins. Inside each panel, `width=\linewidth` scales the image to the panel's width, not the whole page. That last detail is the one people get wrong most often.
 
 The `\caption` inside a `subfigure` produces the small "(a) First" style label under that panel. The `\caption` at the end, inside `figure` but outside any `subfigure`, is the main caption that carries the figure number. Keep each `\label` immediately after its `\caption`, because a label records whatever number was most recently issued, as explained in [captions and labels](/learn/captions-labels/).
 
 ## Referencing panels
 
-With the labels above, `\ref{fig:p}` prints the figure number, say 2, while `\ref{fig:p-a}` prints 2a. If you want just the letter, `\subref{fig:p-a}` prints only "a", handy for sentences like "panels (a) and (b)". This is the real payoff of `subcaption` over manually typing "(a)" under images: the letters renumber themselves when you add or reorder panels, and every reference stays correct.
+With the labels above, `\ref{fig:p}` prints the figure number, say 2, while `\ref{fig:p-a}` prints 2a. If you want just the letter, `\subref{fig:p-a}` prints only "a", handy for sentences like "panels (a) and (b)". That is the real payoff of `subcaption` over manually typing "(a)" under images. The letters renumber themselves when you add or reorder panels, and every reference stays correct.
 
 ## Rows, spacing, and a common mistake
 

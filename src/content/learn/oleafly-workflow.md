@@ -23,7 +23,7 @@ Most of the week is a loop between the editor and the PDF pane. The editor autoc
 
 ## Citations as you go
 
-Keep a `.bib` file in the project and cite with `\cite{...}` as you write, letting autocomplete supply the keys. Adding references at writing time is cheap; reconstructing three weeks of "citation needed" placeholders is not. If entries come from Zotero or a publisher's export, the [BibTeX validator](/tools/bibtex-validator/) catches missing fields before they surface as odd-looking references. The full pipeline is described in [From .bib key to in-text cite](/learn/add-citations/).
+Keep a `.bib` file in the project and cite with `\cite{...}` as you write, letting autocomplete supply the keys. Adding references at writing time is cheap. Reconstructing three weeks of "citation needed" placeholders is not. If entries come from Zotero or a publisher's export, the [BibTeX validator](/tools/bibtex-validator/) catches missing fields before they surface as odd-looking references. The full pipeline is described in [From .bib key to in-text cite](/learn/add-citations/).
 
 ## History without ceremony
 
@@ -31,4 +31,4 @@ Oleafly can record a Git commit automatically after each successful compile, so 
 
 ## Optional: the assistant
 
-If you add an API key for a hosted provider, or point the app at local Ollama, an assistant can answer questions about your project, propose edits behind approval diffs, and compile to check its own work. It is genuinely optional; every step above works without it. Details are in [Assistant inside Oleafly](/learn/oleafly-ai/), and the broader design intent behind the app is in [Getting started](/docs/getting-started/) and [Philosophy](/docs/philosophy/).
+If you add an API key for a hosted provider, or point the app at local Ollama, an assistant can answer questions about your project, propose edits behind approval diffs, and compile to check its own work. Optional: every step above works without it. Details are in [Assistant inside Oleafly](/learn/oleafly-ai/), and the broader design intent behind the app is in [Getting started](/docs/getting-started/) and [Philosophy](/docs/philosophy/).

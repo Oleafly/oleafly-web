@@ -11,7 +11,7 @@ updated: 2026-07-24
 
 # LaTeX quick reference
 
-Park this next to the editor. Every row is paste-ready. For longer lessons, open the matching track on [Learn](/learn/).
+Keep this next to the editor. Every row is paste-ready. For longer lessons, open the matching track on [Learn](/learn/).
 
 **Jump:**
 [Skeleton](#document-skeleton) ·

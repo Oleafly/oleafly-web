@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Bigger and smaller type
 
-Type size in LaTeX is set at two levels: a document-wide base size chosen once in the class options, and local switches for spans that need to differ. The base size drives everything else, because headings, footnotes, and the local sizes are all defined relative to it.
+Type size in LaTeX is set at two levels: a document-wide base size chosen once in the class options, and local switches for spans that need to differ. The base size drives everything else. Headings, footnotes, and the local sizes are all defined relative to it.
 
 ## Document-wide
 
@@ -35,4 +35,4 @@ Line spacing has one subtlety. A size switch adjusts the baseline distance only 
 
 ## Sizes versus structure
 
-Resist using size switches to fake headings. `\section` and its relatives set the size for you, and they also number the heading, add it to the table of contents, and create PDF bookmarks; a hand-built `{\Large \textbf{...}}` line gives none of that. The same reasoning applies to emphasis, covered in [emphasis without fighting the font](/learn/bold-italic/). Reserve manual size switches for genuinely local needs, such as a footnote-sized remark under a table or a line on a title page. If every heading in a document needs restyling, change the class or use a package like `titlesec` rather than sizing each heading by hand.
+Resist using size switches to fake headings. `\section` and its relatives set the size for you, and they also number the heading, add it to the table of contents, and create PDF bookmarks. A hand-built `{\Large \textbf{...}}` line gives none of that. The same idea applies to emphasis, covered in [emphasis without fighting the font](/learn/bold-italic/). Reserve manual size switches for genuinely local needs, such as a footnote-sized remark under a table or a line on a title page. If every heading in a document needs restyling, change the class or use a package like `titlesec` rather than sizing each heading by hand.

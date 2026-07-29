@@ -29,7 +29,7 @@ Reading this line by line: the whole thing sits inside `\[ ... \]`, so it is dis
 
 The `&` is doing real work here. Without it, each row would be a single blob and the conditions would not line up vertically. With it, `x^2` and `-x` share a left edge, and `x \ge 0` and `x < 0` share their own left edge, which is what makes the definition scannable.
 
-Two things must be in place for this to compile. First, `\usepackage{amsmath}` in the preamble, since `cases` is not part of core LaTeX. Second, the environment has to be inside math mode; `cases` builds math content but does not open math mode by itself. If either is missing you will get an "Environment cases undefined" or a "Missing $ inserted" error; the latter is explained in [Missing dollar inserted](/learn/missing-dollar/).
+Two things must be in place for this to compile. First, `\usepackage{amsmath}` in the preamble, since `cases` is not part of core LaTeX. Second, the environment has to be inside math mode. `cases` builds math content but does not open math mode by itself. If either is missing you will get an "Environment cases undefined" or a "Missing $ inserted" error. The latter is explained in [Missing dollar inserted](/learn/missing-dollar/).
 
 ## Adding the words
 

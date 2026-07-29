@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Author lists, order, and et al.
 
-The author list looks like the simplest part of a paper. It is actually a dense little credit ledger with field-specific rules, and misreading it is one of the classic newcomer mistakes.
+The author list looks like the simplest part of a paper. It is actually a dense little credit ledger with field-specific rules. Misreading it is a classic newcomer mistake.
 
 ## What "et al." means
 
@@ -47,7 +47,7 @@ Venue classes each have their own author markup, so copy the pattern from the te
 
 ## ORCID: your permanent ID
 
-Names collide and change; an ORCID iD is a persistent identifier (a 16-digit number at orcid.org) that follows you across name changes, institutions, and every J. Smith in your field. Many journals now require one from the corresponding author. Register once, attach it to submissions, and your publication record stays unambiguous for life.
+Names collide and change. An ORCID iD is a persistent identifier (a 16-digit number at orcid.org) that follows you across name changes, institutions, and every J. Smith in your field. Many journals now require one from the corresponding author. Register once, attach it to submissions, and your publication record stays unambiguous for life.
 
 ## The one rule that never varies
 

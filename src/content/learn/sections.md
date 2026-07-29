@@ -7,6 +7,41 @@ level: "beginner"
 tags: ["structure"]
 featured: true
 updated: 2026-07-25
+quiz:
+  title: 'Sections check'
+  questions:
+    - prompt: 'What does \section{Introduction} mainly do?'
+      choices:
+        - 'Only bold the next paragraph'
+        - 'Print a numbered heading and register it for the TOC / PDF outline'
+        - 'Start a new PDF file'
+        - 'Insert a citation'
+      answer: 'B'
+      level: beginner
+    - prompt: 'How do you get an unnumbered section heading?'
+      choices:
+        - '\section*{...}'
+        - '\section[none]{...}'
+        - '\unnumber{\section{...}}'
+        - 'Just write \textbf{...}'
+      answer: 'A'
+      level: beginner
+    - prompt: 'Why use real heading commands instead of hand-bolded lines?'
+      choices:
+        - 'Bold is illegal in LaTeX'
+        - 'Headings drive numbering, the TOC, and navigation. Fake bold doesn''t.'
+        - 'Manual bold compiles faster'
+        - 'Sections can''t hold math'
+      answer: 'B'
+      level: beginner
+    - prompt: 'What''s the usual next level under \section?'
+      choices:
+        - '\chapter (even in article)'
+        - '\subsection'
+        - '\maketitle'
+        - '\bibliography'
+      answer: 'B'
+      level: beginner
 ---
 
 # Headings that number themselves
@@ -26,7 +61,7 @@ In a word processor, you number headings by hand and renumber them by hand every
 
 These commands form a fixed ladder. `\section` is the everyday workhorse in the `article` class, with `\subsection` and `\subsubsection` nesting beneath it. `\chapter` only exists in the `report` and `book` classes, which is why pasting thesis chapters into an article template fails with an undefined control sequence. `\part` sits above chapters and is rare outside long books. `\paragraph` is the odd one out: it produces a bold run-in heading on the same line as the following text rather than a heading on its own line, which surprises almost everyone the first time.
 
-Each command takes the heading text in braces, prints it in the class's chosen font and size, numbers it, and records it so `\tableofcontents` can find it later. You never style headings inline; if you want different heading fonts, that is a document-wide decision made in the preamble.
+Each command takes the heading text in braces, prints it in the class's chosen font and size, numbers it, and records it so `\tableofcontents` can find it later. You never style headings inline. If you want different heading fonts, that is a document-wide decision made in the preamble.
 
 ## Suppressing numbers
 

@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Running heads and feet
 
-A running head is the strip of text at the top of each page, and the running foot is its counterpart at the bottom. In a book or thesis they usually carry the chapter title and the page number; in a submitted paper they might carry a short version of the title, the authors, or nothing at all. LaTeX's built-in page styles (`plain`, `empty`, `headings`) cover the basics, but the moment you want a specific combination, such as your title on the left and the page number on the right, you reach for the `fancyhdr` package.
+A running head is the strip of text at the top of each page, and the running foot is its counterpart at the bottom. In a book or thesis they usually carry the chapter title and the page number. In a submitted paper they might carry a short version of the title, the authors, or nothing at all. LaTeX's built-in page styles (`plain`, `empty`, `headings`) cover the basics, but the moment you want a specific combination, such as your title on the left and the page number on the right, you reach for the `fancyhdr` package.
 
 ## The standard recipe
 
@@ -24,7 +24,7 @@ A running head is the strip of text at the top of each page, and the running foo
 \renewcommand{\headrulewidth}{0.4pt}
 ```
 
-Each line here does one job. `\usepackage{fancyhdr}` loads the package in your preamble. `\pagestyle{fancy}` switches the whole document over to fancyhdr's configurable style. `\fancyhf{}` clears every header and footer field, which matters because fancyhdr ships with defaults (page number and section marks) that you almost never want mixed with your own; starting from a clean slate keeps surprises out.
+Each line here does one job. `\usepackage{fancyhdr}` loads the package in your preamble. `\pagestyle{fancy}` switches the whole document over to fancyhdr's configurable style. `\fancyhf{}` clears every header and footer field, which matters because fancyhdr ships with defaults (page number and section marks) that you almost never want mixed with your own. Starting from a clean slate keeps surprises out.
 
 The next two lines fill fields back in. `\fancyhead[L]{Short title}` puts literal text in the left slot of the header, and `\fancyhead[R]{\thepage}` puts the current page number in the right slot. `\thepage` is a command that expands to the page number, so it updates on every page automatically. There is a matching `\fancyfoot[L/C/R]{...}` if you would rather put things at the bottom.
 

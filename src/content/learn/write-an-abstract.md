@@ -55,4 +55,4 @@ Some journal classes want the abstract before `\maketitle` or use their own comm
 
 ## A quick self-test
 
-Cover everything except your abstract and hand it to a colleague. If they can tell you what you did and why it matters, it works. If they say "sounds interesting, what did you find?", your result sentence is missing or vague. Fix that one sentence and the abstract usually snaps into place.
+Cover everything except your abstract and hand it to a colleague. If they can tell you what you did and why it matters, it works. If they say "sounds interesting, what did you find?", your result sentence is missing or vague. Fix that one sentence and the abstract usually falls into place.

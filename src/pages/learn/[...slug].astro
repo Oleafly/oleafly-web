@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
+import LearnQuiz from "../../components/learn/LearnQuiz";
+import { QUIZ_MIN_QUESTIONS } from "../../components/learn/quiz-types";
 import { CATEGORY_BY_ID } from "../../data/learn-categories";
 import { LATEX_COMMANDS } from "../../data/latex-commands";
 import "../../styles/learn.css";
@@ -58,6 +60,11 @@ const glossaryAll = [...usedKeys]
   }));
 const glossary = glossaryAll.slice(0, GLOSSARY_CAP);
 const glossaryMore = glossaryAll.length - glossary.length;
+
+const quiz =
+  article.data.quiz && article.data.quiz.questions.length >= QUIZ_MIN_QUESTIONS
+    ? article.data.quiz
+    : null;
 ---
 
 <SiteLayout
@@ -124,6 +131,17 @@ const glossaryMore = glossaryAll.length - glossary.length;
               </p>
             )}
           </aside>
+        )
+      }
+
+      {
+        quiz && (
+          <LearnQuiz
+            client:visible
+            title={quiz.title}
+            questions={quiz.questions}
+            lessonId={article.id}
+          />
         )
       }
 

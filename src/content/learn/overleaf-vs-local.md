@@ -10,7 +10,7 @@ updated: 2026-07-25
 
 # Browser project vs folder on disk
 
-When you start writing LaTeX you face an early decision: does your project live in a browser tab on someone else's server, or in a folder on your own disk? Both models produce the same PDF. They differ in who holds the source, what happens when the network disappears, and how much of the surrounding toolchain you control.
+When you start writing LaTeX you face an early decision: does your project live in a browser tab on someone else's server, or in a folder on your own disk? Both models produce the same PDF. They differ in who holds the source, what happens when the network drops, and how much of the surrounding toolchain you control.
 
 ## What each model gives you
 

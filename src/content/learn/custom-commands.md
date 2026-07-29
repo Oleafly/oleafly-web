@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Macros that keep notation honest
 
-Every paper has notation that repeats: the real numbers, an expectation operator, an absolute value with properly sized bars. If you type `\mathbb{R}` in forty places and your advisor later prefers `\mathbf{R}`, you have forty edits to make and you will miss one. A macro turns that notation into a single named command, defined once. Change the definition and the whole document follows. That is what "keeping notation honest" means: the source can no longer drift out of sync with itself.
+Every paper has notation that repeats: the real numbers, an expectation operator, an absolute value with properly sized bars. If you type `\mathbb{R}` in forty places and your advisor later prefers `\mathbf{R}`, you have forty edits to make and you will miss one. A macro turns that notation into a single named command, defined once. Change the definition and the whole document follows. That is how you keep notation honest: the source cannot drift out of sync with itself.
 
 ## Defining commands with newcommand
 
@@ -23,19 +23,19 @@ Every paper has notation that repeats: the real numbers, an expectation operator
 
 The first definition is the simplest kind: `\R` is now pure shorthand, and typing `\R` anywhere produces `\mathbb{R}`.
 
-The second form takes an argument. The `[1]` after the name declares that `\E` accepts one argument, and `#1` marks where that argument lands in the expansion. So `\E{X}` becomes `\mathbb{E}\left[X\right]`. Notice what the definition buys beyond brevity: the `\left[` and `\right]` pair makes the brackets grow to fit whatever is inside, so `\E{\frac{X}{n}}` gets tall brackets automatically. The `\abs` macro plays the same trick with `\lvert` and `\rvert`, the correct pair of vertical bars for absolute value. You can declare up to nine arguments and refer to them as `#1` through `#9`.
+The second form takes an argument. The `[1]` after the name declares that `\E` accepts one argument, and `#1` marks where that argument lands in the expansion. So `\E{X}` becomes `\mathbb{E}\left[X\right]`. The definition buys more than brevity: the `\left[` and `\right]` pair makes the brackets grow to fit whatever is inside, so `\E{\frac{X}{n}}` gets tall brackets automatically. The `\abs` macro does the same with `\lvert` and `\rvert`, the correct pair of vertical bars for absolute value. You can declare up to nine arguments and refer to them as `#1` through `#9`.
 
 If a command already exists, `\newcommand` refuses to redefine it and stops with an error, which protects you from silently breaking something. To deliberately replace an existing command, use `\renewcommand` instead.
 
 ## The modern interface
 
-Modern LaTeX:
+Current LaTeX also ships a richer definition command:
 
 ```latex
 \NewDocumentCommand{\citepair}{mm}{\cite{#1}, \cite{#2}}
 ```
 
-`\NewDocumentCommand` is built into current LaTeX and uses an argument specification string instead of a count. Here `mm` means two mandatory arguments, so `\citepair{knuth84}{lamport94}` cites both keys. The specification language goes further than `\newcommand` can: `o` declares an optional argument in square brackets, `s` detects a star variant, and `O{default}` gives an optional argument a default value. For anything beyond simple substitution, reach for this interface.
+`\NewDocumentCommand` uses an argument specification string instead of a count. Here `mm` means two mandatory arguments, so `\citepair{knuth84}{lamport94}` cites both keys. The specification language goes further than `\newcommand` can: `o` declares an optional argument in square brackets, `s` detects a star variant, and `O{default}` gives an optional argument a default value. For anything beyond simple substitution, reach for this interface.
 
 ## Share the definitions
 

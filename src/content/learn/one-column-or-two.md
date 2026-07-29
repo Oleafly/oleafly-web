@@ -15,7 +15,7 @@ Open ten papers and you will see two tribes: dense two-column pages that look li
 
 ## Why venues differ
 
-Two-column layouts are conference tradition, born when proceedings were printed and page budgets were sacred. Narrow columns pack more words per page, and short line lengths are genuinely easier to scan. Most CS conferences (ACM, IEEE, and friends) still use them.
+Two-column layouts are conference tradition, born when proceedings were printed and page budgets were tight. Narrow columns pack more words per page, and short line lengths are easier to scan. Most CS conferences (ACM, IEEE, and friends) still use them.
 
 One-column layouts dominate journals, preprints, and theses. They give equations, figures, and tables room to breathe, and they are friendlier for long-form reading. Preprint servers and many ML venues have drifted single-column partly for exactly this reason.
 
@@ -56,4 +56,4 @@ Here is the relaxing part: you almost never configure this by hand. The venue ha
 \documentclass[sigconf]{acmart}      % venue class, layout included
 ```
 
-Write your content once, and switching templates reflows everything. This is exactly what LaTeX is for: the same source compiles to a two-column conference version and a one-column preprint with a one-line change. Keep your figures in vector formats and your equations in standard environments, and the layout swap is nearly painless.
+Write your content once, and switching templates reflows everything. That is what LaTeX is for: the same source compiles to a two-column conference version and a one-column preprint with a one-line change. Keep your figures in vector formats and your equations in standard environments, and the layout swap is nearly painless.

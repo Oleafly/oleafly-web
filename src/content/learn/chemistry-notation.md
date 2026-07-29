@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Chemical formulas and structures
 
-Chemical notation fights LaTeX's defaults: math mode italicizes element symbols as if they were variables, and text mode has no subscripts at all. Two packages divide the work between them. `mhchem` typesets formulas and reactions from plain chemist's notation, and `chemfig` draws structural diagrams.
+Chemical notation fights LaTeX's defaults. Math mode italicizes element symbols as if they were variables, and text mode has no subscripts at all. Two packages divide the work. `mhchem` typesets formulas and reactions from plain chemist's notation, and `chemfig` draws structural diagrams.
 
 ## Formulas and reactions with mhchem
 

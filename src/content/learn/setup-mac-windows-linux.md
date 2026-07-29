@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Get a working TeX on any OS
 
-Writing LaTeX locally requires a TeX system: the engine that compiles your source plus the thousands of packages documents depend on. There are two sensible ways to get one, and they suit different people. One is an application with the engine built in, which gets you compiling in minutes. The other is a full TeX distribution, which installs the complete command-line toolchain that any editor can use. Both paths end at the same place, a `.tex` file turning into a PDF on your machine.
+Writing LaTeX locally requires a TeX system: the engine that compiles your source plus the thousands of packages documents depend on. There are two sensible ways to get one. One is an application with the engine built in, which gets you compiling in minutes. The other is a full TeX distribution, which installs the complete command-line toolchain that any editor can use. Both paths end at the same place: a `.tex` file turning into a PDF on your machine.
 
 ## Path A: an app with the engine included
 

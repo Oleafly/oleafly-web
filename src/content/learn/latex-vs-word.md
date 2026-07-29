@@ -15,7 +15,7 @@ Neither tool is universally better. Word processors optimize for direct manipula
 
 ## Where LaTeX earns its learning curve
 
-Equations are the clearest case. Word's equation editor works for a homework problem; it becomes painful across a hundred numbered equations with cross-references. In LaTeX, `\label` and `\ref` keep every number correct no matter how much you reorganize, which the lesson on [cross-references](/learn/cross-references/) covers in detail.
+Equations are the clearest case. Word's equation editor works for a homework problem. It becomes painful across a hundred numbered equations with cross-references. In LaTeX, `\label` and `\ref` keep every number correct no matter how much you reorganize, which the lesson on [cross-references](/learn/cross-references/) covers in detail.
 
 Long structured documents behave the same way. A thesis with chapters in separate files, automatic tables of contents, and consistent heading styles is routine in LaTeX and fragile in a word processor. Citations follow the same pattern: a BibTeX database with a few hundred entries reformats itself for any journal style, where hand-maintained reference lists degrade quickly. See [add citations](/learn/add-citations/) for the mechanics.
 

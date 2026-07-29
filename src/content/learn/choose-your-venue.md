@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Choosing where to submit
 
-Your first submission decision matters more than your template. Pick the wrong venue and even a great paper gets desk-rejected, reviewed by the wrong people, or lost in a journal nobody in your field reads.
+Your first submission decision matters more than your template. Pick the wrong venue and even a strong paper gets desk-rejected, reviewed by the wrong people, or lost in a journal nobody in your field reads.
 
 ## Fit beats prestige
 
@@ -35,7 +35,7 @@ The review model deserves special attention. Conferences typically give you one 
 
 ## Workshops and short papers: the on-ramp
 
-Nobody says your first paper must be a full conference paper. Workshops attached to major conferences accept 4 to 6 page papers, have friendlier review, and put you in a room with exactly the people working on your topic. Short paper and poster tracks work similarly. Many strong publication records started with a workshop paper that later grew into the full version.
+Nobody says your first paper must be a full conference paper. Workshops attached to major conferences accept 4 to 6 page papers, have friendlier review, and put you in a room with people working on your topic. Short paper and poster tracks work similarly. Many strong publication records started with a workshop paper that later grew into the full version.
 
 If you are still mapping out the whole process, the [first paper roadmap](/learn/first-paper-roadmap/) walks through it end to end.
 

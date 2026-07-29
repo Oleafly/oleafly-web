@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Multi-line equations that line up
 
-A derivation of several steps looks best with the equals signs stacked in one column, so the eye can track what changed from line to line. The `amsmath` package provides the `align` environment for exactly this, plus a small family of relatives for the cases where alignment is not what you want.
+A derivation of several steps looks best with the equals signs stacked in one column, so the eye can track what changed from line to line. The `amsmath` package provides the `align` environment for that, plus a small family of relatives for cases where alignment is not what you want.
 
 ```latex
 \usepackage{amsmath}
@@ -39,7 +39,7 @@ The environment opens display math by itself, so it must not sit inside `\[ ... 
 
 `gather` handles several equations with no shared alignment point; it centers each line and numbers each one. `split` builds one multi-line equation under a single number and must sit inside `equation`. `multline` breaks one overlong formula without alignment, first line flush left and last flush right. The last two are treated in detail in [equations that will not fit](/learn/break-long-equations/).
 
-Choosing comes down to two distinctions: whether the lines are separate equations or one broken equation, and whether there is an alignment point worth stacking. Separate and aligned calls for `align`, separate and centered for `gather`, single and aligned for `split`, single and unaligned for `multline`.
+Two questions decide which to use: are the lines separate equations or one broken equation, and is there an alignment point worth stacking? Separate and aligned: `align`. Separate and centered: `gather`. Single and aligned: `split`. Single and unaligned: `multline`.
 
 ## Common mistakes
 

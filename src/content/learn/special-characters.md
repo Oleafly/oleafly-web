@@ -41,4 +41,4 @@ Note that the underscore needs its escape even inside `\texttt`. The two command
 
 For whole chunks of code, paths, or URLs, skip escaping entirely. `\verb|...|` and the `verbatim` environment print their contents exactly as typed, with every special character disarmed, and the `url` package's `\url{...}` handles links complete with tildes.
 
-The characters that bite hardest are the ones that fail silently, and `%` leads that list. Pasted text is the usual source: URLs, shell commands, and financial figures all carry reserved characters. When a sentence goes missing from the PDF, search that line of the source for a bare `%` before anything else.
+The characters that bite hardest are the ones that fail silently, and `%` leads that list. Pasted text is the usual culprit: URLs, shell commands, and financial figures all carry reserved characters. When a sentence goes missing from the PDF, search that line of the source for a bare `%` before anything else.

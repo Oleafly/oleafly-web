@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # ACM, IEEE, Springer, Elsevier: who are these people
 
-Open any LaTeX template gallery and you will see the same alphabet soup: ACM, IEEE, Springer, Elsevier, LNCS. These are the organizations that run the machinery of publishing. Knowing who is who saves you real confusion.
+Open any LaTeX template gallery and you will see the same alphabet soup: ACM, IEEE, Springer, Elsevier, LNCS. These are the organizations that run publishing. Knowing who is who saves real confusion.
 
 ## Two kinds of organization
 
@@ -50,8 +50,8 @@ These are usually paywalled; your university library probably has subscriptions.
 
 ## Why their names are on your template
 
-Each publisher enforces its own house style: fonts, margins, columns, citation format. So when a venue says "use the ACM template" or "IEEE format," it is handing you a LaTeX class file that produces the exact required look. This is one of the big reasons research runs on LaTeX rather than word processors, a story told in [LaTeX vs Word](/learn/latex-vs-word/). The practical mechanics get their own lessons: [IEEE format in practice](/learn/ieee-format-in-practice/) and [ACM format in practice](/learn/acm-format-in-practice/). Oleafly ships common venue templates built in, so starting an IEEE-format paper is a one-click affair.
+Each publisher enforces its own house style: fonts, margins, columns, citation format. So when a venue says "use the ACM template" or "IEEE format," it is handing you a LaTeX class file that produces the exact required look. That is one of the big reasons research runs on LaTeX rather than word processors, a story told in [LaTeX vs Word](/learn/latex-vs-word/). The practical mechanics get their own lessons: [IEEE format in practice](/learn/ieee-format-in-practice/) and [ACM format in practice](/learn/acm-format-in-practice/). Oleafly ships common venue templates built in, so starting an IEEE-format paper is a one-click affair.
 
 ## The takeaway
 
-Societies run communities, publishers run printing presses, digital libraries hold the PDFs, and templates enforce the look. None of it needs to intimidate you; it is all plumbing. Choosing which of their venues to submit to is the interesting part, and that is [choose your venue](/learn/choose-your-venue/).
+Societies run communities, publishers run presses, digital libraries hold the PDFs, and templates enforce the look. None of it needs to intimidate you. It is all plumbing. Choosing which of their venues to submit to is the interesting part, and that is [choose your venue](/learn/choose-your-venue/).

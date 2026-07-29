@@ -42,7 +42,7 @@ An equation number is a promise: "we will point back to this." Numbering everyth
 \end{equation}
 ```
 
-Reference it with `\eqref{eq:loss}`; for display math you never cite, use `\[ ... \]` or the starred environments and skip the number. The referencing machinery is covered in [cross-references](/learn/cross-references/).
+Reference it with `\eqref{eq:loss}`. For display math you never cite, use `\[ ... \]` or the starred environments and skip the number. The referencing machinery is covered in [cross-references](/learn/cross-references/).
 
 ## Theorem environments, in one breath
 

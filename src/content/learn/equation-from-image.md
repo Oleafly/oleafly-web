@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Whiteboard photo to source
 
-A derivation on a whiteboard, a scanned page of lecture notes, an equation in a PDF you cannot copy from: retyping mathematics into LaTeX by hand is slow and error-prone, and modern tools can do most of it from a photo. The conversion is genuinely good now, but it is a draft, not a transcription, and the workflow below is built around that fact.
+A derivation on a whiteboard, a scanned page of lecture notes, an equation in a PDF you cannot copy from: retyping mathematics into LaTeX by hand is slow and error-prone. Modern tools can do most of it from a photo. The conversion is genuinely good now, but treat the output as a draft, not a finished transcription. The workflow below is built around that.
 
 ## Start with a better photo
 
@@ -19,7 +19,7 @@ Image quality determines the result more than tool choice does. Shoot straight o
 
 ## Convert with the tool you have
 
-Three kinds of tool do this job. Dedicated equation OCR services are purpose-built and accurate on clean input. General multimodal models accept an image in chat and return LaTeX when asked, with the useful bonus that you can reply "the second subscript should be j, not i" and get a corrected version. Oleafly has image-to-LaTeX built in, running through your own API key with whichever provider you configured, so a snippet can go from screenshot to source without leaving the editor; see [AI setup](/docs/ai-setup/) for configuration. On clear input the three approaches converge, which is why the photo advice above matters more than the tool decision.
+Three kinds of tool do this job. Dedicated equation OCR services are accurate on clean input. General multimodal models accept an image in chat and return LaTeX when asked, and you can reply "the second subscript should be j, not i" to get a corrected version. Oleafly has image-to-LaTeX built in, running through your own API key with whichever provider you configured, so a snippet can go from screenshot to source without leaving the editor. See [AI setup](/docs/ai-setup/) for configuration. On clear input the three approaches converge, which is why the photo advice above matters more than the tool decision.
 
 ## Compile immediately
 

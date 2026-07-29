@@ -28,7 +28,7 @@ See Section~\ref{sec:methods}, Eq.~\eqref{eq:main}, and Figure~\ref{fig:pipeline
 
 `\label{sec:methods}` records the most recently assigned number, here the section's, under the key `sec:methods`. Later, `\ref{sec:methods}` prints that number, and `\eqref` is the amsmath variant that adds the parentheses convention for equations, printing "(1)" rather than "1".
 
-Two details in this example are load-bearing. First, inside a figure the label must come after `\caption`, because the caption is what steps the figure counter; a label placed before it silently picks up the current section number instead. Second, the `~` in `Figure~\ref{...}` is a non-breaking space, which keeps the word and its number on the same line rather than letting "Figure" end one line and "3" start the next.
+Two details in this example matter a lot. First, inside a figure the label must come after `\caption`, because the caption is what steps the figure counter; a label placed before it silently picks up the current section number instead. Second, the `~` in `Figure~\ref{...}` is a non-breaking space, which keeps the word and its number on the same line rather than letting "Figure" end one line and "3" start the next.
 
 The `sec:`, `fig:`, and `eq:` prefixes are pure convention. LaTeX does not require them, but they make keys readable and let editor autocomplete group your labels by kind.
 
@@ -45,4 +45,4 @@ With cleveref (load after hyperref):
 \cref{fig:pipeline}
 ```
 
-`\cref{fig:pipeline}` prints "Figure 3", the type name included, and adapts if the label turns out to be a table or an equation instead. `\Cref` capitalizes for sentence starts, and `\cref{eq:a,eq:b,eq:c}` compresses a list into a range. Note the load order: cleveref is one of the few packages that must come after [hyperref](/learn/hyperlinks/), the reverse of the usual rule. Adopt it early, because retrofitting `\cref` into a paper full of hand-written "Figure~\ref" phrases is tedious.
+`\cref{fig:pipeline}` prints "Figure 3", the type name included, and adapts if the label turns out to be a table or an equation instead. `\Cref` capitalizes for sentence starts, and `\cref{eq:a,eq:b,eq:c}` compresses a list into a range. Note the load order: cleveref is one of the few packages that must come after [hyperref](/learn/hyperlinks/), the reverse of the usual rule. Adopt it early. Retrofitting `\cref` into a paper full of hand-written "Figure~\ref" phrases is tedious.

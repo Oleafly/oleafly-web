@@ -41,4 +41,4 @@ If the two images have different heights, their vertical alignment can look off,
 
 ## When to use subfigures instead
 
-The one thing this pattern cannot give you is panels labeled (a) and (b) under a single shared caption and a single figure number. The moment you want "Figure 5(a)" rather than two independent figures, switch to [subfigures](/learn/subfigures-abc/). A useful rule of thumb is that minipages are for figures that happen to be neighbors, while subfigures are for one figure that happens to have parts.
+The one thing this pattern cannot give you is panels labeled (a) and (b) under a single shared caption and a single figure number. The moment you want "Figure 5(a)" rather than two independent figures, switch to [subfigures](/learn/subfigures-abc/). Rule of thumb: minipages are for figures that happen to be neighbors, while subfigures are for one figure that happens to have parts.

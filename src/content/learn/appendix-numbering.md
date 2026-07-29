@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Appendices that renumber cleanly
 
-An appendix holds material that supports the main text but would interrupt it: long proofs, survey instruments, extra tables, implementation details. Readers expect appendices to be lettered A, B, C rather than continuing the chapter numbers, and expect the material inside to follow suit, so a figure in Appendix A is Figure A.1, not Figure 47. In LaTeX this is a single switch, not a restructuring job.
+An appendix holds material that supports the main text but would interrupt it: long proofs, survey instruments, extra tables, implementation details. Readers expect appendices to be lettered A, B, C rather than continuing the chapter numbers, and expect the material inside to follow suit, so a figure in Appendix A is Figure A.1, not Figure 47. In LaTeX that is a single switch, not a restructuring job.
 
 ## The switch
 

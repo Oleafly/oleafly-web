@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Every \command in the LaTeX universe, explained
 
-This page defines every LaTeX command and environment that appears in any lesson on Oleafly Learn, plus the wider standard vocabulary you will meet in real papers: the kernel, amsmath, hyperref, graphicx, booktabs, biblatex, TikZ, Beamer, and the packages researchers actually load. Skim it by category, or search the page with Ctrl/Cmd-F for the command you just met. Each entry is one line: what it does and, where it matters, which package it comes from.
+This page defines every LaTeX command and environment that appears in any lesson on Oleafly Learn, plus the wider standard vocabulary you will meet in real papers. Kernel, amsmath, hyperref, graphicx, booktabs, biblatex, TikZ, Beamer, and the packages researchers actually load. Skim it by category, or search the page with Ctrl/Cmd-F for the command you just met. Each entry is one line: what it does and, where it matters, which package it comes from.
 
 ## Document classes and setup
 
@@ -948,4 +948,4 @@ An environment is a region opened with `\begin{name}` and closed with `\end{name
 
 ## Where to go next
 
-This page is the dictionary; the lessons are the grammar. For a paste-ready one-pager, keep [the cheatsheet](/learn/cheatsheet/) open. For the difference between `\command{...}` and `\begin{...}` blocks, read [commands vs environments](/learn/commands-environments/). And for finding a symbol you can picture but cannot name, use [math symbols](/learn/math-symbols-cheatsheet/). To see what any math-mode command looks like, paste it into [the live preview](/live/) and watch it render.
+This page is the dictionary. The lessons are the grammar. For a paste-ready one-pager, keep [the cheatsheet](/learn/cheatsheet/) open. For the difference between `\command{...}` and `\begin{...}` blocks, read [commands vs environments](/learn/commands-environments/). For a symbol you can picture but cannot name, use [math symbols](/learn/math-symbols-cheatsheet/). To see what any math-mode command looks like, paste it into [the live preview](/live/) and watch it render.

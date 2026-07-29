@@ -23,9 +23,9 @@ x_i^2 x_{i_j}^{2n}
 
 `x_i` puts a single `i` in the subscript position and `x^2` raises a single `2`. Because `_` and `^` grab only the next token, anything longer than one character has to be wrapped in braces: `x_{ij}` subscripts both letters, and `x^{2n}` raises the whole `2n`. You can attach both a subscript and a superscript to the same symbol, in either order, and LaTeX stacks them correctly: `x_i^2`. Scripts also nest. In `x_{i_j}` the `j` is a subscript of the `i`, which is itself a subscript of `x`, and each level is set progressively smaller.
 
-Multi-character scripts **must** use braces: `x_ij` is `x_i` then `j`. LaTeX does not report this as an error, because `x_i` followed by a variable `j` is perfectly legal math. The formula compiles, looks nearly right at a glance, and means something different. This silent near-miss is why the braces habit is worth building early: when in doubt, brace the script.
+Multi-character scripts **must** use braces: `x_ij` is `x_i` then `j`. LaTeX does not report this as an error, because `x_i` followed by a variable `j` is perfectly legal math. The formula compiles, looks nearly right at a glance, and means something different. Build the braces habit early. When in doubt, brace the script.
 
-The same trap appears in limits and bounds. `\sum_i=1^n` does not do what it looks like; the correct form is `\sum_{i=1}^{n}`, where the entire `i=1` is one braced subscript. If you use `_` or `^` outside math mode entirely, you get the classic error covered in [Missing dollar inserted](/learn/missing-dollar/).
+The same trap appears in limits and bounds. `\sum_i=1^n` does not do what it looks like. The correct form is `\sum_{i=1}^{n}`, where the entire `i=1` is one braced subscript. If you use `_` or `^` outside math mode entirely, you get the classic error covered in [Missing dollar inserted](/learn/missing-dollar/).
 
 ## Primes and dots
 

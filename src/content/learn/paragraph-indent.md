@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Indent or space between paragraphs
 
-Typography has two standard ways to show where one paragraph ends and the next begins: indent the first line of each new paragraph, or leave vertical space between paragraphs with no indent. Books and journals almost always use the first; web pages and business documents use the second. LaTeX defaults to the book convention, indenting every paragraph except the first one after a section heading, with no extra space between paragraphs. If you want the other style, you change two lengths.
+Typography has two standard ways to show where one paragraph ends and the next begins: indent the first line of each new paragraph, or leave vertical space between paragraphs with no indent. Books and journals almost always use the first. Web pages and business documents use the second. LaTeX defaults to the book convention, indenting every paragraph except the first one after a section heading, with no extra space between paragraphs. If you want the other style, you change two lengths.
 
 ## The two lengths that control everything
 

@@ -17,7 +17,7 @@ Click a paper link, hit a page asking for 39.95 dollars, close tab, sigh. Every 
 
 A **DOI** (Digital Object Identifier) is a permanent ID assigned to a publication, like `10.1145/3297858.3304013`. Prefix it with `https://doi.org/` and you get a link that is guaranteed to keep resolving to the paper even if the publisher redesigns its website. Web links rot; DOIs do not.
 
-DOIs matter enormously for citing. Because a DOI uniquely identifies one paper, tools can look up the full, correct bibliographic record from the DOI alone. Paste a DOI into Oleafly and it fetches a ready-made BibTeX entry, no hand-typing of author lists. The mechanics live in [add citations](/learn/add-citations/) and [create a bibliography](/learn/create-bibliography/). When a paper lists a DOI, use it; it is the most reliable handle the paper will ever have.
+DOIs matter for citing. A DOI uniquely identifies one paper, so tools can look up the full bibliographic record from the DOI alone. Paste a DOI into Oleafly and it fetches a ready-made BibTeX entry, no hand-typing of author lists. The mechanics live in [add citations](/learn/add-citations/) and [create a bibliography](/learn/create-bibliography/). When a paper lists a DOI, use it. It is the most reliable handle the paper will ever have.
 
 ## Why paywalls exist
 
@@ -36,7 +36,7 @@ Traditionally, publishers charged university libraries for journal subscriptions
 
 ## Preprints: the free path that already won
 
-In practice, the easiest open access is green: authors post their manuscript on [arXiv or a sibling server](/learn/what-is-arxiv/), free for everyone, and the paywalled version becomes a formality. Most publishers explicitly allow this. So when you hit a paywall:
+The easiest open access in practice is green: authors post their manuscript on [arXiv or a sibling server](/learn/what-is-arxiv/), free for everyone, and the paywalled version becomes a formality. Most publishers explicitly allow this. So when you hit a paywall:
 
 1. Search the exact title; an arXiv or author-hosted PDF usually surfaces.
 2. Check the authors' web pages.

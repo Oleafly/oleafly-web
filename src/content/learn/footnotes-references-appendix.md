@@ -26,9 +26,9 @@ Use them sparingly. A paper with a footnote per paragraph is a paper arguing wit
 
 ## References: the evidence trail
 
-When you "cite" a work, you are pointing at the evidence behind a claim: this fact was established there, this method was introduced by them, this dataset comes from here. The reference list is the complete map of whose shoulders you are standing on, and reviewers absolutely check it, both for missing entries and for claims pinned to citations that do not actually support them.
+When you cite a work, you are pointing at the evidence behind a claim: this fact was established there, this method was introduced by them, this dataset comes from here. The reference list is the full map of who you are building on, and reviewers check it carefully, both for missing entries and for claims pinned to citations that do not actually support them.
 
-In LaTeX the mechanics are pleasantly automatic: `\cite{key}` in the text, an entry in your `.bib` file, and the list renders itself.
+In LaTeX the mechanics are automatic: `\cite{key}` in the text, an entry in your `.bib` file, and the list renders itself.
 
 ```latex
 Transformers \cite{vaswani2017attention} replaced recurrence
@@ -61,4 +61,4 @@ Supplementary material is everything that cannot live in a PDF at all: code, dat
 | Appendix | Opened when a claim in the paper needs checking |
 | Supplementary | Opened by the one reviewer who runs your code |
 
-The practical consequence: never hide anything load-bearing in a footnote or appendix. Reviewers judge the main text, and "the answer was in Appendix F" has never once softened a review. Put your best material where the skim will find it, and let the back matter do what it does best: quietly holding the receipts.
+What that means in practice: never hide anything essential in a footnote or appendix. Reviewers judge the main text, and "the answer was in Appendix F" has never once softened a review. Put your best material where the skim will find it, and let the back matter do what it does best: quietly holding the receipts.

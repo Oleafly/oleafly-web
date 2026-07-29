@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Posting your first arXiv preprint
 
-Posting to arXiv is a rite of passage: your work, public, citable, timestamped. The process has a few quirks that surprise everyone the first time. If you have not read [what arXiv is](/learn/what-is-arxiv/), start there, then come back.
+Posting to arXiv puts your work public, citable, and timestamped. The process has a few quirks that surprise everyone the first time. If you have not read [what arXiv is](/learn/what-is-arxiv/), start there, then come back.
 
 ## Endorsement: the bouncer at the door
 

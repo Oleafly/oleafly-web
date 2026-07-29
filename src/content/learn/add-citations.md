@@ -7,11 +7,54 @@ level: "beginner"
 tags: ["citations"]
 featured: true
 updated: 2026-07-25
+quiz:
+  title: 'Citations check'
+  questions:
+    - prompt: 'What''s the usual BibTeX setup?'
+      choices:
+        - 'A Word comment plus a footnote'
+        - 'A .bib entry and a \cite{key} in the document'
+        - 'A bare URL in the text'
+        - 'A screenshot from Google Scholar'
+      answer: 'B'
+      level: beginner
+    - prompt: 'What has to match between \cite{...} and the .bib file?'
+      choices:
+        - 'The journal impact factor'
+        - 'The citation key, exactly, including capitalization'
+        - 'Only the PDF filename'
+        - 'The section number'
+      answer: 'B'
+      level: beginner
+    - prompt: 'What do \bibliographystyle and \bibliography usually control?'
+      choices:
+        - 'Figure placement and image DPI'
+        - 'How references look, which .bib file to read, and where the list prints'
+        - 'Math delimiters'
+        - 'Page margins only'
+      answer: 'B'
+      level: beginner
+    - prompt: 'Why isn''t one LaTeX pass enough for citations?'
+      choices:
+        - 'Citations need a browser'
+        - 'BibTeX or biber, then more LaTeX passes, turn keys into markers and the reference list'
+        - 'You have to reboot'
+        - '\cite only works offline'
+      answer: 'B'
+      level: intermediate
+    - prompt: 'Citations show as bold question marks. What''s a common cause?'
+      choices:
+        - 'The title is too long'
+        - 'You skipped the bibliography step, or the key isn''t in the .bib file'
+        - 'You used article class'
+        - 'Math mode is open'
+      answer: 'B'
+      level: beginner
 ---
 
 # From .bib key to in-text cite
 
-Citing a source in LaTeX involves two pieces: a plain-text database that describes each work once, and a `\cite` command in your document that points at an entry by its key. LaTeX then numbers the citation, formats the reference list, and keeps everything consistent when you reorder sections or add sources. You never type "[12]" by hand, and you never manually renumber anything.
+Citing a source in LaTeX involves two pieces: a plain-text database that describes each work once, and a `\cite` command in your document that points at an entry by its key. LaTeX numbers the citation, formats the reference list, and keeps everything consistent when you reorder sections or add sources. You never type "[12]" by hand, and you never renumber anything yourself.
 
 ## The commands in the document
 
@@ -43,4 +86,4 @@ The bibliography is built by a separate program. On the first LaTeX pass, the do
 
 ## Where to go from here
 
-A single `.bib` file can serve every paper you write, so it pays to build it carefully; [Build a .bib that lasts](/learn/create-bibliography/) covers entry types, required fields, and keys that survive a decade. When a venue wants a different look, you change one line rather than any entries, as explained in [Numeric, author-year, journal styles](/learn/change-citation-style/).
+A single `.bib` file can serve every paper you write, so it pays to build it carefully. [Build a .bib that lasts](/learn/create-bibliography/) covers entry types, required fields, and keys that survive a decade. When a venue wants a different look, you change one line rather than any entries, as explained in [Numeric, author-year, journal styles](/learn/change-citation-style/).

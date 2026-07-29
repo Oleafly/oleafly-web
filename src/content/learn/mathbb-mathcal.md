@@ -31,7 +31,7 @@ x \in \mathbb{R}^n, \quad
 | `\mathfrak{g}` | Fraktur | Lie algebras |
 | `\mathrm{d}` | Upright | Differentials, operator names |
 
-`\mathbb` produces blackboard bold, the double-struck letters used almost exclusively for number sets: `\mathbb{N}`, `\mathbb{Z}`, `\mathbb{Q}`, `\mathbb{R}`, `\mathbb{C}`. It comes from the `amssymb` package and covers capitals only; the font has no lowercase alphabet, so a lowercase argument prints wrong glyphs or nothing useful.
+`\mathbb` produces blackboard bold, the double-struck letters used almost exclusively for number sets: `\mathbb{N}`, `\mathbb{Z}`, `\mathbb{Q}`, `\mathbb{R}`, `\mathbb{C}`. It comes from the `amssymb` package and covers capitals only. The font has no lowercase alphabet, so a lowercase argument prints wrong glyphs or nothing useful.
 
 `\mathcal` gives calligraphic capitals, the usual choice for Lagrangians, loss functions, and families of sets. It also covers capitals only, and it works in core LaTeX with no extra package.
 
@@ -41,6 +41,6 @@ x \in \mathbb{R}^n, \quad
 
 ## Practical notes
 
-If `\mathcal` looks too plain for your purpose, the `mathrsfs` package adds `\mathscr`, a more ornate script often used for sheaves and sigma-algebras; the two can coexist and denote different objects in the same paper.
+If `\mathcal` looks too plain for your purpose, the `mathrsfs` package adds `\mathscr`, a more ornate script often used for sheaves and sigma-algebras. The two can coexist and denote different objects in the same paper.
 
 The common mistake is treating these alphabets as decoration. Each carries a conventional meaning in most fields, and a reader who sees `\mathbb{A}` will expect something set-like and number-flavored. Check the conventions of your field before assigning letters, and once assigned, keep one alphabet per object for the whole document. All four render side by side in seconds in the [live playground](/live/).

@@ -11,11 +11,11 @@ updated: 2026-07-25
 
 # Coauthors who only speak Word
 
-Mixed-tool collaborations are common: you write the paper in LaTeX, and a coauthor, advisor, or clinical collaborator works exclusively in Microsoft Word. Nothing converts perfectly between the two formats, so the goal is not a magic bridge. The goal is a clear agreement about which file is the real paper and a routine for moving feedback across the gap without losing work.
+Mixed-tool collaborations are common: you write the paper in LaTeX, and a coauthor, advisor, or clinical collaborator works only in Microsoft Word. Nothing converts perfectly between the two formats. Agree early on which file is the real paper, then set a routine for moving feedback across the gap without losing work.
 
 ## One source of truth
 
-Decide, explicitly and early, that the `.tex` files are canonical and everything else is a derived copy for review. The moment two "current versions" exist in two formats, someone's edits get lost, and reconciling a Word file against a LaTeX file by eye is miserable work. Under this agreement your job is typesetting and integration; your coauthor's job is content and comments, delivered in whatever tool they prefer.
+Decide early that the `.tex` files are canonical and everything else is a derived copy for review. The moment two "current versions" exist in two formats, someone's edits get lost, and reconciling a Word file against a LaTeX file by eye is miserable work. Under this agreement your job is typesetting and integration. Your coauthor's job is content and comments, delivered in whatever tool they prefer.
 
 ## Choose the export by the kind of feedback
 

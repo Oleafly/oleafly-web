@@ -31,7 +31,7 @@ An ordinary `table` environment is a float, and a float must fit on a single pag
 
 A `longtable` begins with up to four declaration blocks before the actual data rows. Everything above `\endfirsthead` is the header printed once, at the very start of the table. Everything between `\endfirsthead` and `\endhead` is the header repeated at the top of every subsequent page, which is why the same "Key & Value" line appears twice in the example. The block ending in `\endfoot` prints at the bottom of every page the table touches, here just a closing `\bottomrule`. There is also `\endlastfoot` for material that should appear only under the final rows, such as a totals line. If you want a continuation hint, a common pattern is `\midrule \multicolumn{2}{r}{continued on next page} \\` in the foot block and the real `\bottomrule` in the last foot.
 
-After the declarations come the data rows, written exactly as in a normal `tabular` with `&` between cells and `\\` at the end of each row. The `booktabs` rules work unchanged; see [three-rule tables](/learn/booktabs-beautiful/) for what they replace.
+After the declarations come the data rows, written exactly as in a normal `tabular` with `&` between cells and `\\` at the end of each row. The `booktabs` rules work unchanged. See [three-rule tables](/learn/booktabs-beautiful/) for what they replace.
 
 ## Not a float, and what that implies
 
@@ -39,4 +39,4 @@ The most important behavioral difference is stated in one sentence: `longtable` 
 
 ## Two things to know before you rely on it
 
-First, column widths are decided globally, so LaTeX may need several compile passes before the columns stop shifting; keep compiling until the layout settles. Second, `longtable` cannot be used inside a two-column layout, which rules it out for most conference templates. In those documents the realistic options are shrinking the table, splitting it into parts, or moving it to a one-column appendix.
+First, column widths are decided globally, so LaTeX may need several compile passes before the columns stop shifting. Keep compiling until the layout settles. Second, `longtable` cannot be used inside a two-column layout, which rules it out for most conference templates. In those documents the realistic options are shrinking the table, splitting it into parts, or moving it to a one-column appendix.

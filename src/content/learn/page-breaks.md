@@ -31,7 +31,7 @@ LaTeX decides where pages end. Most of the time it decides well, but sometimes y
 
 ## The soft requests
 
-`\pagebreak[n]` does not command, it asks. The optional number from 0 to 4 states how strongly: `\pagebreak[1]` means "a break here would be nice", `\pagebreak[4]` means "break here, period". The middle values let LaTeX weigh your wish against its own spacing judgment, which usually produces better-looking pages than a hard `\newpage`, because `\pagebreak` stretches the content to fill the page rather than leaving a gap.
+`\pagebreak[n]` does not command. It asks. The optional number from 0 to 4 states how strongly: `\pagebreak[1]` means "a break here would be nice", `\pagebreak[4]` means "break here, period". The middle values let LaTeX weigh your wish against its own spacing judgment, which usually produces better-looking pages than a hard `\newpage`, because `\pagebreak` stretches the content to fill the page rather than leaving a gap.
 
 `\nopagebreak` is the opposite request: it discourages a break at that point. It is useful right after a heading or before a short list you want kept with its introduction. Like `\pagebreak` it accepts an optional strength from 0 to 4.
 

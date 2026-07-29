@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # University class files that will not compile
 
-University thesis templates are a special kind of legacy code. A graduate student wrote the class file fifteen years ago against the TeX distribution of the day, graduated, and left it frozen while the LaTeX ecosystem moved on. When you download `universitythesis.cls` today and it dies with a screen of errors, the class is usually not broken so much as stranded in time. The good news is that the failure modes are predictable, and a fixed triage order resolves most of them.
+University thesis templates are a special kind of legacy code. A graduate student wrote the class file fifteen years ago against the TeX distribution of the day, graduated, and left it frozen while the LaTeX ecosystem moved on. When you download `universitythesis.cls` today and it dies with a screen of errors, the class is usually not broken so much as stranded in time. The failure modes are predictable, though, and a fixed triage order resolves most of them.
 
 ## Start with the first error only
 

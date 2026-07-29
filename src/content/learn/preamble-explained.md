@@ -7,11 +7,54 @@ level: "beginner"
 tags: ["basics", "preamble"]
 featured: true
 updated: 2026-07-25
+quiz:
+  title: 'Preamble check'
+  questions:
+    - prompt: 'What is the preamble?'
+      choices:
+        - 'Everything after \end{document}'
+        - 'Everything between \documentclass{...} and \begin{document}'
+        - 'Only the bibliography file'
+        - 'The PDF outline panel'
+      answer: 'B'
+      level: beginner
+    - prompt: 'Does preamble material print as body text on its own?'
+      choices:
+        - 'Yes. Every package prints a banner page.'
+        - 'No. It configures the run; visible text starts in the body.'
+        - 'Only if you use article.'
+        - 'Only on the second compile.'
+      answer: 'B'
+      level: beginner
+    - prompt: 'Why is hyperref usually loaded late in the preamble?'
+      choices:
+        - 'Loading it earlier is illegal.'
+        - 'It rewrites a lot of commands, so it wants other packages loaded first.'
+        - 'It only works after \maketitle.'
+        - 'Loaded early, it disables amsmath.'
+      answer: 'B'
+      level: intermediate
+    - prompt: 'Which of these belongs in the preamble?'
+      choices:
+        - 'A multi-paragraph introduction'
+        - '\usepackage{amsmath} and \title{...}'
+        - '\section{Results}'
+        - 'The main \includegraphics for a figure'
+      answer: 'B'
+      level: beginner
+    - prompt: 'What do options like 11pt on \documentclass mostly control?'
+      choices:
+        - 'Journal acceptance rate'
+        - 'Global defaults such as base font size (and often paper size)'
+        - 'Which OS you compiled on'
+        - 'How many figures you''re allowed'
+      answer: 'B'
+      level: beginner
 ---
 
 # Everything above begin{document}
 
-Everything between `\documentclass{...}` and `\begin{document}` is the **preamble**. It produces no visible text; it configures the run. Fonts, margins, packages, custom commands, and document metadata all live here, which is why the preamble of a mature paper is often longer than its introduction. Understanding what each line does turns a copied template from an incantation into a checklist.
+Everything between `\documentclass{...}` and `\begin{document}` is the **preamble**. It produces no visible text. It configures the run. Fonts, margins, packages, custom commands, and document metadata all live here, which is why the preamble of a mature paper is often longer than its introduction. Once you know what each line does, a copied template stops being magic and becomes a checklist.
 
 ## Anatomy
 

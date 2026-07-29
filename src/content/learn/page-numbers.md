@@ -35,9 +35,9 @@ A title page with a lonely "1" at the bottom looks unfinished. The fix is one li
 
 These two pairs of commands control different things, and mixing them up is the classic stumble. `\pagestyle{...}` controls where the number appears and what surrounds it: `plain` gives the centered footer number, `empty` removes headers and footers from every page from that point on. It says nothing about what the number looks like.
 
-`\pagenumbering{...}` controls how the number is written: `roman` produces i, ii, iii, while `arabic` produces 1, 2, 3. There are also `Roman` for I, II, III and `alph` for a, b, c, though you will rarely need them. Crucially, `\pagenumbering` also resets the page counter to 1. That reset is a feature, not a bug: it is exactly what lets a thesis number its preface i through vi and then start chapter one on page 1.
+`\pagenumbering{...}` controls how the number is written: `roman` produces i, ii, iii, while `arabic` produces 1, 2, 3. There are also `Roman` for I, II, III and `alph` for a, b, c, though you will rarely need them. `\pagenumbering` also resets the page counter to 1. That reset is a feature, not a bug: it is what lets a thesis number its preface i through vi and then start chapter one on page 1.
 
-If you want full control over placement, such as the number in a corner or paired with a running title, that is the job of the fancyhdr package rather than these built-ins; see [running heads and feet](/learn/headers-footers/).
+If you want full control over placement, such as the number in a corner or paired with a running title, that is the job of the fancyhdr package rather than these built-ins. See [running heads and feet](/learn/headers-footers/).
 
 ## The common mistake
 

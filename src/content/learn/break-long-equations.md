@@ -41,6 +41,6 @@ Sooner or later a derivation produces an equation wider than the text block, and
 
 Use `multline` when the equation is one long sum with no structure worth aligning. Use `split` when there is an equals sign the continuation should hang under. If you have several genuinely separate equations, neither is right; that is a job for `align`, covered in [multi-line equations that line up](/learn/align-equations/).
 
-Before reaching for either, consider rewriting the math. Naming a subexpression in the preceding sentence, factoring, or splitting the statement into two equations often brings the width under control and improves readability at the same time. Prefer that over shrinking the type; a display squeezed to fit almost always reads worse than a clean break.
+Before reaching for either, consider rewriting the math. Naming a subexpression in the preceding sentence, factoring, or splitting into two equations often gets the width under control and reads better too. Prefer that over shrinking the type. A display squeezed to fit almost always reads worse than a clean break.
 
 One error to know: `split` used on its own, without an enclosing `equation`, stops with a "Package amsmath Error". Wrap it first, then compile. Both environments are quick to experiment with in the [live playground](/live/).

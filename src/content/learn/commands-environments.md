@@ -7,11 +7,54 @@ level: "beginner"
 tags: ["basics"]
 featured: false
 updated: 2026-07-25
+quiz:
+  title: 'Commands vs environments'
+  questions:
+    - prompt: 'What makes something a LaTeX command?'
+      choices:
+        - 'It always wraps many pages'
+        - 'A backslash name that substitutes something in place, often with brace arguments'
+        - 'It has to live in a .bib file'
+        - 'It can''t take optional arguments'
+      answer: 'B'
+      level: beginner
+    - prompt: 'What defines an environment?'
+      choices:
+        - 'A matching \begin{name} ... \end{name} pair around a region'
+        - 'Any bold text'
+        - 'Only math mode'
+        - 'A single optional star'
+      answer: 'A'
+      level: beginner
+    - prompt: 'Which of these is an environment?'
+      choices:
+        - '\textbf{hello}'
+        - '\begin{center} ... \end{center}'
+        - '\cite{knuth84}'
+        - '\frac{a}{b}'
+      answer: 'B'
+      level: beginner
+    - prompt: 'What does \begin{itemize} ended by \end{document} usually mean?'
+      choices:
+        - 'itemize is banned in article'
+        - 'You opened an environment and never closed it'
+        - 'You need more RAM'
+        - 'The bibliography is empty'
+      answer: 'B'
+      level: beginner
+    - prompt: 'Why write \LaTeX{} is fun instead of \LaTeX is fun?'
+      choices:
+        - 'Every command needs braces'
+        - 'Many commands eat the following space; empty braces keep the space'
+        - 'It turns hyperref on'
+        - 'It forces math mode'
+      answer: 'B'
+      level: intermediate
 ---
 
 # Command or environment?
 
-Everything you type in LaTeX beyond plain text takes one of two shapes: a command or an environment. The distinction sounds academic until you hit your first error message, because half of LaTeX's complaints are about one being used where the other belongs. Learning to see which shape you are looking at makes both the documentation and the errors readable.
+Everything you type in LaTeX beyond plain text takes one of two shapes: a command or an environment. The distinction sounds academic until you hit your first error message. Half of LaTeX's complaints are about one being used where the other belongs. Learning to see which shape you are looking at makes both the documentation and the errors readable.
 
 ## Commands
 
@@ -37,8 +80,8 @@ One quirk worth knowing early: a command like `\LaTeX` swallows the space after 
 
 An environment wraps a region of the document between a matching `\begin{...}` and `\end{...}` pair, and applies its behavior to everything inside. Here the `center` environment centers each line of the block. Environments can be nested, provided they close in the reverse order they opened, and they can take arguments too: `\begin{tabular}{ll}` opens a table and passes it a column specification.
 
-Because environments must balance, their failure mode is distinctive. An error such as `\begin{itemize} ended by \end{document}` means an environment was opened and never closed, and the fix is to find the missing `\end`, not to stare at the line the error names.
+Because environments must balance, they fail in a distinctive way. An error such as `\begin{itemize} ended by \end{document}` means an environment was opened and never closed. Find the missing `\end`; do not stare at the line the error names.
 
 ## The rule of thumb
 
-If it wraps a region with a clear start and end, it is probably an environment; if it is a small substitution or a switch, it is a command. The two shapes even overlap: every environment `foo` is implemented as a command pair `\foo` and `\endfoo` under the hood. For a tour of the specific commands and environments you will meet most, see [every command explained](/learn/every-command-explained/), or try both shapes in the [live playground](/live/).
+If it wraps a region with a clear start and end, it is probably an environment. If it is a small substitution or a switch, it is a command. The two shapes even overlap: every environment `foo` is implemented as a command pair `\foo` and `\endfoo` under the hood. For a tour of the commands and environments you will meet most, see [every command explained](/learn/every-command-explained/), or try both shapes in the [live playground](/live/).

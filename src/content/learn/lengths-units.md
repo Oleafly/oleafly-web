@@ -24,7 +24,7 @@ Nearly every layout command in LaTeX takes a length: vertical space, image width
 
 ## Absolute and relative units
 
-`pt` is the printer's point, TeX's base unit; font sizes and many internal defaults are stated in points, and one inch is 72.27 pt in TeX's reckoning. `cm`, `mm`, and `in` are the familiar absolute units, appropriate when a requirement is genuinely physical, such as a mandated one-inch margin.
+`pt` is the printer's point, TeX's base unit. Font sizes and many internal defaults are stated in points, and one inch is 72.27 pt in TeX's reckoning. `cm`, `mm`, and `in` are the familiar absolute units, appropriate when a requirement is genuinely physical, such as a mandated one-inch margin.
 
 `em` and `ex` scale with the current font: an em is roughly the font size expressed as a width, and an ex is about the height of a lowercase x. Their advantage is proportionality. A `\vspace{1em}` stays visually consistent if the document moves from 10pt to 12pt type, where a hard-coded `\vspace{12pt}` becomes too tight or too loose.
 

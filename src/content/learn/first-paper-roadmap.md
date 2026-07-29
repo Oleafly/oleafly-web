@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Your first paper, end to end
 
-Everyone's first paper feels impossible. Not because any single step is hard, but because nobody shows you the whole pipeline at once. So here it is: the entire journey on one page, with a lesson linked for every stage. Bookmark this and cross steps off as you go.
+Everyone's first paper feels impossible. Not because any single step is hard, but because nobody shows you the whole pipeline at once. So here it is: the whole pipeline on one page, with a lesson linked for every stage. Bookmark this and cross steps off as you go.
 
 ## The roadmap
 
@@ -38,10 +38,10 @@ First papers usually take 6 to 12 months from idea to submission, and that is no
 Two habits compress the timeline more than anything else:
 
 - **Write from week one.** Notes become paragraphs become sections. Nobody writes a paper in the last two weeks; they assemble one.
-- **Keep history.** Commit early and often so no experiment or paragraph is ever truly lost. A local-first workspace like Oleafly gives you real Git checkpoints and diffs without leaving the editor, which turns "I broke the draft" into "I restored yesterday's version."
+- **Keep history.** Commit early and often so no experiment or paragraph is ever truly lost. A local-first workspace like Oleafly gives you real Git checkpoints and diffs without leaving the editor. That turns "I broke the draft" into "I restored yesterday's version."
 
 ## The encouraging truth
 
-The pipeline looks long because it is complete. But it is a loop, not a maze: the same 13 steps, every paper, for your entire career. Your first pass through will be slow and confusing. Your second will be merely slow. By the third, you will be the labmate explaining AoE deadlines to someone else.
+Thirteen steps sounds like a lot. In practice it is the same loop every paper, for your whole career. Your first pass will be slow and confusing. Your second will be merely slow. By the third, you will be the labmate explaining AoE deadlines to someone else.
 
 Pick a venue, put the deadline on your calendar, and start at step 1. The loop is learnable, and you have a map now.

@@ -25,7 +25,7 @@ The same class produces different layouts depending on options:
 \documentclass[journal]{IEEEtran}
 ```
 
-Conference mode gives you the classic look: 10pt Times, two columns, no page numbers by default. Journal mode changes the title layout, adds author biographies at the end, and tweaks spacing. Always use the mode your venue asks for, they are not interchangeable. For the broader IEEE vs ACM landscape, see [ACM, IEEE, and friends](/learn/acm-ieee-and-friends/).
+Conference mode gives you the classic look: 10pt Times, two columns, no page numbers by default. Journal mode changes the title layout, adds author biographies at the end, and tweaks spacing. Always use the mode your venue asks for, they are not interchangeable. For the broader IEEE vs ACM comparison, see [ACM, IEEE, and friends](/learn/acm-ieee-and-friends/).
 
 ## Authors the IEEE way
 

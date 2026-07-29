@@ -28,17 +28,17 @@ Raw TeX is powerful but low-level, like assembly language for pages. In 1984 Les
 Word processors came and went; LaTeX stayed, for boring, excellent reasons:
 
 - **Math.** Nothing typesets equations as well, still. See [math mode](/learn/math-mode/).
-- **Plain text.** A 1985 .tex file opens today, and plays perfectly with version control.
+- **Plain text.** A 1985 .tex file opens today, and works cleanly with version control.
 - **Automation.** Numbering, cross-references, and bibliographies just work at 300 pages.
 - **Templates.** Publishers encode their exact house style as a class file, so every submission comes out identical. That is why [ACM, IEEE, and friends](/learn/acm-ieee-and-friends/) all hand you .tex templates, and why journals still want .tex sources they can compile into their own layout.
 
 ## The engine family, in one breath
 
-The original TeX engine spawned modern successors: **pdfTeX** added direct PDF output, **XeTeX** added Unicode and system fonts, and **LuaTeX** added a scripting language inside the engine. You mostly just pick whichever your template expects; the practical differences are in [which engine for this project](/learn/engines-compared/).
+The original TeX engine spawned modern successors: **pdfTeX** added direct PDF output, **XeTeX** added Unicode and system fonts, and **LuaTeX** added a scripting language inside the engine. You mostly just pick whichever your template expects. The practical differences are in [which engine for this project](/learn/engines-compared/).
 
 ## 2023: enter Typst
 
-**Typst** is the first serious modern challenger: a new typesetting language built from scratch with cleaner syntax, instant compilation, and friendlier error messages. It is genuinely pleasant, and growing fast. Its limits are the flip side of LaTeX's strengths: forty years of packages and, crucially, publisher acceptance. Venues want .tex today, so LaTeX remains the language of submission while Typst is lovely for notes, reports, and anything you control the output of. Oleafly compiles LaTeX, Typst, and Markdown side by side, so you can use each where it shines without switching apps.
+**Typst** is the first serious modern challenger: a new typesetting language built from scratch with cleaner syntax, instant compilation, and friendlier error messages. It is genuinely pleasant, and growing fast. Its limits are the flip side of LaTeX's strengths: forty years of packages and, above all, publisher acceptance. Venues want .tex today, so LaTeX remains the language of submission while Typst is lovely for notes, reports, and anything you control the output of. Oleafly compiles LaTeX, Typst, and Markdown side by side, so you can use each where it shines without switching apps.
 
 ## The takeaway
 

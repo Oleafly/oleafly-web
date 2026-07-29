@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Rebuttals and revisions that change minds
 
-Reviews arrive. Some are thoughtful. Some are harsh. At least one seems to describe a different paper entirely. What you do next matters more than most people realize: rebuttals and revisions genuinely change outcomes, but only when written a certain way.
+Reviews arrive. Some are thoughtful. Some are harsh. At least one seems to describe a different paper entirely. Rebuttals and revisions do change outcomes, but only when written a certain way.
 
 ## Read the reviews cold, then wait 24 hours
 
@@ -39,7 +39,7 @@ Skipping a point reads as evasion. Within the word limit (often 500 to 1000 word
 
 ## What actually flips scores
 
-Data from area chairs and long experience agree: scores move when a rebuttal delivers **new evidence that directly answers a stated objection**. "Reviewer asked for comparison X, here is comparison X, we win" flips scores. Restating your contributions does not. Arguing the reviewer is wrong, without new material, never does. Also honest concessions help: admitting a limitation and scoping the claims down can turn a hostile reviewer into an advocate.
+Scores move when a rebuttal delivers **new evidence that directly answers a stated objection**. "Reviewer asked for comparison X, here is comparison X, we win" flips scores. Restating your contributions does not. Arguing the reviewer is wrong, without new material, never does. Honest concessions help too: admitting a limitation and scoping the claims down can turn a hostile reviewer into an advocate.
 
 ## Journals: major vs minor revision
 

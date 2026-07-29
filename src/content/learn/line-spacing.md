@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Single, one-half, double
 
-By default LaTeX sets text single-spaced, with the distance between lines chosen to suit the font. That is what a finished book looks like, but plenty of documents are required to be looser: thesis regulations often demand one-and-a-half or double spacing, and journals ask for double-spaced manuscripts so reviewers have room to scribble. The clean way to change line spacing is the `setspace` package, which adjusts spacing without breaking the parts of the document that should stay single-spaced.
+By default LaTeX sets text single-spaced, with the distance between lines chosen to suit the font. That is what a finished book looks like, but plenty of documents are required to be looser: thesis regulations often demand one-and-a-half or double spacing, and journals ask for double-spaced manuscripts so reviewers have room to scribble. Change line spacing with the `setspace` package. It adjusts body text without breaking the parts of the document that should stay single-spaced.
 
 ## Document-wide spacing
 
@@ -42,4 +42,4 @@ The `spacing` environment applies the given stretch factor, here 1.2, to just th
 
 ## A word of caution
 
-Do not use line spacing to hit a page count. Stretching to 1.1 to make a paper look longer is the oldest trick in the book, and venues with strict formatting run automated checks that catch it; the [page-limit guide](/learn/page-limits-without-crimes/) covers legitimate alternatives. Save setspace for what it is meant for: meeting an explicit spacing requirement, then switching back to single spacing for the camera-ready version.
+Do not use line spacing to hit a page count. Stretching to 1.1 to make a paper look longer is the oldest trick in the book, and venues with strict formatting run automated checks that catch it. The [page-limit guide](/learn/page-limits-without-crimes/) covers legitimate alternatives. Save setspace for what it is meant for: meeting an explicit spacing requirement, then switching back to single spacing for the camera-ready version.

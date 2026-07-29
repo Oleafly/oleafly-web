@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Blurry text in the PDF viewer
 
-Your PDF compiles cleanly, but the text looks soft or jagged on screen, and zooming in makes it worse instead of better. Nothing is wrong with your viewer. The document contains bitmap fonts: instead of storing letter shapes as scalable outlines, it stores them as grids of pixels rendered at one fixed resolution. In PDF terminology these are Type 3 fonts. They print acceptably on paper at the resolution they were generated for, which is why the problem survived for decades, but on screens they blur at any zoom level other than their native one. Modern outline formats, Type 1, TrueType, and OpenType, scale cleanly because the shapes are mathematical curves.
+Your PDF compiles cleanly, but the text looks soft or jagged on screen, and zooming in makes it worse instead of better. Nothing is wrong with your viewer. The document contains bitmap fonts. Instead of storing letter shapes as scalable outlines, it stores them as grids of pixels rendered at one fixed resolution. In PDF terminology these are Type 3 fonts. They print acceptably on paper at the resolution they were generated for, which is why the problem survived for decades, but on screens they blur at any zoom level other than their native one. Modern outline formats (Type 1, TrueType, OpenType) scale cleanly because the shapes are mathematical curves.
 
 ## Confirming the diagnosis
 
@@ -19,7 +19,7 @@ Zooming is the quick test: outline fonts stay razor sharp at 800 percent, bitmap
 
 ## Where bitmaps come from and the fixes
 
-The usual source is an old font setup. Very old TeX installations rendered Computer Modern through METAFONT into bitmaps, and some legacy packages and ancient `\usepackage{times}` era stacks still pull in bitmap variants. The fixes work from the same direction, so replace the legacy font commands with a modern stack:
+The usual source is an old font setup. Very old TeX installations rendered Computer Modern through METAFONT into bitmaps, and some legacy packages and ancient `\usepackage{times}` era stacks still pull in bitmap variants. Fix it by replacing the legacy font commands with a modern stack:
 
 ```latex
 \usepackage{newtxtext,newtxmath}

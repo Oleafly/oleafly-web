@@ -7,11 +7,56 @@ level: "beginner"
 tags: ["math"]
 featured: false
 updated: 2026-07-25
+quiz:
+  title: 'Fractions check'
+  questions:
+    - prompt: 'What does \frac{a}{b} produce?'
+      choices:
+        - 'A footnote labeled a/b'
+        - 'A stacked fraction: a on top, b below'
+        - 'Bold a over italic b'
+        - 'A two-column table'
+      answer: 'B'
+      level: beginner
+    - prompt: 'How does \frac size change inline vs display?'
+      choices:
+        - 'Same size always'
+        - 'Smaller and tighter inline; fuller size in display math'
+        - 'Always huge inline'
+        - 'It only works in display'
+      answer: 'B'
+      level: beginner
+    - prompt: 'When would you reach for \dfrac?'
+      choices:
+        - 'To force a full-size (display-style) fraction even in a sentence'
+        - 'To draw a chemical diagram'
+        - 'To start a chapter'
+        - 'To turn amsmath off'
+      answer: 'A'
+      hint: 'The d is for display style.'
+      explanation: 'Use it sparingly in a sentence. Tall fractions push the line spacing around.'
+      level: intermediate
+    - prompt: 'Why use \cfrac for continued fractions?'
+      choices:
+        - 'It''s shorter to type than \frac'
+        - 'Nested \frac gets tiny each level; \cfrac keeps each level readable'
+        - 'It works outside math mode'
+        - 'It numbers equations for you'
+      answer: 'B'
+      level: intermediate
+    - prompt: 'If \dfrac is undefined, what''s the usual fix?'
+      choices:
+        - 'Buy a commercial font'
+        - 'Load amsmath in the preamble'
+        - 'Switch to \documentclass{book}'
+        - 'Delete every dollar sign'
+      answer: 'B'
+      level: beginner
 ---
 
 # Stacked ratios that stay readable
 
-Fractions are the first place LaTeX output visibly outclasses a word processor: a real stacked numerator and denominator with a rule between them, sized to fit the surrounding math. The core command is `\frac`, and the interesting part is how its size changes with context, and how to override that when the automatic choice hurts readability.
+Fractions are the first place LaTeX output visibly outclasses a word processor: a real stacked numerator and denominator with a rule between them, sized to fit the surrounding math. The core command is `\frac`. What matters is how its size changes with context, and how to override that when the automatic choice hurts readability.
 
 ## frac, dfrac, tfrac
 

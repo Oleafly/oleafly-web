@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # A paper, top to bottom
 
-Research papers look intimidating until you realize they are assembled from the same dozen parts, in roughly the same order, every single time. Once you know each part's job, you can read papers faster and write them without staring at a blank page. Here is the full tour.
+Research papers look intimidating until you realize they are assembled from the same dozen parts, in roughly the same order, every time. Once you know each part's job, you can read papers faster and write them without staring at a blank page. Here is the tour.
 
 ## The front matter
 
@@ -35,7 +35,7 @@ The title and abstract do most of the recruiting. Ninety percent of your potenti
 | Discussion | Interpret the evidence honestly, including where it is weak. |
 | Conclusion | Restate the takeaway and point at what comes next. |
 
-The body is a single argument told in stages: here is a problem, here is our idea, here is proof it works, here is what it means. If a section is not advancing that argument, it is padding. The [introduction and related work](/learn/introduction-and-related-work/) and the [engine room sections](/learn/methods-results-discussion/) each get a deeper dive.
+The body is one argument told in stages: here is a problem, here is our idea, here is proof it works, here is what it means. If a section is not advancing that argument, it is padding. See [introduction and related work](/learn/introduction-and-related-work/) and the [engine room sections](/learn/methods-results-discussion/) for more on each.
 
 ## The back matter
 

@@ -22,7 +22,7 @@ Your paper does not go to the conference. It goes to a submission system: a webs
 | OpenReview | Public-facing, reviews often visible | ML venues (ICLR, NeurIPS) |
 | CMT | Microsoft's workhorse, form-heavy | Vision and ML conferences (CVPR) |
 
-They all do the same core job. The differences are in the details: OpenReview may show your reviews to the world, HotCRP will email you about every comment, CMT has a topic-selection grid that takes ten minutes to click through.
+They all do the same core job. The differences live in the details. OpenReview may show your reviews to the world. HotCRP will email you about every comment. CMT has a topic-selection grid that takes ten minutes to click through.
 
 ## Make your account early
 

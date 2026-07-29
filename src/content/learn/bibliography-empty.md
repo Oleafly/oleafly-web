@@ -13,11 +13,11 @@ updated: 2026-07-25
 
 ## The symptom
 
-Your document compiles without a fatal error, but the References section is missing entirely, or the heading appears with nothing under it. Often every `\cite` in the text shows as a bold question mark at the same time. Nothing crashed, so there is no obvious error to chase, which is exactly what makes this one frustrating.
+Your document compiles without a fatal error, but the References section is missing entirely, or the heading appears with nothing under it. Often every `\cite` in the text shows as a bold question mark at the same time. Nothing crashed, so there is no obvious error to chase, which is what makes this one frustrating.
 
 ## Why it happens
 
-The bibliography is not produced by LaTeX alone. LaTeX first writes the list of cited keys into an auxiliary file, then a separate backend program (`bibtex` or `biber`) reads your `.bib` database and formats the matching entries, and finally LaTeX reads that formatted result back in on the next pass. An empty bibliography means this pipeline broke somewhere: the backend never ran, it ran but could not find the database, it found the database but no keys were requested, or the document is asking for the result with the wrong command.
+The bibliography is not produced by LaTeX alone. LaTeX first writes the list of cited keys into an auxiliary file. A separate backend program (`bibtex` or `biber`) reads your `.bib` database and formats the matching entries. Finally LaTeX reads that formatted result back in on the next pass. An empty bibliography means this pipeline broke somewhere: the backend never ran, it ran but could not find the database, it found the database but no keys were requested, or the document is asking for the result with the wrong command.
 
 ## Work through the causes in order
 

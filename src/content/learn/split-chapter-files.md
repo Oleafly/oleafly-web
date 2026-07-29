@@ -25,7 +25,7 @@ A thesis in a single `.tex` file becomes miserable to work in somewhere around t
 \end{document}
 ```
 
-`main.tex` is the only file you ever compile. Each `\include` names another file without its `.tex` extension, using forward slashes on every platform, and pulls its contents in at that point. The chapter files themselves contain only content, typically starting with `\chapter{...}`; they have no `\documentclass` and no `document` environment of their own, because they are fragments of this document, not documents.
+`main.tex` is the only file you ever compile. Each `\include` names another file without its `.tex` extension, using forward slashes on every platform, and pulls its contents in at that point. The chapter files themselves contain only content, typically starting with `\chapter{...}`. They have no `\documentclass` and no `document` environment of their own, because they are fragments of this document, not documents.
 
 ## include versus input
 

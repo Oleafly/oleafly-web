@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # The deadline lifecycle
 
-A call for papers looks like a wall of dates. Once you can read it, it is actually a map of the next four months of your life. Here is the decoder ring.
+A call for papers looks like a wall of dates. Once you can read it, it is a map of the next four months of your life. Here is the decoder ring.
 
 ## The dates, in order
 

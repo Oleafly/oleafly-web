@@ -1,6 +1,6 @@
 ---
 title: "What a research paper actually is"
-description: "Papers, publishing, and the journey from idea to citation, explained from zero."
+description: "Papers, publishing, and the path from idea to citation, explained from zero."
 category: "research-101"
 order: 1
 level: "beginner"
@@ -43,12 +43,12 @@ The differences between the places these live, journals, conferences, workshops,
 
 Publishing does not mean posting a PDF online. It means a recognized venue accepted your paper after peer review and included it in its official record. That record might be a journal issue or conference proceedings, but the key ingredient is the review. Posting a draft publicly before that happens is called a preprint, and it is a normal, healthy part of the process. See [arXiv and the preprint world](/learn/what-is-arxiv/).
 
-## How long the journey takes
+## How long it takes
 
 Longer than you think, and that is normal:
 
 - **Doing the research:** months to years.
-- **Writing the paper:** weeks to months. Tools help here; most fields write in LaTeX, and your [first document](/learn/first-document/) takes ten minutes.
+- **Writing the paper:** weeks to months. Tools help here. Most fields write in LaTeX, and your [first document](/learn/first-document/) takes ten minutes.
 - **Review:** typically 2 to 6 months for a conference, 3 to 12 months for a journal.
 - **Rejection and resubmission:** very common, adds another cycle each time.
 

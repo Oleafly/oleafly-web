@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Numeric, author-year, journal styles
 
-A citation style controls two things: what the in-text marker looks like, such as `[12]` versus `(Knuth, 1984)`, and how each entry in the reference list is formatted. The good news is that the style is completely separate from your `.bib` database. You can switch a paper from numeric to author-year, or reformat it for a different journal, by changing one line in the preamble. Your entries never need to be rewritten.
+A citation style controls two things: what the in-text marker looks like, such as `[12]` versus `(Knuth, 1984)`, and how each entry in the reference list is formatted. The good news is that the style is completely separate from your `.bib` database. You can switch a paper from numeric to author-year, or reformat it for a different journal, by changing one line in the preamble. Your entries stay as they are.
 
 ## Changing style with classic BibTeX
 

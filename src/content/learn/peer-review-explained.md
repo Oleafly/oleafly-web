@@ -38,7 +38,7 @@ Journals usually answer with one of four outcomes:
 | Verdict | Translation |
 | --- | --- |
 | Accept | Rare on the first try. Celebrate loudly. |
-| Minor revision | Fix small things, you are essentially in |
+| Minor revision | Fix small things; you are nearly in |
 | Major revision | Real work needed, but the door is open |
 | Reject | No, but usually with reasons you can use |
 
@@ -50,8 +50,8 @@ Many conferences give authors a short window to respond to reviews before the fi
 
 ## Rejection is the default, not a disaster
 
-Top venues accept roughly 15 to 25 percent of submissions. Flip that around: the typical outcome for a good paper at a good venue is rejection. Nearly every famous paper you have heard of was rejected somewhere first. The professional move is to read the reviews cold, a day later, extract every fixable weakness, and resubmit stronger. Papers are rejected; researchers just have papers that have not landed yet.
+Top venues accept roughly 15 to 25 percent of submissions. Flip that around: the typical outcome for a good paper at a good venue is rejection. Nearly every famous paper you have heard of was rejected somewhere first. The practical move is to read the reviews cold, a day later, extract every fixable weakness, and resubmit stronger.
 
 ## What this means for how you write
 
-Reviewers are tired volunteers reading fast. Clear structure, honest claims, and clean typesetting all buy goodwill. Knowing the standard sections helps too, see the [paper anatomy tour](/learn/paper-anatomy-tour/), and a tidy LaTeX setup, like your [first document](/learn/first-document/), keeps formatting from ever being the reason a reviewer frowns. The whole journey, from draft to verdict to camera-ready, is mapped in the [first paper roadmap](/learn/first-paper-roadmap/).
+Reviewers are tired volunteers reading fast. Clear structure, honest claims, and clean typesetting all buy goodwill. Knowing the standard sections helps too, see the [paper anatomy tour](/learn/paper-anatomy-tour/), and a tidy LaTeX setup, like your [first document](/learn/first-document/), keeps formatting from ever being the reason a reviewer frowns. The whole path, from draft to verdict to camera-ready, is mapped in the [first paper roadmap](/learn/first-paper-roadmap/).

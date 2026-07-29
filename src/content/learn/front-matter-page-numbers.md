@@ -34,7 +34,7 @@ Because `\chapter` in the `book` and `report` classes always starts a new page, 
 
 ## Classes that do it for you
 
-Some thesis classes provide `\frontmatter` / `\mainmatter` / `\backmatter`. These come from the `book` class and are the higher-level way to say the same thing: `\frontmatter` switches to roman numbering and makes chapters unnumbered (so a Preface gets no "Chapter 1" label), `\mainmatter` switches to arabic and restores numbered chapters, and `\backmatter` turns chapter numbering off again for appendix-like material at the end. If your university's template is built on `book` or `memoir`, prefer these commands over raw `\pagenumbering`, because the template may hook extra behavior onto them, such as different headers for front matter. The two approaches do not conflict, but there is no reason to use both.
+Some thesis classes provide `\frontmatter` / `\mainmatter` / `\backmatter`. These come from the `book` class and are the higher-level way to say the same thing. `\frontmatter` switches to roman numbering and makes chapters unnumbered (so a Preface gets no "Chapter 1" label). `\mainmatter` switches to arabic and restores numbered chapters. `\backmatter` turns chapter numbering off again for appendix-like material at the end. If your university's template is built on `book` or `memoir`, prefer these commands over raw `\pagenumbering`, because the template may hook extra behavior onto them, such as different headers for front matter. The two approaches do not conflict, but there is no reason to use both.
 
 ## One thing to check
 

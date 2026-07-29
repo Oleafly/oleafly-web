@@ -25,7 +25,7 @@ The best fix is editorial. Rewording the sentence, moving the long word away fro
 
 For URLs, wrap the address in `\url{...}` from the `url` or `hyperref` package so it can break at slashes and dots, and load the `xurl` package when you need breaks at almost any character. For a wide inline formula, either display it, or use a breakable environment such as `multline` from `amsmath` when the equation itself is too long for the line.
 
-Two preamble-level improvements help globally. Loading `microtype` lets characters protrude fractionally and expands fonts slightly, which resolves many marginal cases invisibly. And making sure the document's language is set correctly through `babel` or `polyglossia` gives TeX the right hyphenation patterns, since a word it cannot hyphenate is a word it cannot break.
+Two preamble-level improvements help globally. Loading `microtype` lets characters protrude fractionally and expands fonts slightly, which resolves many marginal cases without you noticing. Setting the document language correctly through `babel` or `polyglossia` gives TeX the right hyphenation patterns, since a word it cannot hyphenate is a word it cannot break.
 
 ## When to care
 

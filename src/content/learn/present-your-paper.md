@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Talks, posters, and the conference itself
 
-Acceptance email, camera-ready done, flights booked. Now the part nobody teaches: the conference. Here is what actually happens and how to get the most out of it.
+Acceptance email, camera-ready done, flights booked. Now the part nobody teaches: the conference. Here is what actually happens, and how to use it well.
 
 ## The talk
 
@@ -27,7 +27,7 @@ Build the deck in LaTeX so your notation matches the paper: [Beamer basics](/lea
 
 ## The poster session
 
-Most accepted papers present as posters, and poster sessions are secretly the best part of a conference: two hours of direct conversation with exactly the people who chose to stop at your work. Design one legible from two meters away, and prepare three versions of your pitch: the 30-second version for walkers-by, the 2-minute version for the interested, and the deep dive for the person who read your paper on the plane. See [conference posters](/learn/conference-poster/) for the LaTeX side.
+Most accepted papers present as posters, and poster sessions are often the best part of a conference: two hours of direct conversation with exactly the people who chose to stop at your work. Design one legible from two meters away, and prepare three versions of your pitch: the 30-second version for walkers-by, the 2-minute version for the interested, and the long version for the person who read your paper on the plane. See [conference posters](/learn/conference-poster/) for the LaTeX side.
 
 ## Lightning talks and recordings
 
@@ -55,4 +55,4 @@ If your project already lives in Git with GitHub sync (see [sync with GitHub](/l
 
 ## After the conference
 
-Post the final version where people can find it, update your website, and share the one-sentence takeaway. Then rest. The next lesson, [your first paper, end to end](/learn/first-paper-roadmap/), puts this whole journey on one map.
+Post the final version where people can find it, update your website, and share the one-sentence takeaway. Then rest. The next lesson, [your first paper, end to end](/learn/first-paper-roadmap/), puts this whole pipeline on one map.

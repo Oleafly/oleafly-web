@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Vectors and bold symbols
 
-Many fields set vectors and matrices in bold: **x** for a vector, **A** for a matrix, bold beta for a coefficient vector. In LaTeX there are two different bold commands for math, and they are not interchangeable. Knowing which one to reach for, and wrapping the choice in a macro, keeps your notation consistent through a whole thesis.
+Many fields set vectors and matrices in bold: **x** for a vector, **A** for a matrix, bold beta for a coefficient vector. In LaTeX there are two different bold commands for math, and they are not interchangeable. Knowing which one to reach for, and wrapping the choice in a macro, keeps notation consistent through a whole thesis.
 
 ## The two commands
 
@@ -35,7 +35,7 @@ Rather than typing these commands throughout the document, define semantic macro
 \newcommand{\mat}[1]{\mathbf{#1}}
 ```
 
-Now you write `\vect{x}` for a vector and `\mat{A}` for a matrix. The `[1]` says each macro takes one argument, and `#1` is where that argument lands. The payoff comes later: if a journal requires vectors to be upright bold instead of bold italic, you edit one line, `\vect` now wraps `\mathbf`, and every vector in the paper updates on the next compile. Search and replace across two hundred equations is exactly the chore this avoids.
+Now you write `\vect{x}` for a vector and `\mat{A}` for a matrix. The `[1]` says each macro takes one argument, and `#1` is where that argument lands. The payoff comes later: if a journal requires vectors to be upright bold instead of bold italic, you edit one line so `\vect` wraps `\mathbf`, and every vector in the paper updates on the next compile. That beats search-and-replace across two hundred equations.
 
 Macros also make intent readable in the source. Six months from now, `\vect{w}` tells you the w is a vector; a bare `\boldsymbol{w}` only tells you it is bold.
 

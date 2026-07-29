@@ -39,7 +39,7 @@ These change the template instead of the paper. Program committees run automated
 
 ## Why venues actually check
 
-A page limit is a fairness contract: every author gets the same space, and every reviewer commits to reading a bounded amount. A paper that cheats its way to 10 pages is really an 11-page paper competing against honest 10-page papers. That is why violations are treated as an integrity issue, not a style nit: many venues desk-reject without review, and there is no appeal that says "but the content was good".
+A page limit is a fairness contract: every author gets the same space, and every reviewer commits to reading a bounded amount. A paper that cheats its way to 10 pages is really an 11-page paper competing against honest 10-page papers. That is why violations are treated as an integrity issue, not a style nit. Many venues desk-reject without review, and there is no appeal that says "but the content was good".
 
 ## The honest last resort
 

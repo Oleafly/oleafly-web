@@ -43,7 +43,7 @@ Do not worry about mastering these hybrids yet. Just recognize them when they ap
 
 ## How to read a venue name
 
-When you see "Published in *Proceedings of the 41st International Conference on Machine Learning*," decode it as: conference, happens yearly (41st!), and the paper lives in its proceedings. When you see "*Nature*, vol. 620," that is a journal, volume 620 of its long run. Publishers like ACM, IEEE, and Springer run the infrastructure behind many venues; we decode them in [ACM, IEEE, Springer, Elsevier: who are these people](/learn/acm-ieee-and-friends/).
+When you see "Published in *Proceedings of the 41st International Conference on Machine Learning*," decode it as: conference, happens yearly (41st!), and the paper lives in its proceedings. When you see "*Nature*, vol. 620," that is a journal, volume 620 of its long run. Publishers like ACM, IEEE, and Springer run the infrastructure behind many venues. We decode them in [ACM, IEEE, Springer, Elsevier: who are these people](/learn/acm-ieee-and-friends/).
 
 ## Choosing where your work should go
 

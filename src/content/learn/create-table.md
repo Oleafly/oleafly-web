@@ -7,11 +7,46 @@ level: "beginner"
 tags: ["tables"]
 featured: true
 updated: 2026-07-25
+quiz:
+  title: 'Tables check'
+  questions:
+    - prompt: 'Which environment builds the cell grid in a classic LaTeX table?'
+      choices:
+        - 'figure'
+        - 'tabular'
+        - 'itemize'
+        - 'equation'
+      answer: 'B'
+      level: beginner
+    - prompt: 'What is booktabs mainly for?'
+      choices:
+        - 'Drawing TikZ trees'
+        - 'Clean horizontal rules (top, mid, bottom) instead of a heavy grid'
+        - 'Building bibliographies'
+        - 'Inline math spacing'
+      answer: 'B'
+      level: beginner
+    - prompt: 'Where do \caption and \label usually go for a table float?'
+      choices:
+        - 'Only in the preamble'
+        - 'Inside the table float, with the label after the caption'
+        - 'After \end{document}'
+        - 'In a separate .bib file'
+      answer: 'B'
+      level: beginner
+    - prompt: 'In a tabular column spec, what does l mean?'
+      choices:
+        - 'Landscape page'
+        - 'Left-aligned column'
+        - 'Large font'
+        - 'Equation label column'
+      answer: 'B'
+      level: beginner
 ---
 
 # A table that looks like a paper table
 
-Tables in LaTeX involve two nested environments with different jobs. The inner `tabular` builds the grid of cells. The outer `table` makes that grid a float, so it can carry a number, a caption, and a label, and so LaTeX can place it where the page has room. Add the `booktabs` package for the horizontal rules and the result looks like a table from a published paper rather than a spreadsheet screenshot.
+Tables in LaTeX use two nested environments with different jobs. The inner `tabular` builds the grid of cells. The outer `table` makes that grid a float, so it can carry a number, a caption, and a label, and so LaTeX can place it where the page has room. Add the `booktabs` package for the horizontal rules and the result looks like a table from a published paper, not a spreadsheet screenshot.
 
 ```latex
 \usepackage{booktabs}
@@ -38,7 +73,7 @@ The `[htbp]` argument lists where LaTeX may place the float: here in the text, a
 
 The `{lcc}` after `\begin{tabular}` declares one column per letter: `l` is left-aligned, `c` is centered, and `r` would be right-aligned. Three letters means three columns, and every row must supply exactly that many cells. Within a row, `&` separates cells and `\\` ends the row. Text columns usually read best left-aligned, while short numeric columns are commonly centered.
 
-The three rules come from `booktabs`. `\toprule` opens the table, `\midrule` separates the header row from the data, and `\bottomrule` closes it. These replace the plain `\hline` command and come with correctly tuned spacing above and below, which is most of why the table looks professionally set. Notice what is absent: no vertical lines, and no rule between data rows. The `booktabs` style deliberately omits both, and the reasoning is laid out in [three-rule tables](/learn/booktabs-beautiful/).
+The three rules come from `booktabs`. `\toprule` opens the table, `\midrule` separates the header row from the data, and `\bottomrule` closes it. These replace the plain `\hline` command and come with correctly tuned spacing above and below, which is most of why the table looks professionally set. No vertical lines, and no rule between data rows: the `booktabs` style leaves both out on purpose. The reasoning is laid out in [three-rule tables](/learn/booktabs-beautiful/).
 
 ## Practical notes
 

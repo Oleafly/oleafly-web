@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Derivatives and integrals
 
-Calculus notation is where LaTeX starts earning its keep: stacked derivative fractions, integral signs with limits, and dots over variables are all one or two commands each. This lesson covers the handful of commands that produce almost every derivative and integral you will ever write, plus the small spacing convention that separates polished papers from rough drafts.
+Calculus notation is where LaTeX starts earning its keep. Stacked derivative fractions, integral signs with limits, and dots over variables are all one or two commands each. This lesson covers the handful of commands that produce almost every derivative and integral you will ever write, plus the small spacing habit that separates polished papers from rough drafts.
 
 ## Derivatives
 
@@ -26,7 +26,7 @@ An ordinary derivative is just a fraction: `\frac{dy}{dx}` stacks `dy` over `dx`
 
 `\nabla` gives the gradient symbol, and since it is an ordinary symbol you can raise it like anything else: `\nabla^2 f` for the Laplacian. For compact notation, `f'(x)` uses the apostrophe key directly, and LaTeX converts one or more `'` marks into properly raised primes. Newton's dot notation for time derivatives comes from the accent commands `\dot{x}` and `\ddot{x}`, which place one or two dots over the argument.
 
-A style point worth knowing: some journals want the differential `d` upright, written `\mathrm{d}`. If yours does, define `\newcommand{\dd}{\mathrm{d}}` once in the preamble and write `\frac{\dd y}{\dd x}` so the choice is changeable later.
+One style choice: some journals want the differential `d` upright, written `\mathrm{d}`. If yours does, define `\newcommand{\dd}{\mathrm{d}}` once in the preamble and write `\frac{\dd y}{\dd x}` so you can flip the choice later.
 
 ## Integrals
 

@@ -15,7 +15,7 @@ A paper is formatted for a publisher. A thesis is formatted for a graduate schoo
 
 ## Who sets the rules
 
-Papers: the venue hands you a class ([IEEEtran](/learn/ieee-format-in-practice/), [acmart](/learn/acm-format-in-practice/), llncs) and everyone worldwide uses the same one. Theses: your university mandates its own class or a page of typographic rules (margins, line spacing, title page wording), and no two universities agree. Get the official class from your department or graduate school site first, and if it is ancient and refuses to compile, that is common enough to have [its own lesson](/learn/fix-broken-template/).
+Papers: the venue hands you a class ([IEEEtran](/learn/ieee-format-in-practice/), [acmart](/learn/acm-format-in-practice/), llncs) and everyone worldwide uses the same one. Theses: your university mandates its own class or a page of typographic rules (margins, line spacing, title page wording), and no two universities agree. Get the official class from your department or graduate school site first. If it is ancient and refuses to compile, that is common enough to have [its own lesson](/learn/fix-broken-template/).
 
 ## The structural differences
 
@@ -59,6 +59,6 @@ Print theses are usually two-sided (`twoside` class option), which makes margins
 
 ## Reusing your papers as chapters
 
-Most theses absorb published papers, and most universities explicitly allow it. The mechanics: strip each paper of its venue preamble, demote its `\section`s if needed, unify notation and macros across chapters, and merge the bibliographies into one. Keeping each chapter in its own file makes this manageable, [splitting chapters into files](/learn/split-chapter-files/) shows the `\input`/`\include` setup that keeps a 200-page build sane.
+Most theses absorb published papers, and most universities explicitly allow it. The mechanics: strip each paper of its venue preamble, demote its `\section`s if needed, unify notation and macros across chapters, and merge the bibliographies into one. Keeping each chapter in its own file makes this manageable. [Splitting chapters into files](/learn/split-chapter-files/) shows the `\input`/`\include` setup that keeps a 200-page build sane.
 
 One honest warning: university thesis classes tend to be package-heavy, so the first compile on a fresh machine may pull down a batch of packages before it succeeds. Let it finish once and subsequent builds are fast.

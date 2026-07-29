@@ -11,11 +11,11 @@ updated: 2026-07-25
 
 # Camera-ready without panic
 
-Accepted! After the celebration comes one last deadline: camera-ready. The name is a relic from when publishers photographed your pages for printing. Today it means the final version that goes into the proceedings, exactly as readers will see it forever. No editor fixes your typos after this. It is all you.
+Accepted! After the celebration comes one last deadline: camera-ready. The name is a relic from when publishers photographed your pages for printing. Today it means the final version that goes into the proceedings, exactly as readers will see it forever. No editor fixes your typos after this. That part is on you.
 
 ## What changes between submission and camera-ready
 
-Your submitted version was tuned for reviewers. The camera-ready is tuned for the permanent record, and several things flip:
+Your submitted version was tuned for reviewers. The camera-ready is for the permanent record, and several things flip:
 
 | Item | Submitted version | Camera-ready |
 |---|---|---|

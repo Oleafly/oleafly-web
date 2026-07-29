@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Operators you invent once
 
-LaTeX ships with named operators like `\sin`, `\log`, and `\max` that print in upright type with correct spacing around them. It does not ship with `\argmin` or `\argmax`, even though optimization papers use them on nearly every page. If you type `argmin` as plain letters inside math mode, LaTeX treats it as the product of six variables: the letters come out italic, squeezed together, with no operator spacing. The fix is to declare the operator yourself, once, in the preamble.
+LaTeX ships with named operators like `\sin`, `\log`, and `\max` that print in upright type with correct spacing around them. It does not ship with `\argmin` or `\argmax`, even though optimization papers use them constantly. If you type `argmin` as plain letters inside math mode, LaTeX treats it as the product of six variables: the letters come out italic, squeezed together, with no operator spacing. Declare the operator yourself, once, in the preamble.
 
 ## Declaring the operator
 
@@ -42,6 +42,6 @@ The same technique covers any operator your field uses that LaTeX does not know 
 
 Notice that `\tr`, `\rank`, and `\diag` are unstarred because their subscripts, when they have any, belong at the side. Only limit-style operators such as `\esssup` get the star.
 
-Declaring operators in the preamble instead of writing `\mathrm{argmin}` inline pays off twice. Your notation stays consistent across the whole document, and if a journal asks for a different rendering, you change one line instead of hunting through every equation. You can try the declaration and the display line together in the [live playground](/live/) to see how the starred subscript placement behaves.
+Declaring operators in the preamble instead of writing `\mathrm{argmin}` inline pays off twice. Notation stays consistent across the whole document, and if a journal asks for a different rendering, you change one line instead of hunting through every equation. Try the declaration and the display line together in the [live playground](/live/) to see how the starred subscript placement behaves.
 
 A common mistake: declaring an operator whose name collides with an existing command, such as `\max` or `\deg`. LaTeX will stop with an "already defined" error. Pick a fresh name, or use `\renewcommand` only if you genuinely intend to replace the original.

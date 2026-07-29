@@ -30,7 +30,7 @@ Hierarchies come up constantly: parse trees, decision trees, file layouts, taxon
 
 ## Reading the child syntax
 
-The picture contains a single statement. It starts with the root, `\node{A}`, and each `child{...}` attached to it declares one subtree. A child usually contains a `node{...}` for its own label, and may contain further `child` operations, which is how `C` gets children `D` and `E`. The nesting of braces mirrors the nesting of the tree, so you can read the structure directly from the indentation. TikZ places each level below the previous one and draws the connecting edges automatically. The one statement ends with a single semicolon after the final brace, and a missing or extra semicolon inside the structure is the usual cause of errors here.
+The picture contains a single statement. It starts with the root, `\node{A}`, and each `child{...}` attached to it declares one subtree. A child usually contains a `node{...}` for its own label, and may contain further `child` operations, which is how `C` gets children `D` and `E`. The nesting of braces mirrors the nesting of the tree, so you can read the structure directly from the indentation. TikZ places each level below the previous one and draws the connecting edges automatically. The one statement ends with a single semicolon after the final brace. A missing or extra semicolon inside the structure is the usual cause of errors here.
 
 ## The three layout knobs
 
@@ -40,4 +40,4 @@ Sibling distance is the knob you will adjust most. The `trees` library reserves 
 
 ## Beyond small trees
 
-Edges pick up styling through `edge from parent/.style`, for example to add arrowheads or thicker lines. For trees beyond roughly a dozen nodes, or for general graphs with cycles, the `trees` library becomes limiting; the `forest` package handles large trees with automatic packing, and the `graphs` library with the `graphdrawing` algorithms covers arbitrary graphs, though the latter requires LuaLaTeX. TikZ does not render in these in-page previews, so compile the example to see the layout. Start with the basics in [your first TikZ picture](/learn/tikz-intro/) if this syntax is new.
+Edges pick up styling through `edge from parent/.style`, for example to add arrowheads or thicker lines. For trees beyond roughly a dozen nodes, or for general graphs with cycles, the `trees` library becomes limiting. The `forest` package handles large trees with automatic packing. The `graphs` library with the `graphdrawing` algorithms covers arbitrary graphs, though that path requires LuaLaTeX. TikZ does not render in these in-page previews, so compile the example to see the layout. Start with the basics in [your first TikZ picture](/learn/tikz-intro/) if this syntax is new.

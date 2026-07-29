@@ -22,11 +22,11 @@ Quantum mechanics writes states as kets, their duals as bras, and inner products
 
 ## What each command does
 
-`\braket{\psi|\phi}` sets the full inner product: angle brackets on the outside, a vertical bar between the two states, all matched in height. With two bars, `\braket{\psi|A|\phi}` becomes the matrix element of the operator A between the two states, the form at the heart of every expectation value and perturbation calculation. The package also provides `\bra{\psi}` and `\ket{\phi}` for the two halves on their own; a bare ket is the usual way to name a state in prose.
+`\braket{\psi|\phi}` sets the full inner product: angle brackets on the outside, a vertical bar between the two states, all matched in height. With two bars, `\braket{\psi|A|\phi}` becomes the matrix element of the operator A between the two states, the form used for expectation values and perturbation calculations. The package also provides `\bra{\psi}` and `\ket{\phi}` for the two halves on their own. A bare ket is the usual way to name a state in prose.
 
 `\set{\vec{x}|x > 0}` is a bonus from the same package: set-builder notation with braces and a middle bar, useful well beyond physics.
 
-The sizing is the real argument for the package. Put a fraction or a sum inside `\braket` and the brackets and bars stretch to match, exactly where a hand-built `\langle ... \rangle` needs `\left` and `\right` on every delimiter and still tends to drift out of proportion.
+Sizing is the real reason to use the package. Put a fraction or a sum inside `\braket` and the brackets and bars stretch to match. A hand-built `\langle ... \rangle` needs `\left` and `\right` on every delimiter and still tends to drift out of proportion.
 
 ## Alternatives and neighbors
 

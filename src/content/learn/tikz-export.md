@@ -26,7 +26,7 @@ A TikZ picture normally lives inside a paper, but you often need the diagram as 
 
 The `tikz` option loads the TikZ package for you and tells `standalone` to crop the output page tightly around the `tikzpicture`, so the resulting PDF is exactly as large as the drawing, with no page margins. The `border=2pt` option adds a two-point cushion on all sides, which prevents strokes that sit exactly on the bounding box from being shaved off by viewers or printers. Compile this file like any document and the output is a small, tightly cropped PDF containing only the diagram.
 
-That PDF is the format to prefer, because it is vector: it scales to any size without blurring, and dropping it into another document with `\includegraphics` works as described in [a PDF page as a graphic](/learn/include-pdf-as-figure/). When a raster copy is genuinely required, convert the compiled PDF rather than recreating the drawing. Command-line tools such as `pdftoppm -png -r 300 figure.pdf figure` produce a 300 dpi PNG, and `pdf2svg` or Inkscape produce SVG. Export at 300 dpi or more if the PNG will be printed.
+Prefer that PDF, because it is vector: it scales to any size without blurring. Dropping it into another document with `\includegraphics` works as described in [a PDF page as a graphic](/learn/include-pdf-as-figure/). When a raster copy is genuinely required, convert the compiled PDF rather than recreating the drawing. Command-line tools such as `pdftoppm -png -r 300 figure.pdf figure` produce a 300 dpi PNG, and `pdf2svg` or Inkscape produce SVG. Export at 300 dpi or more if the PNG will be printed.
 
 ## Caching pictures with externalize
 
@@ -37,6 +37,6 @@ Inside a large document, TikZ pictures are redrawn on every compile, and a handf
 \tikzexternalize[prefix=tikz-cache/]
 ```
 
-The `prefix` option keeps the generated files in their own folder. Externalization runs the compiler in a mode that spawns sub-compilations, so it needs shell escape enabled and interacts poorly with some setups; if it fights you, moving each big picture into its own `standalone` file and including the compiled PDFs achieves the same caching manually, with less machinery. Compile times in general are covered in [shorter wait for the PDF](/learn/speed-up-compilation/).
+The `prefix` option keeps the generated files in their own folder. Externalization runs the compiler in a mode that spawns sub-compilations, so it needs shell escape enabled and interacts poorly with some setups. If it fights you, move each big picture into its own `standalone` file and include the compiled PDFs. That gives you the same caching by hand, with less machinery. Compile times in general are covered in [shorter wait for the PDF](/learn/speed-up-compilation/).
 
 One common mistake deserves a warning: do not screenshot a rendered diagram to get a PNG. Screenshots capture screen resolution, which looks acceptable in a slide preview and fuzzy everywhere else. Convert from the PDF, where the resolution is yours to choose.

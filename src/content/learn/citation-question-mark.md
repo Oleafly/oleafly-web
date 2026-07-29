@@ -17,7 +17,7 @@ The document compiles, but where a citation should appear you get a bold questio
 
 ## Why it happens
 
-LaTeX does not resolve citations directly. On the first pass it records each requested key in an auxiliary file; a backend program (`bibtex` or `biber`) then looks those keys up in your `.bib` database and writes formatted entries; two further LaTeX passes fold the results back in. A question mark means that at the moment of the final pass, no formatted entry existed for that key. Every cause of this symptom is some way of breaking that pipeline.
+LaTeX does not resolve citations directly. On the first pass it records each requested key in an auxiliary file. A backend program (`bibtex` or `biber`) then looks those keys up in your `.bib` database and writes formatted entries. Two further LaTeX passes fold the results back in. A question mark means that at the moment of the final pass, no formatted entry existed for that key. Every cause of this symptom is some way of breaking that pipeline.
 
 ## Work through the causes in order
 

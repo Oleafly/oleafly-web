@@ -46,6 +46,6 @@ paper/
  refs.bib
 ```
 
-One `main.tex` at the top level acts as the entry point, chapters live in their own folder and get pulled in with `\input` or `\include`, images sit in `figures/`, and the bibliography stays in one `refs.bib`. This layout stays manageable whether the project is a four-page paper or a thesis; [split chapter files](/learn/split-chapter-files/) shows how the pieces connect.
+One `main.tex` at the top level acts as the entry point, chapters live in their own folder and get pulled in with `\input` or `\include`, images sit in `figures/`, and the bibliography stays in one `refs.bib`. This layout stays manageable whether the project is a four-page paper or a thesis. [Split chapter files](/learn/split-chapter-files/) shows how the pieces connect.
 
 If you use Git, add `*.aux`, `*.log`, and the other generated files to `.gitignore` so your history only tracks real source. Oleafly projects are plain folders on disk, so this advice applies unchanged there. The most common mistake is the reverse one: while hunting a weird compile error, deleting the `.aux` files is often the fix, because a stale one from a broken run can poison every compile after it.

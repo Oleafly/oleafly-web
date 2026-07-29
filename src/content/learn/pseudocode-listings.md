@@ -27,7 +27,7 @@ Papers present code in two distinct forms, and LaTeX has a separate tool for eac
 
 The package options set the visual style: `ruled` draws horizontal rules above and below the algorithm and places the caption at the top, the convention most venues expect, while `vlined` draws a small vertical line marking the extent of each block, so nesting stays readable without heavy indentation. The `algorithm` environment is a float, like a figure, so it carries the `\caption` that gives it a number for `\ref` to cite.
 
-Inside, `\While{condition}{body}` typesets the loop with a bold keyword, the condition, and the body as an indented block; `\For`, `\If`, and `\Return` follow the same pattern. Statements end with `\;`, which prints the line's terminator and starts a new line, and forgetting it is the classic beginner error, since the lines then run together. Because this is ordinary LaTeX, math like `$\theta$` works inline, which is precisely what pseudocode is for: describing the update rule in notation rather than in any particular language.
+Inside, `\While{condition}{body}` typesets the loop with a bold keyword, the condition, and the body as an indented block. `\For`, `\If`, and `\Return` follow the same pattern. Statements end with `\;`, which prints the line's terminator and starts a new line. Forgetting it is the classic beginner error: the lines run together. Because this is ordinary LaTeX, math like `$\theta$` works inline, which is what pseudocode is for: describing the update rule in notation rather than in any particular language.
 
 ## Real code with listings
 
@@ -39,7 +39,7 @@ def f(x):
 \end{lstlisting}
 ```
 
-The `lstlisting` environment reproduces its contents exactly, preserving whitespace and treating special characters literally, so you can paste code without escaping anything. The `language=Python` option turns on keyword highlighting for that language, and `listings` knows dozens of others. By default the output is plain; most people add a one-time `\lstset{basicstyle=\ttfamily\small, numbers=left}` in the preamble to get a monospaced font at a sensible size with line numbers. To include a file directly instead of pasting, `\lstinputlisting[language=Python]{train.py}` reads it from disk, which keeps the paper in sync with the actual source. If you want colored, high-fidelity highlighting, the `minted` package is the stronger alternative, at the cost of requiring an external tool and shell escape.
+The `lstlisting` environment reproduces its contents exactly, preserving whitespace and treating special characters literally, so you can paste code without escaping anything. The `language=Python` option turns on keyword highlighting for that language, and `listings` knows dozens of others. By default the output is plain. Most people add a one-time `\lstset{basicstyle=\ttfamily\small, numbers=left}` in the preamble to get a monospaced font at a sensible size with line numbers. To include a file directly instead of pasting, `\lstinputlisting[language=Python]{train.py}` reads it from disk, which keeps the paper in sync with the actual source. If you want colored, high-fidelity highlighting, the `minted` package is the stronger alternative, at the cost of requiring an external tool and shell escape.
 
 ## Choosing between them
 

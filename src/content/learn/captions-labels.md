@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Captions that match the number
 
-Cross-references are one of the things LaTeX genuinely does better than a word processor. You never type "Figure 3" by hand. Instead you attach a label to the figure and let LaTeX fill in the number everywhere it is mentioned, so the numbers stay correct no matter how much you reorder, insert, or delete. But the mechanism has one rule that trips up almost everyone at least once: the order of `\caption` and `\label` matters.
+Cross-references are one of the things LaTeX does better than a word processor. You never type "Figure 3" by hand. Instead you attach a label to the figure and let LaTeX fill in the number everywhere it is mentioned, so the numbers stay correct no matter how much you reorder, insert, or delete. The mechanism has one rule that trips up almost everyone at least once: the order of `\caption` and `\label` matters.
 
 ## Why the order matters
 
@@ -38,4 +38,4 @@ Note that `\pageref{fig:neat}` gives the page number the figure landed on, usefu
 
 ## Compile twice, and other pitfalls
 
-References are resolved across compiler runs: the first pass writes label positions to the `.aux` file, and the second pass reads them back. Until that second pass, references print as bold question marks, so `??` in your PDF usually just means "compile again", not that anything is broken. Most editors, including Oleafly, rerun the passes for you automatically. If `??` survives repeated compiles, the label genuinely does not exist, and the likely causes are a typo in the label name or a `\caption` you deleted while leaving the `\label` behind.
+References are resolved across compiler runs: the first pass writes label positions to the `.aux` file, and the second pass reads them back. Until that second pass, references print as bold question marks, so `??` in your PDF usually just means "compile again", not that anything is broken. Most editors, including Oleafly, rerun the passes for you automatically. If `??` survives repeated compiles, the label does not exist. Likely causes are a typo in the label name, or a `\caption` you deleted while leaving the `\label` behind.

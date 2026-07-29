@@ -30,7 +30,7 @@ Many classes automate the first row. With ACM's class it is one option:
 \documentclass[sigconf,review,anonymous]{acmart}
 ```
 
-Other venues ship a submission variant of their template, [IEEEtran](/learn/ieee-format-in-practice/) venues often just tell you to omit the author block.
+Other venues ship a submission variant of their template. [IEEEtran](/learn/ieee-format-in-practice/) venues often just tell you to omit the author block.
 
 ## Citing your own work
 
@@ -39,7 +39,7 @@ The rule is simple: cite yourself exactly as you would cite a stranger.
 Wrong: "In our previous work [7], we showed..."
 Right: "Lovelace et al. [7] showed..."
 
-Do not omit your own relevant papers, reviewers expect the obvious related work to be cited, and a suspicious gap can de-anonymize you as effectively as a name. The only exception is genuinely unpublished work, which you can upload as anonymous supplementary material instead.
+Do not omit your own relevant papers. Reviewers expect the obvious related work to be cited, and a suspicious gap can de-anonymize you as effectively as a name. The only exception is genuinely unpublished work, which you can upload as anonymous supplementary material instead.
 
 ## Anonymous artifacts
 
@@ -58,8 +58,8 @@ The paper text is anonymous, but the PDF may not be:
 - **PDF metadata.** The Author field often auto-fills from your system. Check with `pdfinfo` or your viewer's document properties, and clear it via `\hypersetup{pdfauthor={}}`.
 - **File names.** `lovelace-sigconf-final.pdf` undoes everything. Name it `paper.pdf` or the submission number.
 - **Figure sources.** Plots exported from tools can embed usernames in metadata or in a visible path in a screenshot.
-- **Preprints.** Posting to arXiv before submitting is allowed at many venues and forbidden at others. The CFP says which, read it, this is [part of choosing the venue](/learn/choose-your-venue/).
+- **Preprints.** Posting to arXiv before submitting is allowed at many venues and forbidden at others. The CFP says which. Read it. This is [part of choosing the venue](/learn/choose-your-venue/).
 
 ## Camera-ready flips it back
 
-After acceptance, everything returns: names, affiliations, acknowledgments, the real repo link, and the first-person phrasing if you like it. Budget an hour for the de-anonymization pass, it touches more places than you remember, and the [camera-ready checklist](/learn/first-paper-roadmap/) is the moment to catch stragglers.
+After acceptance, everything returns: names, affiliations, acknowledgments, the real repo link, and the first-person phrasing if you like it. Budget an hour for the de-anonymization pass. It touches more places than you remember, and the [camera-ready checklist](/learn/first-paper-roadmap/) is the moment to catch stragglers.

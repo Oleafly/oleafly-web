@@ -7,6 +7,49 @@ level: "beginner"
 tags: ["errors", "math"]
 featured: true
 updated: 2026-07-25
+quiz:
+  title: 'Missing dollar check'
+  questions:
+    - prompt: 'What does Missing $ inserted usually mean?'
+      choices:
+        - 'You need a payment method'
+        - 'Math-only syntax showed up in text mode'
+        - 'A PDF font license expired'
+        - 'You forgot \maketitle'
+      answer: 'B'
+      level: beginner
+    - prompt: 'Which characters often trigger this in text mode?'
+      choices:
+        - 'Comma and period'
+        - 'Underscore _ and caret ^ (and many math commands)'
+        - 'Space and tab'
+        - 'The @ in every email address'
+      answer: 'B'
+      level: beginner
+    - prompt: 'How do you print a literal underscore in text (say a gene name)?'
+      choices:
+        - 'DNA_seq unchanged'
+        - 'DNA\_seq'
+        - 'DNA\&seq'
+        - 'DNA\section{seq}'
+      answer: 'B'
+      level: beginner
+    - prompt: 'The flagged line looks fine. What should you check next?'
+      choices:
+        - 'Printer drivers'
+        - 'An earlier unclosed $ or mismatched math delimiters above that line'
+        - 'Only the bibliography style'
+        - 'Whether the file is named main.tex'
+      answer: 'B'
+      level: intermediate
+    - prompt: 'Why isn''t a successful PDF proof the error was harmless?'
+      choices:
+        - 'PDFs never show math'
+        - 'LaTeX often recovers by inserting $, which leaves wrong italics or spacing'
+        - 'Compilers ignore all errors'
+        - 'SyncTeX deletes the log'
+      answer: 'B'
+      level: beginner
 ---
 
 # Missing dollar inserted

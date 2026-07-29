@@ -23,9 +23,9 @@ LaTeX's default margins look enormous, especially on A4 paper. That is by design
 
 The first form is the quick one: `margin=1in` sets all four margins to one inch in a single option, and geometry recomputes the text width and height to match. This is the standard "US thesis" look and a sensible default for drafts.
 
-The second form spells everything out. `a4paper` declares the physical paper size (use `letterpaper` for US Letter); without it, geometry inherits whatever the document class assumed, which may not match what your PDF viewer or printer expects. The `top`, `bottom`, `left`, and `right` options then set each margin independently, so asymmetric layouts are just as easy as symmetric ones. You can mix units freely: `in`, `cm`, `mm`, and `pt` all work.
+The second form spells everything out. `a4paper` declares the physical paper size (use `letterpaper` for US Letter). Without it, geometry inherits whatever the document class assumed, which may not match what your PDF viewer or printer expects. The `top`, `bottom`, `left`, and `right` options then set each margin independently, so asymmetric layouts are just as easy as symmetric ones. You can mix units freely: `in`, `cm`, `mm`, and `pt` all work.
 
-Everything happens in the preamble, before `\begin{document}`. Geometry reads its options once and derives the whole page layout from them, which is exactly why it is so much less error-prone than manual tuning.
+Everything happens in the preamble, before `\begin{document}`. Geometry reads its options once and derives the whole page layout from them, which is why it is less error-prone than manual tuning.
 
 ## Binding offset for printed copies
 

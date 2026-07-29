@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Question marks instead of numbers
 
-You compile, and where a figure or equation number should be, the PDF shows `??`. This is not an error in your source. It is how LaTeX renders a reference it cannot resolve yet, and the fix is usually nothing more than compiling again.
+You compile, and where a figure or equation number should be, the PDF shows `??`. That is not an error in your source. It is how LaTeX renders a reference it cannot resolve yet, and the fix is usually just compiling again.
 
 ## Why one pass is not enough
 

@@ -17,7 +17,7 @@ Every generation of researchers thinks its tools are permanent. They never are. 
 
 Into the 1980s, papers were **typed on typewriters**, equations inked in by hand, and mailed to journals. Then came word processors: decades of **Word templates** with fragile numbering, equations pasted as images, and figure layouts that exploded when a paragraph moved. Collaboration meant **emailing files back and forth**: `paper_final_v3_REALLY_FINAL_jw_edits.docx` is not a joke, it is history. LaTeX existed through all of this (see [45 years of TeX](/learn/history-of-tex-latex/)) but you compiled it in a terminal and shared it by email too.
 
-## Today's landscape
+## Today's toolbox
 
 | Tool | Category | What it is good at |
 | --- | --- | --- |
@@ -36,12 +36,12 @@ Into the 1980s, papers were **typed on typewriters**, equations inked in by hand
 
 **Overleaf** made LaTeX mainstream by removing installation entirely, and its real-time collaborative editing is genuinely its killer feature. If your coauthors want to type in the same document at the same moment, cloud tools like Overleaf are simply better at that today.
 
-**Local-first** tools flip the trade: your files live on your machine as plain files, you can work on a train or behind a hospital firewall, nothing depends on a subscription or a server staying alive, and version history is real [Git](/learn/oleafly-workflow/), not a proprietary timeline. The classic pain of local LaTeX was installing a multi-gigabyte TeX distribution; that is the part that has changed.
+**Local-first** tools flip the trade: your files live on your machine as plain files, you can work on a train or behind a hospital firewall, nothing depends on a subscription or a server staying alive, and version history is real [Git](/learn/oleafly-workflow/), not a proprietary timeline. The classic pain of local LaTeX was installing a multi-gigabyte TeX distribution. That is the part that has changed.
 
 ## Where Oleafly fits
 
-Oleafly is a free, open-source, local-first desktop workspace: compilers for LaTeX and Typst come bundled so there is no distribution to install, citations can be fetched by [DOI or arXiv ID](/learn/open-access-doi-explained/), projects are Git repositories with honest history, venue templates are built in, and an optional AI assistant helps when you want it. It aims to make the local path as low-friction as the cloud one. To be fair about the trade: for live simultaneous co-editing, Overleaf remains the stronger choice; for ownership of your files and offline work, local-first wins. Many people use both, drafting locally and syncing via Git.
+Oleafly is a free, open-source, local-first desktop workspace. Compilers for LaTeX and Typst come bundled so there is no distribution to install. Citations can be fetched by [DOI or arXiv ID](/learn/open-access-doi-explained/), projects are Git repositories with honest history, venue templates are built in, and an optional AI assistant helps when you want it. The goal is to make the local path as low-friction as the cloud one. To be fair about the trade: for live simultaneous co-editing, Overleaf remains the stronger choice. For ownership of your files and offline work, local-first wins. Many people use both, drafting locally and syncing via Git.
 
 ## Choosing without agonizing
 
-Start with whatever removes the most friction for you this month; the .tex files are portable across every tool on the table, which is the deep advantage of plain-text writing covered in [LaTeX vs Word](/learn/latex-vs-word/). Then write your [first document](/learn/first-document/), and let the toolbox grow with the work.
+Start with whatever removes the most friction for you this month. The .tex files are portable across every tool on the table. That portability is the real advantage of plain-text writing, covered in [LaTeX vs Word](/learn/latex-vs-word/). Then write your [first document](/learn/first-document/), and let the toolbox grow with the work.

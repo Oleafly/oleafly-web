@@ -11,7 +11,7 @@ updated: 2026-07-25
 
 # Posters at A0
 
-A conference poster is a single page, usually A0 or A1, that has to be readable from a meter and a half away. LaTeX handles the format well because the poster reuses the paper's equations, figures, and bibliography directly, but a normal document class cannot produce it: fonts, margins, and column layout all need poster-scale versions. Three approaches cover almost every LaTeX poster in the wild.
+A conference poster is a single page, usually A0 or A1, that has to be readable from a meter and a half away. LaTeX handles the format well because the poster can reuse the paper's equations, figures, and bibliography directly. A normal document class will not cut it, though: fonts, margins, and column layout all need poster-scale versions. Three approaches cover almost every LaTeX poster in the wild.
 
 ## The three options
 
@@ -41,6 +41,6 @@ The third option is a plain document class with the `geometry` package setting A
 
 ## Practical advice
 
-Whichever route you choose, start from a working template rather than a blank file, for example one from the [gallery](/templates/), and replace content block by block. Set the paper size and orientation on day one, because changing them later breaks every manually tuned width. Body text should end up around 24 to 32 points once printed, and anything below 20 points will go unread. Prefer vector figures, since a plot exported for a paper column turns to mush when scaled to poster width; regenerate figures at poster size instead of stretching them.
+Whichever route you choose, start from a working template rather than a blank file, for example one from the [gallery](/templates/), and replace content block by block. Set the paper size and orientation on day one, because changing them later breaks every manually tuned width. Body text should end up around 24 to 32 points once printed; anything below 20 points will go unread. Prefer vector figures. A plot exported for a paper column turns to mush when scaled to poster width, so regenerate figures at poster size instead of stretching them.
 
 The most common failure is treating the poster as a compressed paper. Plan for roughly a third of the word count you first draft, let figures carry the argument, and check the result by printing one block of the PDF on A4 at full scale to judge the true font size before sending the file to a plotter.

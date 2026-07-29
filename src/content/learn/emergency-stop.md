@@ -17,7 +17,7 @@ The compile dies outright. The log ends with `! Emergency stop.` or shows `Runaw
 
 ## Why it happens
 
-Both messages come from the same underlying situation: TeX started reading something that must be closed and reached the end of the input before the closing token arrived. When you write `\textbf{`, TeX collects everything up to the matching `}` as the argument. If that brace never comes, TeX keeps swallowing text, through paragraphs and sections, until the file runs out. "Runaway argument" is TeX showing you what it swallowed; "Emergency stop" is TeX giving up because it cannot continue without the missing piece. A missing `\end{document}`, an unclosed environment, or an `\input` of a file that does not exist produces the same terminal state.
+Both messages come from the same problem: TeX started reading something that must be closed and reached the end of the input before the closing token arrived. When you write `\textbf{`, TeX collects everything up to the matching `}` as the argument. If that brace never comes, TeX keeps swallowing text, through paragraphs and sections, until the file runs out. "Runaway argument" is TeX showing you what it swallowed. "Emergency stop" is TeX giving up because it cannot continue without the missing piece. A missing `\end{document}`, an unclosed environment, or an `\input` of a file that does not exist produces the same terminal state.
 
 ## How to find the real location
 
