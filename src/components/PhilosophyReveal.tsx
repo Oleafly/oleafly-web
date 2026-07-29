@@ -6,7 +6,7 @@
 import { TextReveal } from "@/components/magicui/text-reveal";
 
 const COPY =
-  "Your resume shouldn't need a subscription. Your writing shouldn't stop when the Wi-Fi does. Your thesis shouldn't live only on someone else's servers. Your files belong to you.";
+  "Your thesis shouldn't need a subscription. Your writing shouldn't stop when the Wi-Fi does. Your references shouldn't live only on someone else's servers. Your files belong to you.";
 
 export function PhilosophyReveal() {
   return <TextReveal>{COPY}</TextReveal>;
