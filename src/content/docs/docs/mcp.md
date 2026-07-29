@@ -76,7 +76,11 @@ url = "http://127.0.0.1:5323/mcp"
 headers = { Authorization = "Bearer <token>" }
 ```
 
-The `mcp.json` file next to your Oleafly data (shown in Settings) contains the same URL and token if you prefer to script your setup. It is written only while the server is running (mode `0600` on Unix) and deleted when the server stops. Treat it like any other local secret.
+### Codex CLI
+
+Settings → MCP includes a **Codex CLI** snippet for the current URL and token. Paste it into your Codex MCP config the same way as other HTTP MCP servers: base URL `http://127.0.0.1:<port>/mcp` and `Authorization: Bearer <token>`. Prefer the in-app copy button so the port matches the running server.
+
+The `mcp.json` file next to your Oleafly data (shown in Settings) holds the same URL and token if you prefer to script setup. It is written only while the server is running (mode `0600` on Unix) and deleted when the server stops. Treat it like any other local secret.
 
 ## What the tools can do
 

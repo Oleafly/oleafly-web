@@ -3,22 +3,26 @@ title: "Git history & source control"
 description: "Every project is a real Git repository: a VS Code-style source control panel, side-by-side diffs, one-click restore, and automatic safety checkpoints before AI edits."
 ---
 
-Every Oleafly project is a genuine Git repository, not a proprietary "versions" feature. That buys you real diffs, real history, one-click restores, and portability: the same repo pushes to [GitHub](/docs/github-sync/) or opens in any Git tool you already use.
+Every Oleafly project is a genuine Git repository, not a proprietary "versions" feature. You get real diffs, real history, one-click restores, and portability: the same folder opens in any Git tool, and can push to [GitHub](/docs/github-sync/) when you want a remote.
 
 ## Zero-setup
 
-The repository initializes itself the first time it's needed, on branch `main`, with build caches ignored automatically. You never run `git init`.
+The repository initializes itself the first time it is needed, on branch `main`, with build caches ignored automatically. You never run `git init`.
+
+## Local Git without GitHub
+
+Status, diffs, staging, commits, discard, and restore all work with **no GitHub account**. Only **Push** and **Pull** need a connected remote. Connect GitHub later from Settings → Integrations when you want backup or a second machine.
 
 ## The Source Control panel
 
-The branch icon in the left rail opens a VS Code-style panel (its rail badge counts changed files):
+The branch icon in the left rail opens a VS Code-style panel (rail badge counts changed files):
 
 - **Staged** and **Changes** groups, each file with its status letter (M modified, A added, D deleted, R renamed, U untracked).
-- Hover a file for its actions: **Stage/Unstage**, **Open file**, and **Discard changes** (confirmed first). Group headers stage or unstage everything at once.
-- The current **branch** shows as a pill, with **ahead/behind** arrows (↑2 ↓1) telling you how you compare to the remote.
-- A commit box: message, then **Commit**, **Push**, or **Pull**.
+- Hover a file for **Stage/Unstage**, **Open file**, and **Discard changes** (confirmed first). Group headers stage or unstage everything at once. File rows also expose a hover **more actions** menu that matches the right-click menu.
+- The current **branch** shows as a pill. **Ahead/behind** arrows (↑2 ↓1) appear once a remote exists.
+- A commit box: message, then **Commit**. **Push** and **Pull** show when a remote is linked; use **Publish to GitHub** when you are ready for a remote.
 
-Clean tree? The panel says so and stays out of your way.
+Clean tree? The panel says so and stays out of the way.
 
 ![The Source Control panel with staged changes](/media/source-control.png)
 

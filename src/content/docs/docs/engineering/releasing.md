@@ -61,8 +61,9 @@ release just establishes the baseline.
   `bump-version.sh`: run it, don't hand-edit versions.
 - **Don't reuse a tag.** To redo `v0.2.5`: delete the remote tag
   (`git push origin :v0.2.5`), delete the draft release, then re-tag.
-- **Builds are unsigned** (macOS/Windows) until code-signing certs are added.
-  Users see a first-launch "unidentified developer" warning. The **updater**
-  artifacts are separately minisign-signed (repo secrets
+- **Platform code-signing.** Recent **macOS** releases are code-signed and
+  notarized. Windows signing may lag; users can still hit SmartScreen on some
+  builds. The **updater** artifacts are separately minisign-signed (repo secrets
   `TAURI_SIGNING_PRIVATE_KEY` + `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`).
-  See [updates.md](/docs/engineering/updates/).
+  See [updates.md](/docs/engineering/updates/) and user-facing
+  [install.md](/docs/install/).

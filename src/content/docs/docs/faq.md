@@ -45,10 +45,10 @@ No. There is no real-time collaboration and no cloud sync; collaboration is Git-
 ## Install
 
 ### macOS says the app is damaged or can't be checked
-The builds aren't notarized yet. Right-click the app and choose **Open**, or clear the quarantine flag once; the exact commands are in the [install guide](/docs/install/#first-launch).
+Current macOS releases are signed and notarized. If you still see a Gatekeeper warning (older download, or a flipped quarantine bit), right-click the app and choose **Open**, or clear quarantine once. Commands: [install guide](/docs/install/#first-launch).
 
 ### Windows SmartScreen blocks it
-Click **More info**, then **Run anyway**. Same cause: unsigned builds, on the roadmap.
+Click **More info**, then **Run anyway**. Some Windows builds still hit SmartScreen until signing is fully rolled out for that channel.
 
 ### Which Linux distributions work?
 Anything 2024-era or newer (glibc 2.39+): Ubuntu 24.04+, Fedora 40+, Debian 13+. AppImage, deb, and rpm are all published.
@@ -73,13 +73,13 @@ Yes, and Oleafly downloads it for you automatically on first use. No manual inst
 ## AI assistant
 
 ### Which providers work?
-OpenAI, Anthropic, Z.AI (GLM), Groq, OpenRouter, DeepSeek, Mistral, xAI, and Ollama for fully local models. Models and setup: [Set up AI](/docs/ai-setup/).
+Built-in: OpenAI, Anthropic, Google Gemini, Perplexity, Z.AI (GLM), Groq, OpenRouter, DeepSeek, Mistral, xAI, and Ollama for local models. You can also add a **custom OpenAI-compatible** base URL (LM Studio, self-hosted, and similar). Setup: [Set up AI](/docs/ai-setup/).
 
 ### The AI says it has no key / errors on send
-Open Settings, AI Assistant and check that a provider has a saved key and the green **Active** badge. The error messages themselves usually say what's wrong: invalid key, empty balance, or rate limit.
+Open Settings → AI Assistant → **Providers and keys**. Confirm a provider has a saved key and a green **Connected** badge. Pasting a key should validate and refresh that provider's model list. Error text usually names the problem: invalid key, empty balance, or rate limit.
 
 ### Can I run it fully offline?
-Yes: install Ollama, `ollama pull llama3.2`, then **Check for Ollama** in settings. No key, no cloud.
+Yes: install Ollama, `ollama pull llama3.2`, then **Check for Ollama** in settings. No cloud key. Custom local OpenAI-compatible endpoints work the same way if they speak the OpenAI API.
 
 ### Can the AI change my files without asking?
 No. Every file-changing tool pauses for your approval with a diff, and the assistant checkpoints your project in Git before its first edit. "Always allow" is session-only and never covers deletes. See [Chat & tools](/docs/ai-chat/#you-approve-every-change).

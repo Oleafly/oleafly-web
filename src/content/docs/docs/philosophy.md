@@ -25,13 +25,13 @@ The same principle extends through the product: spellcheck and grammar run as lo
 
 Where Oleafly does talk to the network, it talks directly and minimally, and the docs tell you exactly what is sent:
 
-- **AI assistant:** your API keys are stored locally and requests go straight from the app to the provider you chose. There is no Oleafly backend in the middle. Prefer zero network? Use Ollama.
-- **Citation lookup:** only the identifier or title you typed is sent, to doi.org, arXiv, or Crossref.
-- **Updates:** the app checks a signed release feed and verifies signatures before installing anything.
+- **AI assistant:** keys stay local (encrypted). Requests go straight to the provider you chose, a custom OpenAI-compatible endpoint, or localhost for Ollama. There is no Oleafly backend in the middle.
+- **Citation lookup:** only the identifier or title you typed is sent, to doi.org, arXiv, or Crossref. Optional Zotero and alphaXiv keys stay on disk and only talk to those services when you use them.
+- **Updates:** the app checks a signed release feed and verifies each download before installing.
 
 ## History should be free
 
-Version history is not a premium feature. Every project is a Git repository, so diffs, restores, and a full commit log are simply there, and [GitHub sync](/docs/github-sync/) is one connection away when you want an off-machine backup or to move between computers. Because it is real Git, your history is portable too.
+Version history is not a premium feature. Every project is a Git repository, so diffs, restores, and a full commit log work with no remote and no account. [GitHub sync](/docs/github-sync/) is optional when you want an off-machine backup or a second computer. Because it is real Git, your history is portable too.
 
 ## The document you submit matters more than the one you see
 

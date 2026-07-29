@@ -5,7 +5,7 @@ description: "How Oleafly compares to Overleaf, VS Code with LaTeX Workshop, TeX
 
 There are many ways to produce a LaTeX document. This page is an honest map of where Oleafly sits among them, what it does better, and what it deliberately does not try to be.
 
-The short version: Oleafly pairs the polish of a cloud LaTeX service with the ownership of a desktop app, and adds things none of the alternatives have in one place: ATS and accessibility preflight, an approval-gated AI agent, DOI-to-`\cite` citation lookup, and a visual TikZ composer.
+The short version: Oleafly is a local-first workspace for research papers, technical documents, and resumes. It pairs the polish of a cloud LaTeX service with files on your disk, and packs ATS and accessibility Preflight, an approval-gated AI agent (your keys or local models), DOI-to-`\cite` lookup, Zotero and research connectors, and a visual TikZ composer into one app.
 
 ## vs Overleaf
 
@@ -20,7 +20,7 @@ Overleaf is the reference cloud LaTeX editor, and it is excellent at real-time m
 | Price | Free, open source (AGPL) | Free tier + subscriptions |
 | Version history | Full Git history, free | Limited on free tier |
 | GitHub sync | Built in, free | Paid feature |
-| AI | Bring your own key, or local via Ollama | Their AI assistant, paid tiers |
+| AI | Your keys, custom endpoints, or local Ollama | Their AI assistant, paid tiers |
 | Real-time multi-user editing | No | Yes, its core strength |
 | ATS / accessibility preflight | Built in | No |
 

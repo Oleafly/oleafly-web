@@ -3,7 +3,7 @@ title: "GitHub sync"
 description: "Connect GitHub with a device code or a token, publish a project as a new or existing repo, push and pull between machines, and how your token is protected."
 ---
 
-GitHub sync gives every project an off-machine backup and a way to move between computers, built on the [real Git repo](/docs/git-history/) each project already is. There's no Oleafly account in the picture, just your own GitHub.
+GitHub sync is optional off-machine backup and multi-computer handoff, built on the [real Git repo](/docs/git-history/) each project already is. Local commits work without GitHub. When you connect, there is still no Oleafly account in the picture: only your GitHub.
 
 ## Connecting your account
 
