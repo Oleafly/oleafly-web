@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
+import { blogReadingTime } from "../../lib/blog-reading-time";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -9,6 +10,9 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const body = typeof post.body === "string" ? post.body : "";
+const rt = blogReadingTime(body);
+const tags = post.data.tags ?? [];
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 ---
@@ -18,62 +22,319 @@ const fmt = (d: Date) =>
   description={post.data.description}
   path={`/blog/${post.id}/`}
 >
-  <article class="page-hero">
-    <div class="container" style="max-width: 780px">
-      <p class="eyebrow">{fmt(post.data.date)}</p>
-      <h1>{post.data.title}</h1>
-      <p class="sub">{post.data.description}</p>
-      <div class="prose">
-        <Content />
+  <article class="page-hero blog-post">
+    <div class="container blog-post-shell">
+      <div class="blog-post-main">
+        <p class="eyebrow blog-post-meta">
+          <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+          <span class="blog-post-meta-sep" aria-hidden="true">·</span>
+          <span>{rt.text}</span>
+        </p>
+        <h1>{post.data.title}</h1>
+        <p class="sub">{post.data.description}</p>
+        <div class="prose blog-prose">
+          <Content />
+        </div>
+        <p class="blog-post-back">
+          <a class="btn btn-ghost btn-sm" href="/blog/">All posts</a>
+        </p>
       </div>
-      <p style="margin-top:48px">
-        <a class="btn btn-ghost btn-sm" href="/blog/">All posts</a>
-      </p>
+
+      {
+        tags.length ? (
+          <aside class="blog-post-aside" aria-label="Tags">
+            <p class="blog-post-aside-label">Tags</p>
+            <ul class="blog-post-tag-list">
+              {tags.map((t) => (
+                <li>
+                  <a
+                    class="blog-post-tag"
+                    href={`/blog/?tag=${encodeURIComponent(t)}`}
+                    title={`Filter posts tagged ${t}`}
+                  >
+                    {t}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p class="blog-post-aside-hint">Click a tag to filter the blog.</p>
+          </aside>
+        ) : null
+      }
     </div>
   </article>
 
   <style is:global>
-    .prose {
+    .blog-post-shell {
+      max-width: 1080px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px 40px;
+      align-items: start;
+    }
+    @media (min-width: 960px) {
+      .blog-post-shell {
+        grid-template-columns: minmax(0, 1fr) 200px;
+      }
+    }
+    .blog-post-main {
+      max-width: 780px;
+      min-width: 0;
+    }
+    .blog-post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 8px;
+    }
+    .blog-post-meta-sep {
+      opacity: 0.5;
+    }
+    .blog-post-back {
+      margin-top: 48px;
+    }
+
+    .blog-post-aside {
+      position: sticky;
+      top: 96px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #0b0c0e;
+    }
+    @media (max-width: 959px) {
+      .blog-post-aside {
+        position: static;
+        order: -1;
+      }
+    }
+    .blog-post-aside-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 12px;
+    }
+    .blog-post-tag-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .blog-post-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--brand-text);
+      border: 1px solid rgba(37, 99, 235, 0.35);
+      background: rgba(37, 99, 235, 0.1);
+      border-radius: 999px;
+      padding: 5px 10px;
+      transition: background 120ms ease, border-color 120ms ease;
+    }
+    .blog-post-tag:hover {
+      background: rgba(37, 99, 235, 0.18);
+      border-color: rgba(37, 99, 235, 0.55);
+    }
+    .blog-post-aside-hint {
+      margin: 14px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .blog-prose {
       color: #d6d9e0;
       font-size: 15.5px;
       line-height: 1.75;
     }
-    .prose h2 {
+    .blog-prose h2 {
       font-size: 1.35rem;
       margin: 40px 0 12px;
+      color: var(--text);
     }
-    .prose h3 {
+    .blog-prose h3 {
       font-size: 1.1rem;
       font-weight: 600;
       margin: 28px 0 10px;
+      color: var(--text);
     }
-    .prose p {
+    .blog-prose p {
       margin: 14px 0;
     }
-    .prose ul,
-    .prose ol {
+    .blog-prose ul,
+    .blog-prose ol {
       margin: 14px 0;
       padding-left: 1.4em;
     }
-    .prose li {
+    .blog-prose li {
       margin: 6px 0;
     }
-    .prose a {
+    .blog-prose a {
       color: var(--brand-text);
       text-decoration: none;
       border-bottom: 1px solid rgba(96, 165, 250, 0.35);
     }
-    .prose a:hover {
+    .blog-prose a:hover {
       color: #93c5fd;
+      border-bottom-color: rgba(147, 197, 253, 0.55);
     }
-    .prose strong {
+    .blog-prose strong {
       color: #f7f8f8;
     }
-    .prose blockquote {
+    .blog-prose blockquote {
       border-left: 3px solid var(--line-strong);
       padding-left: 16px;
       color: var(--muted);
       margin: 18px 0;
     }
+
+    /* Inline code — ghost primary blue */
+    .blog-prose :not(pre) > code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      font-weight: 500;
+      color: #93c5fd;
+      background: rgba(37, 99, 235, 0.12);
+      border: 1px solid rgba(37, 99, 235, 0.28);
+      border-radius: 5px;
+      padding: 0.15em 0.4em;
+    }
+
+    /* Code blocks */
+    .blog-prose pre,
+    .blog-prose pre.astro-code {
+      position: relative;
+      margin: 22px 0;
+      padding: 20px 20px 20px 20px;
+      padding-top: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #0b0c0e !important;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .blog-prose pre code {
+      font-family: var(--mono);
+      font-size: inherit;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      color: inherit;
+    }
+    .blog-prose table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13.5px;
+      display: block;
+      overflow-x: auto;
+    }
+    .blog-prose th,
+    .blog-prose td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .blog-prose th {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .blog-prose hr {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 32px 0;
+    }
+
+    .blog-code-copy {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #101113;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition:
+        color 120ms ease,
+        border-color 120ms ease,
+        background 120ms ease;
+    }
+    .blog-code-copy:hover {
+      color: var(--text);
+      border-color: var(--line-strong);
+      background: #15171a;
+    }
+    .blog-code-copy.is-copied {
+      color: #86efac;
+      border-color: rgba(52, 180, 74, 0.45);
+      background: rgba(52, 180, 74, 0.1);
+    }
   </style>
+
+  <script>
+    function enhanceBlogProse() {
+      const root = document.querySelector(".blog-prose");
+      if (!root) return;
+
+      // Open all links in a new tab (external and internal deep-dives)
+      for (const a of root.querySelectorAll("a[href]")) {
+        const href = a.getAttribute("href") || "";
+        if (href.startsWith("#")) continue;
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+      }
+
+      // Copy buttons on fenced code blocks
+      for (const pre of root.querySelectorAll("pre")) {
+        if (pre.querySelector(".blog-code-copy")) continue;
+        const code = pre.querySelector("code");
+        const text = (code?.textContent || pre.textContent || "").replace(/\n$/, "");
+        if (!text.trim()) continue;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "blog-code-copy";
+        btn.textContent = "Copy";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(text);
+            btn.textContent = "Copied";
+            btn.classList.add("is-copied");
+            window.setTimeout(() => {
+              btn.textContent = "Copy";
+              btn.classList.remove("is-copied");
+            }, 1600);
+          } catch {
+            btn.textContent = "Failed";
+            window.setTimeout(() => {
+              btn.textContent = "Copy";
+            }, 1600);
+          }
+        });
+        pre.appendChild(btn);
+      }
+    }
+
+    enhanceBlogProse();
+  </script>
 </SiteLayout>

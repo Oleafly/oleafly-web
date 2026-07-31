@@ -1,14 +1,28 @@
 ---
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
+import { blogReadingTime } from "../../lib/blog-reading-time";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
+
+const postsWithMeta = posts.map((post) => {
+  const body = typeof post.body === "string" ? post.body : "";
+  const rt = blogReadingTime(body);
+  return { post, readingTime: rt.text, minutes: rt.minutes };
+});
+
+const allTags = Array.from(
+  new Set(posts.flatMap((p) => p.data.tags ?? [])),
+).sort((a, b) => a.localeCompare(b));
+
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 const fmtShort = (d: Date) =>
   d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+
+const activeTag = Astro.url.searchParams.get("tag")?.trim() || "";
 ---
 
 <SiteLayout
@@ -24,7 +38,7 @@ const fmtShort = (d: Date) =>
           <h1>LaTeX notes for researchers and students</h1>
           <p class="sub">
             Field-specific writing advice, thesis structure, Git for papers, privacy, and local-first
-            tooling. Also available as an <a href="/rss.xml">RSS feed</a>.
+            tooling. Also available as an <a href="/rss.xml" target="_blank" rel="noopener noreferrer">RSS feed</a>.
           </p>
         </div>
         <div class="blog-layout-toggle" role="group" aria-label="Post layout">
@@ -58,31 +72,92 @@ const fmtShort = (d: Date) =>
         </div>
       </div>
 
+      <div class="blog-toolbar">
+        <label class="blog-search" for="blog-search-input">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M20 20l-3.5-3.5"></path>
+          </svg>
+          <input
+            id="blog-search-input"
+            type="search"
+            placeholder="Search posts…"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Search posts"
+          />
+        </label>
+        {
+          activeTag ? (
+            <p class="blog-filter-chip" data-active-tag={activeTag}>
+              Tag: <strong>{activeTag}</strong>
+              <a href="/blog/" class="blog-filter-clear">Clear</a>
+            </p>
+          ) : null
+        }
+        <p class="blog-result-count" id="blog-result-count" aria-live="polite"></p>
+      </div>
+
+      {
+        allTags.length ? (
+          <div class="blog-tag-rail" aria-label="Filter by tag">
+            <a
+              href="/blog/"
+              class:list={["blog-tag-filter", { "is-active": !activeTag }]}
+              data-tag=""
+            >
+              All
+            </a>
+            {allTags.map((t) => (
+              <a
+                href={`/blog/?tag=${encodeURIComponent(t)}`}
+                class:list={["blog-tag-filter", { "is-active": activeTag === t }]}
+                data-tag={t}
+              >
+                {t}
+              </a>
+            ))}
+          </div>
+        ) : null
+      }
+
       <div class="blog-feed blog-feed--list" id="blog-feed">
         {
-          posts.map((post) => (
-            <a class="blog-card" href={`/blog/${post.id}/`}>
-              <p class="blog-card-date">
-                <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
-                <span class="blog-card-date-short" aria-hidden="true">
-                  {fmtShort(post.data.date)}
-                </span>
-              </p>
-              <h3 class="blog-card-title">{post.data.title}</h3>
-              <p class="blog-card-desc">{post.data.description}</p>
-              {
-                post.data.tags?.length ? (
+          postsWithMeta.map(({ post, readingTime }) => {
+            const tags = post.data.tags ?? [];
+            const hay = `${post.data.title} ${post.data.description} ${tags.join(" ")}`.toLowerCase();
+            const tagAttr = tags.join(",");
+            const hiddenByTag = activeTag ? !tags.includes(activeTag) : false;
+            return (
+              <a
+                class="blog-card"
+                href={`/blog/${post.id}/`}
+                data-search={hay}
+                data-tags={tagAttr}
+                hidden={hiddenByTag}
+              >
+                <p class="blog-card-date">
+                  <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+                  <span class="blog-card-date-short" aria-hidden="true">
+                    {fmtShort(post.data.date)}
+                  </span>
+                  <span class="blog-card-rt">{readingTime}</span>
+                </p>
+                <h3 class="blog-card-title">{post.data.title}</h3>
+                <p class="blog-card-desc">{post.data.description}</p>
+                {tags.length ? (
                   <div class="blog-card-tags">
-                    {post.data.tags.slice(0, 3).map((t) => (
+                    {tags.slice(0, 4).map((t) => (
                       <span class="blog-tag">{t}</span>
                     ))}
                   </div>
-                ) : null
-              }
-            </a>
-          ))
+                ) : null}
+              </a>
+            );
+          })
         }
       </div>
+      <p class="blog-empty" id="blog-empty" hidden>No posts match that search or tag.</p>
     </div>
   </section>
 
@@ -96,7 +171,7 @@ const fmtShort = (d: Date) =>
       align-items: flex-end;
       justify-content: space-between;
       gap: 20px 24px;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
     }
     .blog-header-copy {
       flex: 1 1 280px;
@@ -146,6 +221,104 @@ const fmtShort = (d: Date) =>
       opacity: 0.85;
     }
 
+    .blog-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 16px;
+      margin-bottom: 14px;
+    }
+    .blog-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 240px;
+      max-width: 420px;
+      min-width: 200px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0b0c0e;
+      color: var(--muted);
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+    .blog-search:focus-within {
+      border-color: rgba(37, 99, 235, 0.55);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      color: var(--brand-text);
+    }
+    .blog-search input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+    }
+    .blog-search input::placeholder {
+      color: var(--muted);
+    }
+    .blog-filter-chip {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 99, 235, 0.35);
+      background: rgba(37, 99, 235, 0.1);
+    }
+    .blog-filter-chip strong {
+      color: var(--brand-text);
+      font-weight: 600;
+    }
+    .blog-filter-clear {
+      color: var(--text);
+      font-size: 12px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .blog-result-count {
+      margin: 0 0 0 auto;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .blog-tag-rail {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .blog-tag-filter {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: #0b0c0e;
+      transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+    .blog-tag-filter:hover {
+      color: var(--text);
+      border-color: var(--line-strong);
+    }
+    .blog-tag-filter.is-active {
+      color: var(--brand-text);
+      border-color: rgba(37, 99, 235, 0.45);
+      background: rgba(37, 99, 235, 0.12);
+    }
+
     .blog-feed {
       width: 100%;
     }
@@ -157,7 +330,6 @@ const fmtShort = (d: Date) =>
       margin-inline: auto;
       width: 100%;
     }
-    /* Keep list cards visually centered under the full-width header row */
     .blog-feed--list .blog-card {
       width: 100%;
     }
@@ -168,7 +340,14 @@ const fmtShort = (d: Date) =>
       max-width: none;
     }
 
+    @property --blog-beam-angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
     .blog-card {
+      position: relative;
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -183,10 +362,53 @@ const fmtShort = (d: Date) =>
         background 150ms ease;
       min-height: 0;
       height: 100%;
+      isolation: isolate;
+      overflow: hidden;
+    }
+    .blog-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: conic-gradient(
+        from var(--blog-beam-angle),
+        transparent 0%,
+        transparent 55%,
+        #2563eb 70%,
+        #34b44a 82%,
+        transparent 92%
+      );
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 180ms ease;
+      pointer-events: none;
+      z-index: 1;
     }
     .blog-card:hover {
-      border-color: var(--line-strong);
+      border-color: transparent;
       background: #0d0e11;
+      transform: translateY(-1px);
+    }
+    .blog-card:hover::before {
+      opacity: 1;
+      animation: blog-border-beam 2.8s linear infinite;
+    }
+    @keyframes blog-border-beam {
+      to {
+        --blog-beam-angle: 360deg;
+      }
+    }
+    .blog-card > * {
+      position: relative;
+      z-index: 2;
     }
     .blog-card-date {
       font-family: var(--mono);
@@ -196,9 +418,22 @@ const fmtShort = (d: Date) =>
       text-transform: uppercase;
       color: var(--brand-text);
       margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
     }
     .blog-card-date-short {
       display: none;
+    }
+    .blog-card-rt {
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .blog-card-rt::before {
+      content: "·";
+      margin-right: 12px;
+      color: var(--line-strong);
     }
     .blog-card-title {
       font-size: 17px;
@@ -233,7 +468,6 @@ const fmtShort = (d: Date) =>
       padding: 3px 8px;
     }
 
-    /* Grid: denser cards, clamp description, show short date */
     .blog-feed--grid .blog-card {
       padding: 18px;
     }
@@ -254,17 +488,25 @@ const fmtShort = (d: Date) =>
       display: inline;
     }
 
+    .blog-empty {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 28px;
+      font-size: 14px;
+    }
+
     @media (max-width: 900px) {
       .blog-feed--grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .blog-result-count {
+        margin-left: 0;
+        width: 100%;
       }
     }
     @media (max-width: 560px) {
       .blog-feed--grid {
         grid-template-columns: 1fr;
-      }
-      .blog-layout-btn span {
-        /* keep labels; still readable */
       }
       .blog-header {
         align-items: flex-start;
@@ -276,6 +518,11 @@ const fmtShort = (d: Date) =>
     const STORAGE_KEY = "oleafly-blog-layout";
     const feed = document.getElementById("blog-feed");
     const buttons = Array.from(document.querySelectorAll(".blog-layout-btn"));
+    const searchInput = document.getElementById("blog-search-input");
+    const emptyEl = document.getElementById("blog-empty");
+    const countEl = document.getElementById("blog-result-count");
+    const activeTag =
+      document.querySelector(".blog-filter-chip")?.getAttribute("data-active-tag") || "";
 
     function applyLayout(layout) {
       if (!feed) return;
@@ -293,6 +540,27 @@ const fmtShort = (d: Date) =>
       }
     }
 
+    function filterPosts() {
+      if (!feed) return;
+      const q = (searchInput?.value || "").trim().toLowerCase();
+      const cards = Array.from(feed.querySelectorAll(".blog-card"));
+      let visible = 0;
+      for (const card of cards) {
+        const hay = card.getAttribute("data-search") || "";
+        const tags = (card.getAttribute("data-tags") || "").split(",").filter(Boolean);
+        const matchTag = !activeTag || tags.includes(activeTag);
+        const matchQ = !q || hay.includes(q);
+        const show = matchTag && matchQ;
+        card.hidden = !show;
+        if (show) visible += 1;
+      }
+      if (emptyEl) emptyEl.hidden = visible > 0;
+      if (countEl) {
+        countEl.textContent =
+          visible === cards.length ? `${visible} posts` : `${visible} of ${cards.length} posts`;
+      }
+    }
+
     let initial = "list";
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -301,6 +569,7 @@ const fmtShort = (d: Date) =>
       /* ignore */
     }
     applyLayout(initial);
+    filterPosts();
 
     for (const btn of buttons) {
       btn.addEventListener("click", () => {
@@ -308,5 +577,7 @@ const fmtShort = (d: Date) =>
         applyLayout(layout);
       });
     }
+
+    searchInput?.addEventListener("input", filterPosts);
   </script>
 </SiteLayout>

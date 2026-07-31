@@ -33,6 +33,7 @@
     "posthog-js": "^1.407.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "reading-time": "^1.5.0",
     "rough-notation": "^0.5.1",
     "sharp": "^0.33.5",
     "tailwind-merge": "^3.6.0",
