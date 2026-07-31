@@ -458,14 +458,15 @@ const activeTag = Astro.url.searchParams.get("tag")?.trim() || "";
     }
     .blog-tag {
       font-family: var(--mono);
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
       text-transform: uppercase;
       color: var(--muted);
       border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 3px 8px;
+      padding: 2px 7px;
+      line-height: 1.4;
     }
 
     .blog-feed--grid .blog-card {
