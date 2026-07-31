@@ -9,6 +9,10 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+  # Pulled in by kokoro-js (blog listen / TTS). Without these, pnpm 11 fails CI
+  # with ERR_PNPM_IGNORED_BUILDS on `pnpm install --frozen-lockfile`.
+  onnxruntime-node: true
+  protobufjs: true
 
 minimumReleaseAgeExclude:
   - astro@7.1.2
