@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import katex from "katex";
 import {
-  answerLetterToIndex,
   indexToAnswerLetter,
+  prepareQuizQuestions,
   type QuizQuestion,
+  type ShuffledQuestion,
 } from "./quiz-types";
 
 export type LearnQuizProps = {
@@ -58,6 +59,7 @@ export default function LearnQuiz({ title, questions, lessonId }: LearnQuizProps
   const baseId = useId();
   const [open, setOpen] = useState(false);
   const [phase, setPhase] = useState<Phase>("intro");
+  const [deck, setDeck] = useState<ShuffledQuestion[]>([]);
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
@@ -65,9 +67,16 @@ export default function LearnQuiz({ title, questions, lessonId }: LearnQuizProps
   const [hintOpen, setHintOpen] = useState(false);
   const [attempt, setAttempt] = useState(0);
 
-  const total = questions.length;
-  const q = questions[index];
-  const correctIndex = q ? answerLetterToIndex(q.answer) : -1;
+  const sourceTotal = questions.length;
+  const total = deck.length;
+  const q = deck[index];
+  const correctIndex = q?.correctIndex ?? -1;
+
+  const reshuffle = useCallback(() => {
+    // Fresh choice order (and question order) every start/retry so answers
+    // aren't always B just because the markdown says answer: "B".
+    setDeck(prepareQuizQuestions(questions));
+  }, [questions]);
 
   const clearProgress = useCallback(() => {
     setIndex(0);
@@ -84,11 +93,13 @@ export default function LearnQuiz({ title, questions, lessonId }: LearnQuizProps
   }, [clearProgress]);
 
   const startQuiz = () => {
+    reshuffle();
     setPhase("question");
     clearProgress();
   };
 
   const retryQuiz = () => {
+    reshuffle();
     setPhase("question");
     clearProgress();
     setAttempt((a) => a + 1);
@@ -120,7 +131,7 @@ export default function LearnQuiz({ title, questions, lessonId }: LearnQuizProps
     void lessonId;
   }, [lessonId]);
 
-  if (total < 2) return null;
+  if (sourceTotal < 2) return null;
 
   const heading = title?.trim() || "Check your understanding";
   const percent = total === 0 ? 0 : Math.round((correctCount / total) * 100);
@@ -159,7 +170,7 @@ export default function LearnQuiz({ title, questions, lessonId }: LearnQuizProps
           </span>
           <span className="learn-quiz-meta">
             <span className="learn-quiz-count">
-              {total === 1 ? "1 question" : `${total} questions`}
+              {sourceTotal === 1 ? "1 question" : `${sourceTotal} questions`}
             </span>
             <span className="learn-quiz-chevron" aria-hidden="true">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -189,7 +200,7 @@ export default function LearnQuiz({ title, questions, lessonId }: LearnQuizProps
               <div className="learn-quiz-intro-copy">
                 <p>
                   A short check on what this lesson covers. Wrong answers show the right one.
-                  You can retry as often as you like.
+                  Choices are shuffled each attempt. You can retry as often as you like.
                 </p>
                 <button type="button" className="learn-quiz-btn learn-quiz-btn-primary" onClick={startQuiz}>
                   Start quiz
@@ -265,7 +276,7 @@ export default function LearnQuiz({ title, questions, lessonId }: LearnQuizProps
                   }
 
                   return (
-                    <li key={`${index}-${letter}`}>
+                    <li key={`${attempt}-${index}-${letter}-${choice.slice(0, 24)}`}>
                       <button
                         type="button"
                         role="option"
@@ -349,7 +360,7 @@ export default function LearnQuiz({ title, questions, lessonId }: LearnQuizProps
                     r="40"
                     style={{
                       strokeDasharray: `${2 * Math.PI * 40}`,
-                      strokeDashoffset: `${2 * Math.PI * 40 * (1 - correctCount / total)}`,
+                      strokeDashoffset: `${2 * Math.PI * 40 * (1 - correctCount / Math.max(total, 1))}`,
                     }}
                   />
                 </svg>

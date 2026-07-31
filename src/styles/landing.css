@@ -244,16 +244,79 @@ h2 {
   margin-bottom: 28px;
 }
 
-/* ===== Cards ===== */
+/* ===== Cards (shared border-beam hover, same as blog cards) ===== */
+@property --ol-beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .ol-card {
+  position: relative;
   background: #0b0c0e;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 22px;
-  transition: border-color 150ms ease, transform 150ms ease;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    border-color 150ms ease,
+    transform 150ms ease,
+    background 150ms ease;
+}
+.ol-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--ol-beam-angle),
+    transparent 0%,
+    transparent 55%,
+    #2563eb 70%,
+    #34b44a 82%,
+    transparent 92%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+  z-index: 1;
 }
 .ol-card:hover {
-  border-color: var(--line-strong);
+  border-color: transparent;
+  background: #0d0e11;
+  transform: translateY(-1px);
+}
+.ol-card:hover::before {
+  opacity: 1;
+  animation: ol-border-beam 2.8s linear infinite;
+}
+@keyframes ol-border-beam {
+  to {
+    --ol-beam-angle: 360deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ol-card:hover {
+    transform: none;
+  }
+  .ol-card:hover::before {
+    animation: none;
+    opacity: 1;
+  }
+}
+.ol-card > * {
+  position: relative;
+  z-index: 2;
 }
 .ol-card h3 {
   font-size: 15px;

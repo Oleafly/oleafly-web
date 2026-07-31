@@ -318,8 +318,28 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.learn-link .level {
+.learn-link-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
   margin-top: 6px;
+}
+.learn-link .level {
+  margin-top: 0;
+}
+.learn-quiz-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 2px 8px;
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.14);
 }
 .level {
   font-family: var(--mono);
@@ -332,20 +352,24 @@
   padding: 2px 8px;
   border: 1px solid;
 }
-.level-beginner {
-  color: #4ec46a;
-  border-color: rgba(78, 196, 106, 0.35);
-  background: rgba(52, 180, 74, 0.08);
+/* Compound selectors beat .learn-pill { color: muted } on article meta */
+.level-beginner,
+.learn-pill.level-beginner {
+  color: #6ee7a0;
+  border-color: rgba(78, 196, 106, 0.55);
+  background: rgba(52, 180, 74, 0.16);
 }
-.level-intermediate {
-  color: #f7bc55;
-  border-color: rgba(247, 188, 85, 0.35);
-  background: rgba(245, 158, 11, 0.08);
+.level-intermediate,
+.learn-pill.level-intermediate {
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.55);
+  background: rgba(245, 158, 11, 0.16);
 }
-.level-advanced {
-  color: #f472b6;
-  border-color: rgba(244, 114, 182, 0.35);
-  background: rgba(244, 114, 182, 0.08);
+.level-advanced,
+.learn-pill.level-advanced {
+  color: #f9a8d4;
+  border-color: rgba(244, 114, 182, 0.55);
+  background: rgba(236, 72, 153, 0.16);
 }
 .learn-level-legend {
   display: flex;
@@ -482,8 +506,14 @@
 .learn-article-meta {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
   margin-bottom: 32px;
+}
+/* Track badge: same colors as section badges on /learn */
+.learn-article-meta .learn-track-pill {
+  padding: 4px 10px;
+  font-size: 11px;
 }
 .learn-pill {
   font-family: var(--mono);

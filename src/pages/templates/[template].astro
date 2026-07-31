@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
+import { codeToHtml } from "shiki";
 import SiteLayout from "../../layouts/SiteLayout.astro";
-import DownloadButton from "../../components/DownloadButton.astro";
 import data from "../../data/template-packs.json";
 import "../../styles/tools.css";
 
@@ -9,16 +9,28 @@ export function getStaticPaths() {
   return data.packs.flatMap((pack) =>
     pack.templates.map((t) => ({
       params: { template: t.id },
-      props: { template: t, packLabel: pack.label },
+      props: { template: t, packLabel: pack.label, packId: pack.id },
     })),
   );
 }
 
-const { template, packLabel } = Astro.props;
-const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
+const { template, packLabel, packId } = Astro.props;
 const engineLabel = template.engine === "typst" ? "Typst" : "LaTeX";
+const shikiLang = template.engine === "typst" ? "typst" : "latex";
+const sourceCode = template.source ?? "";
+const filename = template.mainDoc || (template.engine === "typst" ? "main.typ" : "main.tex");
+const catalogHref = "https://github.com/Oleafly/template-packs/tree/main/packs";
 
-// Compiled first-page preview for this template, if present.
+let highlighted = "";
+try {
+  highlighted = await codeToHtml(sourceCode, {
+    lang: shikiLang,
+    theme: "github-dark-default",
+  });
+} catch {
+  highlighted = "";
+}
+
 const previews = import.meta.glob<{ default: ImageMetadata }>(
   "../../assets/template-previews/*.png",
   { eager: true },
@@ -32,49 +44,321 @@ const preview = previews[`../../assets/template-previews/${template.id}.png`]?.d
   path={`/templates/${template.id}/`}
 >
   <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">{packLabel}</p>
+    <div class="container tpl-detail">
+      <p class="eyebrow">
+        <a class="tpl-pack-crumb" href={`/templates/?pack=${encodeURIComponent(packId)}`}>{packLabel}</a>
+      </p>
       <h1>{template.name}</h1>
       <p class="sub">{template.description}</p>
-      <p>
-        <span class="badge blue">{engineLabel}</span>
-        {template.license && <span class="badge" style="margin-left:8px">{template.license}</span>}
-      </p>
-      <p style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap">
-        <DownloadButton
-          href={RELEASES}
-          size="lg"
-          label="Open in Oleafly (free)"
-          labelTemplate="Download Oleafly for {os}"
-        />
+
+      <div class="tpl-meta-row">
+        <div class="tpl-badges">
+          <span class="badge blue">{engineLabel}</span>
+          {template.license && <span class="badge">{template.license}</span>}
+          {template.category && <span class="badge">{template.category}</span>}
+        </div>
         <a
-          class="btn btn-ghost btn-lg"
-          href={`https://github.com/Oleafly/template-packs/tree/main/packs`}
+          class="tpl-catalog-link no-ext-icon"
+          href={catalogHref}
           target="_blank"
           rel="noopener noreferrer"
         >
-          View in the catalog
+          <span>View in the catalog</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <path d="M15 3h6v6"></path>
+            <path d="M10 14 21 3"></path>
+          </svg>
         </a>
-      </p>
-      {preview && (
-        <span class="tpl-hero-preview">
-          <Image
-            src={preview}
-            alt={`Compiled first page of the ${template.name} template`}
-            widths={[440, 880]}
-            sizes="(max-width: 600px) 94vw, 440px"
-            loading="eager"
-          />
-        </span>
-      )}
-      <div class="tpl-source">
-        <pre>{template.source}</pre>
       </div>
-      <p class="sub" style="margin-top:24px">
-        In the app: open the New Project gallery, install the {packLabel} pack under
+
+      <div class:list={["tpl-split", { "tpl-split--solo": !preview }]}>
+        {
+          preview && (
+            <div class="tpl-preview-pane">
+              <div class="tpl-preview-body">
+                <Image
+                  src={preview}
+                  alt={`Compiled first page of the ${template.name} template`}
+                  widths={[440, 720, 960]}
+                  sizes="(max-width: 900px) 94vw, 42vw"
+                  loading="eager"
+                />
+              </div>
+            </div>
+          )
+        }
+
+        <div class="tpl-source" id="tpl-source">
+          <div class="tpl-source-head">
+            <span class="tpl-source-file">{filename}</span>
+            <button type="button" class="tpl-code-copy" id="tpl-code-copy" aria-label="Copy source">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span class="tpl-code-copy-label">Copy</span>
+            </button>
+          </div>
+          {
+            highlighted ? (
+              <div class="tpl-source-code" set:html={highlighted} />
+            ) : (
+              <pre class="tpl-source-plain"><code>{sourceCode}</code></pre>
+            )
+          }
+        </div>
+      </div>
+
+      <p class="sub tpl-app-note">
+        In the app: open the New Project gallery, install the{" "}
+        {/pack$/i.test(packLabel) ? packLabel : `${packLabel} pack`} under
         "Get more templates", and this template appears with a live preview and one-click
         project creation. Compilation runs locally on the bundled engine.
       </p>
+
+      <p class="tpl-detail-back">
+        <a class="btn btn-ghost btn-sm" href="/templates/">All templates</a>
+      </p>
     </div>
   </section>
+
+  <style is:global>
+    .tpl-detail {
+      max-width: 1120px;
+    }
+    .tpl-pack-crumb {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+    }
+    .tpl-pack-crumb:hover {
+      color: var(--brand-text);
+      border-bottom-color: color-mix(in srgb, var(--brand-text) 50%, transparent);
+    }
+
+    .tpl-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px 16px;
+      margin-top: 4px;
+    }
+    .tpl-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .tpl-catalog-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #0b0c0e;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+      transition:
+        color 120ms ease,
+        border-color 120ms ease,
+        background 120ms ease;
+    }
+    .tpl-catalog-link:hover {
+      color: var(--text);
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .tpl-catalog-link svg {
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+
+    /* Side-by-side preview + source; stack on small viewports */
+    .tpl-split {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+      gap: 16px;
+      align-items: stretch;
+      margin-top: 28px;
+    }
+    .tpl-split--solo {
+      grid-template-columns: 1fr;
+    }
+    .tpl-preview-pane {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: #0b0c0e;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .tpl-preview-body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      background: #f5f6f4;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .tpl-preview-body img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .tpl-source {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      background: #0b0c0e;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      max-height: none;
+      margin-top: 0;
+    }
+    .tpl-source-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .tpl-source-file {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .tpl-code-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition:
+        color 120ms ease,
+        border-color 120ms ease,
+        background 120ms ease;
+    }
+    .tpl-code-copy:hover {
+      color: #fff;
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .tpl-code-copy.is-copied {
+      color: #4ec46a;
+      border-color: rgba(78, 196, 106, 0.5);
+    }
+    .tpl-source-code {
+      flex: 1;
+      overflow: auto;
+      max-height: min(70vh, 640px);
+    }
+    .tpl-source-code pre,
+    .tpl-source-code .shiki {
+      margin: 0 !important;
+      padding: 18px 20px !important;
+      background: transparent !important;
+      font-family: var(--mono) !important;
+      font-size: 12.5px !important;
+      line-height: 1.65 !important;
+      overflow-x: auto;
+    }
+    .tpl-source-code code {
+      font-family: inherit;
+      font-size: inherit;
+      background: transparent !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+    .tpl-source-plain {
+      flex: 1;
+      margin: 0;
+      padding: 18px 20px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: #d6d9e0;
+      overflow: auto;
+      max-height: min(70vh, 640px);
+    }
+
+    .tpl-detail .tpl-app-note.sub {
+      margin-top: 28px;
+      max-width: none;
+      width: 100%;
+    }
+    .tpl-detail-back {
+      margin-top: 40px;
+    }
+
+    @media (max-width: 900px) {
+      .tpl-split {
+        grid-template-columns: 1fr;
+      }
+      .tpl-preview-body {
+        max-height: 420px;
+      }
+      .tpl-source-code,
+      .tpl-source-plain {
+        max-height: 480px;
+      }
+    }
+    @media (max-width: 560px) {
+      .tpl-meta-row {
+        align-items: flex-start;
+      }
+      .tpl-catalog-link {
+        margin-left: 0;
+      }
+    }
+  </style>
+
+  <script define:vars={{ sourceCode }}>
+    const COPY_ICON =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    const CHECK_ICON =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
+
+    const btn = document.getElementById("tpl-code-copy");
+    if (btn instanceof HTMLButtonElement) {
+      btn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(sourceCode);
+          btn.classList.add("is-copied");
+          btn.innerHTML = `${CHECK_ICON}<span class="tpl-code-copy-label">Copied</span>`;
+          window.setTimeout(() => {
+            btn.classList.remove("is-copied");
+            btn.innerHTML = `${COPY_ICON}<span class="tpl-code-copy-label">Copy</span>`;
+          }, 1600);
+        } catch {
+          /* ignore */
+        }
+      });
+    }
+  </script>
 </SiteLayout>

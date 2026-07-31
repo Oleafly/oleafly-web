@@ -8,12 +8,27 @@ import "../../styles/tools.css";
 const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
 const total = data.packs.reduce((n, p) => n + p.templates.length, 0);
 
-// Compiled first-page previews, one per template id.
 const previews = import.meta.glob<{ default: ImageMetadata }>(
   "../../assets/template-previews/*.png",
   { eager: true },
 );
 const previewFor = (id: string) => previews[`../../assets/template-previews/${id}.png`]?.default;
+
+const activePack = Astro.url.searchParams.get("pack")?.trim() || "";
+const activeEngine = Astro.url.searchParams.get("engine")?.trim() || "";
+
+const packs = data.packs.map((pack) => ({
+  ...pack,
+  templates: pack.templates.map((t) => ({
+    ...t,
+    packId: pack.id,
+    packLabel: pack.label,
+    engineLabel: t.engine === "typst" ? "Typst" : "LaTeX",
+    search: `${t.name} ${t.description} ${t.category} ${pack.label} ${t.engine === "typst" ? "typst" : "latex xetex"}`.toLowerCase(),
+  })),
+}));
+
+const packOptions = data.packs.map((p) => ({ id: p.id, label: p.label }));
 ---
 
 <SiteLayout
@@ -22,51 +37,240 @@ const previewFor = (id: string) => previews[`../../assets/template-previews/${id
   path="/templates/"
 >
   <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Templates</p>
-      <h1>Free LaTeX and Typst templates</h1>
-      <p class="sub">
-        Every template is open-licensed and lives in the public <a href="https://github.com/Oleafly/template-packs" target="_blank" rel="noopener noreferrer">template-packs</a> catalog. Browse the source here, or install whole packs in one
-        click inside the <a href="/">free desktop app</a>, where the catalog grows without
-        app updates. The app also bundles 23 more starters out of the box.
-      </p>
-    </div>
-  </section>
+    <div class="container tpl-page">
+      <div class="tpl-header">
+        <div class="tpl-header-copy">
+          <h1>Templates</h1>
+          <p class="sub">
+            Open-licensed LaTeX and Typst starters from the public{" "}
+            <a href="https://github.com/Oleafly/template-packs" target="_blank" rel="noopener noreferrer">template-packs</a>
+            {" "}catalog. Browse source here, or install whole packs in the{" "}
+            <a href="/">free desktop app</a>.
+          </p>
+        </div>
+      </div>
 
-  <section style="padding-top: 8px">
-    <div class="container">
-      {
-        data.packs.map((pack) => (
-          <div>
-            <div class="pack-head">
-              <h3>{pack.label}</h3>
-              <span>{pack.templates.length} templates</span>
-            </div>
-            <div class="card-grid">
-              {pack.templates.map((t) => (
-                <a class="ol-card tpl-card" href={`/templates/${t.id}/`} style="text-decoration:none">
-                  {previewFor(t.id) && (
-                    <span class="tpl-thumb">
-                      <Image
-                        src={previewFor(t.id)}
-                        alt={`Compiled first page of the ${t.name} template`}
-                        widths={[360, 720]}
-                        sizes="(max-width: 900px) 94vw, 330px"
-                        loading="lazy"
-                      />
-                    </span>
-                  )}
-                  <h3>{t.name}</h3>
-                  <p>{t.description}</p>
-                  <p style="margin-top:10px">
-                    <span class="badge blue">{t.engine === "typst" ? "Typst" : "LaTeX"}</span>
-                  </p>
-                </a>
-              ))}
+      <div class="tpl-toolbar">
+        <div class="tpl-toolbar-main">
+          <label class="tpl-search" for="tpl-search-input">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-3.5-3.5"></path>
+            </svg>
+            <input
+              id="tpl-search-input"
+              type="search"
+              placeholder={`Search ${total === 1 ? "1 template" : `${total} templates`}…`}
+              autocomplete="off"
+              spellcheck="false"
+              aria-label={`Search ${total === 1 ? "1 template" : `${total} templates`}`}
+            />
+          </label>
+
+          <div
+            class="tpl-filter-wrap"
+            id="tpl-pack-filter"
+            data-active-pack={activePack || undefined}
+          >
+            <button
+              type="button"
+              class:list={["tpl-filter-btn", { "is-active": !!activePack }]}
+              id="tpl-pack-filter-btn"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="tpl-pack-menu"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M4 6h16M7 12h10M10 18h4"></path>
+              </svg>
+              <span>
+                {
+                  activePack
+                    ? packOptions.find((p) => p.id === activePack)?.label || "Filter by pack"
+                    : "Filter by pack"
+                }
+              </span>
+              <svg class="tpl-filter-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </button>
+            <div class="tpl-filter-menu" id="tpl-pack-menu" role="listbox" hidden>
+              <a
+                href={activeEngine ? `/templates/?engine=${encodeURIComponent(activeEngine)}` : "/templates/"}
+                class:list={["tpl-filter-option", { "is-active": !activePack }]}
+                role="option"
+                aria-selected={!activePack}
+                data-pack=""
+              >
+                All packs
+              </a>
+              {
+                packOptions.map((p) => {
+                  const qs = new URLSearchParams({
+                    pack: p.id,
+                    ...(activeEngine ? { engine: activeEngine } : {}),
+                  });
+                  return (
+                    <a
+                      href={`/templates/?${qs.toString()}`}
+                      class:list={["tpl-filter-option", { "is-active": activePack === p.id }]}
+                      role="option"
+                      aria-selected={activePack === p.id}
+                      data-pack={p.id}
+                    >
+                      {p.label}
+                    </a>
+                  );
+                })
+              }
             </div>
           </div>
-        ))
-      }
+
+          <div
+            class="tpl-filter-wrap"
+            id="tpl-engine-filter"
+            data-active-engine={activeEngine || undefined}
+          >
+            <button
+              type="button"
+              class:list={["tpl-filter-btn", { "is-active": !!activeEngine }]}
+              id="tpl-engine-filter-btn"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="tpl-engine-menu"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M4 6h16M7 12h10M10 18h4"></path>
+              </svg>
+              <span>
+                {
+                  activeEngine === "typst"
+                    ? "Typst"
+                    : activeEngine === "latex"
+                      ? "LaTeX"
+                      : "Filter by engine"
+                }
+              </span>
+              <svg class="tpl-filter-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </button>
+            <div class="tpl-filter-menu" id="tpl-engine-menu" role="listbox" hidden>
+              <a
+                href={activePack ? `/templates/?pack=${encodeURIComponent(activePack)}` : "/templates/"}
+                class:list={["tpl-filter-option", { "is-active": !activeEngine }]}
+                role="option"
+                aria-selected={!activeEngine}
+                data-engine=""
+              >
+                All engines
+              </a>
+              <a
+                href={`/templates/?${new URLSearchParams({ ...(activePack ? { pack: activePack } : {}), engine: "latex" }).toString()}`}
+                class:list={["tpl-filter-option", { "is-active": activeEngine === "latex" }]}
+                role="option"
+                aria-selected={activeEngine === "latex"}
+                data-engine="latex"
+              >
+                LaTeX
+              </a>
+              <a
+                href={`/templates/?${new URLSearchParams({ ...(activePack ? { pack: activePack } : {}), engine: "typst" }).toString()}`}
+                class:list={["tpl-filter-option", { "is-active": activeEngine === "typst" }]}
+                role="option"
+                aria-selected={activeEngine === "typst"}
+                data-engine="typst"
+              >
+                Typst
+              </a>
+            </div>
+          </div>
+
+          <span
+            class="tpl-count-badge"
+            id="tpl-count-badge"
+            aria-live="polite"
+            data-total={total}
+            hidden={!activePack && !activeEngine}
+          >
+            {total === 1 ? "1 template" : `${total} templates`}
+          </span>
+        </div>
+      </div>
+
+      <div id="tpl-feed">
+        {
+          packs.map((pack) => {
+            const packHidden = activePack ? pack.id !== activePack : false;
+            return (
+              <div
+                class="tpl-pack"
+                data-pack-id={pack.id}
+                hidden={packHidden}
+              >
+                <div class="pack-head">
+                  <h3>{pack.label}</h3>
+                </div>
+                <div class="card-grid">
+                  {pack.templates.map((t) => {
+                    const engineKey = t.engine === "typst" ? "typst" : "latex";
+                    const hiddenByEngine = activeEngine ? engineKey !== activeEngine : false;
+                    return (
+                      <a
+                        class="ol-card tpl-card"
+                        href={`/templates/${t.id}/`}
+                        style="text-decoration:none"
+                        data-search={t.search}
+                        data-pack={pack.id}
+                        data-engine={engineKey}
+                        hidden={hiddenByEngine}
+                      >
+                        {previewFor(t.id) && (
+                          <span class="tpl-thumb">
+                            <Image
+                              src={previewFor(t.id)}
+                              alt={`Compiled first page of the ${t.name} template`}
+                              widths={[360, 720]}
+                              sizes="(max-width: 900px) 94vw, 330px"
+                              loading="lazy"
+                            />
+                          </span>
+                        )}
+                        <h3>{t.name}</h3>
+                        <p>{t.description}</p>
+                        <p style="margin-top:10px">
+                          <span class="badge blue">{t.engineLabel}</span>
+                        </p>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+
+      <div class="tpl-empty" id="tpl-empty" hidden>
+        <svg
+          class="tpl-empty-icon"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <path d="M14 2v6h6"></path>
+          <path d="M9.5 12.5l5 5M14.5 12.5l-5 5"></path>
+        </svg>
+        <p class="tpl-empty-text">No templates match that search or filter</p>
+      </div>
+
       <p style="margin-top:48px">
         <DownloadButton
           href={RELEASES}
@@ -77,4 +281,309 @@ const previewFor = (id: string) => previews[`../../assets/template-previews/${id
       </p>
     </div>
   </section>
+
+  <style is:global>
+    .tpl-page {
+      max-width: 1080px;
+    }
+    .tpl-header {
+      margin-bottom: 20px;
+    }
+    .tpl-header-copy h1 {
+      margin-bottom: 10px;
+    }
+    .tpl-header-copy .sub {
+      margin-bottom: 0;
+      max-width: 58ch;
+    }
+
+    .tpl-toolbar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .tpl-toolbar-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px 12px;
+      width: 100%;
+      max-width: 720px;
+    }
+    .tpl-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 240px;
+      min-width: 200px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0b0c0e;
+      color: var(--muted);
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+    .tpl-search:focus-within {
+      border-color: rgba(37, 99, 235, 0.55);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      color: var(--brand-text);
+    }
+    .tpl-search input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+    }
+    .tpl-search input::placeholder {
+      color: var(--muted);
+    }
+
+    .tpl-filter-wrap {
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .tpl-filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #0b0c0e;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      max-width: min(240px, 48vw);
+      transition:
+        color 120ms ease,
+        border-color 120ms ease,
+        background 120ms ease,
+        box-shadow 120ms ease;
+    }
+    .tpl-filter-btn > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tpl-filter-btn:hover {
+      color: var(--text);
+      border-color: var(--line-strong);
+    }
+    .tpl-filter-btn.is-active,
+    .tpl-filter-btn[aria-expanded="true"] {
+      color: var(--brand-text);
+      border-color: rgba(37, 99, 235, 0.5);
+      background: rgba(37, 99, 235, 0.1);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    .tpl-filter-btn[aria-expanded="true"] .tpl-filter-chevron {
+      transform: rotate(180deg);
+    }
+    .tpl-filter-chevron {
+      flex-shrink: 0;
+      opacity: 0.75;
+      transition: transform 140ms ease;
+    }
+    .tpl-filter-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      z-index: 40;
+      min-width: 220px;
+      max-width: min(320px, 85vw);
+      max-height: min(360px, 55vh);
+      overflow: auto;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #0d0e11;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    }
+    .tpl-filter-menu[hidden] {
+      display: none !important;
+    }
+    .tpl-filter-option {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.3;
+      transition: color 100ms ease, background 100ms ease;
+    }
+    .tpl-filter-option:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .tpl-filter-option.is-active {
+      color: var(--brand-text);
+      background: rgba(37, 99, 235, 0.12);
+    }
+
+    .tpl-count-badge {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 4px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .tpl-pack .pack-head {
+      margin-top: 36px;
+    }
+    .tpl-pack:first-child .pack-head,
+    .tpl-pack[data-first-visible="true"] .pack-head {
+      margin-top: 8px;
+    }
+    .tpl-pack[hidden] {
+      display: none !important;
+    }
+    .tpl-card[hidden] {
+      display: none !important;
+    }
+
+    .tpl-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      color: var(--muted);
+      margin-top: 40px;
+      padding: 24px 16px;
+    }
+    .tpl-empty[hidden] {
+      display: none !important;
+    }
+    .tpl-empty-icon {
+      display: block;
+      opacity: 0.55;
+    }
+    .tpl-empty-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+  </style>
+
+  <script>
+    const feed = document.getElementById("tpl-feed");
+    const searchInput = document.getElementById("tpl-search-input");
+    const emptyEl = document.getElementById("tpl-empty");
+    const countBadge = document.getElementById("tpl-count-badge");
+    const activePack = document.getElementById("tpl-pack-filter")?.getAttribute("data-active-pack") || "";
+    const activeEngine =
+      document.getElementById("tpl-engine-filter")?.getAttribute("data-active-engine") || "";
+    const totalTemplates = Number(countBadge?.getAttribute("data-total") || 0);
+
+    function wireFilter(btnId, menuId, wrapId) {
+      const btn = document.getElementById(btnId);
+      const menu = document.getElementById(menuId);
+      const wrap = document.getElementById(wrapId);
+      if (!btn || !menu || !wrap) return;
+
+      const setOpen = (open) => {
+        menu.hidden = !open;
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      };
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        // Close the other menu
+        document.querySelectorAll(".tpl-filter-menu").forEach((m) => {
+          if (m !== menu) m.hidden = true;
+        });
+        document.querySelectorAll(".tpl-filter-btn").forEach((b) => {
+          if (b !== btn) b.setAttribute("aria-expanded", "false");
+        });
+        setOpen(menu.hidden);
+      });
+
+      document.addEventListener("click", (e) => {
+        if (menu.hidden) return;
+        if (wrap.contains(/** @type {Node} */ (e.target))) return;
+        setOpen(false);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") setOpen(false);
+      });
+    }
+
+    wireFilter("tpl-pack-filter-btn", "tpl-pack-menu", "tpl-pack-filter");
+    wireFilter("tpl-engine-filter-btn", "tpl-engine-menu", "tpl-engine-filter");
+
+    function filterTemplates() {
+      if (!feed) return;
+      const q = (searchInput?.value || "").trim().toLowerCase();
+      const cards = Array.from(feed.querySelectorAll(".tpl-card"));
+      let visible = 0;
+
+      for (const card of cards) {
+        const hay = card.getAttribute("data-search") || "";
+        const pack = card.getAttribute("data-pack") || "";
+        const engine = card.getAttribute("data-engine") || "";
+        const matchPack = !activePack || pack === activePack;
+        const matchEngine = !activeEngine || engine === activeEngine;
+        const matchQ = !q || hay.includes(q);
+        const show = matchPack && matchEngine && matchQ;
+        card.hidden = !show;
+        if (show) visible += 1;
+      }
+
+      // Hide empty pack sections; mark first visible for spacing
+      const packs = Array.from(feed.querySelectorAll(".tpl-pack"));
+      let firstMarked = false;
+      for (const pack of packs) {
+        const any = Array.from(pack.querySelectorAll(".tpl-card")).some((c) => !c.hidden);
+        const packId = pack.getAttribute("data-pack-id") || "";
+        const packOk = !activePack || packId === activePack;
+        pack.hidden = !(any && packOk);
+        pack.removeAttribute("data-first-visible");
+        if (!pack.hidden && !firstMarked) {
+          pack.setAttribute("data-first-visible", "true");
+          firstMarked = true;
+        }
+      }
+
+      if (emptyEl) emptyEl.hidden = visible > 0;
+      if (countBadge) {
+        const total = totalTemplates || cards.length;
+        if (visible === total) {
+          countBadge.hidden = true;
+          countBadge.textContent = total === 1 ? "1 template" : `${total} templates`;
+        } else {
+          countBadge.hidden = false;
+          countBadge.textContent = `${visible} of ${total}`;
+        }
+      }
+    }
+
+    filterTemplates();
+    searchInput?.addEventListener("input", filterTemplates);
+  </script>
 </SiteLayout>

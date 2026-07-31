@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import { blogReadingTime } from "../../lib/blog-reading-time";
+import "../../styles/listen.css";
 import "katex/dist/katex.min.css";
 
 export async function getStaticPaths() {
@@ -30,15 +31,15 @@ const fmt = (d: Date) =>
           <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
           <span class="blog-post-meta-sep" aria-hidden="true">·</span>
           <span>{rt.text}</span>
+          <span
+            id="blog-listen-host"
+            class="blog-listen"
+            hidden
+            data-post-id={post.id}
+          ></span>
         </p>
         <h1>{post.data.title}</h1>
         <p class="sub">{post.data.description}</p>
-        <div
-          id="blog-listen-host"
-          class="blog-listen"
-          hidden
-          data-post-id={post.id}
-        ></div>
         <div class="prose blog-prose">
           <Content />
         </div>
@@ -98,90 +99,6 @@ const fmt = (d: Date) =>
     }
     .blog-post-back {
       margin-top: 48px;
-    }
-
-    /* Listen control — only visible when mount succeeds */
-    .blog-listen {
-      margin: 4px 0 20px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px 14px;
-    }
-    .blog-listen[hidden] {
-      display: none !important;
-    }
-    .blog-listen-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      appearance: none;
-      border: 1px solid rgba(37, 99, 235, 0.4);
-      background: rgba(37, 99, 235, 0.12);
-      color: var(--brand-text);
-      font: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 14px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition:
-        background 120ms ease,
-        border-color 120ms ease,
-        color 120ms ease;
-    }
-    .blog-listen-btn:hover:not(:disabled) {
-      background: rgba(37, 99, 235, 0.2);
-      border-color: rgba(37, 99, 235, 0.6);
-    }
-    .blog-listen-btn:disabled {
-      opacity: 0.75;
-      cursor: wait;
-    }
-    .blog-listen-icon {
-      width: 14px;
-      height: 14px;
-      display: inline-block;
-      background: currentColor;
-      mask-size: contain;
-      mask-repeat: no-repeat;
-      mask-position: center;
-      -webkit-mask-size: contain;
-      -webkit-mask-repeat: no-repeat;
-      -webkit-mask-position: center;
-    }
-    .blog-listen-icon[data-mode="play"] {
-      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
-      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
-    }
-    .blog-listen-icon[data-mode="stop"] {
-      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Crect x='6' y='6' width='12' height='12' rx='1'/%3E%3C/svg%3E");
-      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Crect x='6' y='6' width='12' height='12' rx='1'/%3E%3C/svg%3E");
-    }
-    .blog-listen-icon[data-mode="loading"] {
-      border-radius: 50%;
-      background: transparent;
-      border: 2px solid rgba(96, 165, 250, 0.25);
-      border-top-color: currentColor;
-      mask-image: none;
-      -webkit-mask-image: none;
-      animation: blog-listen-spin 0.7s linear infinite;
-    }
-    @keyframes blog-listen-spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-    .blog-listen-status {
-      font-size: 12px;
-      color: var(--muted);
-      font-family: var(--mono);
-    }
-    .blog-listen-hl {
-      background: rgba(37, 99, 235, 0.14);
-      border-radius: 3px;
-      box-decoration-break: clone;
-      -webkit-box-decoration-break: clone;
     }
 
     .blog-post-aside {
@@ -603,6 +520,8 @@ const fmt = (d: Date) =>
           host,
           prose,
           postId: host.dataset.postId || location.pathname,
+          surface: "blog",
+          kind: "post",
         });
       } catch {
         host.remove();

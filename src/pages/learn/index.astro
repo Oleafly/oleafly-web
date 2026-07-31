@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import { LEARN_CATEGORIES } from "../../data/learn-categories";
+import { QUIZ_MIN_QUESTIONS } from "../../components/learn/quiz-types";
 import { AsciiQuill } from "../../components/AsciiQuill";
 import DownloadButton from "../../components/DownloadButton.astro";
 import "../../styles/learn.css";
@@ -156,20 +157,29 @@ const paths = [
               </div>
               <p class="learn-section-desc">{cat.description}</p>
               <div class="learn-links">
-                {items.map((a) => (
-                  <a
-                    class="learn-link"
-                    href={`/learn/${a.id}/`}
-                    data-search={`${a.data.title} ${a.data.description} ${a.data.tags.join(" ")} ${cat.label}`.toLowerCase()}
-                  >
-                    <span class="dot" aria-hidden="true" />
-                    <span class="meta">
-                      <span class="title">{a.data.title}</span>
-                      <span class="desc">{a.data.description}</span>
-                      <span class={`level level-${a.data.level}`}>{a.data.level}</span>
-                    </span>
-                  </a>
-                ))}
+                {items.map((a) => {
+                  const hasQuiz =
+                    !!a.data.quiz && a.data.quiz.questions.length >= QUIZ_MIN_QUESTIONS;
+                  return (
+                    <a
+                      class="learn-link"
+                      href={`/learn/${a.id}/`}
+                      data-search={`${a.data.title} ${a.data.description} ${a.data.tags.join(" ")} ${cat.label}${hasQuiz ? " quiz" : ""}`.toLowerCase()}
+                    >
+                      <span class="dot" aria-hidden="true" />
+                      <span class="meta">
+                        <span class="title">{a.data.title}</span>
+                        <span class="desc">{a.data.description}</span>
+                        <span class="learn-link-badges">
+                          <span class={`level level-${a.data.level}`}>{a.data.level}</span>
+                          {hasQuiz ? (
+                            <span class="learn-quiz-badge" title="Includes a quiz">Quiz</span>
+                          ) : null}
+                        </span>
+                      </span>
+                    </a>
+                  );
+                })}
               </div>
             </section>
           );

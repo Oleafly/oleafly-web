@@ -1,6 +1,7 @@
 import { track } from "../analytics";
 import { canOfferListen, canTryKokoro } from "./capabilities";
-import { extractSpeakableText } from "./extract-text";
+import { buildSpeakIndex } from "./extract-text";
+import { createHighlighter } from "./highlight";
 import {
   type ActivePlayback,
   speakWithKokoro,
@@ -10,7 +11,14 @@ import {
 type MountOpts = {
   host: HTMLElement;
   prose: HTMLElement;
+  /** Content id for analytics (blog slug or learn article id). */
   postId: string;
+  /** Analytics surface label. */
+  surface?: "blog" | "learn";
+  /** Spoken in aria labels / tooltips: "post" | "lesson". */
+  kind?: "post" | "lesson";
+  /** Show the · separator before the button (default true). */
+  separator?: boolean;
 };
 
 type State = "idle" | "loading" | "playing" | "paused";
@@ -19,46 +27,69 @@ type State = "idle" | "loading" | "playing" | "paused";
  * Mount the listen control only when Web Speech is available (silent fallback).
  * Kokoro is attempted first when safe; failures fall through without error UI.
  * If every engine fails, the control is removed entirely.
+ *
+ * While playing: highlight the active sentence, and the current word when
+ * boundary events are available.
+ *
+ * Used on blog posts and /learn topics.
  */
-export function mountBlogListen({ host, prose, postId }: MountOpts): void {
+export function mountBlogListen({
+  host,
+  prose,
+  postId,
+  surface = "blog",
+  kind = "post",
+  separator = true,
+}: MountOpts): void {
   if (!canOfferListen()) {
     host.remove();
     return;
   }
 
-  const text = extractSpeakableText(prose);
-  if (text.length < 40) {
+  const index = buildSpeakIndex(prose);
+  if (index.speak.length < 40) {
     host.remove();
     return;
   }
 
+  const highlighter = createHighlighter(prose, index);
+  /** Absolute original offsets for the sentence currently being spoken. */
+  let currentSentence = { start: 0, end: 0 };
+  /** speak-chunk string for word offset mapping within the active sentence. */
+  let currentChunk = "";
+
+  const listenLabel = kind === "lesson" ? "Listen to this lesson" : "Listen to this post";
+  const analytics = { post: postId, surface };
+
   host.hidden = false;
   host.classList.add("blog-listen");
   host.innerHTML = `
-    <button type="button" class="blog-listen-btn" data-ph="blog_listen_click" data-ph-post="${escapeAttr(postId)}" aria-label="Listen to this post">
-      <span class="blog-listen-icon" aria-hidden="true"></span>
-      <span class="blog-listen-label">Listen</span>
+    ${separator ? '<span class="blog-listen-sep" aria-hidden="true">·</span>' : ""}
+    <button
+      type="button"
+      class="blog-listen-btn"
+      data-ph="blog_listen_click"
+      data-ph-post="${escapeAttr(postId)}"
+      data-ph-surface="${escapeAttr(surface)}"
+      aria-label="${listenLabel}"
+      data-tip="Listen to this"
+    >
+      <span class="blog-listen-icon" data-mode="headphones" aria-hidden="true"></span>
+      <span class="blog-listen-tip" role="tooltip">Listen to this</span>
     </button>
-    <div class="blog-listen-status" hidden></div>
   `;
 
   const btn = host.querySelector<HTMLButtonElement>(".blog-listen-btn")!;
-  const label = host.querySelector<HTMLElement>(".blog-listen-label")!;
-  const status = host.querySelector<HTMLElement>(".blog-listen-status")!;
   const icon = host.querySelector<HTMLElement>(".blog-listen-icon")!;
+  const tip = host.querySelector<HTMLElement>(".blog-listen-tip")!;
 
   let state: State = "idle";
   let playback: ActivePlayback | null = null;
   let abort: AbortController | null = null;
 
-  const setStatus = (msg: string | null) => {
-    if (!msg) {
-      status.hidden = true;
-      status.textContent = "";
-      return;
-    }
-    status.hidden = false;
-    status.textContent = msg;
+  const setTip = (label: string) => {
+    tip.textContent = label;
+    btn.dataset.tip = label;
   };
 
   const setState = (next: State) => {
@@ -66,19 +97,17 @@ export function mountBlogListen({ host, prose, postId }: MountOpts): void {
     host.dataset.state = next;
     btn.disabled = next === "loading";
     if (next === "idle") {
-      label.textContent = "Listen";
-      btn.setAttribute("aria-label", "Listen to this post");
-      icon.dataset.mode = "play";
-      setStatus(null);
+      btn.setAttribute("aria-label", listenLabel);
+      setTip("Listen to this");
+      icon.dataset.mode = "headphones";
     } else if (next === "loading") {
-      label.textContent = "Preparing…";
       btn.setAttribute("aria-label", "Preparing audio");
+      setTip("Preparing…");
       icon.dataset.mode = "loading";
     } else if (next === "playing") {
-      label.textContent = "Stop";
-      btn.setAttribute("aria-label", "Stop listening");
-      icon.dataset.mode = "stop";
-      setStatus(null);
+      btn.setAttribute("aria-label", "Pause listening");
+      setTip("Pause");
+      icon.dataset.mode = "pause";
     }
   };
 
@@ -89,36 +118,49 @@ export function mountBlogListen({ host, prose, postId }: MountOpts): void {
       /* ignore */
     }
     playback = null;
-    track("blog_listen_unavailable", { post: postId, reason });
+    highlighter.destroy();
+    track("blog_listen_unavailable", { ...analytics, reason });
     host.remove();
   };
 
-  const clearHighlight = () => {
-    prose.querySelectorAll(".blog-listen-hl").forEach((el) => {
-      el.classList.remove("blog-listen-hl");
-    });
+  const onChunkStart = (chunk: string) => {
+    currentChunk = chunk;
+    // Prefer structured sentence list; fall back to text search
+    const match = findSentence(index, chunk);
+    if (match) {
+      currentSentence = { start: match.start, end: match.end };
+      highlighter.highlightSentence(match.start, match.end);
+    } else {
+      highlighter.highlightSentenceText(chunk);
+    }
   };
 
-  /** Best-effort: mark a sentence chunk in the prose while speaking. */
-  const highlightChunk = (chunk: string) => {
-    clearHighlight();
-    const needle = chunk.slice(0, 48).replace(/\s+/g, " ").trim();
-    if (needle.length < 8) return;
-    const walker = document.createTreeWalker(prose, NodeFilter.SHOW_TEXT);
-    let node: Node | null;
-    while ((node = walker.nextNode())) {
-      const t = node.textContent || "";
-      const idx = t.toLowerCase().indexOf(needle.toLowerCase().slice(0, 24));
-      if (idx < 0) continue;
-      const parent = node.parentElement;
-      if (!parent || parent.closest("pre, code")) continue;
-      parent.classList.add("blog-listen-hl");
-      try {
-        parent.scrollIntoView({ block: "nearest", behavior: "smooth" });
-      } catch {
-        /* ignore */
+  const onBoundary = (charIndex: number, charLength: number) => {
+    if (!currentChunk) return;
+    // Map chunk-local char offset → original sentence offset when possible
+    if (currentSentence.end > currentSentence.start) {
+      // Align by finding word text in the original sentence window
+      const word = currentChunk.slice(charIndex, charIndex + (charLength || 1));
+      if (word.trim()) {
+        const windowText = index.original.slice(currentSentence.start, currentSentence.end);
+        // Position within sentence: try charIndex scaled if lengths similar
+        let local = charIndex;
+        if (Math.abs(windowText.length - currentChunk.length) > 8) {
+          const idx = windowText.indexOf(word, Math.max(0, charIndex - 4));
+          if (idx >= 0) local = idx;
+        }
+        const absStart = currentSentence.start + local;
+        const absEnd = absStart + word.length;
+        if (absEnd <= currentSentence.end + 2) {
+          highlighter.highlightWord(absStart, Math.min(absEnd, currentSentence.end));
+          return;
+        }
       }
-      break;
+      // Fallback: proportional position inside sentence
+      const ratio = currentChunk.length ? charIndex / currentChunk.length : 0;
+      const absStart = currentSentence.start + Math.floor(ratio * (currentSentence.end - currentSentence.start));
+      const absEnd = Math.min(currentSentence.end, absStart + Math.max(charLength, 1));
+      highlighter.highlightWord(absStart, absEnd);
     }
   };
 
@@ -127,7 +169,8 @@ export function mountBlogListen({ host, prose, postId }: MountOpts): void {
     abort = null;
     playback?.stop();
     playback = null;
-    clearHighlight();
+    highlighter.clear();
+    currentChunk = "";
     try {
       window.speechSynthesis?.cancel();
     } catch {
@@ -137,30 +180,31 @@ export function mountBlogListen({ host, prose, postId }: MountOpts): void {
   };
 
   const startWebSpeech = () => {
-    playback = speakWithWebSpeech(text, {
-      onChunkStart: (chunk) => highlightChunk(chunk),
+    playback = speakWithWebSpeech(index.speak, {
+      onChunkStart,
+      onBoundary,
       onEnd: () => {
-        clearHighlight();
+        highlighter.clear();
         setState("idle");
-        track("blog_listen_complete", { post: postId, engine: "webspeech" });
+        track("blog_listen_complete", { ...analytics, engine: "webspeech" });
       },
       onError: () => {
         hardFailHide("webspeech_error");
       },
     });
     setState("playing");
-    track("blog_listen_start", { post: postId, engine: "webspeech" });
+    track("blog_listen_start", { ...analytics, engine: "webspeech" });
   };
 
   const start = async () => {
     if (state === "playing" || state === "loading") {
       stop();
-      track("blog_listen_stop", { post: postId });
+      track("blog_listen_stop", analytics);
       return;
     }
 
     setState("loading");
-    track("blog_listen_prepare", { post: postId, try_kokoro: canTryKokoro() });
+    track("blog_listen_prepare", { ...analytics, try_kokoro: canTryKokoro() });
 
     abort = new AbortController();
     const signal = abort.signal;
@@ -168,19 +212,16 @@ export function mountBlogListen({ host, prose, postId }: MountOpts): void {
     if (canTryKokoro()) {
       try {
         playback = await speakWithKokoro(
-          text,
+          index.speak,
           {
-            onProgress: (_r, msg) => {
-              if (msg) setStatus(msg);
-            },
-            onChunkStart: (chunk) => highlightChunk(chunk),
+            onChunkStart,
+            onBoundary,
             onEnd: () => {
-              clearHighlight();
+              highlighter.clear();
               setState("idle");
-              track("blog_listen_complete", { post: postId, engine: "kokoro" });
+              track("blog_listen_complete", { ...analytics, engine: "kokoro" });
             },
             onError: () => {
-              // Silent fallthrough to Web Speech
               if (signal.aborted) return;
               try {
                 startWebSpeech();
@@ -196,12 +237,10 @@ export function mountBlogListen({ host, prose, postId }: MountOpts): void {
           return;
         }
         setState("playing");
-        setStatus(null);
-        track("blog_listen_start", { post: postId, engine: "kokoro" });
+        track("blog_listen_start", { ...analytics, engine: "kokoro" });
         return;
       } catch {
-        // Fall through to Web Speech — no error toast
-        track("blog_listen_kokoro_fallback", { post: postId });
+        track("blog_listen_kokoro_fallback", analytics);
       }
     }
 
@@ -217,8 +256,43 @@ export function mountBlogListen({ host, prose, postId }: MountOpts): void {
     void start();
   });
 
-  track("blog_listen_shown", { post: postId });
+  track("blog_listen_shown", analytics);
   setState("idle");
+}
+
+function findSentence(
+  index: ReturnType<typeof buildSpeakIndex>,
+  chunk: string,
+): { start: number; end: number } | null {
+  const needle = chunk.replace(/\s+/g, " ").trim();
+  if (!needle) return null;
+
+  // Exact speak match
+  const bySpeak = index.sentences.find((s) => s.speak === needle);
+  if (bySpeak) return { start: bySpeak.start, end: bySpeak.end };
+
+  // Prefix speak match
+  const byPrefix = index.sentences.find(
+    (s) => s.speak.startsWith(needle.slice(0, 32)) || needle.startsWith(s.speak.slice(0, 32)),
+  );
+  if (byPrefix) return { start: byPrefix.start, end: byPrefix.end };
+
+  // Original text search
+  const restored = needle
+    .replace(/\bLay-tech\b/gi, "LaTeX")
+    .replace(/\bBib-tech\b/gi, "BibTeX")
+    .replace(/\bSync-tech\b/gi, "SyncTeX");
+  const idx = index.original.indexOf(restored);
+  if (idx >= 0) return { start: idx, end: idx + restored.length };
+
+  const soft = index.sentences.find((s) => {
+    const a = s.original.slice(0, 24).toLowerCase();
+    const b = restored.slice(0, 24).toLowerCase();
+    return a && b && (s.original.includes(restored.slice(0, 20)) || restored.includes(s.original.slice(0, 20)));
+  });
+  if (soft) return { start: soft.start, end: soft.end };
+
+  return null;
 }
 
 function escapeAttr(s: string): string {

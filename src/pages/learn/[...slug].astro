@@ -6,6 +6,7 @@ import { QUIZ_MIN_QUESTIONS } from "../../components/learn/quiz-types";
 import { CATEGORY_BY_ID } from "../../data/learn-categories";
 import { LATEX_COMMANDS } from "../../data/latex-commands";
 import "../../styles/learn.css";
+import "../../styles/listen.css";
 import "katex/dist/katex.min.css";
 
 export async function getStaticPaths() {
@@ -95,13 +96,19 @@ const quiz =
       <h1>{article.data.title}</h1>
       <p class="lede">{article.data.description}</p>
       <div class="learn-article-meta">
-        <span class="learn-pill">{catLabel}</span>
+        <span class:list={["learn-badge", "learn-track-pill", cat?.badge]}>{catLabel}</span>
         <span class={`learn-pill level level-${article.data.level}`}>{article.data.level}</span>
         {
           article.data.tags.slice(0, 3).map((t) => (
             <span class="learn-pill">{t}</span>
           ))
         }
+        <span
+          id="learn-listen-host"
+          class="blog-listen"
+          hidden
+          data-lesson-id={article.id}
+        ></span>
       </div>
 
       <div class="learn-prose">
@@ -254,5 +261,29 @@ const quiz =
         pre.insertAdjacentElement("afterend", note);
       }
     }
+
+    // Listen: same client TTS as blog (Kokoro → Web Speech), sentence/word highlight.
+    (async () => {
+      const host = document.getElementById("learn-listen-host");
+      const prose = document.querySelector(".learn-prose");
+      if (!(host instanceof HTMLElement) || !(prose instanceof HTMLElement)) return;
+      if (!("speechSynthesis" in window)) {
+        host.remove();
+        return;
+      }
+      try {
+        const { mountBlogListen } = await import("../../lib/blog-listen/mount.ts");
+        mountBlogListen({
+          host,
+          prose,
+          postId: host.dataset.lessonId || location.pathname,
+          surface: "learn",
+          kind: "lesson",
+          separator: true,
+        });
+      } catch {
+        host.remove();
+      }
+    })();
   </script>
 </SiteLayout>
