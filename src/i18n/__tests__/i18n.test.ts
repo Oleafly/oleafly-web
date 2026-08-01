@@ -35,12 +35,14 @@ describe("locales", () => {
     expect(LOCALES).toContain("es");
   });
 
-  it("gives every locale a flag emoji and native label", () => {
+  it("gives every locale a flag image ISO, emoji, and native label", () => {
     for (const code of LOCALES) {
       const meta = LOCALE_META[code];
       // Regional-indicator flag pairs (e.g. 🇺🇸) or other emoji
       expect(meta.flag.length, code).toBeGreaterThanOrEqual(2);
       expect(meta.flag, code).not.toMatch(/^[A-Za-z]{2}$/);
+      // Image flags (flagcdn) — required for Windows/Linux where emoji flags fail
+      expect(meta.flagIso, code).toMatch(/^[a-z]{2}$/);
       expect(meta.nativeLabel.length).toBeGreaterThan(0);
       expect(meta.lang.length).toBeGreaterThan(0);
       expect(["ltr", "rtl"]).toContain(meta.dir);
@@ -49,8 +51,11 @@ describe("locales", () => {
 
   it("uses country-associated flags for CJK", () => {
     expect(LOCALE_META["zh-cn"].flag).toBe("🇨🇳");
+    expect(LOCALE_META["zh-cn"].flagIso).toBe("cn");
     expect(LOCALE_META.ja.flag).toBe("🇯🇵");
+    expect(LOCALE_META.ja.flagIso).toBe("jp");
     expect(LOCALE_META.ko.flag).toBe("🇰🇷");
+    expect(LOCALE_META.ko.flagIso).toBe("kr");
   });
 
   it("isLocale accepts only known codes", () => {

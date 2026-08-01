@@ -11,6 +11,8 @@ export type LocaleOption = {
   lang: string;
   nativeLabel: string;
   flag: string;
+  /** ISO 3166-1 alpha-2 for flagcdn images */
+  flagIso?: string;
 };
 
 const STORAGE_KEY = "oleafly-locale";
@@ -18,9 +20,15 @@ const DISMISS_KEY = "oleafly-locale-suggest-dismissed";
 const SESSION_REDIRECT_KEY = "oleafly-locale-redirected";
 const SESSION_BANNER_KEY = "oleafly-locale-banner-shown";
 
+function flagImgHtml(opt: LocaleOption): string {
+  const iso = (opt.flagIso || "").toLowerCase();
+  if (!/^[a-z]{2}$/.test(iso)) return "";
+  return `<img class="ols-flag" src="https://flagcdn.com/w40/${iso}.png" width="18" height="13" alt="" decoding="async" aria-hidden="true" />`;
+}
+
 function bannerCopy(opt: LocaleOption) {
   return {
-    prompt: `${opt.flag} Prefer ${opt.nativeLabel}?`,
+    prompt: `Prefer ${opt.nativeLabel}?`,
     use: `Continue in ${opt.nativeLabel}`,
     stay: "Stay in English",
   };
@@ -41,14 +49,16 @@ function showBanner(opt: LocaleOption, onUse: () => void, onStay: () => void) {
   root.setAttribute("aria-label", copy.prompt);
   root.innerHTML = `
     <div class="ols-inner">
-      <p class="ols-prompt"></p>
+      <p class="ols-prompt"><span class="ols-prompt-flag"></span><span class="ols-prompt-text"></span></p>
       <div class="ols-actions">
         <button type="button" class="ols-use" data-ols="use"></button>
         <button type="button" class="ols-stay" data-ols="stay"></button>
       </div>
     </div>
   `;
-  root.querySelector(".ols-prompt")!.textContent = copy.prompt;
+  const flagHost = root.querySelector(".ols-prompt-flag")!;
+  flagHost.innerHTML = flagImgHtml(opt);
+  root.querySelector(".ols-prompt-text")!.textContent = copy.prompt;
   root.querySelector(".ols-use")!.textContent = copy.use;
   root.querySelector(".ols-stay")!.textContent = copy.stay;
 
@@ -79,6 +89,17 @@ function showBanner(opt: LocaleOption, onUse: () => void, onStay: () => void) {
       margin: 0;
       font-size: 13.5px;
       font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    #oleafly-locale-suggest .ols-flag {
+      width: 18px;
+      height: 13px;
+      object-fit: cover;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.12);
+      flex-shrink: 0;
     }
     #oleafly-locale-suggest .ols-actions {
       display: flex;

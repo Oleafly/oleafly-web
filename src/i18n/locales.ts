@@ -38,9 +38,19 @@ export type LocaleMeta = {
   dir: "ltr" | "rtl";
   /** Intl locale for dates */
   dateLocale: string;
-  /** Flag emoji for the language switcher (country/region associated with the locale). */
+  /**
+   * Flag emoji (decorative). Prefer `flagIso` + image for reliable cross-platform
+   * rendering — Windows often cannot draw emoji flags.
+   */
   flag: string;
+  /** ISO 3166-1 alpha-2 country code for flag images (flagcdn.com). */
+  flagIso: string;
 };
+
+/** Absolute flag image URL (PNG). Reliable on Windows/Linux where emoji flags fail. */
+export function flagImageUrl(iso: string, width = 40): string {
+  return `https://flagcdn.com/w${width}/${iso.toLowerCase()}.png`;
+}
 
 export const LOCALE_META: Record<Locale, LocaleMeta> = {
   en: {
@@ -50,6 +60,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "en-US",
     flag: "🇺🇸",
+    flagIso: "us",
   },
   es: {
     lang: "es",
@@ -58,6 +69,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "es",
     flag: "🇪🇸",
+    flagIso: "es",
   },
   "pt-br": {
     lang: "pt-BR",
@@ -66,6 +78,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "pt-BR",
     flag: "🇧🇷",
+    flagIso: "br",
   },
   fr: {
     lang: "fr",
@@ -74,6 +87,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "fr",
     flag: "🇫🇷",
+    flagIso: "fr",
   },
   de: {
     lang: "de",
@@ -82,6 +96,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "de",
     flag: "🇩🇪",
+    flagIso: "de",
   },
   it: {
     lang: "it",
@@ -90,6 +105,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "it",
     flag: "🇮🇹",
+    flagIso: "it",
   },
   nl: {
     lang: "nl",
@@ -98,6 +114,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "nl",
     flag: "🇳🇱",
+    flagIso: "nl",
   },
   pl: {
     lang: "pl",
@@ -106,6 +123,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "pl",
     flag: "🇵🇱",
+    flagIso: "pl",
   },
   ru: {
     lang: "ru",
@@ -114,6 +132,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "ru",
     flag: "🇷🇺",
+    flagIso: "ru",
   },
   uk: {
     lang: "uk",
@@ -122,6 +141,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "uk",
     flag: "🇺🇦",
+    flagIso: "ua",
   },
   tr: {
     lang: "tr",
@@ -130,6 +150,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "tr",
     flag: "🇹🇷",
+    flagIso: "tr",
   },
   ar: {
     lang: "ar",
@@ -138,6 +159,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "rtl",
     dateLocale: "ar",
     flag: "🇸🇦",
+    flagIso: "sa",
   },
   hi: {
     lang: "hi",
@@ -146,6 +168,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "hi",
     flag: "🇮🇳",
+    flagIso: "in",
   },
   "zh-cn": {
     lang: "zh-CN",
@@ -154,6 +177,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "zh-CN",
     flag: "🇨🇳",
+    flagIso: "cn",
   },
   "zh-tw": {
     lang: "zh-TW",
@@ -162,6 +186,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "zh-TW",
     flag: "🇹🇼",
+    flagIso: "tw",
   },
   ja: {
     lang: "ja",
@@ -170,6 +195,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "ja",
     flag: "🇯🇵",
+    flagIso: "jp",
   },
   ko: {
     lang: "ko",
@@ -178,6 +204,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "ko",
     flag: "🇰🇷",
+    flagIso: "kr",
   },
   vi: {
     lang: "vi",
@@ -186,6 +213,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     dir: "ltr",
     dateLocale: "vi",
     flag: "🇻🇳",
+    flagIso: "vn",
   },
 };
 

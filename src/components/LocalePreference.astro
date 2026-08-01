@@ -12,6 +12,7 @@ const localeOptions = LOCALES.map((code) => ({
   lang: LOCALE_META[code].lang,
   nativeLabel: LOCALE_META[code].nativeLabel,
   flag: LOCALE_META[code].flag,
+  flagIso: LOCALE_META[code].flagIso,
 }));
 ---
 
@@ -25,6 +26,7 @@ const localeOptions = LOCALES.map((code) => ({
     lang: string;
     nativeLabel: string;
     flag: string;
+    flagIso?: string;
   }>;
 
   initLocalePreference(options);
