@@ -4,11 +4,35 @@ import starlight from "@astrojs/starlight";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 
+/** @type {Record<string, { label: string; lang?: string; dir?: 'rtl' | 'ltr' }>} */
+const starlightLocales = {
+  root: { label: "English", lang: "en" },
+  es: { label: "Español", lang: "es" },
+  "pt-br": { label: "Português", lang: "pt-BR" },
+  fr: { label: "Français", lang: "fr" },
+  de: { label: "Deutsch", lang: "de" },
+  it: { label: "Italiano", lang: "it" },
+  nl: { label: "Nederlands", lang: "nl" },
+  pl: { label: "Polski", lang: "pl" },
+  ru: { label: "Русский", lang: "ru" },
+  uk: { label: "Українська", lang: "uk" },
+  tr: { label: "Türkçe", lang: "tr" },
+  ar: { label: "العربية", lang: "ar", dir: "rtl" },
+  hi: { label: "हिन्दी", lang: "hi" },
+  "zh-cn": { label: "简体中文", lang: "zh-CN" },
+  "zh-tw": { label: "繁體中文", lang: "zh-TW" },
+  ja: { label: "日本語", lang: "ja" },
+  ko: { label: "한국어", lang: "ko" },
+  vi: { label: "Tiếng Việt", lang: "vi" },
+};
+
 // oleafly.com — landing page at `/` (src/pages/index.astro) plus the product
 // docs mounted under `/docs/*` (Starlight, content in src/content/docs/docs/).
 // Deployed as a fully static site on Cloudflare Pages.
 export default defineConfig({
   site: "https://oleafly.com",
+  // i18n routing is configured via Starlight `locales` below (root = English).
+  // Do not also set Astro `i18n` — Starlight rejects both at once.
   redirects: {
     "/docs/learn/latex-in-10-minutes": "/learn/first-document/",
     "/docs/learn/document-skeleton": "/learn/document-skeleton/",
@@ -25,6 +49,8 @@ export default defineConfig({
       title: "Oleafly",
       description:
         "The local-first research workspace for LaTeX, Typst, and Markdown on macOS, Windows, and Linux. An open-source, offline-capable Overleaf alternative with real Git history, GitHub sync, SyncTeX, and bring-your-own-key AI.",
+      defaultLocale: "root",
+      locales: starlightLocales,
       logo: { src: "./src/assets/leaf.svg", alt: "Oleafly" },
       favicon: "/favicon.png",
       customCss: ["./src/styles/fonts.css", "./src/styles/theme.css"],

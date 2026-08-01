@@ -1,0 +1,10 @@
+---
+import ToolsEquationPage from "../../../views/ToolsEquationPage.astro";
+import { prefixedLocalePaths, requirePrefixedLocale } from "../../../i18n/routing";
+
+export function getStaticPaths() {
+  return prefixedLocalePaths();
+}
+const locale = requirePrefixedLocale(Astro.params.lang);
+---
+<ToolsEquationPage locale={locale} />

@@ -1,0 +1,10 @@
+---
+import ToolsLabSearchPage from "../../../views/ToolsLabSearchPage.astro";
+import { prefixedLocalePaths, requirePrefixedLocale } from "../../../i18n/routing";
+
+export function getStaticPaths() {
+  return prefixedLocalePaths();
+}
+const locale = requirePrefixedLocale(Astro.params.lang);
+---
+<ToolsLabSearchPage locale={locale} />

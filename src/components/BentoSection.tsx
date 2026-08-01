@@ -549,101 +549,137 @@ function ExportVisual() {
   );
 }
 
-export function BentoSection() {
+export type BentoCardCopy = { name: string; desc: string };
+
+/** Order must match the visual layout below. Translated copy is passed from Astro via t(). */
+export type BentoCards = {
+  import: BentoCardCopy;
+  export: BentoCardCopy;
+  yours: BentoCardCopy;
+  visual: BentoCardCopy;
+  synctex: BentoCardCopy;
+  codeIntel: BentoCardCopy;
+  slash: BentoCardCopy;
+  citations: BentoCardCopy;
+  library: BentoCardCopy;
+  palette: BentoCardCopy;
+  byoai: BentoCardCopy;
+  research: BentoCardCopy;
+  spell: BentoCardCopy;
+  memory: BentoCardCopy;
+  pages: BentoCardCopy;
+  pdfViewer: BentoCardCopy;
+  diagram: BentoCardCopy;
+  engines: BentoCardCopy;
+};
+
+const EN_FALLBACK: BentoCards = {
+  import: {
+    name: "Import what you have",
+    desc: "Reconstruct many text-based PDFs into editable LaTeX locally, convert DOCX through a managed Pandoc, or let a vision model transcribe a photo of a page. Optional AI refinement after.",
+  },
+  export: {
+    name: "Export where you're going",
+    desc: "PDF always; DOCX, HTML, Markdown, and more through Pandoc-backed contextual export menus. Or grab the whole project as a source ZIP.",
+  },
+  yours: {
+    name: "Make it yours",
+    desc: "Vim mode, light and dark themes, accent colors, seven layout presets, and editable keyboard shortcuts. An editor should fit your hands.",
+  },
+  visual: {
+    name: "Write in Code or Visual",
+    desc: "Flip any LaTeX or Markdown document into a visual editor: headings, lists, bold, links, edited directly, with coordinated undo across both modes. Unsupported commands stay visible as raw blocks instead of being silently dropped, so the round-trip back to source is non-destructive.",
+  },
+  synctex: {
+    name: "SyncTeX, word-level",
+    desc: "⌘-click a word in the PDF and land on that exact word in the source. Jump back with ⌘⇧J.",
+  },
+  codeIntel: {
+    name: "Code intelligence",
+    desc: "Go to definition, find references, and rename a label, citation key, or macro across every file.",
+  },
+  slash: {
+    name: "Slash commands",
+    desc: "Type / for a Notion-style insert menu: /figure, /table, /section, /cite, /math.",
+  },
+  citations: {
+    name: "Citations by DOI",
+    desc: "Paste a DOI, arXiv id, or URL. Oleafly fetches the BibTeX, dedupes it, and inserts the \\cite.",
+  },
+  library: {
+    name: "Bring your whole library",
+    desc: "Batch-import BibTeX, RIS, EndNote XML, and Zotero RDF. Everything is deduped against your project before a single entry lands in the .bib.",
+  },
+  palette: {
+    name: "Command palette",
+    desc: "⌘K fuzzy-searches every action in the app: projects, files, settings, the lot.",
+  },
+  byoai: {
+    name: "Bring your own AI",
+    desc: "Nine providers or local Ollama, all behind the same per-change approval. MCP clients like Claude Code and Cursor connect the same way. Or turn AI off. The editor doesn't need it.",
+  },
+  research: {
+    name: "Research on tap",
+    desc: "The agent searches alphaXiv and OpenAlex, pulls paper content, and verifies citations against Crossref before they enter your bibliography.",
+  },
+  spell: {
+    name: "Offline spell & grammar",
+    desc: "Hunspell and Harper run as WASM on your machine, masking commands and math so only prose is checked.",
+  },
+  memory: {
+    name: "An agent that remembers",
+    desc: "Durable per-project memory notes and a visible plan checklist survive across chats, so the AI picks up where it left off.",
+  },
+  pages: {
+    name: "From one page to six hundred",
+    desc: "The editor and virtualized PDF viewer stay smooth whether it's a one-page resume or a book-length thesis.",
+  },
+  pdfViewer: {
+    name: "A PDF viewer for real reading",
+    desc: "Detach the preview to a second monitor, read two-page spreads, invert colors for late nights, or go fullscreen to present.",
+  },
+  diagram: {
+    name: "Diagram Composer",
+    desc: "Describe a diagram and the AI writes the TikZ, compiles the figure in isolation, and fixes overlaps by looking at the render. Or draw it yourself: shapes, edges, and an inspector on a real canvas that round-trips with the generated TikZ. Export transparent high-res PNGs, fully offline.",
+  },
+  engines: {
+    name: "Three engines, one workspace",
+    desc: "LaTeX, Typst, and Markdown projects side by side in the same library, with the same Git history, preview, search, and AI workflow.",
+  },
+};
+
+export function BentoSection({ cards }: { cards?: BentoCards }) {
+  const c = { ...EN_FALLBACK, ...cards };
   return (
     <div className="grid auto-rows-[minmax(200px,auto)] grid-cols-1 gap-3 md:grid-cols-3">
-      <Card
-        visual={<ImportVisual />}
-        name="Import what you have"
-        desc="Reconstruct many text-based PDFs into editable LaTeX locally, convert DOCX through a managed Pandoc, or let a vision model transcribe a photo of a page. Optional AI refinement after."
-      />
-      <Card
-        visual={<ExportVisual />}
-        name="Export where you're going"
-        desc="PDF always; DOCX, HTML, Markdown, and more through Pandoc-backed contextual export menus. Or grab the whole project as a source ZIP."
-      />
-      <Card
-        visual={<YoursVisual />}
-        name="Make it yours"
-        desc="Vim mode, light and dark themes, accent colors, seven layout presets, and editable keyboard shortcuts. An editor should fit your hands."
-      />
+      <Card visual={<ImportVisual />} name={c.import.name} desc={c.import.desc} />
+      <Card visual={<ExportVisual />} name={c.export.name} desc={c.export.desc} />
+      <Card visual={<YoursVisual />} name={c.yours.name} desc={c.yours.desc} />
       <Card
         className="min-h-[420px] md:col-span-2 md:row-span-2"
         visual={<VisualEditorVisual />}
-        name="Write in Code or Visual"
-        desc="Flip any LaTeX or Markdown document into a visual editor: headings, lists, bold, links, edited directly, with coordinated undo across both modes. Unsupported commands stay visible as raw blocks instead of being silently dropped, so the round-trip back to source is non-destructive."
+        name={c.visual.name}
+        desc={c.visual.desc}
       />
-      <Card
-        visual={<SyncTexVisual />}
-        name="SyncTeX, word-level"
-        desc="⌘-click a word in the PDF and land on that exact word in the source. Jump back with ⌘⇧J."
-      />
-      <Card
-        visual={<CodeIntelVisual />}
-        name="Code intelligence"
-        desc="Go to definition, find references, and rename a label, citation key, or macro across every file."
-      />
-      <Card
-        visual={<SlashVisual />}
-        name="Slash commands"
-        desc="Type / for a Notion-style insert menu: /figure, /table, /section, /cite, /math."
-      />
-      <Card
-        visual={<CitationsVisual />}
-        name="Citations by DOI"
-        desc="Paste a DOI, arXiv id, or URL. Oleafly fetches the BibTeX, dedupes it, and inserts the \cite."
-      />
-      <Card
-        visual={<LibraryImportVisual />}
-        name="Bring your whole library"
-        desc="Batch-import BibTeX, RIS, EndNote XML, and Zotero RDF. Everything is deduped against your project before a single entry lands in the .bib."
-      />
-      <Card
-        visual={<PaletteVisual />}
-        name="Command palette"
-        desc="⌘K fuzzy-searches every action in the app: projects, files, settings, the lot."
-      />
-      <Card
-        visual={<ProviderStack />}
-        name="Bring your own AI"
-        desc="Nine providers or local Ollama, all behind the same per-change approval. MCP clients like Claude Code and Cursor connect the same way. Or turn AI off. The editor doesn't need it."
-      />
-      <Card
-        visual={<ResearchVisual />}
-        name="Research on tap"
-        desc="The agent searches alphaXiv and OpenAlex, pulls paper content, and verifies citations against Crossref before they enter your bibliography."
-      />
-      <Card
-        visual={<SpellVisual />}
-        name="Offline spell & grammar"
-        desc="Hunspell and Harper run as WASM on your machine, masking commands and math so only prose is checked."
-      />
-      <Card
-        visual={<MemoryVisual />}
-        name="An agent that remembers"
-        desc="Durable per-project memory notes and a visible plan checklist survive across chats, so the AI picks up where it left off."
-      />
-      <Card
-        visual={<PagesVisual />}
-        name="From one page to six hundred"
-        desc="The editor and virtualized PDF viewer stay smooth whether it's a one-page resume or a book-length thesis."
-      />
-      <Card
-        visual={<DetachVisual />}
-        name="A PDF viewer for real reading"
-        desc="Detach the preview to a second monitor, read two-page spreads, invert colors for late nights, or go fullscreen to present."
-      />
+      <Card visual={<SyncTexVisual />} name={c.synctex.name} desc={c.synctex.desc} />
+      <Card visual={<CodeIntelVisual />} name={c.codeIntel.name} desc={c.codeIntel.desc} />
+      <Card visual={<SlashVisual />} name={c.slash.name} desc={c.slash.desc} />
+      <Card visual={<CitationsVisual />} name={c.citations.name} desc={c.citations.desc} />
+      <Card visual={<LibraryImportVisual />} name={c.library.name} desc={c.library.desc} />
+      <Card visual={<PaletteVisual />} name={c.palette.name} desc={c.palette.desc} />
+      <Card visual={<ProviderStack />} name={c.byoai.name} desc={c.byoai.desc} />
+      <Card visual={<ResearchVisual />} name={c.research.name} desc={c.research.desc} />
+      <Card visual={<SpellVisual />} name={c.spell.name} desc={c.spell.desc} />
+      <Card visual={<MemoryVisual />} name={c.memory.name} desc={c.memory.desc} />
+      <Card visual={<PagesVisual />} name={c.pages.name} desc={c.pages.desc} />
+      <Card visual={<DetachVisual />} name={c.pdfViewer.name} desc={c.pdfViewer.desc} />
       <Card
         className="min-h-[420px] md:col-span-2 md:row-span-2"
         visual={<DiagramVisual />}
-        name="Diagram Composer"
-        desc="Describe a diagram and the AI writes the TikZ, compiles the figure in isolation, and fixes overlaps by looking at the render. Or draw it yourself: shapes, edges, and an inspector on a real canvas that round-trips with the generated TikZ. Export transparent high-res PNGs, fully offline."
+        name={c.diagram.name}
+        desc={c.diagram.desc}
       />
-      <Card
-        visual={<EnginesVisual />}
-        name="Three engines, one workspace"
-        desc="LaTeX, Typst, and Markdown projects side by side in the same library, with the same Git history, preview, search, and AI workflow."
-      />
+      <Card visual={<EnginesVisual />} name={c.engines.name} desc={c.engines.desc} />
     </div>
   );
 }

@@ -7,6 +7,12 @@
     "dev": "astro dev",
     "build": "node scripts/fetch-remote-data.mjs && node scripts/build-llms-full.mjs && astro build",
     "preview": "astro preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "i18n:coverage": "node scripts/i18n-coverage.mjs",
+    "i18n:coverage:md": "node scripts/i18n-coverage.mjs --markdown --write-readme",
+    "i18n:translate:ui": "node scripts/translate-ui-gtx.mjs",
+    "i18n:translate:content": "node scripts/translate-site-content.mjs",
     "deploy": "astro build && wrangler pages deploy dist --project-name=oleafly"
   },
   "dependencies": {
@@ -46,7 +52,9 @@
     "@types/canvas-confetti": "^1.9.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "google-translate-api-x": "^10.7.3",
     "shiki": "^4.3.1",
+    "vitest": "^3.2.7",
     "wrangler": "^4.112.0"
   }
 }

@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import BlogPostPage from "../../../views/BlogPostPage.astro";
+import { PREFIXED_LOCALES } from "../../../i18n/locales";
+import { entriesForLocale, entrySlug, entryLocale } from "../../../i18n/content";
+import { requirePrefixedLocale } from "../../../i18n/routing";
+
+export async function getStaticPaths() {
+  const all = await getCollection("blog");
+  const paths = [];
+  for (const lang of PREFIXED_LOCALES) {
+    const { entries, fallbackIds } = entriesForLocale(all, lang);
+    for (const post of entries) {
+      paths.push({
+        params: { lang, slug: entrySlug(post.id) },
+        props: {
+          post,
+          isFallback: fallbackIds.has(post.id) || entryLocale(post.id) === "en",
+        },
+      });
+    }
+  }
+  return paths;
+}
+
+const locale = requirePrefixedLocale(Astro.params.lang);
+const { post, isFallback } = Astro.props;
+---
+<BlogPostPage post={post} locale={locale} isFallback={isFallback} />

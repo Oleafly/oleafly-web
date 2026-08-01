@@ -1,0 +1,560 @@
+---
+import { Image } from "astro:assets";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import data from "../data/template-packs.json";
+import "../styles/tools.css";
+import { DEFAULT_LOCALE, type Locale } from "../i18n/locales";
+import { localePath } from "../i18n/paths";
+import { t } from "../i18n/t";
+import { localizePack, localizeTemplate } from "../i18n/template-catalog";
+
+interface Props {
+  locale?: Locale;
+}
+const locale: Locale = Astro.props.locale ?? DEFAULT_LOCALE;
+const lp = (path: string) => localePath(locale, path);
+
+const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
+const total = data.packs.reduce((n, p) => n + p.templates.length, 0);
+
+const previews = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/template-previews/*.png",
+  { eager: true },
+);
+const previewFor = (id: string) => previews[`../assets/template-previews/${id}.png`]?.default;
+
+const activePack = Astro.url.searchParams.get("pack")?.trim() || "";
+const activeEngine = Astro.url.searchParams.get("engine")?.trim() || "";
+
+const packs = data.packs.map((pack) => {
+  const locPack = localizePack(locale, pack.id, {
+    label: pack.label,
+    description: pack.description,
+  });
+  return {
+    ...pack,
+    label: locPack.label,
+    description: locPack.description,
+    templates: pack.templates.map((tpl) => {
+      const loc = localizeTemplate(locale, tpl.id, {
+        name: tpl.name,
+        description: tpl.description,
+        category: tpl.category,
+      });
+      return {
+        ...tpl,
+        name: loc.name,
+        description: loc.description,
+        category: loc.category,
+        packId: pack.id,
+        packLabel: locPack.label,
+        engineLabel: tpl.engine === "typst" ? "Typst" : "LaTeX",
+        search:
+          `${loc.name} ${loc.description} ${loc.category} ${locPack.label} ${tpl.engine === "typst" ? "typst" : "latex xetex"}`.toLowerCase(),
+      };
+    }),
+  };
+});
+
+const packOptions = packs.map((p) => ({ id: p.id, label: p.label }));
+const searchPh =
+  total === 1
+    ? t(locale, "templates.searchOne")
+    : t(locale, "templates.search", { n: total });
+const countLabel =
+  total === 1
+    ? t(locale, "templates.countOne")
+    : t(locale, "templates.count", { n: total });
+
+const baseTpl = lp("/templates/");
+const hrefFor = (opts: { pack?: string; engine?: string }) => {
+  const qs = new URLSearchParams();
+  if (opts.pack) qs.set("pack", opts.pack);
+  if (opts.engine) qs.set("engine", opts.engine);
+  const q = qs.toString();
+  return q ? `${baseTpl}?${q}` : baseTpl;
+};
+---
+
+<SiteLayout
+  title={t(locale, "templates.title")}
+  description={t(locale, "templates.description")}
+  path="/templates/"
+  locale={locale}
+>
+  <section class="page-hero">
+    <div class="container tpl-page">
+      <div class="tpl-header">
+        <div class="tpl-header-copy">
+          <h1>{t(locale, "templates.heading")}</h1>
+          <p class="sub">
+            {t(locale, "templates.sub")}{" "}
+            <a
+              href="https://github.com/Oleafly/template-packs"
+              target="_blank"
+              rel="noopener noreferrer">template-packs</a
+            >
+            .{" "}
+            <a href={lp("/")}>Oleafly</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="tpl-toolbar">
+        <div class="tpl-toolbar-main">
+          <label class="tpl-search" for="tpl-search-input">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-3.5-3.5"></path>
+            </svg>
+            <input
+              id="tpl-search-input"
+              type="search"
+              placeholder={searchPh}
+              autocomplete="off"
+              spellcheck="false"
+              aria-label={searchPh}
+            />
+          </label>
+
+          <div
+            class="tpl-filter-wrap"
+            id="tpl-pack-filter"
+            data-active-pack={activePack || undefined}
+          >
+            <button
+              type="button"
+              class:list={["tpl-filter-btn", { "is-active": !!activePack }]}
+              id="tpl-pack-filter-btn"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="tpl-pack-menu"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <path d="M4 6h16M7 12h10M10 18h4"></path>
+              </svg>
+              <span>
+                {
+                  activePack
+                    ? packOptions.find((p) => p.id === activePack)?.label ||
+                      t(locale, "templates.filterPack")
+                    : t(locale, "templates.filterPack")
+                }
+              </span>
+              <svg
+                class="tpl-filter-chevron"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                aria-hidden="true"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </button>
+            <div class="tpl-filter-menu" id="tpl-pack-menu" role="listbox" hidden>
+              <a
+                href={hrefFor({ engine: activeEngine || undefined })}
+                class:list={["tpl-filter-option", { "is-active": !activePack }]}
+                role="option"
+                aria-selected={!activePack}
+                data-pack=""
+              >
+                {t(locale, "templates.allPacks")}
+              </a>
+              {
+                packOptions.map((p) => (
+                  <a
+                    href={hrefFor({
+                      pack: p.id,
+                      engine: activeEngine || undefined,
+                    })}
+                    class:list={[
+                      "tpl-filter-option",
+                      { "is-active": activePack === p.id },
+                    ]}
+                    role="option"
+                    aria-selected={activePack === p.id}
+                    data-pack={p.id}
+                  >
+                    {p.label}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+
+          <div
+            class="tpl-filter-wrap"
+            id="tpl-engine-filter"
+            data-active-engine={activeEngine || undefined}
+          >
+            <button
+              type="button"
+              class:list={["tpl-filter-btn", { "is-active": !!activeEngine }]}
+              id="tpl-engine-filter-btn"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="tpl-engine-menu"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <path d="M4 6h16M7 12h10M10 18h4"></path>
+              </svg>
+              <span>
+                {
+                  activeEngine === "typst"
+                    ? "Typst"
+                    : activeEngine === "latex"
+                      ? "LaTeX"
+                      : t(locale, "templates.filterEngine")
+                }
+              </span>
+              <svg
+                class="tpl-filter-chevron"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                aria-hidden="true"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </button>
+            <div class="tpl-filter-menu" id="tpl-engine-menu" role="listbox" hidden>
+              <a
+                href={hrefFor({ pack: activePack || undefined })}
+                class:list={["tpl-filter-option", { "is-active": !activeEngine }]}
+                role="option"
+                aria-selected={!activeEngine}
+                data-engine=""
+              >
+                {t(locale, "templates.allEngines")}
+              </a>
+              <a
+                href={hrefFor({
+                  pack: activePack || undefined,
+                  engine: "latex",
+                })}
+                class:list={[
+                  "tpl-filter-option",
+                  { "is-active": activeEngine === "latex" },
+                ]}
+                role="option"
+                aria-selected={activeEngine === "latex"}
+                data-engine="latex"
+              >
+                LaTeX
+              </a>
+              <a
+                href={hrefFor({
+                  pack: activePack || undefined,
+                  engine: "typst",
+                })}
+                class:list={[
+                  "tpl-filter-option",
+                  { "is-active": activeEngine === "typst" },
+                ]}
+                role="option"
+                aria-selected={activeEngine === "typst"}
+                data-engine="typst"
+              >
+                Typst
+              </a>
+            </div>
+          </div>
+
+          <span
+            class="tpl-count-badge"
+            id="tpl-count-badge"
+            aria-live="polite"
+            data-total={total}
+            data-label-one={t(locale, "templates.countOne")}
+            data-label-many={t(locale, "templates.count", { n: "{n}" })}
+            hidden={!activePack && !activeEngine}
+          >
+            {countLabel}
+          </span>
+        </div>
+      </div>
+
+      <div id="tpl-feed">
+        {
+          packs.map((pack) => {
+            const packHidden = activePack ? pack.id !== activePack : false;
+            return (
+              <div class="tpl-pack" data-pack-id={pack.id} hidden={packHidden}>
+                <div class="pack-head">
+                  <h3>{pack.label}</h3>
+                </div>
+                <div class="card-grid">
+                  {pack.templates.map((tpl) => {
+                    const engineKey = tpl.engine === "typst" ? "typst" : "latex";
+                    const hiddenByEngine = activeEngine
+                      ? engineKey !== activeEngine
+                      : false;
+                    return (
+                      <a
+                        class="ol-card tpl-card"
+                        href={lp(`/templates/${tpl.id}/`)}
+                        style="text-decoration:none"
+                        data-search={tpl.search}
+                        data-pack={pack.id}
+                        data-engine={engineKey}
+                        hidden={hiddenByEngine}
+                      >
+                        {previewFor(tpl.id) && (
+                          <span class="tpl-thumb">
+                            <Image
+                              src={previewFor(tpl.id)}
+                              alt={t(locale, "templates.previewAlt", {
+                                name: tpl.name,
+                              })}
+                              widths={[360, 720]}
+                              sizes="(max-width: 900px) 94vw, 330px"
+                              loading="lazy"
+                            />
+                          </span>
+                        )}
+                        <h3>{tpl.name}</h3>
+                        <p>{tpl.description}</p>
+                        <p style="margin-top:10px">
+                          <span class="badge blue">{tpl.engineLabel}</span>
+                        </p>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+
+      <div class="tpl-empty" id="tpl-empty" hidden>
+        <p class="tpl-empty-text">{t(locale, "templates.empty")}</p>
+      </div>
+
+      <p style="margin-top:48px">
+        <DownloadButton
+          href={RELEASES}
+          size="lg"
+          label={t(locale, "templates.getInApp")}
+          labelTemplate={t(locale, "common.downloadFor")}
+        />
+      </p>
+    </div>
+  </section>
+
+  <style is:global>
+    .tpl-page {
+      max-width: 1080px;
+    }
+    .tpl-header {
+      margin-bottom: 20px;
+    }
+    .tpl-header-copy h1 {
+      margin-bottom: 10px;
+    }
+    .tpl-header-copy .sub {
+      margin-bottom: 0;
+      max-width: 58ch;
+    }
+
+    .tpl-toolbar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .tpl-toolbar-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px 12px;
+      width: 100%;
+      max-width: 720px;
+    }
+    .tpl-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 240px;
+      min-width: 200px;
+      max-width: 360px;
+      height: 40px;
+      padding: 0 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line-strong, rgba(255, 255, 255, 0.12));
+      background: var(--surface-2, #191a1c);
+      color: var(--muted, #8a8f98);
+    }
+    .tpl-search input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      background: transparent;
+      color: var(--text, #f7f8f8);
+      font: inherit;
+      font-size: 14px;
+      outline: none;
+    }
+    .tpl-filter-wrap {
+      position: relative;
+    }
+    .tpl-filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      height: 40px;
+      padding: 0 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--line-strong, rgba(255, 255, 255, 0.12));
+      background: var(--surface-2, #191a1c);
+      color: var(--muted, #8a8f98);
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .tpl-filter-btn.is-active {
+      color: var(--brand-text, #60a5fa);
+      border-color: color-mix(in srgb, var(--brand-text, #60a5fa) 40%, transparent);
+    }
+    .tpl-filter-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      z-index: 40;
+      min-width: 220px;
+      max-height: 320px;
+      overflow: auto;
+      padding: 0.35rem;
+      border-radius: 10px;
+      border: 1px solid var(--line-strong, rgba(255, 255, 255, 0.14));
+      background: var(--surface-2, #191a1c);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+    .tpl-filter-option {
+      display: block;
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      color: var(--text, #f7f8f8);
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .tpl-filter-option:hover,
+    .tpl-filter-option.is-active {
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .tpl-count-badge {
+      font-size: 12px;
+      color: var(--muted, #8a8f98);
+    }
+    .tpl-pack {
+      margin-bottom: 2rem;
+    }
+    .pack-head h3 {
+      margin: 0 0 0.85rem;
+      font-size: 1.05rem;
+    }
+    .tpl-thumb {
+      display: block;
+      margin: -4px -4px 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .tpl-thumb img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .tpl-empty {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted, #8a8f98);
+    }
+  </style>
+
+  <script>
+    // Client search/filter (labels already SSR-localized)
+    const input = document.getElementById("tpl-search-input") as HTMLInputElement | null;
+    const empty = document.getElementById("tpl-empty");
+    const badge = document.getElementById("tpl-count-badge");
+    const cards = () =>
+      Array.from(document.querySelectorAll<HTMLElement>(".tpl-card[data-search]"));
+
+    function applySearch() {
+      const q = (input?.value || "").trim().toLowerCase();
+      let visible = 0;
+      for (const card of cards()) {
+        if (card.hidden) continue;
+        const hit = !q || (card.dataset.search || "").includes(q);
+        card.style.display = hit ? "" : "none";
+        if (hit) visible++;
+      }
+      if (empty) empty.hidden = visible > 0;
+      if (badge && (q || badge.dataset.total)) {
+        const one = badge.dataset.labelOne || "1 template";
+        const many = (badge.dataset.labelMany || "{n} templates").replace(
+          "{n}",
+          String(visible),
+        );
+        badge.textContent = visible === 1 ? one : many;
+        badge.hidden = false;
+      }
+    }
+    input?.addEventListener("input", applySearch);
+
+    // Dropdown toggles
+    function wireFilter(btnId: string, menuId: string) {
+      const btn = document.getElementById(btnId);
+      const menu = document.getElementById(menuId);
+      if (!btn || !menu) return;
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const open = menu.hidden;
+        menu.hidden = !open;
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      document.addEventListener("click", () => {
+        menu.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+      });
+    }
+    wireFilter("tpl-pack-filter-btn", "tpl-pack-menu");
+    wireFilter("tpl-engine-filter-btn", "tpl-engine-menu");
+  </script>
+</SiteLayout>

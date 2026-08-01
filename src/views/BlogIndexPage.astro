@@ -1,0 +1,797 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { blogReadingTime } from "../lib/blog-reading-time";
+import { DEFAULT_LOCALE, LOCALE_META, type Locale } from "../i18n/locales";
+import { entriesForLocale, entrySlug } from "../i18n/content";
+import { localePath } from "../i18n/paths";
+import { t } from "../i18n/t";
+
+interface Props {
+  locale?: Locale;
+}
+const locale: Locale = Astro.props.locale ?? DEFAULT_LOCALE;
+const all = await getCollection("blog");
+const { entries: posts } = entriesForLocale(all, locale);
+posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const postsWithMeta = posts.map((post) => {
+  const body = typeof post.body === "string" ? post.body : "";
+  const rt = blogReadingTime(body);
+  return { post, readingTime: rt.text, minutes: rt.minutes, slug: entrySlug(post.id) };
+});
+
+const allTags = Array.from(
+  new Set(posts.flatMap((p) => p.data.tags ?? [])),
+).sort((a, b) => a.localeCompare(b));
+
+const dateLoc = LOCALE_META[locale].dateLocale;
+const fmt = (d: Date) =>
+  d.toLocaleDateString(dateLoc, { year: "numeric", month: "long", day: "numeric" });
+const fmtShort = (d: Date) =>
+  d.toLocaleDateString(dateLoc, { year: "numeric", month: "short", day: "numeric" });
+
+const activeTag = Astro.url.searchParams.get("tag")?.trim() || "";
+const postCount = postsWithMeta.length;
+const postCountLabel =
+  postCount === 1 ? t(locale, "common.post") : t(locale, "common.posts", { n: postCount });
+const lp = (p: string) => localePath(locale, p);
+---
+
+<SiteLayout
+  title={t(locale, "blog.title")}
+  description={t(locale, "blog.description")}
+  path="/blog/"
+  locale={locale}
+>
+  <section class="page-hero">
+    <div class="container blog-page">
+      <div class="blog-header">
+        <div class="blog-header-copy">
+          <h1>{t(locale, "blog.heading")}</h1>
+          <p class="sub">
+            {t(locale, "blog.sub")}
+          </p>
+        </div>
+        <div class="blog-header-actions">
+          <a
+            class="blog-rss-link"
+            href="/rss.xml"
+            target="_blank"
+            rel="noopener noreferrer"
+            title={t(locale, "common.rss")}
+            aria-label={t(locale, "common.rss")}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 11a9 9 0 0 1 9 9"></path>
+              <path d="M4 4a16 16 0 0 1 16 16"></path>
+              <circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <span>{t(locale, "common.rss")}</span>
+          </a>
+          <div class="blog-layout-toggle" role="group" aria-label={t(locale, "blog.layout")}>
+            <button
+              type="button"
+              class="blog-layout-btn is-active"
+              data-layout="list"
+              aria-pressed="true"
+              title={t(locale, "blog.listLayout")}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"></path>
+              </svg>
+              <span>{t(locale, "common.list")}</span>
+            </button>
+            <button
+              type="button"
+              class="blog-layout-btn"
+              data-layout="grid"
+              aria-pressed="false"
+              title={t(locale, "blog.gridLayout")}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+              </svg>
+              <span>{t(locale, "common.grid")}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-toolbar">
+        <div class="blog-toolbar-main">
+          <label class="blog-search" for="blog-search-input">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-3.5-3.5"></path>
+            </svg>
+            <input
+              id="blog-search-input"
+              type="search"
+              placeholder={`Search ${postCountLabel}…`}
+              autocomplete="off"
+              spellcheck="false"
+              aria-label={`Search ${postCountLabel}`}
+            />
+          </label>
+
+          {
+            allTags.length ? (
+              <div
+                class="blog-tag-filter-wrap"
+                id="blog-tag-filter"
+                data-active-tag={activeTag || undefined}
+              >
+                <button
+                  type="button"
+                  class:list={["blog-tag-filter-btn", { "is-active": !!activeTag }]}
+                  id="blog-tag-filter-btn"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-controls="blog-tag-menu"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M4 6h16M7 12h10M10 18h4"></path>
+                  </svg>
+                  <span>{activeTag ? activeTag : "Filter by tags"}</span>
+                  <svg class="blog-tag-filter-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </button>
+                <div class="blog-tag-menu" id="blog-tag-menu" role="listbox" hidden>
+                  <a
+                    href={lp("/blog/")}
+                    class:list={["blog-tag-option", { "is-active": !activeTag }]}
+                    role="option"
+                    aria-selected={!activeTag}
+                    data-tag=""
+                  >
+                    {t(locale, "common.tags")}
+                  </a>
+                  {allTags.map((tag) => (
+                    <a
+                      href={`${lp("/blog/")}?tag=${encodeURIComponent(tag)}`}
+                      class:list={["blog-tag-option", { "is-active": activeTag === tag }]}
+                      role="option"
+                      aria-selected={activeTag === tag}
+                      data-tag={tag}
+                    >
+                      {tag}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : null
+          }
+
+          <span
+            class="blog-count-badge"
+            id="blog-count-badge"
+            aria-live="polite"
+            data-total={postCount}
+            hidden={!activeTag}
+          >
+            {postCountLabel}
+          </span>
+        </div>
+      </div>
+
+      <div class="blog-feed blog-feed--list" id="blog-feed">
+        {
+          postsWithMeta.map(({ post, readingTime, slug }) => {
+            const tags = post.data.tags ?? [];
+            const hay = `${post.data.title} ${post.data.description} ${tags.join(" ")}`.toLowerCase();
+            const tagAttr = tags.join(",");
+            const hiddenByTag = activeTag ? !tags.includes(activeTag) : false;
+            return (
+              <a
+                class="blog-card"
+                href={lp(`/blog/${slug}/`)}
+                data-search={hay}
+                data-tags={tagAttr}
+                hidden={hiddenByTag}
+              >
+                <p class="blog-card-date">
+                  <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+                  <span class="blog-card-date-short" aria-hidden="true">
+                    {fmtShort(post.data.date)}
+                  </span>
+                  <span class="blog-card-rt">{readingTime}</span>
+                </p>
+                <h3 class="blog-card-title">{post.data.title}</h3>
+                <p class="blog-card-desc">{post.data.description}</p>
+                {tags.length ? (
+                  <div class="blog-card-tags">
+                    {tags.slice(0, 4).map((tag) => (
+                      <span class="blog-tag">{tag}</span>
+                    ))}
+                  </div>
+                ) : null}
+              </a>
+            );
+          })
+        }
+      </div>
+      <div class="blog-empty" id="blog-empty" hidden>
+        <svg
+          class="blog-empty-icon"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <path d="M14 2v6h6"></path>
+          <path d="M9.5 12.5l5 5M14.5 12.5l-5 5"></path>
+        </svg>
+        <p class="blog-empty-text">No posts match that search or tag</p>
+      </div>
+    </div>
+  </section>
+
+  <style is:global>
+    .blog-page {
+      max-width: 1080px;
+    }
+    .blog-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px 24px;
+      margin-bottom: 20px;
+    }
+    .blog-header-copy {
+      flex: 1 1 280px;
+      min-width: 0;
+    }
+    .blog-header-copy h1 {
+      margin-bottom: 10px;
+    }
+    .blog-header-copy .sub {
+      margin-bottom: 0;
+      max-width: 52ch;
+    }
+    .blog-header-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .blog-rss-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0b0c0e;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition:
+        color 120ms ease,
+        border-color 120ms ease,
+        background 120ms ease;
+    }
+    .blog-rss-link:hover {
+      color: var(--text);
+      border-color: var(--line-strong);
+    }
+    .blog-rss-link svg {
+      display: block;
+      opacity: 0.9;
+    }
+    .blog-layout-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0b0c0e;
+      flex-shrink: 0;
+    }
+    .blog-layout-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition:
+        color 120ms ease,
+        background 120ms ease;
+    }
+    .blog-layout-btn:hover {
+      color: var(--text);
+    }
+    .blog-layout-btn.is-active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .blog-layout-btn svg {
+      display: block;
+      opacity: 0.85;
+    }
+
+    .blog-toolbar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .blog-toolbar-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px 12px;
+      width: 100%;
+      max-width: 640px;
+    }
+    .blog-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 240px;
+      min-width: 200px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0b0c0e;
+      color: var(--muted);
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+    .blog-search:focus-within {
+      border-color: rgba(37, 99, 235, 0.55);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      color: var(--brand-text);
+    }
+    .blog-search input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+    }
+    .blog-search input::placeholder {
+      color: var(--muted);
+    }
+    .blog-tag-filter-wrap {
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .blog-tag-filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #0b0c0e;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      max-width: min(220px, 46vw);
+      transition:
+        color 120ms ease,
+        border-color 120ms ease,
+        background 120ms ease,
+        box-shadow 120ms ease;
+    }
+    .blog-tag-filter-btn > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .blog-tag-filter-btn:hover {
+      color: var(--text);
+      border-color: var(--line-strong);
+    }
+    .blog-tag-filter-btn.is-active,
+    .blog-tag-filter-btn[aria-expanded="true"] {
+      color: var(--brand-text);
+      border-color: rgba(37, 99, 235, 0.5);
+      background: rgba(37, 99, 235, 0.1);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    .blog-tag-filter-btn[aria-expanded="true"] .blog-tag-filter-chevron {
+      transform: rotate(180deg);
+    }
+    .blog-tag-filter-chevron {
+      flex-shrink: 0;
+      opacity: 0.75;
+      transition: transform 140ms ease;
+    }
+    .blog-tag-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      z-index: 40;
+      min-width: 200px;
+      max-width: min(280px, 80vw);
+      max-height: min(320px, 50vh);
+      overflow: auto;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #0d0e11;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    }
+    .blog-tag-menu[hidden] {
+      display: none !important;
+    }
+    .blog-tag-option {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.3;
+      transition: color 100ms ease, background 100ms ease;
+    }
+    .blog-tag-option:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .blog-tag-option.is-active {
+      color: var(--brand-text);
+      background: rgba(37, 99, 235, 0.12);
+    }
+
+    .blog-count-badge {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 4px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .blog-count-badge[hidden] {
+      display: none !important;
+    }
+
+    .blog-feed {
+      width: 100%;
+    }
+    .blog-feed--list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 880px;
+      margin-inline: auto;
+      width: 100%;
+    }
+    .blog-feed--list .blog-card {
+      width: 100%;
+    }
+    .blog-feed--grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      max-width: none;
+    }
+
+    @property --blog-beam-angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    .blog-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      background: #0b0c0e;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 22px;
+      transition:
+        border-color 150ms ease,
+        transform 150ms ease,
+        background 150ms ease;
+      min-height: 0;
+      height: 100%;
+      isolation: isolate;
+      overflow: hidden;
+    }
+    .blog-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: conic-gradient(
+        from var(--blog-beam-angle),
+        transparent 0%,
+        transparent 55%,
+        #2563eb 70%,
+        #34b44a 82%,
+        transparent 92%
+      );
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 180ms ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .blog-card:hover {
+      border-color: transparent;
+      background: #0d0e11;
+      transform: translateY(-1px);
+    }
+    .blog-card:hover::before {
+      opacity: 1;
+      animation: blog-border-beam 2.8s linear infinite;
+    }
+    @keyframes blog-border-beam {
+      to {
+        --blog-beam-angle: 360deg;
+      }
+    }
+    .blog-card > * {
+      position: relative;
+      z-index: 2;
+    }
+    .blog-card-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--brand-text);
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+    }
+    .blog-card-date-short {
+      display: none;
+    }
+    .blog-card-rt {
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .blog-card-rt::before {
+      content: "·";
+      margin-right: 12px;
+      color: var(--line-strong);
+    }
+    .blog-card-title {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+      margin: 0;
+      color: var(--text);
+    }
+    .blog-card-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 8px 0 0;
+    }
+    .blog-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 16px;
+    }
+    .blog-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 7px;
+      line-height: 1.4;
+    }
+
+    .blog-feed--grid .blog-card {
+      padding: 18px;
+    }
+    .blog-feed--grid .blog-card-title {
+      font-size: 15.5px;
+    }
+    .blog-feed--grid .blog-card-desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 13px;
+    }
+    .blog-feed--grid .blog-card-date time {
+      display: none;
+    }
+    .blog-feed--grid .blog-card-date-short {
+      display: inline;
+    }
+
+    .blog-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      color: var(--muted);
+      margin-top: 40px;
+      padding: 24px 16px;
+    }
+    .blog-empty[hidden] {
+      display: none !important;
+    }
+    .blog-empty-icon {
+      display: block;
+      opacity: 0.55;
+      color: var(--muted);
+    }
+    .blog-empty-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 900px) {
+      .blog-feed--grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 560px) {
+      .blog-feed--grid {
+        grid-template-columns: 1fr;
+      }
+      .blog-header {
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+  <script>
+    const STORAGE_KEY = "oleafly-blog-layout";
+    const feed = document.getElementById("blog-feed");
+    const buttons = Array.from(document.querySelectorAll(".blog-layout-btn"));
+    const searchInput = document.getElementById("blog-search-input");
+    const emptyEl = document.getElementById("blog-empty");
+    const countBadge = document.getElementById("blog-count-badge");
+    const tagFilterBtn = document.getElementById("blog-tag-filter-btn");
+    const tagMenu = document.getElementById("blog-tag-menu");
+    const tagWrap = document.getElementById("blog-tag-filter");
+    const activeTag = tagWrap?.getAttribute("data-active-tag") || "";
+    const totalPosts = Number(countBadge?.getAttribute("data-total") || 0);
+
+    function applyLayout(layout) {
+      if (!feed) return;
+      feed.classList.toggle("blog-feed--list", layout === "list");
+      feed.classList.toggle("blog-feed--grid", layout === "grid");
+      for (const btn of buttons) {
+        const active = btn.dataset.layout === layout;
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-pressed", active ? "true" : "false");
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, layout);
+      } catch (_) {
+        /* ignore */
+      }
+    }
+
+    function filterPosts() {
+      if (!feed) return;
+      const q = (searchInput?.value || "").trim().toLowerCase();
+      const cards = Array.from(feed.querySelectorAll(".blog-card"));
+      let visible = 0;
+      for (const card of cards) {
+        const hay = card.getAttribute("data-search") || "";
+        const tags = (card.getAttribute("data-tags") || "").split(",").filter(Boolean);
+        const matchTag = !activeTag || tags.includes(activeTag);
+        const matchQ = !q || hay.includes(q);
+        const show = matchTag && matchQ;
+        card.hidden = !show;
+        if (show) visible += 1;
+      }
+      if (emptyEl) emptyEl.hidden = visible > 0;
+      if (countBadge) {
+        const total = totalPosts || cards.length;
+        if (visible === total) {
+          countBadge.hidden = true;
+          countBadge.textContent = total === 1 ? "1 post" : `${total} posts`;
+        } else {
+          countBadge.hidden = false;
+          countBadge.textContent = `${visible} of ${total}`;
+        }
+      }
+    }
+
+    function setTagMenuOpen(open) {
+      if (!tagFilterBtn || !tagMenu) return;
+      tagMenu.hidden = !open;
+      tagFilterBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    let initial = "list";
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === "list" || saved === "grid") initial = saved;
+    } catch (_) {
+      /* ignore */
+    }
+    applyLayout(initial);
+    filterPosts();
+
+    for (const btn of buttons) {
+      btn.addEventListener("click", () => {
+        const layout = btn.dataset.layout === "grid" ? "grid" : "list";
+        applyLayout(layout);
+      });
+    }
+
+    searchInput?.addEventListener("input", filterPosts);
+
+    tagFilterBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = tagMenu?.hidden !== false;
+      setTagMenuOpen(open);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!tagWrap || !tagMenu || tagMenu.hidden) return;
+      if (tagWrap.contains(/** @type {Node} */ (e.target))) return;
+      setTagMenuOpen(false);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setTagMenuOpen(false);
+    });
+  </script>
+</SiteLayout>

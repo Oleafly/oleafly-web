@@ -1,0 +1,31 @@
+---
+import type { Locale } from "../i18n/locales";
+import { t } from "../i18n/t";
+
+interface Props {
+  locale: Locale;
+  show: boolean;
+}
+const { locale, show } = Astro.props;
+---
+
+{
+  show ? (
+    <p class="content-fallback-banner" role="status">
+      {t(locale, "content.fallbackNotice")}
+    </p>
+  ) : null
+}
+
+<style>
+  .content-fallback-banner {
+    margin: 0 0 1.25rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--brand-text, #60a5fa);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+</style>

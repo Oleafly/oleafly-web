@@ -1,0 +1,543 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import ContentFallbackBanner from "../components/ContentFallbackBanner.astro";
+import { blogReadingTime } from "../lib/blog-reading-time";
+import { DEFAULT_LOCALE, LOCALE_META, type Locale } from "../i18n/locales";
+import { entrySlug } from "../i18n/content";
+import { localePath } from "../i18n/paths";
+import { t } from "../i18n/t";
+import "../styles/listen.css";
+import "katex/dist/katex.min.css";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  locale?: Locale;
+  isFallback?: boolean;
+}
+
+const { post, locale = DEFAULT_LOCALE, isFallback = false } = Astro.props;
+const { Content } = await render(post);
+const body = typeof post.body === "string" ? post.body : "";
+const rt = blogReadingTime(body);
+const tags = post.data.tags ?? [];
+const dateLoc = LOCALE_META[locale].dateLocale;
+const fmt = (d: Date) =>
+  d.toLocaleDateString(dateLoc, { year: "numeric", month: "long", day: "numeric" });
+const slug = entrySlug(post.id);
+const lp = (p: string) => localePath(locale, p);
+---
+
+<SiteLayout
+  title={`${post.data.title} | Oleafly`}
+  description={post.data.description}
+  path={`/blog/${slug}/`}
+  locale={locale}
+>
+  <article class="page-hero blog-post">
+    <div class="container blog-post-shell">
+      <div class="blog-post-main">
+        <ContentFallbackBanner locale={locale} show={isFallback} />
+        <p class="eyebrow blog-post-meta">
+          <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+          <span class="blog-post-meta-sep" aria-hidden="true">·</span>
+          <span>{rt.text}</span>
+          <span
+            id="blog-listen-host"
+            class="blog-listen"
+            hidden
+            data-post-id={post.id}
+          ></span>
+        </p>
+        <h1>{post.data.title}</h1>
+        <p class="sub">{post.data.description}</p>
+        <div class="prose blog-prose">
+          <Content />
+        </div>
+        <p class="blog-post-back">
+          <a class="btn btn-ghost btn-sm" href={lp("/blog/")}>{t(locale, "common.allPosts")}</a>
+        </p>
+      </div>
+
+      {
+        tags.length ? (
+          <aside class="blog-post-aside" aria-label={t(locale, "common.tags")}>
+            <p class="blog-post-aside-label">{t(locale, "common.tags")}</p>
+            <ul class="blog-post-tag-list">
+              {tags.map((tag) => (
+                <li>
+                  <a
+                    class="blog-post-tag"
+                    href={`${lp("/blog/")}?tag=${encodeURIComponent(tag)}`}
+                    title={tag}
+                  >
+                    {tag}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        ) : null
+      }
+    </div>
+  </article>
+
+
+  <style is:global>
+    .blog-post-shell {
+      max-width: 1080px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px 40px;
+      align-items: start;
+    }
+    @media (min-width: 960px) {
+      .blog-post-shell {
+        grid-template-columns: minmax(0, 1fr) 200px;
+      }
+    }
+    .blog-post-main {
+      max-width: 780px;
+      min-width: 0;
+    }
+    .blog-post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 8px;
+    }
+    .blog-post-meta-sep {
+      opacity: 0.5;
+    }
+    .blog-post-back {
+      margin-top: 48px;
+    }
+
+    .blog-post-aside {
+      position: sticky;
+      top: 96px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0b0c0e;
+    }
+    @media (max-width: 959px) {
+      .blog-post-aside {
+        position: static;
+        order: -1;
+      }
+    }
+    .blog-post-aside-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 8px;
+    }
+    .blog-post-tag-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .blog-post-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 999px;
+      padding: 2px 7px;
+      line-height: 1.4;
+      transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+    }
+    .blog-post-tag:hover {
+      color: var(--brand-text);
+      border-color: rgba(37, 99, 235, 0.4);
+      background: rgba(37, 99, 235, 0.1);
+    }
+
+    .blog-prose {
+      color: #d6d9e0;
+      font-size: 15.5px;
+      line-height: 1.75;
+    }
+    .blog-prose h2 {
+      font-size: 1.35rem;
+      margin: 40px 0 12px;
+      color: var(--text);
+    }
+    .blog-prose h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 28px 0 10px;
+      color: var(--text);
+    }
+    .blog-prose p {
+      margin: 14px 0;
+    }
+    .blog-prose ul {
+      list-style-type: disc;
+      list-style-position: outside;
+      margin: 14px 0;
+      padding-left: 1.65em;
+    }
+    .blog-prose ol {
+      list-style-type: decimal;
+      list-style-position: outside;
+      margin: 14px 0;
+      padding-left: 1.65em;
+    }
+    .blog-prose li {
+      margin: 6px 0;
+      display: list-item;
+    }
+    .blog-prose li::marker {
+      color: #8a8f98;
+    }
+    .blog-prose ul ul {
+      list-style-type: circle;
+      margin: 4px 0;
+    }
+    .blog-prose a {
+      color: var(--brand-text);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(96, 165, 250, 0.35);
+    }
+    .blog-prose a:hover {
+      color: #93c5fd;
+      border-bottom-color: rgba(147, 197, 253, 0.55);
+    }
+    .blog-prose strong {
+      color: #f7f8f8;
+    }
+    .blog-prose blockquote {
+      border-left: 3px solid var(--line-strong);
+      padding-left: 16px;
+      color: var(--muted);
+      margin: 18px 0;
+    }
+
+    /* Inline code — ghost primary blue */
+    .blog-prose :not(pre) > code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      font-weight: 500;
+      color: #93c5fd;
+      background: rgba(37, 99, 235, 0.12);
+      border: 1px solid rgba(37, 99, 235, 0.28);
+      border-radius: 5px;
+      padding: 0.15em 0.4em;
+    }
+
+    /* Code blocks — copy overlays content (does not push first line) */
+    .blog-prose pre,
+    .blog-prose pre.astro-code {
+      position: relative;
+      margin: 22px 0;
+      padding: 16px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #0b0c0e !important;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .blog-prose pre:has(+ .latex-preview) {
+      margin-bottom: 8px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .blog-prose pre code {
+      font-family: var(--mono);
+      font-size: inherit;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      color: inherit;
+    }
+    .blog-prose table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13.5px;
+      display: block;
+      overflow-x: auto;
+    }
+    .blog-prose th,
+    .blog-prose td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .blog-prose th {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .blog-prose hr {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 32px 0;
+    }
+
+    .blog-code-copy {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      border-radius: 6px;
+      cursor: pointer;
+      opacity: 0;
+      transition:
+        opacity 120ms ease,
+        color 120ms ease,
+        border-color 120ms ease,
+        background 120ms ease;
+    }
+    .blog-prose pre:hover .blog-code-copy,
+    .blog-code-copy:focus-visible {
+      opacity: 1;
+    }
+    .blog-code-copy:hover {
+      color: #fff;
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .blog-code-copy.is-copied {
+      color: #4ec46a;
+      border-color: rgba(78, 196, 106, 0.5);
+      opacity: 1;
+    }
+    @media (hover: none) {
+      .blog-code-copy {
+        opacity: 1;
+      }
+    }
+
+    /* Live LaTeX previews (shared look with /learn) */
+    .blog-prose .latex-preview {
+      margin: -8px 0 24px;
+      border: 1px solid var(--line);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      background: rgba(255, 255, 255, 0.02);
+      overflow: hidden;
+    }
+    .blog-prose .latex-preview-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .blog-prose .latex-preview-head span {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .blog-prose .latex-preview-head a {
+      font-size: 12px;
+      font-weight: 500;
+      color: #60a5fa;
+      text-decoration: none;
+      border-bottom: none;
+    }
+    .blog-prose .latex-preview-head a:hover {
+      color: #93c5fd;
+    }
+    .blog-prose .latex-preview-body {
+      padding: 18px 16px;
+      overflow-x: auto;
+      color: #e8eaef;
+    }
+    .blog-prose .latex-preview-body .katex {
+      font-size: 1.12em;
+    }
+    .blog-prose .latex-preview-row {
+      padding: 4px 0;
+    }
+    .blog-prose .latex-preview-row .katex-display {
+      margin: 0.35em 0;
+    }
+    .blog-prose .latex-preview-prose {
+      white-space: pre-wrap;
+      font-size: 14.5px;
+      line-height: 1.8;
+    }
+    .blog-prose .latex-preview-note {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 9px 14px;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .blog-prose .latex-preview-note a {
+      color: #60a5fa;
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: none;
+    }
+    .blog-prose .latex-preview-note a:hover {
+      color: #93c5fd;
+    }
+  </style>
+
+  <script>
+    const COPY_ICON =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    const CHECK_ICON =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
+
+    async function enhanceBlogProse() {
+      const root = document.querySelector(".blog-prose");
+      if (!root) return;
+
+      // Open all links in a new tab
+      for (const a of root.querySelectorAll("a[href]")) {
+        const href = a.getAttribute("href") || "";
+        if (href.startsWith("#")) continue;
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+      }
+
+      const { SKIP, stripComments, renderLatexSnippet } = await import(
+        "../lib/latex-live-preview.ts"
+      );
+
+      for (const pre of root.querySelectorAll("pre")) {
+        if (pre.querySelector(".blog-code-copy")) continue;
+        const raw = pre.textContent ?? "";
+        const text = raw.replace(/\n$/, "");
+        if (!text.trim()) continue;
+
+        // Icon-only copy overlay (same pattern as /learn)
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "blog-code-copy";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.title = "Copy to clipboard";
+        btn.innerHTML = COPY_ICON;
+        btn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(text);
+            btn.innerHTML = CHECK_ICON;
+            btn.classList.add("is-copied");
+            window.setTimeout(() => {
+              btn.innerHTML = COPY_ICON;
+              btn.classList.remove("is-copied");
+            }, 1600);
+          } catch {
+            /* ignore */
+          }
+        });
+        pre.appendChild(btn);
+
+        // Live KaTeX preview for latex/tex fences (same pipeline as /learn)
+        const codeEl = pre.querySelector("code");
+        const lang = (
+          pre.getAttribute("data-language") ||
+          pre.dataset.language ||
+          codeEl?.getAttribute("data-language") ||
+          codeEl?.className?.match(/language-([\w+-]+)/)?.[1] ||
+          ""
+        ).toLowerCase();
+        if (lang !== "latex" && lang !== "tex") continue;
+        const cleaned = stripComments(raw);
+        if (!cleaned) continue;
+
+        if (SKIP.test(raw)) {
+          const note = document.createElement("div");
+          note.className = "latex-preview latex-preview-note";
+          note.innerHTML =
+            '<span>Document-level LaTeX: browser preview skips preambles, floats, and bibliographies. Open it in the playground or the <a href="/" target="_blank" rel="noopener noreferrer">Oleafly app</a>.</span>' +
+            `<a href="/live/?latex=${encodeURIComponent(cleaned)}" target="_blank" rel="noopener noreferrer">Open in playground →</a>`;
+          pre.insertAdjacentElement("afterend", note);
+          continue;
+        }
+
+        const body = renderLatexSnippet(cleaned);
+        if (!body) {
+          const note = document.createElement("div");
+          note.className = "latex-preview latex-preview-note";
+          note.innerHTML =
+            '<span>Could not render a browser preview for this snippet.</span>' +
+            `<a href="/live/?latex=${encodeURIComponent(cleaned)}" target="_blank" rel="noopener noreferrer">Open in playground →</a>`;
+          pre.insertAdjacentElement("afterend", note);
+          continue;
+        }
+
+        const panel = document.createElement("div");
+        panel.className = "latex-preview";
+        const head = document.createElement("div");
+        head.className = "latex-preview-head";
+        const label = document.createElement("span");
+        label.textContent = "Rendered preview";
+        head.appendChild(label);
+        const edit = document.createElement("a");
+        edit.href = `/live/?latex=${encodeURIComponent(cleaned)}`;
+        edit.target = "_blank";
+        edit.rel = "noopener noreferrer";
+        edit.textContent = "Edit live →";
+        edit.title = "Open in the live LaTeX playground";
+        head.appendChild(edit);
+        body.classList.add("latex-preview-body");
+        panel.appendChild(head);
+        panel.appendChild(body);
+        pre.insertAdjacentElement("afterend", panel);
+      }
+    }
+
+    void enhanceBlogProse();
+
+    // Listen: only mount when Web Speech exists (silent Kokoro → speech fallback).
+    (async () => {
+      const host = document.getElementById("blog-listen-host");
+      const prose = document.querySelector(".blog-prose");
+      if (!(host instanceof HTMLElement) || !(prose instanceof HTMLElement)) return;
+      if (!("speechSynthesis" in window)) {
+        host.remove();
+        return;
+      }
+      try {
+        const { mountBlogListen } = await import("../lib/blog-listen/mount.ts");
+        mountBlogListen({
+          host,
+          prose,
+          postId: host.dataset.postId || location.pathname,
+          surface: "blog",
+          kind: "post",
+        });
+      } catch {
+        host.remove();
+      }
+    })();
+  </script>
+</SiteLayout>

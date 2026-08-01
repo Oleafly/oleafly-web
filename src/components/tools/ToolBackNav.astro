@@ -1,11 +1,21 @@
 ---
 /**
- * Back link for individual free-tool pages → /tools/
+ * Back link for individual free-tool pages → /tools/ (locale-aware).
  */
+import { DEFAULT_LOCALE, type Locale } from "../../i18n/locales";
+import { localePath } from "../../i18n/paths";
+import { t } from "../../i18n/t";
+
+interface Props {
+  locale?: Locale;
+}
+const locale: Locale = Astro.props.locale ?? DEFAULT_LOCALE;
+const href = localePath(locale, "/tools/");
+const label = t(locale, "nav.tools");
 ---
 
-<nav class="tool-back" aria-label="Back">
-  <a class="tool-back-link" href="/tools/">
+<nav class="tool-back" aria-label={t(locale, "common.back")}>
+  <a class="tool-back-link" href={href}>
     <svg
       width="16"
       height="16"
@@ -19,7 +29,7 @@
     >
       <path d="M15 18l-6-6 6-6"></path>
     </svg>
-    <span>Back to tools</span>
+    <span>{t(locale, "common.back")} · {label}</span>
   </a>
 </nav>
 

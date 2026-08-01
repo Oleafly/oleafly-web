@@ -1,0 +1,312 @@
+---
+import { Image } from "astro:assets";
+import { codeToHtml } from "shiki";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import data from "../data/template-packs.json";
+import "../styles/tools.css";
+import { DEFAULT_LOCALE, type Locale } from "../i18n/locales";
+import { localePath } from "../i18n/paths";
+import { t } from "../i18n/t";
+import { localizePack, localizeTemplate } from "../i18n/template-catalog";
+
+interface Props {
+  template: (typeof data.packs)[number]["templates"][number];
+  packLabel: string;
+  packId: string;
+  locale?: Locale;
+}
+const { template, packLabel, packId, locale = DEFAULT_LOCALE } = Astro.props;
+const lp = (path: string) => localePath(locale, path);
+const engineLabel = template.engine === "typst" ? "Typst" : "LaTeX";
+const shikiLang = template.engine === "typst" ? "typst" : "latex";
+const sourceCode = template.source ?? "";
+const filename = template.mainDoc || (template.engine === "typst" ? "main.typ" : "main.tex");
+const catalogHref = "https://github.com/Oleafly/template-packs/tree/main/packs";
+
+const locTpl = localizeTemplate(locale, template.id, {
+  name: template.name,
+  description: template.description,
+  category: template.category,
+});
+const locPack = localizePack(locale, packId, {
+  label: packLabel,
+  description: "",
+});
+const displayName = locTpl.name;
+const displayDesc = locTpl.description;
+const displayCategory = locTpl.category;
+const displayPackLabel = locPack.label;
+
+const packForNote = /pack$/i.test(displayPackLabel)
+  ? displayPackLabel
+  : t(locale, "templates.packSuffix", { label: displayPackLabel });
+
+let highlighted = "";
+try {
+  highlighted = await codeToHtml(sourceCode, {
+    lang: shikiLang,
+    theme: "github-dark-default",
+  });
+} catch {
+  highlighted = "";
+}
+
+const previews = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/template-previews/*.png",
+  { eager: true },
+);
+const preview = previews[`../assets/template-previews/${template.id}.png`]?.default;
+---
+
+<SiteLayout
+  title={t(locale, "templates.detailTitle", {
+    name: displayName,
+    engine: engineLabel,
+  })}
+  description={t(locale, "templates.detailDesc", {
+    description: displayDesc,
+  })}
+  path={`/templates/${template.id}/`}
+  locale={locale}
+>
+  <section class="page-hero">
+    <div class="container tpl-detail">
+      <p class="eyebrow">
+        <a
+          class="tpl-pack-crumb"
+          href={`${lp("/templates/")}?pack=${encodeURIComponent(packId)}`}
+          >{displayPackLabel}</a
+        >
+      </p>
+      <h1>{displayName}</h1>
+      <p class="sub">{displayDesc}</p>
+
+      <div class="tpl-meta-row">
+        <div class="tpl-badges">
+          <span class="badge blue">{engineLabel}</span>
+          {template.license && <span class="badge">{template.license}</span>}
+          {displayCategory && <span class="badge">{displayCategory}</span>}
+        </div>
+        <a
+          class="tpl-catalog-link no-ext-icon"
+          href={catalogHref}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>{t(locale, "templates.viewCatalog")}</span>
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <path d="M15 3h6v6"></path>
+            <path d="M10 14 21 3"></path>
+          </svg>
+        </a>
+      </div>
+
+      <div class:list={["tpl-split", { "tpl-split--solo": !preview }]}>
+        {
+          preview && (
+            <div class="tpl-preview-pane">
+              <div class="tpl-preview-body">
+                <Image
+                  src={preview}
+                  alt={t(locale, "templates.previewAlt", { name: displayName })}
+                  widths={[440, 720, 960]}
+                  sizes="(max-width: 900px) 94vw, 42vw"
+                  loading="eager"
+                />
+              </div>
+            </div>
+          )
+        }
+
+        <div class="tpl-source" id="tpl-source">
+          <div class="tpl-source-head">
+            <span class="tpl-source-file">{filename}</span>
+            <button
+              type="button"
+              class="tpl-code-copy"
+              id="tpl-code-copy"
+              aria-label={t(locale, "templates.copySource")}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span class="tpl-code-copy-label">{t(locale, "templates.copy")}</span>
+            </button>
+          </div>
+          {
+            highlighted ? (
+              <div class="tpl-source-code" set:html={highlighted} />
+            ) : (
+              <pre class="tpl-source-plain"><code>{sourceCode}</code></pre>
+            )
+          }
+        </div>
+      </div>
+
+      <p class="sub tpl-app-note">
+        {t(locale, "templates.appNote", { pack: packForNote })}
+      </p>
+
+      <p class="tpl-detail-back">
+        <a class="btn btn-ghost btn-sm" href={lp("/templates/")}
+          >{t(locale, "templates.allTemplates")}</a
+        >
+      </p>
+    </div>
+  </section>
+
+  <style is:global>
+    .tpl-detail {
+      max-width: 1120px;
+    }
+    .tpl-pack-crumb {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+    }
+    .tpl-pack-crumb:hover {
+      color: var(--brand-text);
+      border-bottom-color: color-mix(in srgb, var(--brand-text) 50%, transparent);
+    }
+    .tpl-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px 16px;
+      margin-top: 4px;
+    }
+    .tpl-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tpl-catalog-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 13px;
+      color: var(--muted, #8a8f98);
+      text-decoration: none;
+    }
+    .tpl-catalog-link:hover {
+      color: var(--brand-text, #60a5fa);
+    }
+    .tpl-split {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    .tpl-split--solo {
+      grid-template-columns: 1fr;
+    }
+    @media (max-width: 900px) {
+      .tpl-split {
+        grid-template-columns: 1fr;
+      }
+    }
+    .tpl-preview-pane {
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      background: #0d0e10;
+    }
+    .tpl-preview-body img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .tpl-source {
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #0d0e10;
+      overflow: hidden;
+      min-height: 280px;
+    }
+    .tpl-source-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+      color: var(--muted, #8a8f98);
+    }
+    .tpl-code-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+    .tpl-source-code,
+    .tpl-source-plain {
+      margin: 0;
+      max-height: 520px;
+      overflow: auto;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .tpl-source-code pre {
+      margin: 0;
+      padding: 0.85rem 1rem;
+      background: transparent !important;
+    }
+    .tpl-source-plain {
+      padding: 0.85rem 1rem;
+      white-space: pre-wrap;
+    }
+    .tpl-app-note {
+      margin-top: 1.25rem;
+      max-width: 70ch;
+    }
+    .tpl-detail-back {
+      margin-top: 1.5rem;
+    }
+  </style>
+
+  <script define:vars={{ sourceCode }}>
+    const btn = document.getElementById("tpl-code-copy");
+    btn?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(sourceCode);
+        const label = btn.querySelector(".tpl-code-copy-label");
+        if (label) {
+          const prev = label.textContent;
+          label.textContent = "✓";
+          setTimeout(() => {
+            label.textContent = prev;
+          }, 1200);
+        }
+      } catch {
+        /* ignore */
+      }
+    });
+  </script>
+</SiteLayout>

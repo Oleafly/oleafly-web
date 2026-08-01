@@ -1,0 +1,10 @@
+---
+import DeadlinesPage from "../../../views/DeadlinesPage.astro";
+import { prefixedLocalePaths, requirePrefixedLocale } from "../../../i18n/routing";
+
+export function getStaticPaths() {
+  return prefixedLocalePaths();
+}
+const locale = requirePrefixedLocale(Astro.params.lang);
+---
+<DeadlinesPage locale={locale} />

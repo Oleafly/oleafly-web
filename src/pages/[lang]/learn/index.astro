@@ -1,0 +1,10 @@
+---
+import LearnIndexPage from "../../../views/LearnIndexPage.astro";
+import { prefixedLocalePaths, requirePrefixedLocale } from "../../../i18n/routing";
+
+export function getStaticPaths() {
+  return prefixedLocalePaths();
+}
+const locale = requirePrefixedLocale(Astro.params.lang);
+---
+<LearnIndexPage locale={locale} />

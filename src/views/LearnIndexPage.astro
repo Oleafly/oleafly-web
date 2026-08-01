@@ -1,0 +1,268 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { LEARN_CATEGORIES } from "../data/learn-categories";
+import { getLearnCategories } from "../i18n/categories";
+import { QUIZ_MIN_QUESTIONS } from "../components/learn/quiz-types";
+import { AsciiQuill } from "../components/AsciiQuill";
+import DownloadButton from "../components/DownloadButton.astro";
+import { DEFAULT_LOCALE, type Locale } from "../i18n/locales";
+import { entriesForLocale, entrySlug } from "../i18n/content";
+import { localePath } from "../i18n/paths";
+import { t } from "../i18n/t";
+import "../styles/learn.css";
+
+interface Props {
+  locale?: Locale;
+}
+const locale: Locale = Astro.props.locale ?? DEFAULT_LOCALE;
+const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
+const lp = (path: string) => localePath(locale, path);
+
+const all = await getCollection("learn");
+const { entries: articles } = entriesForLocale(all, locale);
+const byCategory = new Map<string, typeof articles>();
+for (const a of articles) {
+  const list = byCategory.get(a.data.category) ?? [];
+  list.push(a);
+  byCategory.set(a.data.category, list);
+}
+for (const list of byCategory.values()) {
+  list.sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+}
+
+const total = articles.length;
+const cats = getLearnCategories(locale);
+
+const bySlug = new Map(articles.map((a) => [entrySlug(a.id), a]));
+const pathDefs = [
+  { slug: "what-is-a-research-paper", kickerKey: "learn.cat.research-101.label" },
+  { slug: "first-document", kickerKey: "learn.cat.open-the-loop.label" },
+  { slug: "first-paper-roadmap", kickerKey: "learn.cat.ship-your-paper.label" },
+] as const;
+const paths = pathDefs.map(({ slug, kickerKey }) => {
+  const a = bySlug.get(slug);
+  return {
+    href: lp(`/learn/${slug}/`),
+    kicker: t(locale, kickerKey),
+    title: a?.data.title ?? slug,
+    desc: a?.data.description ?? "",
+  };
+});
+---
+
+<SiteLayout
+  title={t(locale, "learn.title")}
+  description={t(locale, "learn.description")}
+  path="/learn/"
+  locale={locale}
+>
+  <section class="learn-hero">
+    <div class="container">
+      <div class="learn-hero-grid">
+        <div class="learn-hero-copy">
+          <p class="eyebrow">{t(locale, "learn.eyebrow")}</p>
+          <h1>{t(locale, "learn.heading")}</h1>
+          <p class="sub">{t(locale, "learn.sub")}</p>
+          <div class="learn-stats" aria-label={t(locale, "learn.librarySize")}>
+            <span class="learn-stat"><strong>{total}</strong> {t(locale, "common.lessons")}</span>
+            <span class="learn-stat"><strong>{LEARN_CATEGORIES.length}</strong> {t(locale, "common.tracks")}</span>
+            <span class="learn-stat"><strong>{t(locale, "common.live")}</strong></span>
+            <span class="learn-stat"><strong>{t(locale, "common.free")}</strong></span>
+          </div>
+          <div class="learn-level-legend" aria-label={t(locale, "learn.levelLegend")}>
+            <span class="level level-beginner">{t(locale, "common.beginner")}</span>
+            <span class="level level-intermediate">{t(locale, "common.intermediate")}</span>
+            <span class="level level-advanced">{t(locale, "common.advanced")}</span>
+            <span class="legend-note">{t(locale, "learn.levelNote")}</span>
+          </div>
+          <div class="learn-search-wrap">
+            <span class="learn-search-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="M20 20l-3.5-3.5"></path>
+              </svg>
+            </span>
+            <label class="sr-only" for="learn-q">{t(locale, "learn.searchLabel")}</label>
+            <input
+              id="learn-q"
+              class="learn-search"
+              type="search"
+              placeholder={t(locale, "learn.searchPlaceholder")}
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        <div class="learn-hero-art" aria-hidden="true">
+          <AsciiQuill client:load size={360} />
+        </div>
+      </div>
+
+      <div class="learn-paths">
+        {
+          paths.map((p) => (
+            <a class="learn-path" href={p.href}>
+              <span class="path-kicker">{p.kicker}</span>
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <div class="container learn-layout">
+    <nav class="learn-toc" aria-label={t(locale, "learn.courseTracks")}>
+      <p class="learn-toc-label">{t(locale, "learn.tracks")}</p>
+      {
+        cats.map((cat) => {
+          const count = byCategory.get(cat.id)?.length ?? 0;
+          if (!count) return null;
+          return (
+            <a href={`#${cat.id}`} data-cat={cat.id}>
+              {cat.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <div class="learn-main">
+      <div class="learn-empty" id="learn-empty" role="status">
+        No lessons match that search. Try "align", "bibtex", or "float".
+      </div>
+
+      {
+        cats.map((cat) => {
+          const items = byCategory.get(cat.id) ?? [];
+          if (!items.length) return null;
+          const badgeClass = cat.badge ? `learn-badge ${cat.badge}` : "learn-badge";
+          const badgeLabel =
+            cat.badge === "depth"
+              ? t(locale, "learn.badge.depth")
+              : cat.badge === "oleafly"
+                ? t(locale, "learn.badge.oleafly")
+                : cat.badge === "research"
+                  ? t(locale, "learn.badge.research")
+                  : cat.badge === "essentials"
+                    ? t(locale, "learn.badge.essentials")
+                    : null;
+          return (
+            <section class="learn-section" id={cat.id} data-section={cat.id}>
+              <div class="learn-section-head">
+                <h2>{cat.label}</h2>
+                {badgeLabel && <span class={badgeClass}>{badgeLabel}</span>}
+              </div>
+              <p class="learn-section-desc">{cat.description}</p>
+              <div class="learn-links">
+                {items.map((a) => {
+                  const hasQuiz =
+                    !!a.data.quiz && a.data.quiz.questions.length >= QUIZ_MIN_QUESTIONS;
+                  return (
+                    <a
+                      class="learn-link"
+                      href={lp(`/learn/${entrySlug(a.id)}/`)}
+                      data-search={`${a.data.title} ${a.data.description} ${a.data.tags.join(" ")} ${cat.label}${hasQuiz ? " quiz" : ""}`.toLowerCase()}
+                    >
+                      <span class="dot" aria-hidden="true" />
+                      <span class="meta">
+                        <span class="title">{a.data.title}</span>
+                        <span class="desc">{a.data.description}</span>
+                        <span class="learn-link-badges">
+                          <span class={`level level-${a.data.level}`}>
+                            {a.data.level === "beginner"
+                              ? t(locale, "common.beginner")
+                              : a.data.level === "intermediate"
+                                ? t(locale, "common.intermediate")
+                                : t(locale, "common.advanced")}
+                          </span>
+                          {hasQuiz ? (
+                            <span class="learn-quiz-badge" title={t(locale, "learn.quizBadge")}>{t(locale, "learn.quizBadge")}</span>
+                          ) : null}
+                        </span>
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })
+      }
+
+      <div class="learn-cta">
+        <h2>{t(locale, "learn.ctaHeading")}</h2>
+        <p>{t(locale, "learn.ctaBody")}</p>
+        <div class="learn-cta-actions">
+          <DownloadButton
+            href={RELEASES}
+            size="lg"
+            label={t(locale, "nav.download")}
+            labelTemplate={t(locale, "common.downloadFor")}
+          />
+          <a class="btn btn-ghost btn-lg" href={lp("/live/")}>{t(locale, "learn.livePlayground")}</a>
+          <a class="btn btn-ghost btn-lg" href={lp("/tools/")}>{t(locale, "learn.freeTools")}</a>
+          <a class="btn btn-ghost btn-lg" href={lp("/templates/")}>{t(locale, "nav.templates")}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+
+  <script>
+    const input = document.getElementById("learn-q") as HTMLInputElement | null;
+    const empty = document.getElementById("learn-empty");
+    const links = Array.from(document.querySelectorAll<HTMLElement>(".learn-link"));
+    const sections = Array.from(document.querySelectorAll<HTMLElement>(".learn-section[data-section]"));
+    const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(".learn-toc a[data-cat]"));
+
+    function applyFilter() {
+      const q = (input?.value ?? "").trim().toLowerCase();
+      let visible = 0;
+      for (const link of links) {
+        const hay = link.dataset.search ?? "";
+        const show = !q || hay.includes(q);
+        link.style.display = show ? "" : "none";
+        if (show) visible++;
+      }
+      for (const section of sections) {
+        const any = Array.from(section.querySelectorAll<HTMLElement>(".learn-link")).some(
+          (el) => el.style.display !== "none",
+        );
+        section.style.display = any ? "" : "none";
+      }
+      empty?.classList.toggle("is-visible", visible === 0);
+    }
+
+    input?.addEventListener("input", applyFilter);
+
+    // Active TOC highlight on scroll
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const id = (entry.target as HTMLElement).id;
+          for (const a of tocLinks) {
+            a.classList.toggle("is-active", a.dataset.cat === id);
+          }
+        }
+      },
+      { rootMargin: "-20% 0px -70% 0px", threshold: 0 },
+    );
+    for (const section of sections) observer.observe(section);
+  </script>
+</SiteLayout>

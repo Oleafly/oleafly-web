@@ -1,0 +1,116 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import { DEFAULT_LOCALE, type Locale } from "../i18n/locales";
+import { localePath } from "../i18n/paths";
+import { t } from "../i18n/t";
+
+interface Props {
+  locale?: Locale;
+}
+const locale: Locale = Astro.props.locale ?? DEFAULT_LOCALE;
+const lp = (path: string) => localePath(locale, path);
+
+const RELEASES = "https://github.com/Oleafly/Oleafly/releases/latest";
+
+
+const tools = [
+  {
+    href: lp("/tools/lab-search/"),
+    name: t(locale, "tools.lab.fullName"),
+    desc: t(locale, "tools.lab.fullDesc"),
+  },
+  {
+    href: lp("/tools/bibtex-validator/"),
+    name: t(locale, "tools.bibtex.fullName"),
+    desc: t(locale, "tools.bibtex.fullDesc"),
+  },
+  {
+    href: lp("/live/"),
+    name: t(locale, "tools.live.fullName"),
+    desc: t(locale, "tools.live.fullDesc"),
+  },
+  {
+    href: lp("/tools/equation-preview/"),
+    name: t(locale, "tools.equation.fullName"),
+    desc: t(locale, "tools.equation.fullDesc"),
+  },
+  {
+    href: lp("/tools/table-generator/"),
+    name: t(locale, "tools.table.fullName"),
+    desc: t(locale, "tools.table.fullDesc"),
+  },
+  {
+    href: lp("/deadlines/"),
+    name: t(locale, "tools.deadlines.fullName"),
+    desc: t(locale, "tools.deadlines.fullDesc"),
+  },
+];
+
+const appOnly = [
+  {
+    name: t(locale, "tools.pdfToLatex"),
+    desc: t(locale, "tools.pdfToLatexDesc"),
+  },
+  {
+    name: t(locale, "tools.wordToLatex"),
+    desc: t(locale, "tools.wordToLatexDesc"),
+  },
+  {
+    name: t(locale, "tools.imageToLatex"),
+    desc: t(locale, "tools.imageToLatexDesc"),
+  },
+];
+
+---
+
+<SiteLayout
+  title={t(locale, "tools.title")}
+  description={t(locale, "tools.description")}
+  path="/tools/"
+  locale={locale}
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">{t(locale, "tools.eyebrow")}</p>
+      <h1>{t(locale, "tools.h1")}</h1>
+      <p class="sub">{t(locale, "tools.subFull")}</p>
+      <div class="card-grid">
+        {
+          tools.map((tool) => (
+            <a class="ol-card" href={tool.href} style="text-decoration:none">
+              <h3>{tool.name}</h3>
+              <p>{tool.desc}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">{t(locale, "tools.appEyebrow")}</p>
+      <h2>{t(locale, "tools.appHeading")}</h2>
+      <p class="sub">{t(locale, "tools.appSub")}</p>
+      <div class="card-grid">
+        {
+          appOnly.map((tool) => (
+            <div class="ol-card">
+              <h3>{tool.name}</h3>
+              <p>{tool.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p style="margin-top:28px">
+        <DownloadButton
+          href={RELEASES}
+          size="lg"
+          label={t(locale, "common.downloadFree")}
+          labelTemplate={t(locale, "common.downloadFor")}
+        />
+      </p>
+    </div>
+  </section>
+</SiteLayout>

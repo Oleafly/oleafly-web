@@ -1,0 +1,10 @@
+---
+import ToolsIndexPage from "../../../views/ToolsIndexPage.astro";
+import { prefixedLocalePaths, requirePrefixedLocale } from "../../../i18n/routing";
+
+export function getStaticPaths() {
+  return prefixedLocalePaths();
+}
+const locale = requirePrefixedLocale(Astro.params.lang);
+---
+<ToolsIndexPage locale={locale} />

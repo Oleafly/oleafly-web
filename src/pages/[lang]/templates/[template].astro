@@ -1,0 +1,27 @@
+---
+import data from "../../../data/template-packs.json";
+import TemplateDetailPage from "../../../views/TemplateDetailPage.astro";
+import { PREFIXED_LOCALES } from "../../../i18n/locales";
+import { requirePrefixedLocale } from "../../../i18n/routing";
+
+export function getStaticPaths() {
+  const base = data.packs.flatMap((pack) =>
+    pack.templates.map((t) => ({ template: t, packLabel: pack.label, packId: pack.id })),
+  );
+  return PREFIXED_LOCALES.flatMap((lang) =>
+    base.map(({ template, packLabel, packId }) => ({
+      params: { lang, template: template.id },
+      props: { template, packLabel, packId },
+    })),
+  );
+}
+
+const locale = requirePrefixedLocale(Astro.params.lang);
+const { template, packLabel, packId } = Astro.props;
+---
+<TemplateDetailPage
+  template={template}
+  packLabel={packLabel}
+  packId={packId}
+  locale={locale}
+/>

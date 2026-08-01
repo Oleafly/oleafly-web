@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import LearnLessonPage from "../../../views/LearnLessonPage.astro";
+import { PREFIXED_LOCALES } from "../../../i18n/locales";
+import { entriesForLocale, entrySlug, entryLocale } from "../../../i18n/content";
+import { requirePrefixedLocale } from "../../../i18n/routing";
+
+export async function getStaticPaths() {
+  const all = await getCollection("learn");
+  const paths = [];
+  for (const lang of PREFIXED_LOCALES) {
+    const { entries, fallbackIds } = entriesForLocale(all, lang);
+    const byCat = new Map<string, typeof entries>();
+    for (const a of entries) {
+      const list = byCat.get(a.data.category) ?? [];
+      list.push(a);
+      byCat.set(a.data.category, list);
+    }
+    for (const list of byCat.values()) {
+      list.sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+    }
+    for (const article of entries) {
+      const siblings = byCat.get(article.data.category) ?? [];
+      const idx = siblings.findIndex((s) => s.id === article.id);
+      const prev = idx > 0 ? siblings[idx - 1] : null;
+      const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
+      paths.push({
+        params: { lang, slug: entrySlug(article.id) },
+        props: {
+          article,
+          prev,
+          next,
+          isFallback: fallbackIds.has(article.id) || entryLocale(article.id) === "en",
+        },
+      });
+    }
+  }
+  return paths;
+}
+
+const locale = requirePrefixedLocale(Astro.params.lang);
+const { article, prev, next, isFallback } = Astro.props;
+---
+<LearnLessonPage
+  article={article}
+  prev={prev}
+  next={next}
+  locale={locale}
+  isFallback={isFallback}
+/>

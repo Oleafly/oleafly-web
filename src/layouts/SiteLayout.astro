@@ -7,32 +7,48 @@ import DownloadButton from "../components/DownloadButton.astro";
 import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
 import Analytics from "../components/Analytics.astro";
 import SocialLinks from "../components/SocialLinks.astro";
+import LanguageSwitcher from "../components/LanguageSwitcher.astro";
+import { DEFAULT_LOCALE, LOCALE_META, type Locale } from "../i18n/locales";
+import { absoluteLocaleUrl, hreflangAlternates, localePath } from "../i18n/paths";
+import { t } from "../i18n/t";
 
 interface Props {
   title: string;
   description: string;
-  path: string; // canonical path with leading and trailing slash, e.g. "/tools/"
+  /** Logical (unprefixed) path, e.g. "/tools/" */
+  path: string;
+  locale?: Locale;
 }
 
-const { title, description, path } = Astro.props;
+const { title, description, path, locale = DEFAULT_LOCALE } = Astro.props;
+const meta = LOCALE_META[locale];
 const GITHUB = "https://github.com/Oleafly/Oleafly";
 const RELEASES = `${GITHUB}/releases/latest`;
-const canonical = `https://oleafly.com${path}`;
+const lp = (p: string) => localePath(locale, p);
+const canonical = absoluteLocaleUrl(locale, path);
+const alternates = hreflangAlternates(path);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={meta.lang} dir={meta.dir}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {
+      alternates.map((a) => (
+        <link rel="alternate" hreflang={a.hreflang} href={a.href} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={absoluteLocaleUrl(DEFAULT_LOCALE, path)} />
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Oleafly" />
+    <meta property="og:locale" content={meta.lang.replace("-", "_")} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -48,14 +64,14 @@ const canonical = `https://oleafly.com${path}`;
     <link rel="preload" href="/fonts/jbmono-var-latin.woff2" as="font" type="font/woff2" crossorigin />
     <slot name="head" />
     <Analytics />
-    </head>
+  </head>
 
   <body>
-    <a class="skip" href="#main">Skip to content</a>
+    <a class="skip" href="#main">{t(locale, "nav.skip")}</a>
 
     <header class="nav" id="nav">
       <div class="nav-inner">
-        <a class="brand" href="/">
+        <a class="brand" href={lp("/")}>
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
             <path
               d="M21 2C6 2 4 16 3 22h1.998c.666-3.333 2.333-5.166 5.002-5.5 4-.5 7-4 8-7l-1.5-1 1-1c1-1 2.004-2.5 3.5-5.5z"
@@ -63,20 +79,40 @@ const canonical = `https://oleafly.com${path}`;
           </svg>
           <span>Oleafly</span>
         </a>
-        <nav class="nav-links" aria-label="Main">
-          <a href="/#features">Features</a>
-          <a href="/learn/">Learn</a>
-          <a href="/templates/">Templates</a>
-          <a href="/blog/">Blog</a>
-          <a href="/tools/">Tools</a>
-          <a href="/deadlines/">Deadlines</a>
-          <a href="/docs/overview/" target="_blank" rel="noopener noreferrer">Docs</a>
-          <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+        <nav class="nav-links" aria-label={t(locale, "nav.main")}>
+          <a href={lp("/#features")}>{t(locale, "nav.features")}</a>
+          <a href={lp("/learn/")}>{t(locale, "nav.learn")}</a>
+          <a href={lp("/templates/")}>{t(locale, "nav.templates")}</a>
+          <a href={lp("/blog/")}>{t(locale, "nav.blog")}</a>
+          <a href={lp("/tools/")}>{t(locale, "nav.tools")}</a>
+          <a href={lp("/deadlines/")}>{t(locale, "nav.deadlines")}</a>
+          <a href={lp("/docs/overview/")} target="_blank" rel="noopener noreferrer"
+            >{t(locale, "nav.docs")}</a
+          >
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">{t(locale, "nav.github")}</a>
         </nav>
         <div class="nav-cta">
-          <DownloadButton href={RELEASES} size="sm" label="Download" />
-          <button class="nav-burger" id="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+          <LanguageSwitcher locale={locale} path={path} />
+          <DownloadButton href={RELEASES} size="sm" label={t(locale, "nav.download")} />
+          <button
+            class="nav-burger"
+            id="nav-burger"
+            type="button"
+            aria-label={t(locale, "nav.openMenu")}
+            aria-expanded="false"
+            aria-controls="nav"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              aria-hidden="true"
+              ><path d="M4 7h16M4 12h16M4 17h16"></path></svg
+            >
           </button>
         </div>
       </div>
@@ -108,7 +144,7 @@ const canonical = `https://oleafly.com${path}`;
     <footer class="footer">
       <div class="container footer-inner">
         <div class="footer-brand">
-          <a class="brand" href="/">
+          <a class="brand" href={lp("/")}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
               <path
                 d="M21 2C6 2 4 16 3 22h1.998c.666-3.333 2.333-5.166 5.002-5.5 4-.5 7-4 8-7l-1.5-1 1-1c1-1 2.004-2.5 3.5-5.5z"
@@ -116,32 +152,34 @@ const canonical = `https://oleafly.com${path}`;
             </svg>
             <span>Oleafly</span>
           </a>
-          <p>The local-first research workspace.</p>
-          <p class="footer-license">AGPL-3.0 © 2026 Oleafly and contributors</p>
+          <p>{t(locale, "footer.tagline")}</p>
+          <p class="footer-license">{t(locale, "footer.license")}</p>
           <SocialLinks />
         </div>
-        <nav class="footer-col" aria-label="Product">
-          <p class="footer-h">Product</p>
-          <a href={RELEASES} target="_blank" rel="noopener noreferrer">Download</a>
-          <a href="/templates/">Templates</a>
-          <a href="/privacy/">Privacy</a>
+        <nav class="footer-col" aria-label={t(locale, "footer.product")}>
+          <p class="footer-h">{t(locale, "footer.product")}</p>
+          <a href={RELEASES} target="_blank" rel="noopener noreferrer">{t(locale, "footer.download")}</a>
+          <a href={lp("/templates/")}>{t(locale, "footer.templates")}</a>
+          <a href={lp("/privacy/")}>{t(locale, "footer.privacy")}</a>
         </nav>
-        <nav class="footer-col" aria-label="Free tools">
-          <p class="footer-h">Free tools</p>
-          <a href="/learn/">Learn LaTeX</a>
-          <a href="/tools/bibtex-validator/">BibTeX validator</a>
-          <a href="/tools/equation-preview/">Equation preview</a>
-          <a href="/tools/table-generator/">Table generator</a>
-          <a href="/live/">Live LaTeX preview</a>
-          <a href="/tools/lab-search/">Lab search</a>
-          <a href="/deadlines/">Conference deadlines</a>
+        <nav class="footer-col" aria-label={t(locale, "footer.freeTools")}>
+          <p class="footer-h">{t(locale, "footer.freeTools")}</p>
+          <a href={lp("/learn/")}>{t(locale, "footer.learnLatex")}</a>
+          <a href={lp("/tools/bibtex-validator/")}>{t(locale, "footer.bibtex")}</a>
+          <a href={lp("/tools/equation-preview/")}>{t(locale, "footer.equation")}</a>
+          <a href={lp("/tools/table-generator/")}>{t(locale, "footer.table")}</a>
+          <a href={lp("/live/")}>{t(locale, "footer.live")}</a>
+          <a href={lp("/tools/lab-search/")}>{t(locale, "footer.labSearch")}</a>
+          <a href={lp("/deadlines/")}>{t(locale, "footer.deadlines")}</a>
         </nav>
-        <nav class="footer-col" aria-label="Project">
-          <p class="footer-h">Project</p>
-          <a href="/docs/overview/">Docs</a>
-          <a href="/learn/">Learn LaTeX</a>
-          <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href={`${GITHUB}/discussions`} target="_blank" rel="noopener noreferrer">Discussions</a>
+        <nav class="footer-col" aria-label={t(locale, "footer.project")}>
+          <p class="footer-h">{t(locale, "footer.project")}</p>
+          <a href={lp("/docs/overview/")}>{t(locale, "footer.docs")}</a>
+          <a href={lp("/learn/")}>{t(locale, "footer.learnLatex")}</a>
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">{t(locale, "nav.github")}</a>
+          <a href={`${GITHUB}/discussions`} target="_blank" rel="noopener noreferrer"
+            >{t(locale, "footer.discussions")}</a
+          >
         </nav>
       </div>
       <div class="footer-wordmark" aria-hidden="true">Oleafly</div>
