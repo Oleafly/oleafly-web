@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T05:15:34.669Z",
+  "generatedAt": "2026-08-01T06:03:15.551Z",
   "enUiKeys": 481,
   "enLearn": 139,
   "enBlog": 19,
@@ -353,20 +353,20 @@
         ]
       },
       "learn": {
-        "files": 72,
+        "files": 139,
         "expected": 139,
-        "metaTranslated": 72,
-        "bodyTranslated": 72,
-        "metaPct": 51.8,
-        "bodyPct": 51.8
+        "metaTranslated": 138,
+        "bodyTranslated": 139,
+        "metaPct": 99.3,
+        "bodyPct": 100
       },
       "blog": {
-        "files": 0,
+        "files": 19,
         "expected": 19,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 19,
+        "bodyTranslated": 19,
+        "metaPct": 100,
+        "bodyPct": 100
       },
       "templates": {
         "packs": 11,
@@ -376,7 +376,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 62.5
+      "composite": 99.3
     },
     "nl": {
       "ui": {
@@ -396,12 +396,12 @@
         ]
       },
       "learn": {
-        "files": 0,
+        "files": 47,
         "expected": 139,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 47,
+        "bodyTranslated": 47,
+        "metaPct": 33.8,
+        "bodyPct": 33.8
       },
       "blog": {
         "files": 0,
@@ -419,7 +419,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 44.1
+      "composite": 55.9
     },
     "pl": {
       "ui": {
