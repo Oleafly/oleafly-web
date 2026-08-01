@@ -1,6 +1,6 @@
 ## i18n coverage
 
-Generated: `2026-08-01T12:29:40.696Z`
+Generated: `2026-08-01T12:31:01.799Z`
 
 | Surface | English source |
 |---------|----------------|
