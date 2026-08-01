@@ -7,7 +7,7 @@ Publication figures usually force a choice: a GUI tool that exports pixels and f
 
 No API key and no cloud service: the composer runs locally, and once the TikZ packages are cached it works offline. (For AI-generated figures, see [Draw with AI](/docs/ai-figures/).)
 
-![The diagram composer: visual canvas, TikZ code, and live preview](/media/diagram-composer.png)
+![The diagram composer: visual canvas, TikZ code, and live preview](https://assets.oleafly.com/images/screenshots/desktop/diagram-composer.png)
 
 ## Opening the composer
 

@@ -15,7 +15,7 @@ For a paragraph that needs tightening or a broken equation that needs one fix, a
 
 Nothing mutates until you accept, and the diff renders in place, in context, where you can actually judge it, rather than in a side panel you have to mentally map back.
 
-![An inline AI edit reviewed as a red/green diff](/media/inline-ai-edit.png)
+![An inline AI edit reviewed as a red/green diff](https://assets.oleafly.com/images/screenshots/desktop/inline-ai-edit.png)
 
 ## What powers it
 

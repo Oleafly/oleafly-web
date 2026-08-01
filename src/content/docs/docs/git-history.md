@@ -24,13 +24,12 @@ The branch icon in the left rail opens a VS Code-style panel (rail badge counts 
 
 Clean tree? The panel says so and stays out of the way.
 
-![The Source Control panel with staged changes](/media/source-control.png)
 
 ## The diff viewer
 
 Click any changed file and its diff opens as a tab in the editor area:
 
-![A side-by-side diff of working changes](/media/git-diff.png)
+![A side-by-side diff of working changes](https://assets.oleafly.com/images/screenshots/desktop/git-diff.png)
 
 - **Split** (side-by-side) or **Unified** view, with intra-line changes highlighted and unchanged regions collapsed in split view.
 - **Previous / Next change** buttons hop between chunks.

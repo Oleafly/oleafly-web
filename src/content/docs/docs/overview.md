@@ -7,7 +7,7 @@ Oleafly is a free, local-first workspace for research papers, technical document
 
 Write on the left, preview on the right. Citations, Preflight checks, diagrams, Git history, and an approval-gated AI assistant sit in the same app.
 
-![Oleafly: the editor on the left, the compiled PDF on the right](/media/hero-editor.png)
+![Oleafly: the editor on the left, the compiled PDF on the right](https://assets.oleafly.com/images/screenshots/desktop/hero-editor.png)
 
 ## Who it's for
 

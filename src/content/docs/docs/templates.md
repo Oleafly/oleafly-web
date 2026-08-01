@@ -5,7 +5,7 @@ description: "The template gallery: 23 ready-to-edit starting points from ATS-sa
 
 Every Oleafly project starts from a template. The gallery gives you a real page-one preview of each one, so you pick by looking at the output, not by guessing from a name. Templates ship as plain, editable source, LaTeX, Typst, or Markdown depending on the template: what you create is yours.
 
-![The template gallery with category rail, search, and page-one previews](/media/project-templates.png)
+![The template gallery with category rail, search, and page-one previews](https://assets.oleafly.com/images/screenshots/desktop/project-templates.png)
 
 ## The gallery
 
@@ -61,7 +61,7 @@ The resume templates are split honestly:
 
 Whichever you pick, run [Preflight](/docs/preflight/) before submitting: it simulates a resume parser against your actual PDF and shows what was extracted.
 
-<video src="/media/hero-editor.mp4" autoplay loop muted playsinline aria-label="Creating a resume from a template"></video>
+<video src="https://assets.oleafly.com/videos/hero-editor.mp4" autoplay loop muted playsinline aria-label="Creating a resume from a template"></video>
 
 ## On-demand fonts (the Setup badge)
 

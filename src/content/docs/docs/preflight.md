@@ -7,7 +7,7 @@ Two audiences read your PDF without ever telling you what went wrong: applicant 
 
 Open it from the shield icon in the left rail. The panel opens instantly, pre-selects the checks relevant to your document type, and every check explains itself with an info icon.
 
-![Preflight scoring a resume for ATS readiness](/media/preflight-ats.png)
+![Preflight scoring a resume for ATS readiness](https://assets.oleafly.com/images/screenshots/desktop/preflight-ats.png)
 
 ## Two scores
 
