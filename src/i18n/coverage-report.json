@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T09:52:00.581Z",
+  "generatedAt": "2026-08-01T12:26:27.161Z",
   "enUiKeys": 481,
   "enLearn": 139,
   "enBlog": 19,
@@ -547,20 +547,20 @@
         ]
       },
       "learn": {
-        "files": 89,
+        "files": 139,
         "expected": 139,
-        "metaTranslated": 89,
-        "bodyTranslated": 89,
-        "metaPct": 64,
-        "bodyPct": 64
+        "metaTranslated": 138,
+        "bodyTranslated": 139,
+        "metaPct": 99.3,
+        "bodyPct": 100
       },
       "blog": {
-        "files": 0,
+        "files": 19,
         "expected": 19,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 19,
+        "bodyTranslated": 19,
+        "metaPct": 100,
+        "bodyPct": 100
       },
       "templates": {
         "packs": 11,
@@ -570,7 +570,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 67.2
+      "composite": 99.7
     },
     "ar": {
       "ui": {
@@ -581,20 +581,20 @@
         "sampleMissing": []
       },
       "learn": {
-        "files": 0,
+        "files": 139,
         "expected": 139,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 139,
+        "bodyTranslated": 139,
+        "metaPct": 100,
+        "bodyPct": 100
       },
       "blog": {
-        "files": 0,
+        "files": 19,
         "expected": 19,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 19,
+        "bodyTranslated": 19,
+        "metaPct": 100,
+        "bodyPct": 100
       },
       "templates": {
         "packs": 11,
@@ -604,7 +604,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 45
+      "composite": 100
     },
     "vi": {
       "ui": {
@@ -619,20 +619,20 @@
         ]
       },
       "learn": {
-        "files": 0,
+        "files": 139,
         "expected": 139,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 138,
+        "bodyTranslated": 139,
+        "metaPct": 99.3,
+        "bodyPct": 100
       },
       "blog": {
-        "files": 0,
+        "files": 19,
         "expected": 19,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 19,
+        "bodyTranslated": 19,
+        "metaPct": 100,
+        "bodyPct": 100
       },
       "templates": {
         "packs": 11,
@@ -642,7 +642,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 44.8
+      "composite": 99.7
     }
   },
   "targets": [
