@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "i18n:coverage": "node scripts/i18n-coverage.mjs",
-    "i18n:coverage:md": "node scripts/i18n-coverage.mjs --markdown --write-readme",
+    "i18n:coverage:md": "node scripts/i18n-coverage.mjs --markdown",
     "i18n:translate:ui": "node scripts/translate-ui-gtx.mjs",
     "i18n:translate:content": "node scripts/translate-site-content.mjs",
     "deploy": "astro build && wrangler pages deploy dist --project-name=oleafly"

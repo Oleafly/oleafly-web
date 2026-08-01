@@ -444,17 +444,18 @@ function printTable(report) {
 }
 
 function updateReadme(mdSection) {
+  // Coverage is an internal report only — never inject into public README.
+  // Kept for optional local tooling if markers are ever re-added deliberately.
   const readmePath = path.join(root, "README.md");
   let readme = readFileSync(readmePath, "utf8");
   const start = "<!-- i18n-coverage:start -->";
   const end = "<!-- i18n-coverage:end -->";
-  const block = `${start}\n${mdSection}\n${end}`;
-  if (readme.includes(start) && readme.includes(end)) {
-    readme = readme.replace(new RegExp(`${start}[\\s\\S]*?${end}`), block);
-  } else {
-    // append before end or at end
-    readme = readme.trimEnd() + "\n\n" + block + "\n";
+  if (!(readme.includes(start) && readme.includes(end))) {
+    console.log("Skipped README update (no i18n-coverage markers; coverage stays in src/i18n/)");
+    return;
   }
+  const block = `${start}\n${mdSection}\n${end}`;
+  readme = readme.replace(new RegExp(`${start}[\\s\\S]*?${end}`), block);
   writeFileSync(readmePath, readme);
   console.log("Updated README.md i18n coverage section");
 }
