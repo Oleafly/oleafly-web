@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T06:03:15.551Z",
+  "generatedAt": "2026-08-01T09:52:00.581Z",
   "enUiKeys": 481,
   "enLearn": 139,
   "enBlog": 19,
@@ -396,20 +396,20 @@
         ]
       },
       "learn": {
-        "files": 47,
+        "files": 139,
         "expected": 139,
-        "metaTranslated": 47,
-        "bodyTranslated": 47,
-        "metaPct": 33.8,
-        "bodyPct": 33.8
+        "metaTranslated": 138,
+        "bodyTranslated": 139,
+        "metaPct": 99.3,
+        "bodyPct": 100
       },
       "blog": {
-        "files": 0,
+        "files": 19,
         "expected": 19,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 19,
+        "bodyTranslated": 19,
+        "metaPct": 100,
+        "bodyPct": 100
       },
       "templates": {
         "packs": 11,
@@ -419,7 +419,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 55.9
+      "composite": 99
     },
     "pl": {
       "ui": {
@@ -434,20 +434,20 @@
         ]
       },
       "learn": {
-        "files": 0,
+        "files": 139,
         "expected": 139,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 138,
+        "bodyTranslated": 139,
+        "metaPct": 99.3,
+        "bodyPct": 100
       },
       "blog": {
-        "files": 0,
+        "files": 19,
         "expected": 19,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 19,
+        "bodyTranslated": 19,
+        "metaPct": 100,
+        "bodyPct": 100
       },
       "templates": {
         "packs": 11,
@@ -457,7 +457,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 44.8
+      "composite": 99.7
     },
     "ru": {
       "ui": {
@@ -468,20 +468,20 @@
         "sampleMissing": []
       },
       "learn": {
-        "files": 0,
+        "files": 139,
         "expected": 139,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 138,
+        "bodyTranslated": 139,
+        "metaPct": 99.3,
+        "bodyPct": 100
       },
       "blog": {
-        "files": 0,
+        "files": 19,
         "expected": 19,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 19,
+        "bodyTranslated": 19,
+        "metaPct": 100,
+        "bodyPct": 100
       },
       "templates": {
         "packs": 11,
@@ -491,7 +491,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 45
+      "composite": 99.9
     },
     "uk": {
       "ui": {
@@ -509,20 +509,20 @@
         ]
       },
       "learn": {
-        "files": 0,
+        "files": 139,
         "expected": 139,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 138,
+        "bodyTranslated": 139,
+        "metaPct": 99.3,
+        "bodyPct": 100
       },
       "blog": {
-        "files": 0,
+        "files": 19,
         "expected": 19,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 19,
+        "bodyTranslated": 19,
+        "metaPct": 100,
+        "bodyPct": 100
       },
       "templates": {
         "packs": 11,
@@ -532,7 +532,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 44.5
+      "composite": 99.4
     },
     "tr": {
       "ui": {
@@ -547,12 +547,12 @@
         ]
       },
       "learn": {
-        "files": 0,
+        "files": 89,
         "expected": 139,
-        "metaTranslated": 0,
-        "bodyTranslated": 0,
-        "metaPct": 0,
-        "bodyPct": 0
+        "metaTranslated": 89,
+        "bodyTranslated": 89,
+        "metaPct": 64,
+        "bodyPct": 64
       },
       "blog": {
         "files": 0,
@@ -570,7 +570,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 44.8
+      "composite": 67.2
     },
     "ar": {
       "ui": {
