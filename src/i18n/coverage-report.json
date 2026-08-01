@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T05:04:45.046Z",
+  "generatedAt": "2026-08-01T05:15:34.669Z",
   "enUiKeys": 481,
   "enLearn": 139,
   "enBlog": 19,
@@ -353,12 +353,12 @@
         ]
       },
       "learn": {
-        "files": 41,
+        "files": 72,
         "expected": 139,
-        "metaTranslated": 41,
-        "bodyTranslated": 41,
-        "metaPct": 29.5,
-        "bodyPct": 29.5
+        "metaTranslated": 72,
+        "bodyTranslated": 72,
+        "metaPct": 51.8,
+        "bodyPct": 51.8
       },
       "blog": {
         "files": 0,
@@ -376,7 +376,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 54.7
+      "composite": 62.5
     },
     "nl": {
       "ui": {

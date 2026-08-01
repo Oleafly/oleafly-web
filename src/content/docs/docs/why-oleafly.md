@@ -66,6 +66,8 @@ Honesty cuts both ways:
 
 - **No real-time multi-user editing.** Collaboration today is Git-based: push, pull, branch, review. Cloud sync is on the roadmap.
 - **No in-app merge conflict resolver.** Conflicts surface as Git output; you resolve them like any Git conflict.
-- **English-only spellcheck and grammar** for now.
+- **English-only spellcheck and grammar** for now (desktop app).
+
+The **website** is separate: oleafly.com is available in **18 languages** (English default, plus zh-cn, zh-tw, ja, ko, es, pt-br, fr, de, hi, it, nl, pl, ru, uk, tr, ar, vi) with flag + locale codes in the switcher. Details: [Overview → Website languages](/docs/overview/#website-languages).
 
 If one of these is your hard requirement, the comparisons above should help you pick the right tool. For everything else, [get started](/docs/getting-started/): the download is free and the first PDF takes about two minutes.

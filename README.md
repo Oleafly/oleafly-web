@@ -48,7 +48,39 @@ A few other places you might touch:
 
 ## Internationalization (i18n)
 
-The language switcher lists **18 locales** (English unprefixed; others under `/{locale}/…`). **简体中文 (`zh-cn`)** and **繁體中文 (`zh-tw`)** are near the top of the menu for the Asian market, followed by Japanese and Korean.
+The site ships **18 locales**. English is the default at the site root (no URL prefix). Every other language is a first-class path under `/{locale}/…` (for example `https://oleafly.com/zh-cn/learn/`). The header language switcher shows a **flag + native name** for each option (flag images, not emoji, so they render on Windows too).
+
+### Supported languages
+
+Source of truth: `src/i18n/locales.ts` (`LOCALES` + `LOCALE_META`). Switcher order is the table order below (English first, then major Asian markets, then the rest).
+
+| Flag | Locale code | Native name | English name | URL | BCP-47 |
+|:----:|:-----------:|-------------|--------------|-----|--------|
+| 🇺🇸 | `en` | English | English | `/` (default) | `en` |
+| 🇨🇳 | `zh-cn` | 简体中文 | Chinese (Simplified) | `/zh-cn/` | `zh-CN` |
+| 🇹🇼 | `zh-tw` | 繁體中文 | Chinese (Traditional) | `/zh-tw/` | `zh-TW` |
+| 🇯🇵 | `ja` | 日本語 | Japanese | `/ja/` | `ja` |
+| 🇰🇷 | `ko` | 한국어 | Korean | `/ko/` | `ko` |
+| 🇪🇸 | `es` | Español | Spanish | `/es/` | `es` |
+| 🇧🇷 | `pt-br` | Português | Portuguese (Brazil) | `/pt-br/` | `pt-BR` |
+| 🇫🇷 | `fr` | Français | French | `/fr/` | `fr` |
+| 🇩🇪 | `de` | Deutsch | German | `/de/` | `de` |
+| 🇮🇳 | `hi` | हिन्दी | Hindi | `/hi/` | `hi` |
+| 🇮🇹 | `it` | Italiano | Italian | `/it/` | `it` |
+| 🇳🇱 | `nl` | Nederlands | Dutch | `/nl/` | `nl` |
+| 🇵🇱 | `pl` | Polski | Polish | `/pl/` | `pl` |
+| 🇷🇺 | `ru` | Русский | Russian | `/ru/` | `ru` |
+| 🇺🇦 | `uk` | Українська | Ukrainian | `/uk/` | `uk` |
+| 🇹🇷 | `tr` | Türkçe | Turkish | `/tr/` | `tr` |
+| 🇸🇦 | `ar` | العربية | Arabic (RTL) | `/ar/` | `ar` |
+| 🇻🇳 | `vi` | Tiếng Việt | Vietnamese | `/vi/` | `vi` |
+
+Examples:
+
+- Japanese learn index → https://oleafly.com/ja/learn/
+- Simplified Chinese home → https://oleafly.com/zh-cn/
+- Spanish templates → https://oleafly.com/es/templates/
+- Hindi tools → https://oleafly.com/hi/tools/
 
 **Language is not forced by country (geo-IP).** Behavior is on-demand and preference-based:
 
@@ -74,7 +106,7 @@ pnpm i18n:coverage:md       # also refreshes the README block below
 <!-- i18n-coverage:start -->
 ## i18n coverage
 
-Generated: `2026-07-31T22:45:08.524Z`
+Generated: `2026-08-01T05:15:34.669Z`
 
 | Surface | English source |
 |---------|----------------|
@@ -92,31 +124,39 @@ Generated: `2026-07-31T22:45:08.524Z`
 | `zh-tw` | **100%** | 100% | 100% | 100% | 100% | 100% | 100% |
 | `ja` | **100%** | 100% | 100% | 100% | 100% | 100% | 100% |
 | `ko` | **100%** | 100% | 100% | 100% | 100% | 100% | 100% |
-| `es` | **58.7%** | 90% | 54.7% | 1.4% | 100% | 42.1% | 0% |
-| `pt-br` | **15.8%** | 23.7% | 0% | 0% | 36.8% | 26.3% | 0% |
-| `fr` | **9.3%** | 23.3% | 0% | 0% | 0% | 0% | 0% |
-| `de` | **9.2%** | 22.9% | 0% | 0% | 0% | 0% | 0% |
-| `hi` | **27.1%** | 67.8% | 0% | 0% | 0% | 0% | 0% |
+| `es` | **97.1%** | 92.9% | 99.3% | 100% | 100% | 100% | 100% |
+| `pt-br` | **99.4%** | 98.8% | 99.3% | 100% | 100% | 100% | 100% |
+| `fr` | **99.7%** | 99.6% | 99.3% | 100% | 100% | 100% | 100% |
+| `de` | **99.6%** | 99.2% | 99.3% | 100% | 100% | 100% | 100% |
+| `hi` | **100%** | 100% | 100% | 100% | 100% | 100% | 100% |
+| `it` | **62.5%** | 98.5% | 51.8% | 51.8% | 0% | 0% | 100% |
+| `nl` | **44.1%** | 97.7% | 0% | 0% | 0% | 0% | 100% |
+| `pl` | **44.8%** | 99.4% | 0% | 0% | 0% | 0% | 100% |
+| `ru` | **45%** | 100% | 0% | 0% | 0% | 0% | 100% |
+| `uk` | **44.5%** | 98.8% | 0% | 0% | 0% | 0% | 100% |
+| `tr` | **44.8%** | 99.4% | 0% | 0% | 0% | 0% | 100% |
+| `ar` | **45%** | 100% | 0% | 0% | 0% | 0% | 100% |
+| `vi` | **44.8%** | 99.4% | 0% | 0% | 0% | 0% | 100% |
 
 ### All locales
 
 | Locale | UI % | Learn body % | Blog body % | Templates % | Composite |
 |--------|------|--------------|-------------|-------------|-----------|
-| `ar` | 12.7% | 0% | 0% | 0% | 5.1% |
-| `de` | 22.9% | 0% | 0% | 0% | 9.2% |
-| `es` | 90% | 1.4% | 42.1% | 0% | 58.7% |
-| `fr` | 23.3% | 0% | 0% | 0% | 9.3% |
-| `hi` | 67.8% | 0% | 0% | 0% | 27.1% |
-| `it` | 12.7% | 0% | 0% | 0% | 5.1% |
+| `ar` | 100% | 0% | 0% | 100% | 45% |
+| `de` | 99.2% | 100% | 100% | 100% | 99.6% |
+| `es` | 92.9% | 100% | 100% | 100% | 97.1% |
+| `fr` | 99.6% | 100% | 100% | 100% | 99.7% |
+| `hi` | 100% | 100% | 100% | 100% | 100% |
+| `it` | 98.5% | 51.8% | 0% | 100% | 62.5% |
 | `ja` | 100% | 100% | 100% | 100% | 100% |
 | `ko` | 100% | 100% | 100% | 100% | 100% |
-| `nl` | 9.8% | 0% | 0% | 0% | 3.9% |
-| `pl` | 11.9% | 0% | 0% | 0% | 4.8% |
-| `pt-br` | 23.7% | 0% | 26.3% | 0% | 15.8% |
-| `ru` | 12.7% | 0% | 0% | 0% | 5.1% |
-| `tr` | 12.3% | 0% | 0% | 0% | 4.9% |
-| `uk` | 12.7% | 0% | 0% | 0% | 5.1% |
-| `vi` | 12.3% | 0% | 0% | 0% | 4.9% |
+| `nl` | 97.7% | 0% | 0% | 100% | 44.1% |
+| `pl` | 99.4% | 0% | 0% | 100% | 44.8% |
+| `pt-br` | 98.8% | 100% | 100% | 100% | 99.4% |
+| `ru` | 100% | 0% | 0% | 100% | 45% |
+| `tr` | 99.4% | 0% | 0% | 100% | 44.8% |
+| `uk` | 98.8% | 0% | 0% | 100% | 44.5% |
+| `vi` | 99.4% | 0% | 0% | 100% | 44.8% |
 | `zh-cn` | 100% | 100% | 100% | 100% | 100% |
 | `zh-tw` | 100% | 100% | 100% | 100% | 100% |
 

@@ -296,11 +296,16 @@ function buildReport() {
   const learnFiles = enLearnFiles();
   const blogFiles = enBlogFiles();
 
-  // All locales from locales.ts
+  // Locales only from the LOCALES array (not flagIso / other quoted strings in locales.ts)
   const localesRaw = readFileSync(path.join(root, "src/i18n/locales.ts"), "utf8");
-  const locales = [...localesRaw.matchAll(/"([a-z]{2}(?:-[a-z]+)?)"/g)]
-    .map((m) => m[1])
-    .filter((l, i, a) => a.indexOf(l) === i && l !== "en");
+  const localesBlock = localesRaw.match(
+    /export const LOCALES\s*=\s*\[([\s\S]*?)\]\s*as const/,
+  );
+  const locales = localesBlock
+    ? [...localesBlock[1].matchAll(/"([a-z]{2}(?:-[a-z]+)?)"/g)]
+        .map((m) => m[1])
+        .filter((l, i, a) => a.indexOf(l) === i && l !== "en")
+    : [];
 
   const byLocale = {};
   for (const locale of locales) {

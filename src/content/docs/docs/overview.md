@@ -69,6 +69,35 @@ PDF always, plus Word, HTML, Markdown, plain text via Pandoc (fetched on demand)
 
 Projects sit under `~/.oleafly/projects/` as ordinary folders: `.tex`, `.bib`, images, `.git`. No proprietary lock-in. See [Where your data lives](/docs/where-your-data-lives/).
 
+## Website languages
+
+[oleafly.com](https://oleafly.com/) is available in **18 languages**. English is the default at the root URL; every other language uses a locale prefix (for example `/zh-cn/`, `/ja/`, `/es/`). The header language switcher lists each option with a **flag and native name**.
+
+| Flag | Code | Language | Home |
+|:----:|:----:|----------|------|
+| 🇺🇸 | `en` | English | [oleafly.com](https://oleafly.com/) |
+| 🇨🇳 | `zh-cn` | 简体中文 | [/zh-cn/](https://oleafly.com/zh-cn/) |
+| 🇹🇼 | `zh-tw` | 繁體中文 | [/zh-tw/](https://oleafly.com/zh-tw/) |
+| 🇯🇵 | `ja` | 日本語 | [/ja/](https://oleafly.com/ja/) |
+| 🇰🇷 | `ko` | 한국어 | [/ko/](https://oleafly.com/ko/) |
+| 🇪🇸 | `es` | Español | [/es/](https://oleafly.com/es/) |
+| 🇧🇷 | `pt-br` | Português (Brasil) | [/pt-br/](https://oleafly.com/pt-br/) |
+| 🇫🇷 | `fr` | Français | [/fr/](https://oleafly.com/fr/) |
+| 🇩🇪 | `de` | Deutsch | [/de/](https://oleafly.com/de/) |
+| 🇮🇳 | `hi` | हिन्दी | [/hi/](https://oleafly.com/hi/) |
+| 🇮🇹 | `it` | Italiano | [/it/](https://oleafly.com/it/) |
+| 🇳🇱 | `nl` | Nederlands | [/nl/](https://oleafly.com/nl/) |
+| 🇵🇱 | `pl` | Polski | [/pl/](https://oleafly.com/pl/) |
+| 🇷🇺 | `ru` | Русский | [/ru/](https://oleafly.com/ru/) |
+| 🇺🇦 | `uk` | Українська | [/uk/](https://oleafly.com/uk/) |
+| 🇹🇷 | `tr` | Türkçe | [/tr/](https://oleafly.com/tr/) |
+| 🇸🇦 | `ar` | العربية | [/ar/](https://oleafly.com/ar/) |
+| 🇻🇳 | `vi` | Tiếng Việt | [/vi/](https://oleafly.com/vi/) |
+
+Language choice is preference-based (URL, saved switcher choice, or a one-time browser-language banner on `/`). It is **not** hard-locked by geo-IP. Shared deep links keep their language. Learn, blog, templates, tools, and the landing page all follow the same prefixes (for example [Japanese Learn](https://oleafly.com/ja/learn/), [Simplified Chinese blog](https://oleafly.com/zh-cn/blog/)).
+
+The **desktop app** UI language is separate from the website; see the app docs and settings for that. Website FAQ: [Which languages does the website support?](/docs/faq/#which-languages-does-the-website-support).
+
 ## Start here
 
 1. [Download and install](/docs/install/) for your platform.
