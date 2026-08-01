@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T12:27:29.528Z",
+  "generatedAt": "2026-08-01T12:29:40.696Z",
   "enUiKeys": 481,
   "enLearn": 139,
   "enBlog": 19,
@@ -145,26 +145,17 @@
     "es": {
       "ui": {
         "total": 481,
-        "translated": 447,
-        "missing": 34,
-        "pct": 92.9,
-        "sampleMissing": [
-          "nav.blog",
-          "blog.title",
-          "blog.heading",
-          "landing.compare.no",
-          "landing.compare.offline.prism",
-          "landing.compare.offline.overleaf",
-          "landing.compare.offline.resume",
-          "landing.compare.disk.prism"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -183,29 +174,22 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 97.1
+      "composite": 100
     },
     "pt-br": {
       "ui": {
         "total": 481,
-        "translated": 475,
-        "missing": 6,
-        "pct": 98.8,
-        "sampleMissing": [
-          "nav.download",
-          "footer.download",
-          "landing.compare.history.texstudio",
-          "landing.compare.history.vscode",
-          "landing.templates.w5",
-          "landing.dl.eyebrow"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -224,25 +208,22 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.4
+      "composite": 100
     },
     "fr": {
       "ui": {
         "total": 481,
-        "translated": 479,
-        "missing": 2,
-        "pct": 99.6,
-        "sampleMissing": [
-          "footer.discussions",
-          "landing.compare.ats.resume"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -261,27 +242,22 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.7
+      "composite": 100
     },
     "de": {
       "ui": {
         "total": 481,
-        "translated": 477,
-        "missing": 4,
-        "pct": 99.2,
-        "sampleMissing": [
-          "nav.blog",
-          "common.live",
-          "blog.heading",
-          "learn.quizBadge"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -300,7 +276,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.6
+      "composite": 100
     },
     "hi": {
       "ui": {
@@ -339,25 +315,17 @@
     "it": {
       "ui": {
         "total": 481,
-        "translated": 474,
-        "missing": 7,
-        "pct": 98.5,
-        "sampleMissing": [
-          "nav.blog",
-          "footer.privacy",
-          "blog.heading",
-          "privacy.heading",
-          "learn.quizBadge",
-          "landing.compare.ai.resume",
-          "landing.templates.w5"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -376,31 +344,22 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.3
+      "composite": 100
     },
     "nl": {
       "ui": {
         "total": 481,
-        "translated": 470,
-        "missing": 11,
-        "pct": 97.7,
-        "sampleMissing": [
-          "nav.deadlines",
-          "footer.product",
-          "footer.privacy",
-          "footer.project",
-          "common.live",
-          "common.beginner",
-          "privacy.heading",
-          "learn.quizBadge"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -419,24 +378,22 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99
+      "composite": 100
     },
     "pl": {
       "ui": {
         "total": 481,
-        "translated": 480,
-        "missing": 1,
-        "pct": 99.8,
-        "sampleMissing": [
-          "common.post"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -455,7 +412,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.8
+      "composite": 100
     },
     "ru": {
       "ui": {
@@ -468,9 +425,9 @@
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -489,29 +446,22 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.9
+      "composite": 100
     },
     "uk": {
       "ui": {
         "total": 481,
-        "translated": 475,
-        "missing": 6,
-        "pct": 98.8,
-        "sampleMissing": [
-          "landing.compare.col.prism",
-          "landing.compare.na",
-          "landing.compare.zeroTeX.resume",
-          "landing.compare.formats.resume",
-          "landing.compare.aiVerify.texstudio",
-          "landing.compare.aiVerify.resume"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -530,26 +480,22 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.4
+      "composite": 100
     },
     "tr": {
       "ui": {
         "total": 481,
-        "translated": 478,
-        "missing": 3,
-        "pct": 99.4,
-        "sampleMissing": [
-          "nav.blog",
-          "blog.heading",
-          "landing.templates.w5"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -568,7 +514,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.7
+      "composite": 100
     },
     "ar": {
       "ui": {
@@ -607,21 +553,17 @@
     "vi": {
       "ui": {
         "total": 481,
-        "translated": 478,
-        "missing": 3,
-        "pct": 99.4,
-        "sampleMissing": [
-          "nav.blog",
-          "blog.title",
-          "blog.heading"
-        ]
+        "translated": 481,
+        "missing": 0,
+        "pct": 100,
+        "sampleMissing": []
       },
       "learn": {
         "files": 139,
         "expected": 139,
-        "metaTranslated": 138,
+        "metaTranslated": 139,
         "bodyTranslated": 139,
-        "metaPct": 99.3,
+        "metaPct": 100,
         "bodyPct": 100
       },
       "blog": {
@@ -640,7 +582,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.7
+      "composite": 100
     }
   },
   "targets": [

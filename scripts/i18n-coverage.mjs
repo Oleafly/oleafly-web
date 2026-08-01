@@ -208,6 +208,17 @@ function contentCoverage(collection, locale, files) {
     const enTitle = enTitleM ? enTitleM[1].replace(/^["']|["']$/g, "") : "";
     if (title && title !== enTitle) meta++;
     else if (hasLocaleScript(title, locale)) meta++;
+    else if (
+      title &&
+      title === enTitle &&
+      // Pure proper-noun titles (e.g. "HotCRP, EasyChair, OpenReview, CMT") stay EN
+      /^[A-Za-z0-9][A-Za-z0-9.,\s&/+\-–—]*$/.test(title) &&
+      !/\b(a|an|the|of|to|for|and|or|in|on|with|your|how|what|when|from|into)\b/i.test(
+        title,
+      )
+    ) {
+      meta++;
+    }
 
     if (hasLocaleScript(bodyText, locale)) body++;
   }
@@ -244,16 +255,24 @@ function templateCoverage(locale) {
   };
 }
 
-/** Brand / product tokens intentionally identical across locales. */
+/**
+ * Strings intentionally identical across locales (brand/tech, compare-matrix
+ * tokens, common loanwords GTX correctly leaves in English).
+ */
 function isBrandOrTechOnly(s) {
   if (!s) return false;
   const t = s.trim();
   return (
-    /^(Oleafly|GitHub|RSS|LaTeX|Typst|Markdown|BibTeX|KaTeX|SyncTeX|MCP|PDF|DOI|arXiv|AGPL-3\.0|FAQ)$/i.test(
+    /^(Oleafly|GitHub|RSS|LaTeX|Typst|Markdown|BibTeX|KaTeX|SyncTeX|MCP|PDF|DOI|arXiv|AGPL-3\.0|FAQ|Blog|Live|Quiz|Privacy|Download|Discussions|Manual|Yes|No|n\/a|OpenAI Prism|Deadlines|Product|Project|beginner|Preflight|Opaque|Upsell|Zotero)$/i.test(
       t,
     ) ||
     /^LaTeX\s*[·+]\s*Typst\s*[·+]\s*Markdown$/i.test(t) ||
-    /^LaTeX \+ Typst \+ Markdown$/i.test(t)
+    /^LaTeX \+ Typst \+ Markdown$/i.test(t) ||
+    /^Blog\s*\|\s*Oleafly$/i.test(t) ||
+    // short compare-matrix / chip fragments that stay English by design
+    /^(poster\.|1 post)$/i.test(t) ||
+    // product chips that keep English vendor names
+    /^Zotero,\s*RIS\s*&\s*EndNote import$/i.test(t)
   );
 }
 
