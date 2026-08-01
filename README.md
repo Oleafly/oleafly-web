@@ -56,24 +56,24 @@ Source of truth: `src/i18n/locales.ts` (`LOCALES` + `LOCALE_META`). Switcher ord
 
 | Flag | Locale code | Native name | English name | URL | BCP-47 |
 |:----:|:-----------:|-------------|--------------|-----|--------|
-| 🇺🇸 | `en` | English | English | `/` (default) | `en` |
-| 🇨🇳 | `zh-cn` | 简体中文 | Chinese (Simplified) | `/zh-cn/` | `zh-CN` |
-| 🇹🇼 | `zh-tw` | 繁體中文 | Chinese (Traditional) | `/zh-tw/` | `zh-TW` |
-| 🇯🇵 | `ja` | 日本語 | Japanese | `/ja/` | `ja` |
-| 🇰🇷 | `ko` | 한국어 | Korean | `/ko/` | `ko` |
-| 🇪🇸 | `es` | Español | Spanish | `/es/` | `es` |
-| 🇧🇷 | `pt-br` | Português | Portuguese (Brazil) | `/pt-br/` | `pt-BR` |
-| 🇫🇷 | `fr` | Français | French | `/fr/` | `fr` |
-| 🇩🇪 | `de` | Deutsch | German | `/de/` | `de` |
-| 🇮🇳 | `hi` | हिन्दी | Hindi | `/hi/` | `hi` |
-| 🇮🇹 | `it` | Italiano | Italian | `/it/` | `it` |
-| 🇳🇱 | `nl` | Nederlands | Dutch | `/nl/` | `nl` |
-| 🇵🇱 | `pl` | Polski | Polish | `/pl/` | `pl` |
-| 🇷🇺 | `ru` | Русский | Russian | `/ru/` | `ru` |
-| 🇺🇦 | `uk` | Українська | Ukrainian | `/uk/` | `uk` |
-| 🇹🇷 | `tr` | Türkçe | Turkish | `/tr/` | `tr` |
-| 🇸🇦 | `ar` | العربية | Arabic (RTL) | `/ar/` | `ar` |
-| 🇻🇳 | `vi` | Tiếng Việt | Vietnamese | `/vi/` | `vi` |
+| <img src="https://flagcdn.com/w40/us.png" width="20" height="15" alt="United States" /> | `en` | English | English | `/` (default) | `en` |
+| <img src="https://flagcdn.com/w40/cn.png" width="20" height="15" alt="China" /> | `zh-cn` | 简体中文 | Chinese (Simplified) | `/zh-cn/` | `zh-CN` |
+| <img src="https://flagcdn.com/w40/tw.png" width="20" height="15" alt="Taiwan" /> | `zh-tw` | 繁體中文 | Chinese (Traditional) | `/zh-tw/` | `zh-TW` |
+| <img src="https://flagcdn.com/w40/jp.png" width="20" height="15" alt="Japan" /> | `ja` | 日本語 | Japanese | `/ja/` | `ja` |
+| <img src="https://flagcdn.com/w40/kr.png" width="20" height="15" alt="South Korea" /> | `ko` | 한국어 | Korean | `/ko/` | `ko` |
+| <img src="https://flagcdn.com/w40/es.png" width="20" height="15" alt="Spain" /> | `es` | Español | Spanish | `/es/` | `es` |
+| <img src="https://flagcdn.com/w40/br.png" width="20" height="15" alt="Brazil" /> | `pt-br` | Português | Portuguese (Brazil) | `/pt-br/` | `pt-BR` |
+| <img src="https://flagcdn.com/w40/fr.png" width="20" height="15" alt="France" /> | `fr` | Français | French | `/fr/` | `fr` |
+| <img src="https://flagcdn.com/w40/de.png" width="20" height="15" alt="Germany" /> | `de` | Deutsch | German | `/de/` | `de` |
+| <img src="https://flagcdn.com/w40/in.png" width="20" height="15" alt="India" /> | `hi` | हिन्दी | Hindi | `/hi/` | `hi` |
+| <img src="https://flagcdn.com/w40/it.png" width="20" height="15" alt="Italy" /> | `it` | Italiano | Italian | `/it/` | `it` |
+| <img src="https://flagcdn.com/w40/nl.png" width="20" height="15" alt="Netherlands" /> | `nl` | Nederlands | Dutch | `/nl/` | `nl` |
+| <img src="https://flagcdn.com/w40/pl.png" width="20" height="15" alt="Poland" /> | `pl` | Polski | Polish | `/pl/` | `pl` |
+| <img src="https://flagcdn.com/w40/ru.png" width="20" height="15" alt="Russia" /> | `ru` | Русский | Russian | `/ru/` | `ru` |
+| <img src="https://flagcdn.com/w40/ua.png" width="20" height="15" alt="Ukraine" /> | `uk` | Українська | Ukrainian | `/uk/` | `uk` |
+| <img src="https://flagcdn.com/w40/tr.png" width="20" height="15" alt="Turkey" /> | `tr` | Türkçe | Turkish | `/tr/` | `tr` |
+| <img src="https://flagcdn.com/w40/sa.png" width="20" height="15" alt="Saudi Arabia" /> | `ar` | العربية | Arabic (RTL) | `/ar/` | `ar` |
+| <img src="https://flagcdn.com/w40/vn.png" width="20" height="15" alt="Vietnam" /> | `vi` | Tiếng Việt | Vietnamese | `/vi/` | `vi` |
 
 Examples:
 
