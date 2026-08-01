@@ -5,7 +5,7 @@ description: "The complete shortcut reference for macOS, Windows, and Linux, fro
 
 Oleafly is comfortable to drive entirely from the keyboard. Press **⌘/** (Ctrl+/) inside the app anytime for a searchable version of this list.
 
-![The searchable in-app keyboard shortcuts reference](https://assets.oleafly.com/images/screenshots/desktop/keyboard-shortcuts.png)
+![The searchable in-app keyboard shortcuts reference](https://cdn.oleafly.com/images/screenshots/desktop/keyboard-shortcuts.png)
 
 macOS shortcuts are listed first; the Windows/Linux equivalent swaps ⌘ for Ctrl.
 

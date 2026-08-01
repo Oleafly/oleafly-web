@@ -7,7 +7,7 @@ The editor completes three things as you type: LaTeX commands, cross-references,
 
 Suggestions appear automatically while typing; **Ctrl+Space** summons them anywhere. Accept with **Tab** or **Enter**.
 
-![The slash insert menu in the editor](https://assets.oleafly.com/images/screenshots/desktop/editor-slash-menu.png)
+![The slash insert menu in the editor](https://cdn.oleafly.com/images/screenshots/desktop/editor-slash-menu.png)
 
 ## Command completion
 

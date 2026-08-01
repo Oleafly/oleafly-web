@@ -5,7 +5,7 @@ description: "Bidirectional source-PDF navigation: jump from the cursor to the e
 
 SyncTeX is the link between your LaTeX source and the typeset PDF. Oleafly compiles with SyncTeX data enabled on every build, so both directions of the jump are always one gesture away.
 
-<video src="https://assets.oleafly.com/videos/synctex.mp4" autoplay loop muted playsinline aria-label="Cmd-click the PDF and land on the exact word in the source"></video>
+<video src="https://cdn.oleafly.com/videos/synctex.mp4" autoplay loop muted playsinline aria-label="Cmd-click the PDF and land on the exact word in the source"></video>
 
 ## Source to PDF: ⌘⇧J
 

@@ -5,7 +5,7 @@ description: "An AI agent wired into your project: it reads files, edits with yo
 
 The chat panel (the sparkles tab in the left rail) is an agent inside your editor, not a chatbot bolted on next to it. Ask it to fix your LaTeX errors and it will compile, read the log, edit the file, recompile, and report back, pausing for your approval before touching anything.
 
-<video src="https://assets.oleafly.com/videos/ai-fix.mp4" autoplay loop muted playsinline aria-label="The assistant finds and fixes a LaTeX error"></video>
+<video src="https://cdn.oleafly.com/videos/ai-fix.mp4" autoplay loop muted playsinline aria-label="The assistant finds and fixes a LaTeX error"></video>
 
 ## Asking
 
@@ -56,7 +56,7 @@ Tool calls appear in the chat as chips (spinner while running, then a check, or 
 
 Any file-changing tool pauses the whole run and shows an approval card: which tool, what it wants to do, and a red/green diff of exactly what would change. **Approve**, **Reject**, or **Always allow** writes for the rest of the session; the decision is stamped on the tool chip permanently, so the conversation records what you allowed. Session allow covers only non-delete writes: `delete_file` asks every single time, no matter what.
 
-![The approval card: a diff you approve or reject](https://assets.oleafly.com/images/screenshots/desktop/ai-approval-diff.png)
+![The approval card: a diff you approve or reject](https://cdn.oleafly.com/images/screenshots/desktop/ai-approval-diff.png)
 
 Two more layers of safety back this up:
 

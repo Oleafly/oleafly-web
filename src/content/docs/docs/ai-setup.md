@@ -36,7 +36,7 @@ You can connect several providers at once. Every connected provider shows the sa
 
 You can also toggle individual models on or off per provider, add a model by id, delete with confirmation, or restore that provider's built-in list.
 
-![Provider cards in Settings, AI Assistant](https://assets.oleafly.com/images/screenshots/desktop/settings-ai.png)
+![Provider cards in Settings, AI Assistant](https://cdn.oleafly.com/images/screenshots/desktop/settings-ai.png)
 
 ## Custom providers (OpenAI-compatible)
 

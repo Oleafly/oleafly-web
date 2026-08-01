@@ -29,7 +29,7 @@ Clean tree? The panel says so and stays out of the way.
 
 Click any changed file and its diff opens as a tab in the editor area:
 
-![A side-by-side diff of working changes](https://assets.oleafly.com/images/screenshots/desktop/git-diff.png)
+![A side-by-side diff of working changes](https://cdn.oleafly.com/images/screenshots/desktop/git-diff.png)
 
 - **Split** (side-by-side) or **Unified** view, with intra-line changes highlighted and unchanged regions collapsed in split view.
 - **Previous / Next change** buttons hop between chunks.

@@ -7,7 +7,7 @@ The right-hand pane is a full PDF reader built for the write-compile loop: it up
 
 The viewer is virtualized: only pages near your viewport are rasterized, which is what keeps a long thesis light to scroll.
 
-![Two-page spread view in the PDF preview](https://assets.oleafly.com/images/screenshots/desktop/pdf-preview-spread.png)
+![Two-page spread view in the PDF preview](https://cdn.oleafly.com/images/screenshots/desktop/pdf-preview-spread.png)
 
 ## The toolbar, left to right
 
