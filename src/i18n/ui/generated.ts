@@ -6284,7 +6284,7 @@ export const generatedOverrides: Record<string, Partial<UiDict>> = {
   "pl": {
     "blog.description": "Notatki od Oleafly na temat pisania badań, LaTeX, narzędzi lokalnych i tworzenia produktu.",
     "blog.gridLayout": "Układ siatki",
-    "blog.heading": "Blog",
+    "blog.heading": "Bloga",
     "blog.layout": "Układ postu",
     "blog.listLayout": "Układ listy",
     "blog.sub": "Uwagi na temat pisania badań, LaTeX-a, narzędzi lokalnych i tego, co tworzymy w Oleafly.",
@@ -6684,7 +6684,7 @@ export const generatedOverrides: Record<string, Partial<UiDict>> = {
     "learn.tracks": "Utwory",
     "live.heading": "Podgląd LaTeX na żywo",
     "live.title": "Podgląd LaTeX na żywo | Liściasty",
-    "nav.blog": "Blog",
+    "nav.blog": "Bloga",
     "nav.deadlines": "Terminy",
     "nav.docs": "Dokumenty",
     "nav.download": "Pobierać",

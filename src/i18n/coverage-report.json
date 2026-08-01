@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T12:26:27.161Z",
+  "generatedAt": "2026-08-01T12:27:29.528Z",
   "enUiKeys": 481,
   "enLearn": 139,
   "enBlog": 19,
@@ -424,13 +424,11 @@
     "pl": {
       "ui": {
         "total": 481,
-        "translated": 478,
-        "missing": 3,
-        "pct": 99.4,
+        "translated": 480,
+        "missing": 1,
+        "pct": 99.8,
         "sampleMissing": [
-          "nav.blog",
-          "common.post",
-          "blog.heading"
+          "common.post"
         ]
       },
       "learn": {
@@ -457,7 +455,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 99.7
+      "composite": 99.8
     },
     "ru": {
       "ui": {
