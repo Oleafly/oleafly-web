@@ -74,8 +74,8 @@ Run the relevant local checks before opening a pull request:
 pnpm build                                # frontend typecheck (noUnusedLocals/Parameters on)
 pnpm test                                 # vitest across src/ and packages/
 pnpm audit --prod --audit-level high      # registry-backed npm advisory check
-cd src-tauri && cargo check               # backend compiles
-cd src-tauri && cargo deny check           # Rust advisories, licenses, and sources
+cargo check --workspace --all-targets     # Rust workspace compiles
+cargo deny --manifest-path src-tauri/Cargo.toml check  # Rust advisories, licenses, and sources
 ```
 
 The two audit commands require registry/network access. CI records their
@@ -92,7 +92,7 @@ pnpm test:e2e:app                         # builds + launches the app, runs Play
 
 1. The frontend loads the backend `project_engine` descriptor and its capability flags, then calls `compileProject(projectId, mainDoc, offline)` through Tauri IPC.
 2. Rust dispatches through `DocumentEngine`. UI code must not infer engine behavior from a filename.
-3. LaTeX uses bundled Tectonic by default. A project can instead choose pdfLaTeX, XeLaTeX, or LuaLaTeX through `latexmk`. System TeX distributions take priority over Oleafly's managed TinyTeX.
+3. LaTeX uses bundled Tectonic by default. A project can instead choose pdfLaTeX, XeLaTeX, or LuaLaTeX through `latexmk`. A complete system TeX installation takes priority over Oleafly's managed TinyTeX. The shared detector requires the core compilers, `latexmk`, `kpsewhich`, and Biber before granting that priority.
 4. Typst invokes the pinned Typst CLI directly against the selected `.typ` main document with short diagnostics and an explicit PDF output path.
 5. Markdown invokes Pandoc directly against `.md`/`.markdown`, with an explicit
    output path and `--pdf-engine=<absolute bundled Tectonic path>`. Pandoc's

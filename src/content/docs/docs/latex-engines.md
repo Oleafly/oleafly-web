@@ -17,10 +17,10 @@ Choose pdfLaTeX, XeLaTeX, or LuaLaTeX from a project's compiler menu when the pr
 
 There are two ways to provide that toolchain:
 
-1. **Use an existing installation.** Oleafly detects MacTeX, TeX Live, MiKTeX, and TinyTeX on your system. A system distribution takes priority over Oleafly's managed copy.
+1. **Use an existing installation.** Oleafly detects MacTeX, TeX Live, MiKTeX, and TinyTeX on your system. A system installation takes priority over Oleafly's managed copy only when its binary directory contains `latexmk`, pdfLaTeX, XeLaTeX, LuaLaTeX, `kpsewhich`, and Biber. A partial installation cannot silently outrank a working managed TinyTeX.
 2. **Install managed TinyTeX.** The download is about 250 MB and installs under `~/.oleafly/tinytex` with no administrator access. You can remove it from Settings later.
 
-`latexmk` is not fully sandboxed. It can run TeX features that read files available to your account, so use it only for projects you trust. Tectonic remains the safer default for untrusted source.
+`latexmk` is not a filesystem sandbox. Even with shell commands blocked, TeX can read files available to your account. Oleafly also disables project, user, and system `.latexmkrc` files because they are executable Perl. Use system TeX only for projects you trust. Imported projects stay on Tectonic until you choose a system compiler.
 
 With an engine present, the [Preflight](/docs/preflight/) panel's **Compile tagged and verify** button can produce a tagged PDF with LuaLaTeX and immediately audit it, in one step. Prefer your own toolchain? Preflight's **Prepare for accessible export** rewrites your source for tagging and you compile it with any LuaLaTeX (TeX Live 2025 or newer) outside the app.
 

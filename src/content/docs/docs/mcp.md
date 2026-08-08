@@ -88,7 +88,7 @@ Most MCP tools share their names and schemas with the in-app assistant. Project 
 
 Tools target the project open in the app when one is available. With a connected window, use `list_projects` and `open_project` to select another project.
 
-After the last window closes, the backend keeps `read_file`, `list_files`, and `search_project` available. Native file writes also remain available when the approval policy permits them. These tools keep using the last reported project when it is still valid, then fall back to the most recently updated valid project in the Oleafly library. Status, project selection, compilation, logs, PDF inspection, theme changes, and figure tools require a connected window.
+After the last window closes, the backend keeps `read_file`, `list_files`, and `search_project` available. Native writes, replacements, creates, and renames also remain available when the approval policy permits them. These tools use only the last project reported by the app, and refuse the call if that project is no longer valid. They never guess from other projects in the library. Status, project selection, deletion, compilation, logs, PDF inspection, theme changes, and figure tools require a connected window.
 
 ### Orientation
 
@@ -141,7 +141,7 @@ Many MCP clients ask before calling a tool. Oleafly also applies the policy sele
 
 - **Confirm every change** is the default. Writes, renames, and deletes show an approval card while an app window is connected. Without a window, those operations are refused because there is nowhere to show the card.
 - **Auto-approve edits, confirm deletes** lets writes and renames run in the backend. Deletes still need a connected window for confirmation.
-- **Trust this connection** lets backend writes and deletes run without an Oleafly prompt. Use it only when you trust the client and its own approval controls.
+- **Trust this connection** lets backend writes and renames run without an Oleafly prompt. Deletion still requires a connected window. Use this policy only when you trust the client and its own approval controls.
 
 Two more switches back this up:
 
@@ -151,7 +151,7 @@ Two more switches back this up:
 And two invariants you do not configure:
 
 - **Localhost only**: the bind address is `127.0.0.1`. Requests carrying a browser `Origin` header are rejected, and `Host` must be loopback.
-- **Project confinement**: backend file tools accept project-relative paths and confine canonical paths to the chosen project under the Oleafly library. They do not expose arbitrary filesystem access.
+- **Project confinement**: backend file tools accept project-relative paths and confine canonical paths to the project reported by the app. A tool call cannot supply another project ID or make the backend choose a different library project.
 
 ## Watch it work
 
