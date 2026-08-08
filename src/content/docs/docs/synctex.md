@@ -17,9 +17,9 @@ It works across multi-file projects: a cursor inside `chapters/methods.tex` find
 
 ## PDF to source: ⌘-click
 
-Hold **⌘** (Ctrl); the pointer over the PDF becomes a crosshair. Click any word and the editor jumps there, opening the right file first if the text came from an `\input` child.
+Hold **⌘** or Ctrl and the pointer over the PDF becomes a crosshair. Click a word to jump to it in the editor. Oleafly opens the right file first when the text came from an `\input` child.
 
-Oleafly goes one step further than line-level SyncTeX: it reads the PDF's text layer to identify the exact word you clicked and places your cursor on that word, not just at the start of the line.
+Oleafly reads the PDF text layer to identify the word you clicked and places the cursor there instead of at the start of the line.
 
 One precedence rule: ⌘-clicking a hyperlink in the PDF follows the link behavior instead of jumping.
 
@@ -32,5 +32,5 @@ SyncTeX data comes from the last compile, so it can go stale:
 
 ## Where it doesn't apply
 
-- The [detached preview window](/docs/pdf-preview/#a-second-monitor-the-detached-preview-window) mirrors the PDF but doesn't accept SyncTeX clicks; jump from the main window.
-- Image projects (standalone figures) skip SyncTeX; a one-page figure doesn't need it.
+- The [detached preview window](/docs/pdf-preview/#a-second-monitor-the-detached-preview-window) mirrors the PDF but does not accept SyncTeX clicks. Jump from the main window.
+- Image projects for standalone figures skip SyncTeX because a one-page figure does not need it.

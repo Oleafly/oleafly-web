@@ -1,9 +1,9 @@
 ---
 title: "Connect via MCP"
-description: "Drive Oleafly from Claude Desktop, Claude Code, Cursor, or Grok with no API key: Oleafly runs a local MCP server on 127.0.0.1, exposing the same tools and approval prompts as the built-in assistant."
+description: "Connect Claude Desktop, Claude Code, Cursor, Codex, or another MCP client to Oleafly's local project tools."
 ---
 
-Oleafly can act as an MCP (Model Context Protocol) server. Any MCP client (Claude Desktop, Claude Code, Cursor, Grok CLI, and others) can read, edit, search, and compile the project you have open, using the same tools and the same approval prompts as Oleafly's built-in [assistant](/docs/ai-chat/). You do not need an API key in Oleafly for this; the external app brings its own model.
+Oleafly can act as an MCP (Model Context Protocol) server. MCP clients such as Claude Desktop, Claude Code, Cursor, Codex, and Grok CLI can read, edit, search, and compile an Oleafly project. You do not need an AI provider key in Oleafly because the client supplies the model.
 
 This is the option when you already have a Claude (or similar) subscription and want that chat app to drive Oleafly, without pasting an API key into [Settings](/docs/ai-setup/).
 
@@ -12,7 +12,7 @@ This is the option when you already have a Claude (or similar) subscription and 
 1. Open **Settings → MCP**.
 2. Toggle **Enable MCP server** on.
 
-The server runs only while Oleafly is open. It listens on `127.0.0.1` only (this computer), never on the network. When you turn it off or quit Oleafly, the endpoint disappears.
+The server runs only while the Oleafly process is open. It listens on `127.0.0.1` only, never on your local network. Closing the project window does not stop the server. Turning MCP off or quitting Oleafly does.
 
 Oleafly prefers port `5323` (`http://127.0.0.1:5323/mcp`). If it is unavailable, the server automatically binds another free local port and saves it for the next launch. Settings shows the active URL. Its restart button reuses the current port when possible or selects another free one.
 
@@ -84,7 +84,11 @@ The `mcp.json` file next to your Oleafly data (shown in Settings) holds the same
 
 ## What the tools can do
 
-The MCP tool list is registered from the same tool objects as the in-app assistant, so names, descriptions, and schemas stay in lockstep with [Chat & tools](/docs/ai-chat/#what-the-assistant-can-do).
+Most MCP tools share their names and schemas with the in-app assistant. Project discovery and routing tools are provided by the desktop backend.
+
+Tools target the project open in the app when one is available. With a connected window, use `list_projects` and `open_project` to select another project.
+
+After the last window closes, the backend keeps `read_file`, `list_files`, and `search_project` available. Native file writes also remain available when the approval policy permits them. These tools keep using the last reported project when it is still valid, then fall back to the most recently updated valid project in the Oleafly library. Status, project selection, compilation, logs, PDF inspection, theme changes, and figure tools require a connected window.
 
 ### Orientation
 
@@ -121,7 +125,7 @@ The MCP tool list is registered from the same tool objects as the in-app assista
 | Tool | What it does |
 |---|---|
 | `compile` | Compile the project to PDF |
-| `preview_figure` | Compile a figure in isolation; returns a PNG image |
+| `preview_figure` | Compile a figure in isolation and return a PNG image |
 | `insert_figure` | Insert the last previewed figure into the document |
 | `load_image` | Load an image from the project for figure work |
 
@@ -133,25 +137,25 @@ The MCP tool list is registered from the same tool objects as the in-app assista
 
 ## Approvals and safety
 
-Your MCP client already asks you to approve tool use on its side before it ever calls Oleafly. Oleafly's own approval is a second, deeper gate that shows the actual change, and it is the one that still protects you after you click "Always allow" in the client. Choose how much of it you want with the **approval policy** in Settings:
+Many MCP clients ask before calling a tool. Oleafly also applies the policy selected in **Settings → MCP**:
 
-- **Confirm every change** (default): every write, rename, and delete shows an approval card in Oleafly (with a red/green diff when content rewrites, a rendered image for figures). The card floats as "External agent request (MCP)".
-- **Auto-approve edits, confirm deletes**: writes and renames apply immediately; deletes still show a card. **Always allow writes** on a card sets this for the current session.
-- **Trust this connection**: Oleafly never prompts. Your client's own approval is the only gate, deletes included. Use this when your client already confirms every tool call and you want a frictionless flow.
+- **Confirm every change** is the default. Writes, renames, and deletes show an approval card while an app window is connected. Without a window, those operations are refused because there is nowhere to show the card.
+- **Auto-approve edits, confirm deletes** lets writes and renames run in the backend. Deletes still need a connected window for confirmation.
+- **Trust this connection** lets backend writes and deletes run without an Oleafly prompt. Use it only when you trust the client and its own approval controls.
 
 Two more switches back this up:
 
 - **Read-only mode** (separate toggle) removes the mutating tools from `tools/list` entirely, so an external app can read and compile but never modify files, whatever the policy above.
-- **Bearer token**: a 256-bit random value stored in authenticated encrypted local storage under `~/.oleafly/`. Regenerate it to invalidate old clients. General config reads never expose the token; only the running server's connection controls can reveal it in Settings.
+- **Bearer token**: a 256-bit random value stored in authenticated encrypted local storage under `~/.oleafly/`. Regenerate it to invalidate old clients. General config reads never expose the token. Only the running server's connection controls can reveal it in Settings.
 
 And two invariants you do not configure:
 
 - **Localhost only**: the bind address is `127.0.0.1`. Requests carrying a browser `Origin` header are rejected, and `Host` must be loopback.
-- **No arbitrary paths**: tools only touch the open project under the Oleafly projects directory, through the same sandbox as the built-in tools.
+- **Project confinement**: backend file tools accept project-relative paths and confine canonical paths to the chosen project under the Oleafly library. They do not expose arbitrary filesystem access.
 
 ## Watch it work
 
-While the server is running, an **MCP activity** tab appears in the left rail and logs each incoming tool call, so you can see exactly what the external agent is doing in real time. It disappears when you turn the server off.
+While a window is connected, an **MCP activity** tab logs incoming calls. Backend calls can continue after the last window closes, but there is no activity panel or approval card until a window reconnects.
 
 ## Why claude.ai in the browser cannot connect
 
@@ -161,7 +165,7 @@ A cloud chat service cannot reach `127.0.0.1` on your machine. Use **Claude Desk
 
 | Symptom | What to try |
 |---|---|
-| Empty tool list right after launch | The app registers tools a moment after startup. Retry `tools/list`. |
+| Some tools are unavailable | Figure previews and other UI-only tools need an Oleafly window. Open the app and project, then retry `tools/list`. |
 | Port changed from `5323` | The preferred port was unavailable, so Oleafly selected a free one. Copy the live URL from Settings. |
 | HTTP 401 | Token mismatch (for example after Regenerate). Copy the new token into the client. |
 | HTTP 403 | Client sent an `Origin` header or a non-loopback `Host`. Use a native MCP client, not a browser tab. |
@@ -170,4 +174,4 @@ A cloud chat service cannot reach `127.0.0.1` on your machine. Use **Claude Desk
 
 ## Non-goals (for now)
 
-MCP resources, prompts, SSE push notifications, per-tool enable toggles, multi-window routing, tunnel support, and a bundled stdio binary are not in this release.
+MCP resources, prompts, SSE push notifications, per-tool enable toggles, tunnel support, and a bundled stdio binary are not in this release.

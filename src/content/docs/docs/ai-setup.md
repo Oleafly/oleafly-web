@@ -3,7 +3,7 @@ title: "Set up AI"
 description: "Bring your own key from built-in providers or a custom OpenAI-compatible endpoint, or run fully local with Ollama. Personas, default models, and where your keys live."
 ---
 
-Oleafly's AI is bring-your-own. You connect a provider you already use (or a model on your machine). Your key stays on disk, encrypted. Requests go from the app straight to that provider. There is no Oleafly server in the middle and no markup on your tokens.
+Oleafly's AI is bring-your-own. Connect a provider you already use or a model running on your machine. Keys stay encrypted on disk. The Rust backend resolves the selected provider, makes the request, and streams the result to the interface. There is no Oleafly cloud service in the middle and no markup on your tokens.
 
 Open **Settings → AI Assistant**, or use **Connect a provider** from the chat panel. AI settings are split into three tabs: **Providers and keys**, **Instructions**, and **Personas**.
 
@@ -23,7 +23,7 @@ Open **Settings → AI Assistant**, or use **Connect a provider** from the chat 
 | **xAI (Grok)** | Grok models |
 | **Ollama (local)** | Whatever you have pulled on this machine |
 
-Model lists update when you save a key: Oleafly validates the key and loads that provider's current catalog. Each card still has a **Get key** link to the right signup page. Reasoning models (for example GLM and DeepSeek R1) can stream a thinking phase into chat; see [Chat & tools](/docs/ai-chat/#reasoning-models-think-out-loud).
+When you save a key, Oleafly validates it and loads the provider's current model catalog. Each card has a **Get key** link to the provider's signup page. Some reasoning models can return a separate thinking stream. See [Chat and tools](/docs/ai-chat/#reasoning-models).
 
 ## Connecting a provider
 
@@ -62,19 +62,19 @@ The **Instructions** tab holds standing preferences for chat and inline edits, f
 
 Those preferences are sandboxed. They steer tone and style. They cannot override tools, approval rules, or safety behavior.
 
-The tools catalog and the **Allow PDF page capture** toggle also live here. PDF capture is what lets the assistant rasterize pages for vision checks; leave it off if you do not want that.
+The tools catalog and **Allow PDF page capture** toggle also live here. PDF capture lets the assistant rasterize pages for vision checks. Leave it off if you do not want that.
 
 ## Personas
 
 **Personas** are named instruction presets with a color. Create them under **Personas**, then switch them from the chat **Prompts** menu. A create shortcut can deep-link into Settings when you want a new persona mid-work.
 
-Use personas for roles you reuse: "strict reviewer", "clearer prose", "notation cop". They stack with your global instructions in a controlled way; the in-app labels show which is active.
+Use personas for roles you reuse, such as "strict reviewer", "clearer prose", or "notation cop". They work alongside your global instructions, and the app shows which one is active.
 
 ## Where your keys live
 
-- Keys sit in AES-256-GCM encrypted, owner-restricted files under `~/.oleafly/`. They leave the machine only toward the provider they belong to. Encryption stops plain-text on disk. It does not protect you from someone who already controls your user account.
-- Requests go app → provider over HTTPS, or app → localhost for Ollama and many custom endpoints.
-- Attachment bytes are not stored in chat history; only names and types are.
+- Keys sit in AES-256-GCM encrypted, owner-restricted files under `~/.oleafly/`. Provider credentials are resolved in Rust and are not sent to the webview. They leave the machine only in requests to the provider they belong to. Encryption prevents plain-text storage, but it cannot protect an account that is already compromised.
+- Requests go from the Rust backend to the provider over HTTPS, or to localhost for Ollama and many custom endpoints.
+- Chat history stores attachment names and types, not the attachment bytes.
 
 ## What the assistant can do once connected
 

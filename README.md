@@ -2,7 +2,7 @@
 
 # oleafly.com
 
-### The web home of [Oleafly](https://github.com/Oleafly/Oleafly), the free, open-source, local-first LaTeX studio.
+### The website and documentation for [Oleafly](https://github.com/Oleafly/Oleafly), a free and open-source local-first writing studio.
 
 [![CI](https://img.shields.io/github/actions/workflow/status/Oleafly/oleafly-web/deploy.yml?branch=main&label=CI)](https://github.com/Oleafly/oleafly-web/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](LICENSE)
@@ -18,9 +18,9 @@
 
 <br/>
 
-This repo is the website: the page you see at [oleafly.com](https://oleafly.com) and the product docs at [oleafly.com/docs](https://oleafly.com/docs/overview/). If you're looking for the app itself, that lives at [Oleafly/Oleafly](https://github.com/Oleafly/Oleafly).
+This repository contains [oleafly.com](https://oleafly.com) and its [product documentation](https://oleafly.com/docs/overview/). The desktop app lives in [Oleafly/Oleafly](https://github.com/Oleafly/Oleafly).
 
-Built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build). Everything is static. No server, no database, no third-party requests, and the only JavaScript that ships is for the animations.
+The site uses [Astro](https://astro.build) and [Starlight](https://starlight.astro.build) and deploys as static files. It has no application server or database. Client JavaScript supports interactive pages, navigation, localization, and privacy-aware analytics. The production build also fetches release and project data used to generate static pages.
 
 ## Run it locally
 
@@ -33,7 +33,7 @@ pnpm install
 pnpm dev
 ```
 
-Open http://localhost:4321 and you're looking at the site. Edits reload live.
+Open <http://localhost:4321>. Edits reload as you work.
 
 ## Supported languages
 
@@ -67,15 +67,15 @@ Examples:
 - Spanish templates → https://oleafly.com/es/templates/
 - Hindi tools → https://oleafly.com/hi/tools/
 
-Language is **not** forced by country (geo-IP). The URL always wins; the switcher can save a preference; on a first visit to `/` only, a banner may suggest a match from your browser languages. Shared deep links are never rewritten.
+Language is **not** forced by country or IP address. The URL always wins. The switcher can save a preference, and the home page may suggest a browser-language match on a first visit. Shared deep links are never rewritten.
 
 ## Contributing
 
-Typo fixes and small improvements: open a pull request directly, no need to ask first.
+For typo fixes and small improvements, open a pull request directly.
 
-Bigger changes (new sections, layout changes, new pages): open an issue first so we can talk it through. The page is deliberately tight and we say no to most additions, not because they're bad ideas but because a short page that loads fast is one of our primary goals.
+For new sections, layout changes, or new pages, open an issue first. Keeping the site focused and fast is a product requirement.
 
-Run `pnpm build` before you push. If the build passes locally it will pass in CI.
+Run `pnpm test` and `pnpm build` before you push.
 
 ## How deploys work
 

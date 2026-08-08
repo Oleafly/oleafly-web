@@ -56,7 +56,7 @@ Short answer: everything runs on your machine, for free, with your files in real
 | 🇸🇦 | `ar` | العربية | https://oleafly.com/ar/ |
 | 🇻🇳 | `vi` | Tiếng Việt | https://oleafly.com/vi/ |
 
-Language is **not** forced by your country. The URL always wins; the switcher can save a preference; on a first visit to `/` only, a banner may suggest a language from your browser settings. Deep links are never rewritten. See [Overview → Website languages](/docs/overview/#website-languages).
+Language is **not** forced by your country. The URL always wins. The switcher can save a preference, and the home page may suggest a browser-language match on a first visit. Deep links are never rewritten. See [Overview → Website languages](/docs/overview/#website-languages).
 
 ### Can I import an existing paper or resume?
 Three ways:
@@ -66,7 +66,7 @@ Three ways:
 - **A photo or screenshot**: a connected vision-capable model can transcribe it into LaTeX for your review.
 
 ### Can two people edit at the same time?
-No. There is no real-time collaboration and no cloud sync; collaboration is Git-based: [publish to GitHub](/docs/github-sync/), then push and pull. Because every project is a normal Git repository, standard Git workflows (branches, PRs, review) work outside the app too.
+No. There is no real-time collaboration or cloud sync. Collaboration is Git-based. [Publish to GitHub](/docs/github-sync/), then push and pull. Every project is a normal Git repository, so standard Git workflows work outside the app too.
 
 ## Install
 
@@ -77,18 +77,18 @@ Current macOS releases are signed and notarized. If you still see a Gatekeeper w
 Click **More info**, then **Run anyway**. Some Windows builds still hit SmartScreen until signing is fully rolled out for that channel.
 
 ### Which Linux distributions work?
-Anything 2024-era or newer (glibc 2.39+): Ubuntu 24.04+, Fedora 40+, Debian 13+. AppImage, deb, and rpm are all published.
+Oleafly needs glibc 2.39 or newer, which includes Ubuntu 24.04+, Fedora 40+, and Debian 13+. AppImage and Debian packages are published for both x64 and ARM64.
 
 ## Compiling
 
 ### My first compile is slow
-That's the one-time package fetch: Tectonic downloads what your document needs and caches it. Every compile after that is fast and offline. See [Compiling](/docs/compiling/#packages-fetched-once-cached-forever).
+With Tectonic, this is usually the first package fetch. It downloads what the document needs and caches it. Later compiles use the cache. See [Compiling](/docs/compiling/#packages-fetched-once-cached-forever).
 
 ### A package is missing and the compile errors out
 If Offline mode is on, turn it off for one compile so the package can be fetched and cached, then turn it back on.
 
 ### The compile succeeded but with warnings. Do I care?
-You still got a PDF (the amber chip tells you). Click **Logs** to read them; undefined references and citations are the warnings most worth fixing, and [Preflight](/docs/preflight/#references--assets) pinpoints those precisely.
+You still got a PDF, as shown by the amber chip. Click **Logs** to read the warnings. Undefined references and citations are usually the most important, and [Preflight](/docs/preflight/#references--assets) locates them.
 
 ### An error I don't understand
 Open **Logs** for the parsed error list, or just ask the AI: "fix the LaTeX errors" runs a compile-read-fix-verify loop with your approval on every change.
@@ -108,13 +108,13 @@ Open Settings → AI Assistant → **Providers and keys**. Confirm a provider ha
 Yes: install Ollama, `ollama pull llama3.2`, then **Check for Ollama** in settings. No cloud key. Custom local OpenAI-compatible endpoints work the same way if they speak the OpenAI API.
 
 ### Can the AI change my files without asking?
-No. Every file-changing tool pauses for your approval with a diff, and the assistant checkpoints your project in Git before its first edit. "Always allow" is session-only and never covers deletes. See [Chat & tools](/docs/ai-chat/#you-approve-every-change).
+By default, every file-changing tool pauses for your approval with a diff, and the assistant checkpoints the project in Git before its first edit. "Always allow" applies only to writes for the current session and never covers deletes. See [Chat & tools](/docs/ai-chat/#you-approve-every-change).
 
 ### What can the AI actually do, and what can't it?
 It is a project-aware agent with 25 tools: read and edit files (approval-gated), compile, read the log, extract PDF text, look at rendered pages with a vision model, search literature through OpenAlex, Crossref, and alphaXiv, and keep a plan checklist and sticky per-project notes. It cannot touch files outside the open project, cannot delete anything without an explicit click, and cannot run shell commands. And it is only as good as the model you connect: research results and generated citations still need your verification.
 
 ### Can Claude Desktop, Claude Code, or Cursor drive Oleafly?
-Yes. Oleafly can run a local MCP server (`127.0.0.1` only) that exposes the same tools and approval prompts as the built-in assistant, with no API key needed in Oleafly; the external client brings its own model. Enable it in Settings, MCP. See [Connect via MCP](/docs/mcp/).
+Yes. Oleafly can run a local MCP server on `127.0.0.1`. The external client supplies its own model, so Oleafly does not need an AI provider key. Enable it in Settings, MCP. See [Connect via MCP](/docs/mcp/) for routing and approval behavior when no app window is connected.
 
 ## GitHub sync
 
@@ -147,5 +147,5 @@ Yes, they're plain files. Do it while the project is closed in Oleafly (or reope
 ## Still stuck?
 
 - Search the [issues](https://github.com/Oleafly/Oleafly/issues).
-- The app logs errors to `~/.oleafly/app.log`; include the relevant snippet in a report.
+- The app logs errors to `~/.oleafly/app.log`. Include the relevant snippet in a report.
 - Open a [new issue](https://github.com/Oleafly/Oleafly/issues/new) with steps to reproduce and your OS.

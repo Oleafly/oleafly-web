@@ -3,9 +3,9 @@ title: "Code intelligence"
 description: "IDE-grade navigation for LaTeX: go to definition, find references, project-wide rename, hover cards, math preview, and the document outline."
 ---
 
-Oleafly indexes your whole project, not just the open file: every `\label`, citation key, custom macro, theorem, glossary entry, and the `\input` graph connecting your files. That index powers navigation that LaTeX writing has mostly lived without.
+Oleafly indexes the whole project, including every `\label`, citation key, custom macro, theorem, glossary entry, and the `\input` graph connecting your files. That index powers navigation across files.
 
-Shortcuts show macOS keys; on Windows and Linux, read ⌘ as Ctrl.
+Shortcuts show macOS keys. On Windows and Linux, read ⌘ as Ctrl.
 
 ## Go to definition: F12 or ⌘-click
 
@@ -35,7 +35,7 @@ Hold ⌘ (Ctrl) while hovering and clickable symbols underline like links, click
 
 ## Math preview on hover
 
-Hover over any inline `$…$`, `\(…\)`, or display `\[…\]` math and a tooltip renders it with KaTeX, so you can proofread a formula without compiling. Display math renders in display style; a broken expression shows the error instead of hiding it.
+Hover over inline `$…$`, `\(…\)`, or display `\[…\]` math to render it with KaTeX without compiling. Display math uses display style. A broken expression shows its error.
 
 ## The Outline panel
 

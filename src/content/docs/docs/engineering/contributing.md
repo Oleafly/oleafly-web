@@ -10,7 +10,7 @@ clone to a working dev build, and covers how we review and land changes.
 
 - Report a bug: open a [bug report](https://github.com/Oleafly/Oleafly/issues/new/choose).
 - Request a feature: open a [feature request](https://github.com/Oleafly/Oleafly/issues/new/choose).
-- Report a vulnerability: please do not open a public issue; see [SECURITY.md](https://github.com/Oleafly/Oleafly/blob/main/SECURITY.md).
+- Report a vulnerability privately by following [SECURITY.md](https://github.com/Oleafly/Oleafly/blob/main/SECURITY.md).
 - Send a pull request: see below.
 
 For anything larger than a small fix, open an issue first so we can agree on the
@@ -40,7 +40,7 @@ bash scripts/fetch-typst.sh aarch64-apple-darwin
 pnpm tauri dev
 ```
 
-> The Tectonic and Typst binaries are **git-ignored** on
+> The Tectonic, Biber, and Typst binaries are **git-ignored** on
 > purpose - never commit them. The fetch script drops them in
 > `src-tauri/binaries/`, which is where `bundle.externalBin` expects them.
 
@@ -61,13 +61,15 @@ src/                 React + TypeScript app shell
   store/             Zustand state slices
 packages/            @oleafly/* engine packages, consumed as TypeScript source
 src-tauri/src/       Rust backend (Tauri commands)
-  commands.rs        compile pipeline (Tectonic sidecar)
+  commands.rs        Tauri command handlers and compile entry points
+  latex_engine.rs    Tectonic and latexmk selection
+  mcp/               local MCP server, routing, and native tools
   project.rs         project/file CRUD (path-sandboxed - see `resolve`)
   git.rs             git integration
   github.rs          GitHub OAuth device flow
   paths.rs           path helpers + project-id validation
 docs/                user-facing documentation
-scripts/             tooling (Tectonic fetch, icon gen)
+scripts/             sidecar fetchers, language servers, release checks, icon generation
 ```
 
 ## Tests
@@ -89,18 +91,18 @@ what counts as prose.
 
 - **TypeScript** - the frontend must typecheck and build: `pnpm build`, and
   pass the Biome lint gate: `pnpm lint` (auto-fix what's safe with
-  `pnpm lint:fix`). The gate **blocks** on correctness errors; an existing
+  `pnpm lint:fix`). The gate **blocks** on correctness errors. An existing
   accessibility/style backlog is reported as non-blocking warnings (see
   `biome.json`). Prefer not adding new warnings.
-- **Rust** - the backend must be `cargo fmt`-clean and `cargo clippy`-clean;
-  both are **blocking** in CI (`clippy` runs with `-D warnings`). Run
+- **Rust** - the backend must be `cargo fmt`-clean and `cargo clippy`-clean.
+  Both are **blocking** in CI (`clippy` runs with `-D warnings`). Run
   `cargo fmt` and `cargo clippy --all-targets --fix` before pushing.
 - Match the surrounding code - comment density, naming, and idiom.
 
 ## Pull requests
 
 1. Fork and branch from `main` (`git checkout -b fix/short-description`).
-2. Keep the change focused; unrelated refactors belong in their own PR.
+2. Keep the change focused. Put unrelated refactors in their own PR.
 3. Make sure `pnpm lint`, `pnpm build`, and `cargo test --lib` pass locally.
 4. Fill out the PR template - link the issue, describe the change, note how you
    tested it.
@@ -111,15 +113,13 @@ style is appreciated but not required (e.g. `fix: reject absolute paths in resol
 
 ## Releases (maintainers)
 
-Releases are cut by pushing a version tag; the
-[`Release` workflow](https://github.com/Oleafly/Oleafly/blob/main/.github/workflows/release.yml) builds installers for macOS
-(Apple Silicon), Windows x64, and Linux x64 and attaches them to a **draft**
-GitHub Release for review before publishing.
+Releases are cut by pushing a version tag. The
+[`Release` workflow](https://github.com/Oleafly/Oleafly/blob/main/.github/workflows/release.yml) builds macOS Apple Silicon, Windows x64, Linux x64, and Linux ARM64 installers. It attaches them to a draft for review. Publishing requires a second guarded workflow run for the same tag.
 
 ```bash
 # Bump the version everywhere it's declared (package.json, Cargo.toml,
 # Cargo.lock, tauri.conf.json) in one shot, so the tag can't drift:
-./scripts/bump-version.sh 0.2.0
+./scripts/bump-version.sh 0.3.6
 
 git commit -am "chore: release v0.2.0"
 git tag v0.2.0 && git push origin v0.2.0
