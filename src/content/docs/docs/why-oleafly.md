@@ -32,11 +32,11 @@ The VS Code route is powerful and endlessly configurable, but you assemble it yo
 
 Oleafly gives you the parts that setup never quite delivers, with zero configuration:
 
-- The compiler ships in the app; packages fetch on demand. No TeX Live maintenance, ever.
+- The default compiler ships with the app, and packages download as needed. You can add a system TeX distribution only when a project requires it.
 - Citation lookup that turns a DOI or title into a deduplicated BibTeX entry and a `\cite` at your cursor.
 - A visual diagram composer that generates editable TikZ, plus AI figure generation.
 - Preflight checks for resume parsers and screen readers.
-- An AI assistant wired to your project with tools and approval gates, not just chat in a sidebar.
+- An AI assistant with project tools, approval gates, and a chat interface.
 - Project-wide rename, go to definition, and hover cards tuned specifically for LaTeX labels, citations, and macros.
 
 If you live in VS Code for code and want your thesis in the same keybindings with heavy customization, LaTeX Workshop is a fine choice. Oleafly even meets you halfway: Vim mode is one toggle away.
@@ -45,7 +45,7 @@ If you live in VS Code for code and want your thesis in the same keybindings wit
 
 TeXstudio and TeXmaker are capable, mature desktop editors. Like the VS Code route, they require you to install and maintain a TeX distribution separately, and their interaction model has aged: dialog-heavy configuration, no integrated version control, no AI, and no template gallery.
 
-Oleafly is what a desktop LaTeX editor looks like designed today: bundled compilers (Tectonic for LaTeX, plus first-class Typst and Markdown engines), a template gallery with 23 bundled starting points and 99 downloadable ones, Git history built in, GitHub sync, citation lookup, code intelligence, and a fast interface with light and dark themes.
+Oleafly combines bundled Tectonic, optional `latexmk`, first-class Typst and Markdown projects, templates, Git history, GitHub sync, citation lookup, and code intelligence in one desktop app.
 
 ## vs Word, Google Docs, and resume builders
 
@@ -65,7 +65,7 @@ For long-form academic writing, the comparison barely needs making: numbered ref
 Honesty cuts both ways:
 
 - **No real-time multi-user editing.** Collaboration today is Git-based: push, pull, branch, review. Cloud sync is on the roadmap.
-- **No in-app merge conflict resolver.** Conflicts surface as Git output; you resolve them like any Git conflict.
+- **No in-app merge conflict resolver.** Conflicts appear as Git output. Resolve them with another Git tool.
 - **English-only spellcheck and grammar** for now (desktop app).
 
 The **website** is separate: oleafly.com is available in **18 languages** (English default, plus zh-cn, zh-tw, ja, ko, es, pt-br, fr, de, hi, it, nl, pl, ru, uk, tr, ar, vi) with flag + locale codes in the switcher. Details: [Overview → Website languages](/docs/overview/#website-languages).

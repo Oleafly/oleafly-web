@@ -31,13 +31,13 @@ Oleafly keeps everything in one place, in plain files you can inspect, copy, and
 
 A project is exactly its folder under `~/.oleafly/projects/`. Copy the folder and you've copied the project, history included. Delete it and it's gone. There is no hidden database that has to stay in sync.
 
-`project.json` holds the small amount of metadata Oleafly tracks per project: the display name, which file is the main document, the cover color you picked in the library, the project kind, and your export history. It's ordinary JSON; the worst that happens if you edit it badly is that Oleafly regenerates sensible defaults.
+`project.json` holds the display name, main document, cover color, project kind, and export history. It is ordinary JSON. If the file is invalid, Oleafly regenerates safe defaults.
 
-The `.oleafly/build/` subfolder is a disposable compile cache (the compiled PDF, the log, SyncTeX data). It's ignored by Git and safe to delete anytime; the next compile recreates it.
+The `.oleafly/build/` subfolder is a disposable compile cache for the PDF, log, and SyncTeX data. Git ignores it, and the next compile recreates it if you delete it.
 
 ## Backing up
 
-Three good options, in increasing order of robustness:
+Choose one or combine them:
 
 1. **Copy the folder.** `~/.oleafly/projects/` into your normal backup routine (Time Machine, restic, a synced drive) covers everything.
 2. **Use the zip export.** The Export menu's **Export source (.zip)** produces a clean archive of one project's sources, without caches.

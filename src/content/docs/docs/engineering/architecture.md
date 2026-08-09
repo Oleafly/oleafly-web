@@ -1,12 +1,11 @@
 ---
 title: "Frontend architecture"
-description: "Oleafly's frontend is a pnpm workspace: the app shell lives at the repo root (src/), and the engines it is built from live in packages/ as eleven focused packages"
+description: "How Oleafly divides the desktop app between the frontend workspace, Rust services, and pinned sidecars."
 ---
 
 Oleafly's frontend is a pnpm workspace: the app shell lives at the repo root
-(`src/`), and the engines it is built from live in `packages/*` as eleven
-focused packages. The Rust backend (`src-tauri/`) is unchanged by this split;
-see the [README's architecture diagram](https://github.com/Oleafly/Oleafly/blob/main/README.md#architecture) for the
+(`src/`), and reusable frontend code lives in `packages/*` as twelve
+focused packages. The Tauri backend lives in `src-tauri/`, while reusable AI provider and agent code lives in `crates/oleafly-agent/`. See the [README's architecture diagram](https://github.com/Oleafly/Oleafly/blob/main/README.md#architecture) for the
 frontend/Rust/sidecar picture and [Development](/docs/engineering/development/) for day-to-day
 commands.
 
@@ -20,7 +19,7 @@ Every feature used to reach directly into the app's Zustand stores, the Tauri
 IPC client, and the shadcn UI kit. That made features inseparable from the
 shell: nothing could be tested, reused, or reasoned about in isolation. The
 workspace inverts that. Packages hold the feature logic and declare narrow
-interfaces ("ports") for everything they need; the app implements those ports
+interfaces called ports for everything they need. The app implements those ports
 over its stores and Tauri client and injects them. The app depends on
 packages, never the reverse.
 
@@ -34,7 +33,8 @@ sources via aliases (see [Module resolution](#module-resolution)).
 | Package | What it is | Injected ports | Notable deps |
 | --- | --- | --- | --- |
 | `@oleafly/latex` | Pure LaTeX/figure logic: the diagram model, TikZ serializer (`modelToTikz`, embedded-model round-trip), standalone-doc builder (`buildStandaloneDoc`), figure name/byte helpers | none (pure) | none |
-| `@oleafly/ai-core` | AI provider catalog and resolution (`resolveActiveModel`, `hasConfiguredProvider`), vision-capability detection, the figure system prompt | none (pure) | `ai`, `@ai-sdk/*` |
+| `@oleafly/ai-core` | Provider display metadata and frontend model selection, kept in parity with the Rust catalog | none (pure) | none |
+| `@oleafly/latex-intelligence` | Validated types and data access for the LaTeX corpus used by editor intelligence | none (pure) | none |
 | `@oleafly/registry` | The contribution registry: rail tabs, palette/omnibar commands, AI toolsets ([details below](#the-contribution-registry)) | none (contributions carry their own behavior) | react (types) |
 | `@oleafly/preflight` | The preflight engine: document typing, source/PDF/reference rules, ATS parsing, accessible-export prep, scoring. `pdf-extract` ships as the `@oleafly/preflight/pdf-extract` subpath so pdf.js stays out of node test graphs | none (pure) | `pdfjs-dist` (subpath only) |
 | `@oleafly/pdf-to-latex` | The local PDF-to-LaTeX reconstruction pipeline: line grouping, heading and column detection, style inference, symbol mapping, figure extraction, escaping, and document assembly. The pdf.js adapter ships as the `@oleafly/pdf-to-latex/pdf-adapter` subpath for the same node-test-graph reason | none (pure) | `pdfjs-dist` (subpath only) |
@@ -42,13 +42,13 @@ sources via aliases (see [Module resolution](#module-resolution)).
 | `@oleafly/editor` | The CodeMirror LaTeX core: `CodeMirrorEditor`, the editor-view controller (`insertAtCursor`, `gotoLine`, …), language + completions, theme, folding, linters, latex-mask, math preview, search panel, spelling/grammar linters | `EditorHost` (document model + settings, hook-shaped), `SpellHost` (spellchecker/Harper/dictionary), `setBibKeysProvider`, `extraExtensions`/`extraKeymap` | `@codemirror/*`, `@replit/codemirror-vim`, `katex` |
 | `@oleafly/preview` | The virtualized pdf.js viewer (`PdfViewer`), the SyncTeX page controller (`gotoRect`, `pageClickToBp`), the pdf.js worker, and the WebView polyfills (`@oleafly/preview/polyfills`, imported first in `main.tsx`) | `onOpenLink` prop (system-browser links), `setPdfLogger` | `pdfjs-dist` |
 | `@oleafly/diagram` | The visual diagram composer: React Flow canvas, shape inspector, Draw/Code tabs, compile-preview-insert flow | `DiagramHost` (compile, file IO, editor insert, AI fix), `DiagramKit` context (Button/Tooltip/Select/toast/theme) | `@xyflow/react`, `@codemirror/*`, `@oleafly/latex` |
-| `@oleafly/ai-tools` | The AI agent toolsets: project tools (read/write/compile/search/`project_map`, approval-gated edits) and figure-studio tools (`preview_figure`, `insert_figure`) | `AiToolsHost` (files, compile, symbol index, figure pipeline, editor) | `ai`, `@oleafly/latex` |
+| `@oleafly/ai-tools` | Project, research, memory, and figure tool definitions with approval-aware mutations | `AiToolsHost` (files, compile, symbol index, figure pipeline, editor) | `@oleafly/latex` |
 | `@oleafly/templates` | The new-project template gallery (two-step wizard, categories, previews, one-time asset downloads with progress) | `TemplatesHost` (previews, asset downloads, logging), `TemplatesKit` (Button/Tooltip), color options as props | none beyond UI utils |
 
 Dependency direction, strictly enforced:
 
 ```
-app (src/)  ──▶  @oleafly/*  ──▶  @oleafly/latex, @oleafly/ai-core (leaves)
+app (src/)  ──▶  @oleafly/*  ──▶  dependency-free leaf packages
 ```
 
 A package must never import from `src/` (`@/…`), a Zustand store, `@tauri-apps/*`,
@@ -60,7 +60,7 @@ grep -rn 'from "@/\|@tauri\|zustand' packages/*/src   # must return nothing
 
 ## The port pattern
 
-Packages declare interfaces; the app implements them once, usually as a
+Packages declare interfaces. The app implements them once, usually as a
 module-level adapter object closing over its stores. Four recurring shapes:
 
 **Host ports**: one `interface XHost` per package covering the services it
@@ -79,12 +79,12 @@ export const createOleaflyTools = (opts?) => createOleaflyToolsCore(HOST, opts);
 ```
 
 Keeping app-only concerns inside the adapter also keeps dependencies out of
-packages: the AI-SDK `generateText` call for the diagram "Fix with AI" lives
-in the app adapter, so `@oleafly/diagram` has no `ai` dependency.
+packages. Provider credentials and requests stay in Rust, so frontend packages
+receive only the state and results their interfaces require.
 
 **UI kits**: a React context (or prop) of structurally-typed components:
 `Button: ComponentType<{ variant?: …; onClick?: () => void }>`. The app passes
-its shadcn components through unchanged; structural subsets make that free.
+its shadcn components through unchanged because the smaller structural type is compatible.
 Kits also carry `toast` and a `useThemeMode()` hook.
 
 **Hook-shaped ports**: for packages that must *subscribe* to app state. The
@@ -104,7 +104,7 @@ wraps) the package, so consumers and existing `vi.mock(...)` paths never
 churned. Examples: `src/components/editor/cm/controller.ts` (re-export),
 `src/components/pdf/PdfViewer.tsx` (wrapper injecting the shell-plugin link
 opener), `src/lib/ai-tools.ts` (adapter + original factory signatures). New
-code may import `@oleafly/*` directly; shims exist for compatibility, not as
+code may import `@oleafly/*` directly. Shims exist for compatibility, not as
 the preferred path.
 
 ## The contribution registry
@@ -120,7 +120,7 @@ knowing them. Three contribution kinds:
   grouped by `group`) and/or the omnibar (Cmd+P) via `surfaces`. Labels and
   icons may be functions of the context (e.g. "Switch to light theme").
 - **AI toolsets** (`registerAiToolset`): a chat mode (`"chat"`, `"figure"`)
-  mapped to a toolset factory; the chat panel looks up the active mode's
+  mapped to a toolset factory. The chat panel looks up the active mode's
   toolset instead of hard-coding one.
 
 `AppContext` (`{ projectId, projectKind, theme }`) is built by each rendering
@@ -157,10 +157,8 @@ formats, settings schemas, and project-kind behaviors as contributions.
 Because packages are consumed as source, the same alias is declared in three
 places, and all three must stay in sync when a package is added:
 
-1. `tsconfig.json` → `compilerOptions.paths` (`"@oleafly/x": ["./packages/x/src/index.ts"]`;
-   subpaths like `@oleafly/preflight/pdf-extract` need their own explicit entry).
-2. `vite.config.ts` → `resolve.alias` (`"@oleafly/x": …/packages/x/src`; string
-   aliases prefix-match, so subpaths resolve for free).
+1. `tsconfig.json` → `compilerOptions.paths`. Subpaths such as `@oleafly/preflight/pdf-extract` need their own explicit entry.
+2. `vite.config.ts` → `resolve.alias`. String aliases prefix-match, so subpaths resolve without another entry.
 3. `vitest.config.ts` → the same `resolve.alias`, **plus** `test.include` must
    cover `packages/**/*.test.ts`. Otherwise moved tests silently drop out of
    the run.
@@ -179,7 +177,7 @@ DOM exists.
 
 - **Tests** live next to the source (`packages/*/src/*.test.ts`) and run in the
   same `pnpm test` as app tests. Watch the test *count* when moving files.
-- **Dependencies** are declared loosely (`"react": "*"`); pnpm dedupes against
+- **Dependencies** are declared loosely (`"react": "*"`). pnpm dedupes against
   the root, where the real version floors live. Don't declare deps the package
   doesn't import.
 - **Gates for any package change**: `pnpm exec tsc --noEmit`, `pnpm build`,
@@ -191,10 +189,11 @@ DOM exists.
 
 ## What stays in the app
 
-`src/` keeps everything that is genuinely the app: the Zustand stores, the
+`src/` keeps everything that is genuinely the frontend app: the Zustand stores, the
 Tauri IPC client (`src/lib/tauri.ts`), the shadcn UI kit, layout/shell
 components, the port adapters and shims, `src/contributions/`, and
 feature glue that is store-coupled by nature (the preflight panel UI, the
-inline-AI editing plugin, code/hover intel, injected into the editor as
-`extraExtensions`). The Rust side (`src-tauri/`) is a single crate and stays
-that way until backend-heavy work justifies a cargo workspace split.
+inline-AI editing plugin, and code or hover intelligence injected into the editor as
+`extraExtensions`). Tauri commands and operating-system integration stay in
+`src-tauri/`. Provider clients, streaming, and agent orchestration belong in
+`crates/oleafly-agent/` so secrets and provider requests remain outside the webview.

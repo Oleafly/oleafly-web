@@ -1,19 +1,19 @@
 ---
 title: "Chat & tools"
-description: "An AI agent wired into your project: it reads files, edits with your approval, compiles, checks the log, and verifies the PDF. Every change shows a diff first."
+description: "Use the project-aware AI agent to read, edit, compile, inspect logs, and verify PDFs with approval controls."
 ---
 
-The chat panel (the sparkles tab in the left rail) is an agent inside your editor, not a chatbot bolted on next to it. Ask it to fix your LaTeX errors and it will compile, read the log, edit the file, recompile, and report back, pausing for your approval before touching anything.
+The chat panel is the sparkles tab in the left rail. Ask it to fix LaTeX errors and it can compile, read the log, propose an edit, recompile, and report back. File changes pause for your approval first.
 
 <video src="https://cdn.oleafly.com/videos/ai-fix.mp4" autoplay loop muted playsinline aria-label="The assistant finds and fixes a LaTeX error"></video>
 
 ## Asking
 
-Type in the composer (Enter sends, Shift+Enter for a newline) or start from a suggestion chip: "Fix any LaTeX errors in my document", "Create a new section called 'Publications'", "Recompile and check for errors". The header shows which model you're talking to; click it to switch between every provider and model you've [configured](/docs/ai-setup/), mid-conversation.
+Type in the composer. Enter sends, while Shift+Enter adds a new line. You can also start from a suggestion chip such as "Fix any LaTeX errors in my document". The header shows the current model. Click it to switch to another [configured provider or model](/docs/ai-setup/) during the conversation.
 
 ## What the assistant can do
 
-The agent has 25 file, build, research, memory, and figure tools. The core set:
+The agent has 25 file, build, research, memory, and figure tools. Its core tools are listed below.
 
 | Tool | What it does |
 |---|---|
@@ -48,13 +48,13 @@ Research tools reach outside the project (network required):
 | `verify_citation` | Check a DOI or title against Crossref and return the metadata |
 | `alphaxiv_search` / `alphaxiv_paper_content` | Search alphaXiv and fetch full paper content (needs an alphaXiv API key, Settings, Integrations) |
 
-Figure mode swaps in its own tools (`preview_figure`, `insert_figure`, `load_image`); see [Draw figures with AI](/docs/ai-figures/). Research results are leads, not proof: a returned citation still needs your judgment that the paper supports the sentence.
+Figure mode uses `preview_figure`, `insert_figure`, and `load_image`. See [Draw figures with AI](/docs/ai-figures/). Treat research results as leads. You still need to check that a paper supports the sentence you cite it for.
 
-Tool calls appear in the chat as chips (spinner while running, then a check, or an X if rejected); click one to expand its output.
+Tool calls appear in the chat as chips. Click a chip to expand its output.
 
 ## You approve every change
 
-Any file-changing tool pauses the whole run and shows an approval card: which tool, what it wants to do, and a red/green diff of exactly what would change. **Approve**, **Reject**, or **Always allow** writes for the rest of the session; the decision is stamped on the tool chip permanently, so the conversation records what you allowed. Session allow covers only non-delete writes: `delete_file` asks every single time, no matter what.
+Any file-changing tool pauses the run and shows an approval card with the tool name, requested action, and red or green diff. You can **Approve**, **Reject**, or **Always allow** writes for the rest of the session. The tool chip records your choice. Session approval covers non-delete writes only. `delete_file` always asks.
 
 ![The approval card: a diff you approve or reject](https://cdn.oleafly.com/images/screenshots/desktop/ai-approval-diff.png)
 
@@ -65,10 +65,10 @@ Two more layers of safety back this up:
 
 ## Plans, progress, and cost
 
-On a multi-step job the assistant works like an agent, and shows its work:
+For a multi-step job, the assistant shows its progress:
 
 - **A plan checklist.** When it breaks a task into steps, a todo list renders in the panel and ticks off items as it goes, so you can see what it intends to do and where it is.
-- **A running cost meter.** Every reply shows the input and output token counts and a rough USD estimate for the model you're on, updated live as it streams. Since you bring your own key, that's real money you can watch.
+- **A running cost meter.** Every reply shows input and output token counts and an estimated cost for the selected model. Provider pricing can change, so treat the amount as an estimate.
 - **Sticky memory.** The agent can jot short notes to itself ("the résumé uses `moderncv`", "the intro still needs a citation"). They persist per project across new chats and app restarts, so it doesn't re-learn your document every time.
 
 ## Float it over the editor
@@ -83,9 +83,9 @@ Start a quick change with an [inline AI edit](/docs/ai-inline-edit/) and then de
 
 The paperclip attaches up to 6 files (10 MB each): images go to vision-capable models, and PDFs, `.tex`, `.bib`, text, and Markdown ride along as documents. Handy for "make my resume look like this screenshot" or "summarize this reference PDF". Only names and types are kept in history, never the bytes.
 
-## Reasoning models think out loud
+## Reasoning models
 
-With GLM or DeepSeek R1, a collapsible **Thinking** block streams the model's reasoning live, then folds away to "Thought for Ns". You see the chain of thought exactly as it happens, interleaved with tool calls.
+Some models return a separate reasoning stream. Oleafly shows provider-supplied reasoning content in a collapsible **Thinking** block when the provider makes it available. Other models may return only the final answer.
 
 ## Long-running answers
 
@@ -93,11 +93,11 @@ Streaming shows tokens as they arrive, with a status shimmer ("Running compile�
 
 ## Chats are kept, locally
 
-The **+** button starts a new chat; the clock opens history: up to 50 chats per project, stored locally, searchable by title, deletable individually. A chat started before you rolled the project back gets an "older version" badge. Hover any message for a **Copy** button.
+The **+** button starts a new chat. The clock opens local history, which keeps up to 50 chats per project. You can search titles or delete individual chats. A chat from before a project rollback gets an "older version" badge. Hover over a message to copy it.
 
 ## What the assistant knows
 
-It starts each run with bounded context: the project's identity and engine, the active file and selection, the file tree, the current compile state and diagnostics, relevant source excerpts, its own sticky notes and plan, and a packed view of the conversation so far. Everything else it pulls through tools: it reads files when it needs them and uses `project_map` to reason about structure (the same [index](/docs/code-intelligence/) that powers go-to-definition). Your [custom instructions](/docs/ai-setup/#custom-instructions) ride along on every request. With a hosted provider, that selected context is what gets sent; with Ollama it stays on your machine.
+Each run starts with bounded context: the project identity and engine, active file and selection, file tree, compile state, diagnostics, relevant source excerpts, notes, plan, and recent conversation. It reads anything else through tools and uses `project_map` for document structure. Your [custom instructions](/docs/ai-setup/#instructions) are included with each request. Hosted providers receive the selected context. With a local Ollama model, it stays on your machine.
 
 ## Figures are their own mode
 

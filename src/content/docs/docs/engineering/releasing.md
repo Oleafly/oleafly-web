@@ -1,69 +1,62 @@
 ---
 title: "Releasing Oleafly"
-description: "A release is triggered by pushing a git tag shaped like vX.Y.Z (e.g. v0.2.5). That tag push starts the Release workflow (.github/workflows/release.yml), which b"
+description: "Build a complete draft from a version tag, review every platform artifact, then publish through the guarded release workflow."
 ---
 
-## The one thing to understand
+Oleafly releases have two deliberate stages. A version tag builds and verifies a draft. A maintainer publishes that same draft with a separate workflow run.
 
-A release is triggered by pushing a **git tag** shaped like `vX.Y.Z`
-(e.g. `v0.2.5`). That tag push starts the **Release** workflow
-(`.github/workflows/release.yml`), which builds installers for macOS, Windows,
-and Linux and creates a **draft** GitHub Release.
+Pushing to `main` runs CI but does not create a release.
 
-Pushing to `main` does **not** make a release. It only runs tests (CI).
-Tag = release; branch = tests.
+## Build the draft
 
-## Cutting a release
+Start from an up-to-date `main` branch with green CI.
 
 ```sh
-# 1. Be on an up-to-date main with green CI
-git checkout main && git pull
-
-# 2. Bump the version everywhere (package.json, tauri.conf.json, Cargo.toml, Cargo.lock)
-./scripts/bump-version.sh 0.2.5
-
-# 3. Commit the bump
-git commit -am "chore: release v0.2.5"
-git push
-
-# 4. Tag it and push the tag: THIS triggers the build
-git tag v0.2.5
-git push origin v0.2.5
+git switch main
+git pull --ff-only
+./scripts/bump-version.sh 0.3.6
+git commit -am "chore: release v0.3.6"
+git push origin main
+git tag v0.3.6
+git push origin v0.3.6
 ```
 
-Then wait ~15-25 min. The workflow creates a **draft** release at
-<https://github.com/Oleafly/Oleafly/releases>. Review the notes and the
-attached files, then click **Publish**. Nothing is public until you publish.
+The tag starts `.github/workflows/release.yml`. It builds these targets:
 
-## What version number?
+| Target | Installers |
+|---|---|
+| macOS Apple Silicon | `.dmg` |
+| Windows x64 | `.msi` and `-setup.exe` |
+| Linux x64 | `.AppImage` and `.deb` |
+| Linux ARM64 | `.AppImage` and `.deb` |
 
-Semantic versioning (`MAJOR.MINOR.PATCH`):
+Each target fetches and verifies its pinned compiler sidecars. The workflow then merges all four updater fragments into one `latest.json`. The draft is considered ready only when every required installer and updater entry is present.
 
-- **PATCH** (`0.1.0 → 0.1.1`): bug fixes only.
-- **MINOR** (`0.1.0 → 0.2.0`): new features, backward-compatible.
-- **MAJOR** (`0.1.0 → 1.0.0`): breaking changes, or the "it's ready" milestone.
+## Review the draft
 
-## Manual alternative (no tag)
+Open the draft on the [GitHub Releases page](https://github.com/Oleafly/Oleafly/releases). Check the release notes, installer names, checksums, signatures, and `latest.json`. Do not publish a partial draft.
 
-GitHub → **Actions** tab → **Release** → **Run workflow** → enter a tag
-(e.g. `v0.2.5`). Same result, handy to re-run if a build failed.
+## Publish
 
-## After publishing
+Open **Actions → Release → Run workflow**. Enter the same tag and select **Publish the release**.
 
-Installed apps check `latest.json` on launch and offer the update. So the
-in-app updater only *does* something once there are **two** published releases:
-the version a user has installed, and a newer one to update to. Your first
-release just establishes the baseline.
+The publish run repeats the build and artifact checks. It also runs live contract tests against Anthropic and Google using the release candidate. The final job refuses to publish unless every supported platform and the complete updater feed are present.
 
-## Gotchas
+Publishing makes `latest.json` visible to installed apps. Treat it as an irreversible production action. If the publish run fails, leave the release as a draft, fix the cause, and run it again.
 
-- **The tag must match the manifests.** That's the whole job of
-  `bump-version.sh`: run it, don't hand-edit versions.
-- **Don't reuse a tag.** To redo `v0.2.5`: delete the remote tag
-  (`git push origin :v0.2.5`), delete the draft release, then re-tag.
-- **Platform code-signing.** Recent **macOS** releases are code-signed and
-  notarized. Windows signing may lag; users can still hit SmartScreen on some
-  builds. The **updater** artifacts are separately minisign-signed (repo secrets
-  `TAURI_SIGNING_PRIVATE_KEY` + `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`).
-  See [updates.md](/docs/engineering/updates/) and user-facing
-  [install.md](/docs/install/).
+## Version numbers
+
+Oleafly follows semantic versioning:
+
+- **Patch**, such as `0.3.5` to `0.3.6`, for compatible fixes.
+- **Minor**, such as `0.3.5` to `0.4.0`, for compatible features.
+- **Major**, such as `0.3.5` to `1.0.0`, for breaking changes or the first stable release.
+
+## Important checks
+
+- The tag must match `package.json`, `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml`, and `src-tauri/Cargo.lock`. Use `scripts/bump-version.sh` instead of editing them separately.
+- Release notes come from the matching version section in `CHANGELOG.md`.
+- Do not reuse a published tag. For a failed draft, fix the branch and create a new version unless there is a clear reason to replace the unpublished tag.
+- macOS signing and notarization use the Apple release secrets. Windows Authenticode uses Azure Artifact Signing when its secrets are configured. Updater signatures use the separate Tauri signing key.
+
+See [Auto-updates](/docs/engineering/updates/) for updater signing and rollback behavior. User installation instructions are in [Download and install](/docs/install/).

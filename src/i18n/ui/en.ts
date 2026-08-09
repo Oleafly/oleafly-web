@@ -1,4 +1,4 @@
-/** English UI strings — source of truth for all chrome, marketing, tools labels. */
+/** English UI strings, the source of truth for chrome, marketing, and tool labels. */
 export const en = {
   // Nav
   "nav.features": "Features",
@@ -75,7 +75,7 @@ export const en = {
   "learn.eyebrow": "Oleafly Learn",
   "learn.heading": "Learn LaTeX and the craft of research writing",
   "learn.sub":
-    "A structured curriculum that covers the tools and the territory: how journals, peer review, and arXiv work; LaTeX from your first compile through mathematics, figures, and citations; then venue formats, deadlines, and the submission process. Follow the tracks in order, or search for the problem in front of you. Written for the free Oleafly app and any other local LaTeX setup.",
+    "A structured curriculum that covers how journals, peer review, and arXiv work, then moves from your first LaTeX compile through mathematics, figures, citations, venue formats, deadlines, and submission. Follow the tracks in order or search for the problem in front of you. It works with the free Oleafly app and other local LaTeX setups.",
   "learn.searchLabel": "Search lessons",
   "learn.searchPlaceholder": "Search lessons: align, bibtex, float, missing dollar...",
   "learn.levelLegend": "Difficulty levels",
@@ -191,7 +191,7 @@ export const en = {
   "tools.eyebrow": "Free tools",
   "tools.h1": "LaTeX tools that run in your browser",
   "tools.subFull":
-    "Free, no sign-up, no upload of your work. The validator, equation preview, and table generator run entirely in your browser; lab search and deadlines query open datasets (OpenAlex, ccf-deadlines). Your source never leaves the page, the same local-first posture the Oleafly desktop app takes with your documents.",
+    "Free, with no sign-up or document upload. The validator, equation preview, and table generator run in your browser. Lab search and deadlines query open datasets from OpenAlex and ccf-deadlines. Your source never leaves the page.",
   "tools.appEyebrow": "In the desktop app",
   "tools.appHeading": "Heavier conversions live in the free app",
   "tools.appSub":
@@ -297,7 +297,7 @@ export const en = {
   "landing.features.h2": "Everything else you'd expect. On your machine.",
   "landing.yourPlatform": "Your platform",
   "landing.installUnsigned":
-    "Builds aren't code-signed yet, so your OS warns on first launch. The {link} has the one-time unlock.",
+    "Some builds may trigger an operating-system warning on first launch. The {link} explains what to check and how to continue.",
   "landing.installGuide": "install guide",
   "landing.compiledFirstPage": "compiled first page",
   "landing.highlights": "Highlights",
@@ -308,7 +308,7 @@ export const en = {
     "Reconstruct many text-based PDFs into editable LaTeX locally, convert DOCX through a managed Pandoc, or let a vision model transcribe a photo of a page. Optional AI refinement after.",
   "landing.bento.export.name": "Export where you're going",
   "landing.bento.export.desc":
-    "PDF always; DOCX, HTML, Markdown, and more through Pandoc-backed contextual export menus. Or grab the whole project as a source ZIP.",
+    "Export PDF, DOCX, HTML, Markdown, and more from contextual menus. You can also download the whole project as a source ZIP.",
   "landing.bento.yours.name": "Make it yours",
   "landing.bento.yours.desc":
     "Vim mode, light and dark themes, accent colors, seven layout presets, and editable keyboard shortcuts. An editor should fit your hands.",
@@ -335,7 +335,7 @@ export const en = {
     "⌘K fuzzy-searches every action in the app: projects, files, settings, the lot.",
   "landing.bento.byoai.name": "Bring your own AI",
   "landing.bento.byoai.desc":
-    "Nine providers or local Ollama, all behind the same per-change approval. MCP clients like Claude Code and Cursor connect the same way. Or turn AI off. The editor doesn't need it.",
+    "Choose from built-in cloud providers, a custom endpoint, or local Ollama. File changes use the same approval controls. MCP clients such as Claude Code and Cursor can connect too. You can also leave AI off.",
   "landing.bento.research.name": "Research on tap",
   "landing.bento.research.desc":
     "The agent searches alphaXiv and OpenAlex, pulls paper content, and verifies citations against Crossref before they enter your bibliography.",
@@ -379,7 +379,7 @@ export const en = {
   "landing.compare.no": "No",
   "landing.compare.na": "n/a",
   "landing.compare.price.oleafly": "Free, open source",
-  "landing.compare.price.prism": "Free base; full AI on paid ChatGPT",
+  "landing.compare.price.prism": "Free base, with full AI through paid ChatGPT",
   "landing.compare.price.overleaf": "Subscription for full features",
   "landing.compare.price.texstudio": "Free",
   "landing.compare.price.vscode": "Free (AI is paid)",
@@ -466,7 +466,7 @@ export const en = {
   "landing.library.eyebrow": "The library",
   "landing.library.h2": "A shelf, not a file list.",
   "landing.library.sub": "Your projects sit on a shelf as covers you can tell apart at a glance: eleven cover colors that persist in project metadata, engine badges, bookmarks, and fork lineage. Hover a cover and the compiled first page peeks out. The omnibar searches names, metadata, and even the text inside your documents.",
-  "landing.library.t1": "Hover a cover for the compiled first page; bookmark the projects you live in",
+  "landing.library.t1": "Hover a cover for the compiled first page and bookmark frequent projects",
   "landing.library.t2": "Filter by engine, kind, bookmark, or when you last touched it",
   "landing.library.t3": "Fork a project and the lineage stays visible on the cover",
   "landing.library.t4": "One search box for project names, metadata, and document content",
@@ -492,7 +492,7 @@ export const en = {
   "landing.disk.t1": "Plain .tex, .bib, and images. No proprietary format",
   "landing.disk.t2": "A real .git repo, not a \"version history\" feature",
   "landing.disk.t3": "Fonts are copied into the project, so it compiles offline anywhere",
-  "landing.disk.t4": "Delete the app; your documents remain complete",
+  "landing.disk.t4": "Your documents remain complete if you delete the app",
   "landing.ai.eyebrow": "AI assistant",
   "landing.ai.h2": "The AI closes the loop.",
   "landing.ai.sub": "Most AI editors stop after editing. Oleafly's assistant reads your files, edits the source, compiles the document, then reads the rendered PDF to check the edit actually worked. Every file change waits for your approval behind a red/green diff.",
@@ -512,13 +512,13 @@ export const en = {
   "landing.preflight.g1": "ATS readiness",
   "landing.preflight.g2": "Accessibility",
   "landing.preflight.g3": "References & assets",
-  "landing.preflight.aside": "We looked for these checks in every other LaTeX editor we could find, paid and free, and came up empty. Preflight detects risks and shows you the evidence; no tool can certify an ATS or accessibility outcome.",
+  "landing.preflight.aside": "Preflight detects risks and shows the evidence behind each result. No tool can certify an ATS or accessibility outcome.",
   "landing.resume.eyebrow": "Resume mode",
   "landing.resume.h2": "Version-control your career.",
   "landing.resume.sub": "Most LaTeX tools treat resumes as an afterthought. Oleafly ships one-page templates that actually stay one page, compiles PDFs with real selectable text and embedded fonts, and lets the AI tailor your bullets to a pasted job description, behind an approval diff.",
   "landing.resume.t1": "Fork the resume into a new project per application. Each fork is a full copy with its own history",
   "landing.resume.t2": "Paste a job posting and the AI tailors your bullets to it",
-  "landing.resume.t3": "XeTeX output uses selectable Unicode text and embedded fonts; Preflight previews exactly what a parser extracts",
+  "landing.resume.t3": "XeTeX output uses selectable Unicode text and embedded fonts. Preflight previews what a parser extracts",
   "landing.resume.t4": "The PDF renders the same everywhere. No \"looked fine on my screen\"",
   "landing.resume.caption": "Fork copies the whole project, history included. Then every change keeps checkpointing.",
   "landing.compare.eyebrow": "How it compares",

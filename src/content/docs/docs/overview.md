@@ -21,7 +21,7 @@ Write on the left, preview on the right. Citations, Preflight checks, diagrams, 
 
 ### A complete document environment, zero TeX setup
 
-The LaTeX compiler ([Tectonic](/docs/compiling/), XeTeX-based) ships inside the app. Packages download the first time you use them and stay cached, so writing and cached compiles work offline.
+The default LaTeX compiler, [Tectonic](/docs/compiling/), ships with the app. Packages download when a document first needs them and stay cached for later offline use. Projects that need an Overleaf-style toolchain can use `latexmk` with pdfLaTeX, XeLaTeX, or LuaLaTeX.
 
 LaTeX is not the only engine: **Typst** projects use a bundled Typst compiler, and **Markdown** projects build to PDF through managed Pandoc. One workspace covers all three.
 
@@ -71,7 +71,7 @@ Projects sit under `~/.oleafly/projects/` as ordinary folders: `.tex`, `.bib`, i
 
 ## Website languages
 
-[oleafly.com](https://oleafly.com/) is available in **18 languages**. English is the default at the root URL; every other language uses a locale prefix (for example `/zh-cn/`, `/ja/`, `/es/`). The header language switcher lists each option with a **flag and native name**.
+[oleafly.com](https://oleafly.com/) is available in **18 languages**. English is the default at the root URL. Every other language uses a locale prefix, such as `/zh-cn/`, `/ja/`, or `/es/`. The header language switcher lists each option with a **flag and native name**.
 
 | Flag | Code | Language | Home |
 |:----:|:----:|----------|------|
@@ -96,7 +96,7 @@ Projects sit under `~/.oleafly/projects/` as ordinary folders: `.tex`, `.bib`, i
 
 Language choice is preference-based (URL, saved switcher choice, or a one-time browser-language banner on `/`). It is **not** hard-locked by geo-IP. Shared deep links keep their language. Learn, blog, templates, tools, and the landing page all follow the same prefixes (for example [Japanese Learn](https://oleafly.com/ja/learn/), [Simplified Chinese blog](https://oleafly.com/zh-cn/blog/)).
 
-The **desktop app** UI language is separate from the website; see the app docs and settings for that. Website FAQ: [Which languages does the website support?](/docs/faq/#which-languages-does-the-website-support).
+The **desktop app** UI language is separate from the website. See [Which languages does the website support?](/docs/faq/#which-languages-does-the-website-support) in the FAQ.
 
 ## Start here
 
