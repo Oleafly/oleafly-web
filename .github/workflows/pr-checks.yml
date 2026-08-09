@@ -23,5 +23,9 @@ jobs:
 
       - run: pnpm build
 
+      # Catch deploy blockers on the PR (Cloudflare Pages rejects files > 25 MiB).
+      - name: Check Cloudflare Pages file size limits
+        run: node scripts/check-dist-cloudflare-limits.mjs dist
+
       - name: Lighthouse audit (performance, accessibility, best practices, SEO)
         run: npx --yes @lhci/cli@0.14.x autorun --config=.lighthouserc.json
