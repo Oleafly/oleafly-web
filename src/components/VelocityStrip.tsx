@@ -14,12 +14,12 @@ export function VelocityStrip() {
   return (
     <ScrollVelocityContainer className="w-full select-none">
       <ScrollVelocityRow baseVelocity={4} direction={1} className={rowClass}>
-        <span className="text-white/[0.07]">
+        <span className="text-white/[0.35]">
           Edit · Compile · Commit · Verify ·{" "}
         </span>
       </ScrollVelocityRow>
       <ScrollVelocityRow baseVelocity={4} direction={-1} className={rowClass}>
-        <span className="font-mono text-white/[0.06]">
+        <span className="font-mono text-white/[0.35]">
           main.tex · refs.bib · figures/ · .git/ ·{" "}
         </span>
       </ScrollVelocityRow>

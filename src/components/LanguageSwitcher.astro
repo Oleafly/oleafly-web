@@ -35,7 +35,7 @@ const className = Astro.props.class ?? "";
     class="lang-switcher-btn"
     aria-haspopup="listbox"
     aria-expanded="false"
-    aria-label={label}
+    aria-label={`${current.nativeLabel}, ${label}`}
     data-lang-trigger
   >
     <img
