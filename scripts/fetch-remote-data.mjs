@@ -4,10 +4,24 @@
 //
 // Also refreshes the /deadlines board data.
 import { readFileSync, writeFileSync } from "node:fs";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { parse as parseYaml } from "yaml";
 
 const PACKS_BASE = "https://raw.githubusercontent.com/Oleafly/template-packs/main";
 const DEADLINES_URL = "https://ccfddl.com/conference/allconf.yml";
+
+/**
+ * Website ships curated packs only.
+ *
+ * The template-packs repo also publishes bulk `open-*` community packs
+ * (1.5k+ templates). Building a detail page for each of those × every
+ * locale produces ~30k static pages and an 80+ MiB sitemap-0.xml, which
+ * Cloudflare Pages rejects (25 MiB per-file limit).
+ */
+export function isWebsiteTemplatePack(pack) {
+  return typeof pack?.id === "string" && !pack.id.startsWith("open-");
+}
 
 async function fetchText(url) {
   const res = await fetch(url, { signal: AbortSignal.timeout(20_000) });
@@ -17,8 +31,16 @@ async function fetchText(url) {
 
 async function refreshTemplates() {
   const catalog = JSON.parse(await fetchText(`${PACKS_BASE}/catalog.json`));
+  const websiteCatalog = catalog.filter(isWebsiteTemplatePack);
+  const skipped = catalog.length - websiteCatalog.length;
+  if (skipped > 0) {
+    console.log(
+      `templates: skipping ${skipped} open-* pack(s) (website keeps curated packs only)`,
+    );
+  }
+
   const packs = [];
-  for (const pack of catalog) {
+  for (const pack of websiteCatalog) {
     const templates = [];
     const byTemplate = new Map();
     for (const f of pack.files) {
@@ -52,7 +74,8 @@ async function refreshTemplates() {
     });
   }
   writeFileSync("src/data/template-packs.json", `${JSON.stringify({ packs }, null, 2)}\n`);
-  console.log(`templates: refreshed ${packs.length} packs`);
+  const templateCount = packs.reduce((n, p) => n + p.templates.length, 0);
+  console.log(`templates: refreshed ${packs.length} packs (${templateCount} templates)`);
 }
 
 async function refreshDeadlines() {
@@ -95,21 +118,34 @@ async function refreshDeadlines() {
   console.log(`deadlines: refreshed ${venues.length} venues`);
 }
 
-for (const [name, task] of [
-  ["templates", refreshTemplates],
-  // Disabled while /deadlines is off the site. Re-enable with the page.
-  // ["deadlines", refreshDeadlines],
-]) {
-  try {
-    await task();
-  } catch (e) {
-    const snapshot = name === "templates" ? "src/data/template-packs.json" : "src/data/deadlines.json";
+async function main() {
+  for (const [name, task] of [
+    ["templates", refreshTemplates],
+    // Disabled while /deadlines is off the site. Re-enable with the page.
+    // ["deadlines", refreshDeadlines],
+  ]) {
     try {
-      readFileSync(snapshot);
-      console.warn(`${name}: fetch failed (${e}); using committed snapshot`);
-    } catch {
-      console.error(`${name}: fetch failed and no snapshot exists`);
-      process.exit(1);
+      await task();
+    } catch (e) {
+      const snapshot =
+        name === "templates" ? "src/data/template-packs.json" : "src/data/deadlines.json";
+      try {
+        readFileSync(snapshot);
+        console.warn(`${name}: fetch failed (${e}); using committed snapshot`);
+      } catch {
+        console.error(`${name}: fetch failed and no snapshot exists`);
+        process.exit(1);
+      }
     }
   }
+}
+
+// Only fetch when invoked as a script (`node scripts/fetch-remote-data.mjs`),
+// not when imported by unit tests.
+const isMain =
+  process.argv[1] != null &&
+  import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+
+if (isMain) {
+  await main();
 }

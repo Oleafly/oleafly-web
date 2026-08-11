@@ -275,7 +275,7 @@ export const en = {
 
 
   // Landing main sections
-  "landing.pill": "Free \u00b7 Open source \u00b7 AGPL-3.0",
+  "landing.pill": "Free \u00b7 Open source",
   "landing.h1.write": "Write",
   "landing.h1.likeCode": "like you write code.",
   "landing.heroRotate1": "research papers",
@@ -555,7 +555,7 @@ export const en = {
   "landing.craft.eyebrow": "Open source, seriously built",
   "landing.craft.h2": "An independent project with production discipline.",
   "landing.craft.body": "Oleafly is built in the open by an independent maintainer, and the unglamorous parts are treated as product features too: compile cancellation, path safety, stale-result races, Git recovery, PDF fallback, and cross-platform tests on macOS, Windows, and Linux.",
-  "landing.craft.note": "AGPL-3.0 licensed. Read the source, file an issue, or send a PR on",
+  "landing.craft.note": "Read the source, file an issue, or send a PR on",
   "landing.dl.eyebrow": "Download",
   "landing.dl.h2": "Free. Open source. Yours.",
   "landing.dl.sub": "Grab a prebuilt installer from the latest release, or",

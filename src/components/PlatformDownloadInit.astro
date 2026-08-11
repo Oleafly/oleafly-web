@@ -82,7 +82,10 @@
         if (path.getAttribute("data-os") === os) path.removeAttribute("hidden");
         else path.setAttribute("hidden", "");
       }
-      btn.setAttribute("aria-label", fullLabels[os] || "Download Oleafly");
+      btn.setAttribute(
+        "aria-label",
+        labelEl?.textContent || fullLabels[os] || "Download Oleafly",
+      );
     }
 
     // Highlight the matching OS card on the landing download grid.

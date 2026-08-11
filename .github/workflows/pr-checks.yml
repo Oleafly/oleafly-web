@@ -8,13 +8,13 @@ jobs:
   build-and-audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 11
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -22,6 +22,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm build
+
+      # Catch deploy blockers on the PR (Cloudflare Pages rejects files > 25 MiB).
+      - name: Check Cloudflare Pages file size limits
+        run: node scripts/check-dist-cloudflare-limits.mjs dist
 
       - name: Lighthouse audit (performance, accessibility, best practices, SEO)
         run: npx --yes @lhci/cli@0.14.x autorun --config=.lighthouserc.json

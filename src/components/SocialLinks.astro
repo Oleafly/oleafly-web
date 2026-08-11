@@ -74,22 +74,28 @@ const LINKS = [
     justify-content: center;
     width: 40px;
     height: 40px;
-    border-radius: 10px;
-    border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
-    background: var(--surface-2, #191a1c);
+    border-radius: 12px;
+    border: 2px solid var(--outline, var(--line, rgba(255, 255, 255, 0.08)));
+    background: var(--surface, var(--surface-2, #191a1c));
     color: var(--muted, #8a8f98);
+    box-shadow: 2px 2px 0 var(--outline, transparent);
     transition:
       color 150ms ease,
       border-color 150ms ease,
-      background 150ms ease;
+      background 150ms ease,
+      box-shadow 150ms ease,
+      transform 150ms ease;
   }
   .footer-social a:hover {
-    color: var(--text, #f7f8f8);
-    border-color: var(--line-strong, rgba(255, 255, 255, 0.14));
-    background: #212226;
+    color: var(--ink, var(--text, #f7f8f8));
+    border-color: var(--outline, var(--line-strong, rgba(255, 255, 255, 0.14)));
+    /* Light/club theme: candy yellow lift. Dark theme (no --accent): soft lift. */
+    background: var(--accent, color-mix(in srgb, var(--surface-2, #191a1c) 75%, #fff 25%));
+    box-shadow: 2px 3px 0 var(--outline, transparent);
+    transform: translateY(-1px);
   }
   .footer-social a:focus-visible {
-    outline: 2px solid var(--brand-text, #60a5fa);
+    outline: 2px solid var(--brand, var(--brand-text, #60a5fa));
     outline-offset: 2px;
   }
   .footer-social svg {

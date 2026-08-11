@@ -1,41 +1,23 @@
 ---
 // oleafly.com landing page.
 //
-// Design system: linear.app — near-black #08090A ground, neutral dark
-// surfaces, white primary buttons, Oleafly's app blue #2563EB as the accent,
-// Inter, tight spacing, radii ≤ 8px. Magic UI components supply the motion:
-// DotPattern, AnimatedShinyText, BorderBeam, Marquee, RainbowButton,
-// WordRotate, Highlighter, TextReveal, KineticText, VelocityScroll,
-// GlyphMatrix, NoiseTexture, FileTree, CodeComparison (build-time shiki),
-// AnimatedCircularProgressBar, ScrollProgress.
-import { Image, getImage } from "astro:assets";
-import heroEditor from "../assets/hero-editor.png";
-import gitDiff from "../assets/git-diff.png";
-import preflightAts from "../assets/preflight-ats.png";
-import projectTemplates from "../assets/project-templates.png";
+// Design system: classroom club energy (warm cream walls, chalkboard green,
+// multicolor party accents, string lights, playful Nunito). Light-only.
+// Structure restyled in place — product content unchanged.
 import { Marquee } from "../components/magicui/marquee";
-import { DotPattern } from "../components/magicui/dot-pattern";
-import { AnimatedShinyText } from "../components/magicui/animated-shiny-text";
-import { BorderBeam } from "../components/magicui/border-beam";
-import { RainbowLink } from "../components/RainbowLink";
 import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
 import Analytics from "../components/Analytics.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import LanguageSwitcher from "../components/LanguageSwitcher.astro";
 import LocalePreference from "../components/LocalePreference.astro";
 import { WordRotate } from "../components/magicui/word-rotate";
-import { Highlighter } from "../components/magicui/highlighter";
-import { KineticText } from "../components/magicui/kinetic-text";
-import { GlyphMatrix } from "../components/magicui/glyph-matrix";
-import { NoiseTexture } from "../components/magicui/noise-texture";
 import { AnimatedCircularProgressBar } from "../components/magicui/animated-circular-progress-bar";
 import { ScrollProgress } from "../components/magicui/scroll-progress";
-import { GridPattern } from "../components/magicui/grid-pattern";
 import { ProjectFileTree } from "../components/ProjectFileTree";
 import { BentoSection } from "../components/BentoSection";
-import { VelocityStrip } from "../components/VelocityStrip";
 import { PhilosophyReveal } from "../components/PhilosophyReveal";
 import CodeComparison from "../components/CodeComparison.astro";
+import "../styles/fonts.css";
 import "../styles/magicui.css";
 import "../styles/external-links.css";
 import { DEFAULT_LOCALE, LOCALE_META, type Locale } from "../i18n/locales";
@@ -50,15 +32,19 @@ const meta = LOCALE_META[locale];
 const lp = (path: string) => localePath(locale, path);
 const landingAlternates = hreflangAlternates("/");
 
-const heroPreload = await getImage({
-  src: heroEditor,
-  widths: [720, 1200, 1800],
-  sizes: "(max-width: 760px) 94vw, 1080px",
-  format: "webp",
-});
-
 const GITHUB = "https://github.com/Oleafly/Oleafly";
 const RELEASES = `${GITHUB}/releases/latest`;
+
+// Product screenshots from oleafly-assets CDN. Prefer *-light.png on this
+// cream landing so dark UI captures don't clash with the journal theme.
+const CDN_SHOT = "https://cdn.oleafly.com/images/screenshots/desktop";
+const HERO_EDITOR = `${CDN_SHOT}/hero-editor-light.png`;
+const PROJECT_TEMPLATES = `${CDN_SHOT}/project-templates-light.png`;
+const PREFLIGHT_ATS = `${CDN_SHOT}/preflight-ats-light.png`;
+// No light capture yet — single dark variant on CDN.
+const GIT_DIFF = `${CDN_SHOT}/git-diff.png`;
+const HERO_CLUB_CLASSROOM =
+  "https://cdn.oleafly.com/images/web/hero-club-classroom.jpg";
 
 // The craft/test-counts section is parked for now; flip to true to restore it.
 const SHOW_CRAFT = true;
@@ -278,24 +264,147 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="https://oleafly.com/og.png" />
 
-    <link
-      rel="preload"
-      as="image"
-      imagesrcset={heroPreload.srcSet.attribute}
-      imagesizes="(max-width: 760px) 94vw, 1080px"
-      fetchpriority="high"
-    />
-    <link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" as="image" href={HERO_EDITOR} fetchpriority="high" />
+    <link rel="preload" href="/fonts/nunito-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/jbmono-var-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <Analytics />
     </head>
 
-  <body>
+  <body class="club-landing" data-theme="light">
     <LocalePreference />
     <a class="skip" href="#main">{t(locale, "nav.skip")}</a>
-    <ScrollProgress client:idle className="h-[2px]" />
+    <ScrollProgress client:idle className="h-[5px] bg-[#2a2218]" />
+
+    <!-- Soft fixed washes only; section doodles live on each section and reveal on scroll. -->
+    <div class="page-washes" aria-hidden="true">
+      <span class="doodle-wash doodle-wash-a"></span>
+      <span class="doodle-wash doodle-wash-b"></span>
+      <span class="doodle-wash doodle-wash-c"></span>
+    </div>
+
+    <!-- Shared PhD / research doodle symbols (referenced by section zones) -->
+    <svg viewBox="0 0 64 64" class="doodle-sprite" aria-hidden="true" width="0" height="0" focusable="false">
+      <defs>
+        <symbol id="dd-scope" viewBox="0 0 56 72" fill="none">
+          <rect x="18" y="48" width="28" height="8" rx="2" fill="#cce6ff" stroke="#2a2218" stroke-width="2.2"/>
+          <path d="M10 64 H46" stroke="#2a2218" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M28 48 V36" stroke="#2a2218" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="28" cy="22" r="12" fill="#fff9ed" stroke="#2a2218" stroke-width="2.4"/>
+          <circle cx="28" cy="22" r="6" fill="#c8f5d8" stroke="#2a2218" stroke-width="1.8"/>
+          <path d="M38 14 L46 6" stroke="#2a2218" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="48" cy="4" r="3.5" fill="#ffd0c8" stroke="#2a2218" stroke-width="1.8"/>
+          <rect x="22" y="36" width="12" height="12" rx="2" fill="#ffe8a8" stroke="#2a2218" stroke-width="2"/>
+        </symbol>
+        <symbol id="dd-dna" viewBox="0 0 40 72" fill="none">
+          <path d="M10 6 C22 14 18 26 10 34 C2 42 6 54 18 62" stroke="#5aa3e0" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M30 6 C18 14 22 26 30 34 C38 42 34 54 22 62" stroke="#ef5a45" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M12 12 H28 M10 22 H30 M12 32 H28 M10 42 H30 M12 52 H28" stroke="#2a2218" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+          <circle cx="10" cy="6" r="3" fill="#5aa3e0" stroke="#2a2218" stroke-width="1.6"/>
+          <circle cx="30" cy="6" r="3" fill="#ef5a45" stroke="#2a2218" stroke-width="1.6"/>
+        </symbol>
+        <symbol id="dd-atom" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="5" fill="#f5c518" stroke="#2a2218" stroke-width="2"/>
+          <ellipse cx="32" cy="32" rx="26" ry="10" stroke="#2a2218" stroke-width="2.2"/>
+          <ellipse cx="32" cy="32" rx="26" ry="10" stroke="#5aa3e0" stroke-width="2.2" transform="rotate(60 32 32)"/>
+          <ellipse cx="32" cy="32" rx="26" ry="10" stroke="#ef5a45" stroke-width="2.2" transform="rotate(-60 32 32)"/>
+          <circle cx="58" cy="32" r="3.2" fill="#cce6ff" stroke="#2a2218" stroke-width="1.6"/>
+        </symbol>
+        <symbol id="dd-flask" viewBox="0 0 48 64" fill="none">
+          <path d="M18 6 H30 V24 L42 52 C43 55 41 58 37 58 H11 C7 58 5 55 6 52 L18 24 Z" fill="#c8f5d8" stroke="#2a2218" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M14 42 H34 L36 50 H12 Z" fill="#4ecf74" stroke="#2a2218" stroke-width="1.6" opacity="0.85"/>
+          <path d="M16 6 H32" stroke="#2a2218" stroke-width="2.4" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="dd-gears" viewBox="0 0 72 56" fill="none">
+          <circle cx="26" cy="30" r="14" fill="#ffe8a8" stroke="#2a2218" stroke-width="2.2"/>
+          <circle cx="26" cy="30" r="5" fill="#fff9ed" stroke="#2a2218" stroke-width="2"/>
+          <path d="M26 12 V18 M26 42 V48 M8 30 H14 M38 30 H44 M14 18 L18 22 M34 38 L38 42 M14 42 L18 38 M34 22 L38 18" stroke="#2a2218" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="50" cy="22" r="11" fill="#cce6ff" stroke="#2a2218" stroke-width="2.2"/>
+          <circle cx="50" cy="22" r="4" fill="#fff9ed" stroke="#2a2218" stroke-width="1.8"/>
+        </symbol>
+        <symbol id="dd-chip" viewBox="0 0 64 48" fill="none">
+          <rect x="12" y="10" width="40" height="28" rx="4" fill="#e8d4ff" stroke="#2a2218" stroke-width="2.4"/>
+          <rect x="20" y="16" width="24" height="16" rx="2" fill="#9b6edc" stroke="#2a2218" stroke-width="1.8" opacity="0.85"/>
+          <path d="M18 6 V10 M26 6 V10 M32 6 V10 M38 6 V10 M46 6 V10 M18 38 V42 M26 38 V42 M32 38 V42 M38 38 V42 M46 38 V42 M8 18 H12 M8 24 H12 M8 30 H12 M52 18 H56 M52 24 H56 M52 30 H56" stroke="#2a2218" stroke-width="2.2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="dd-chart" viewBox="0 0 64 52" fill="none">
+          <rect x="4" y="4" width="56" height="44" rx="6" fill="#fff9ed" stroke="#2a2218" stroke-width="2.4"/>
+          <rect x="9" y="22" width="6" height="18" rx="1.5" fill="#5aa3e0" stroke="#2a2218" stroke-width="1.6"/>
+          <rect x="21" y="28" width="6" height="12" rx="1.5" fill="#f5c518" stroke="#2a2218" stroke-width="1.6"/>
+          <rect x="33" y="14" width="6" height="26" rx="1.5" fill="#4ecf74" stroke="#2a2218" stroke-width="1.6"/>
+          <rect x="45" y="24" width="6" height="16" rx="1.5" fill="#ef5a45" stroke="#2a2218" stroke-width="1.6"/>
+        </symbol>
+        <symbol id="dd-ecg" viewBox="0 0 80 36" fill="none">
+          <rect x="2" y="4" width="76" height="28" rx="8" fill="#ffd0c8" stroke="#2a2218" stroke-width="2.2"/>
+          <path d="M10 18 H22 L26 10 L32 26 L38 14 L42 18 H70" stroke="#ef5a45" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="dd-mol" viewBox="0 0 64 56" fill="none">
+          <circle cx="18" cy="28" r="8" fill="#cce6ff" stroke="#2a2218" stroke-width="2.2"/>
+          <circle cx="40" cy="14" r="7" fill="#c8f5d8" stroke="#2a2218" stroke-width="2.2"/>
+          <circle cx="48" cy="38" r="9" fill="#ffe8a8" stroke="#2a2218" stroke-width="2.2"/>
+          <path d="M25 24 L34 18 M24 32 L42 36 M36 20 L44 32" stroke="#2a2218" stroke-width="2.2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="dd-thesis" viewBox="0 0 64 52" fill="none">
+          <rect x="8" y="28" width="48" height="16" rx="2" fill="#cce6ff" stroke="#2a2218" stroke-width="2.2"/>
+          <rect x="10" y="16" width="48" height="16" rx="2" fill="#ffe8a8" stroke="#2a2218" stroke-width="2.2"/>
+          <rect x="12" y="4" width="48" height="16" rx="2" fill="#ffd0c8" stroke="#2a2218" stroke-width="2.2"/>
+          <path d="M18 10 H48 M18 22 H46 M18 34 H44" stroke="#2a2218" stroke-width="1.6" stroke-linecap="round" opacity="0.4"/>
+          <rect x="40" y="6" width="14" height="6" rx="1" fill="#f5c518" stroke="#2a2218" stroke-width="1.4"/>
+        </symbol>
+        <symbol id="dd-math" viewBox="0 0 48 56" fill="none">
+          <rect x="2" y="2" width="44" height="52" rx="8" fill="#fff9ed" stroke="#2a2218" stroke-width="2.4"/>
+          <path d="M28 10 C22 10 20 14 20 20 V36 C20 44 16 48 12 48" stroke="#2a2218" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M26 24 H40 M26 32 H36" stroke="#5aa3e0" stroke-width="2.2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="dd-tele" viewBox="0 0 72 48" fill="none">
+          <path d="M8 34 L48 10 L54 20 L14 44 Z" fill="#cce6ff" stroke="#2a2218" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M48 10 L60 4 L66 14 L54 20 Z" fill="#5aa3e0" stroke="#2a2218" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M20 40 L16 48 M28 36 L32 48" stroke="#2a2218" stroke-width="2.2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="dd-steth" viewBox="0 0 56 64" fill="none">
+          <path d="M14 8 V28 C14 40 22 46 28 46 C34 46 42 40 42 28 V8" stroke="#2a2218" stroke-width="2.6" stroke-linecap="round"/>
+          <circle cx="14" cy="6" r="4" fill="#c8f5d8" stroke="#2a2218" stroke-width="2"/>
+          <circle cx="42" cy="6" r="4" fill="#c8f5d8" stroke="#2a2218" stroke-width="2"/>
+          <path d="M28 46 V52" stroke="#2a2218" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="28" cy="58" r="5" fill="#ef5a45" stroke="#2a2218" stroke-width="2.2"/>
+        </symbol>
+        <!-- Documents outlive services -->
+        <symbol id="dd-folder" viewBox="0 0 64 52" fill="none">
+          <path d="M6 14 H24 L30 20 H58 V46 C58 48 56 50 54 50 H10 C8 50 6 48 6 46 Z" fill="#ffe8a8" stroke="#2a2218" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M6 20 H58" stroke="#2a2218" stroke-width="2"/>
+          <path d="M16 30 H40 M16 36 H34" stroke="#2a2218" stroke-width="1.8" stroke-linecap="round" opacity="0.45"/>
+        </symbol>
+        <symbol id="dd-git" viewBox="0 0 48 56" fill="none">
+          <circle cx="16" cy="12" r="6" fill="#cce6ff" stroke="#2a2218" stroke-width="2.2"/>
+          <circle cx="16" cy="44" r="6" fill="#c8f5d8" stroke="#2a2218" stroke-width="2.2"/>
+          <circle cx="36" cy="28" r="6" fill="#ffd0c8" stroke="#2a2218" stroke-width="2.2"/>
+          <path d="M16 18 V38 M16 28 H30" stroke="#2a2218" stroke-width="2.4" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="dd-vault" viewBox="0 0 56 56" fill="none">
+          <rect x="6" y="10" width="44" height="38" rx="6" fill="#e8d4ff" stroke="#2a2218" stroke-width="2.4"/>
+          <circle cx="28" cy="30" r="10" fill="#fff9ed" stroke="#2a2218" stroke-width="2.2"/>
+          <circle cx="28" cy="30" r="3" fill="#2a2218"/>
+          <path d="M28 20 V24 M28 36 V40 M18 30 H22 M34 30 H38" stroke="#2a2218" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="dd-cloud-x" viewBox="0 0 64 48" fill="none">
+          <path d="M20 36 H46 C54 36 58 30 58 24 C58 18 53 14 47 14 C46 8 40 4 34 4 C26 4 20 10 20 16 C14 16 8 20 8 26 C8 32 13 36 20 36 Z" fill="#cce6ff" stroke="#2a2218" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M24 20 L40 34 M40 20 L24 34" stroke="#ef5a45" stroke-width="2.8" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="dd-years" viewBox="0 0 72 40" fill="none">
+          <rect x="4" y="6" width="64" height="28" rx="8" fill="#fff9ed" stroke="#2a2218" stroke-width="2.2"/>
+          <path d="M14 20 H58" stroke="#2a2218" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+          <circle cx="18" cy="20" r="4" fill="#4ecf74" stroke="#2a2218" stroke-width="1.6"/>
+          <circle cx="36" cy="20" r="4" fill="#5aa3e0" stroke="#2a2218" stroke-width="1.6"/>
+          <circle cx="54" cy="20" r="4" fill="#f5c518" stroke="#2a2218" stroke-width="1.6"/>
+        </symbol>
+        <symbol id="dd-paper" viewBox="0 0 48 60" fill="none">
+          <path d="M10 4 H30 L42 16 V52 C42 54 40 56 38 56 H10 C8 56 6 54 6 52 V8 C6 6 8 4 10 4 Z" fill="#fff9ed" stroke="#2a2218" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M30 4 V16 H42" fill="#ffe8a8" stroke="#2a2218" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M14 26 H34 M14 34 H32 M14 42 H28" stroke="#2a2218" stroke-width="1.8" stroke-linecap="round" opacity="0.45"/>
+        </symbol>
+      </defs>
+    </svg>
 
     <header class="nav" id="nav">
       <div class="nav-inner">
@@ -338,19 +447,37 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
     <main id="main">
       <!-- ============================== Hero ============================== -->
       <section class="hero">
-        <div class="hero-glow" aria-hidden="true"></div>
-        <DotPattern
-          width={24}
-          height={24}
-          cr={1}
-          className="fill-white/[0.12] [mask-image:radial-gradient(85%_60%_at_50%_18%,white,transparent)]"
-        />
-        <div class="container">
+        <!-- Sparse gutters only: room to breathe + gravity hover on each wrap -->
+        <div class="section-doodles section-doodles--hero" data-doodle-zone data-doodle-play aria-hidden="true">
+          <span class="doodle-wrap d-h1" style="--r:-12deg; --float-delay:0s" title="">
+            <svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-scope"/></svg>
+          </span>
+          <span class="doodle-wrap d-h2" style="--r:10deg; --float-delay:0.6s" title="">
+            <svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-atom"/></svg>
+          </span>
+          <span class="doodle-wrap d-h3" style="--r:-8deg; --float-delay:1.2s" title="">
+            <svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-dna"/></svg>
+          </span>
+          <span class="doodle-wrap d-h4" style="--r:14deg; --float-delay:0.3s" title="">
+            <svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-flask"/></svg>
+          </span>
+          <span class="doodle-wrap d-h5" style="--r:-6deg; --float-delay:0.9s" title="">
+            <svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-thesis"/></svg>
+          </span>
+          <span class="doodle-wrap d-h6" style="--r:8deg; --float-delay:1.5s" title="">
+            <svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-chart"/></svg>
+          </span>
+          <span class="doodle-wrap d-h7" style="--r:-10deg; --float-delay:0.4s" title="">
+            <svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-gears"/></svg>
+          </span>
+          <span class="doodle-wrap d-h8" style="--r:6deg; --float-delay:1.1s" title="">
+            <svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-math"/></svg>
+          </span>
+        </div>
+        <div class="container hero-foreground">
           <a class="pill no-ext-icon" href={GITHUB} target="_blank" rel="noopener noreferrer">
             <span class="pill-dot" aria-hidden="true"></span>
-            <AnimatedShinyText shimmerWidth={120}>
-              {t(locale, "landing.pill")}
-            </AnimatedShinyText>
+            <span class="pill-label">{t(locale, "landing.pill")}</span>
             <span class="pill-os" aria-label="Available for macOS, Windows, and Linux">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d={APPLE_PATH}></path></svg>
               <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><path d={WINDOWS_PATH}></path></svg>
@@ -369,16 +496,16 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
                     t(locale, "landing.heroRotate4"),
                   ]}
                   wordClassNames={[
-                    "bg-gradient-to-r from-[#60a5fa] to-[#2563eb] bg-clip-text text-transparent",
-                    "bg-gradient-to-r from-[#4ec46a] to-[#34b44a] bg-clip-text text-transparent",
-                    "bg-gradient-to-r from-[#a78bfa] to-[#8b5cf6] bg-clip-text text-transparent",
-                    "bg-gradient-to-r from-[#f7bc55] to-[#f59e0b] bg-clip-text text-transparent",
+                    "rotate-word rotate-c1",
+                    "rotate-word rotate-c2",
+                    "rotate-word rotate-c3",
+                    "rotate-word rotate-c4",
                   ]}
                   duration={2600}
                   motionProps={{
-                    initial: { opacity: 0, y: -14 },
+                    initial: { opacity: 0, y: -10 },
                     animate: { opacity: 1, y: 0 },
-                    exit: { opacity: 0, y: 14 },
+                    exit: { opacity: 0, y: 10 },
                     transition: { duration: 0.22, ease: "easeOut" },
                   }}
                   className="h1-word"
@@ -391,31 +518,32 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
             {t(locale, "landing.lede")}
           </p>
           <div class="hero-actions">
-            <RainbowLink
+            <a
+              class="btn btn-primary btn-lg dl-platform"
               href={RELEASES}
-              label={t(locale, "landing.heroCta")}
-              size="lg"
-              platformAware
-              labelTemplate={t(locale, "common.downloadFor")}
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+              data-dl-label={t(locale, "common.downloadFor")}
+            >
+              <svg class="dl-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                <path data-os="mac" d={APPLE_PATH}></path>
+                <path data-os="windows" d={WINDOWS_PATH} hidden></path>
+                <path data-os="linux" d={LINUX_PATH} hidden></path>
+              </svg>
+              <span class="dl-label">{t(locale, "landing.heroCta")}</span>
+            </a>
             <a class="btn btn-ghost btn-lg" href={lp("/docs/overview/")}>{t(locale, "landing.heroSecondary")}</a>
           </div>
-          <figure class="shot shot-hero">
-            <Image
-              src={heroEditor}
+          <figure class="shot plate shot-hero shot-product">
+            <img
+              src={HERO_EDITOR}
               alt="The Oleafly editor: LaTeX source on the left, the compiled PDF building live on the right"
-              widths={[720, 1200, 1800]}
+              width="2000"
+              height="1125"
               sizes="(max-width: 760px) 94vw, 1080px"
               loading="eager"
               fetchpriority="high"
-            />
-            <BorderBeam
-              client:load
-              size={240}
-              duration={10}
-              borderWidth={1.5}
-              colorFrom="#2563eb"
-              colorTo="#34b44a"
+              decoding="async"
             />
           </figure>
           <div class="chips-marquee" aria-label={t(locale, "landing.highlights")}>
@@ -437,6 +565,12 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
 
       <!-- =========================== Bento =========================== -->
       <section class="section" id="features">
+        <div class="section-doodles" data-doodle-zone data-doodle-play aria-hidden="true">
+          <span class="doodle-wrap d-f1" style="--r:-10deg; --float-delay:0.2s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-chip"/></svg></span>
+          <span class="doodle-wrap d-f2" style="--r:12deg; --float-delay:0.8s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-chart"/></svg></span>
+          <span class="doodle-wrap d-f3" style="--r:-6deg; --float-delay:1.1s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-flask"/></svg></span>
+          <span class="doodle-wrap d-f4" style="--r:8deg; --float-delay:0.5s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-gears"/></svg></span>
+        </div>
         <div class="container">
           <p class="eyebrow">{t(locale, "landing.features.eyebrow")}</p>
           <h2>{t(locale, "landing.features.h2")}</h2>
@@ -455,73 +589,91 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           <div class="shelf-wrap" role="img" aria-label="A shelf of project covers: thesis, IEEE paper, a bookmarked resume, a Typst paper, a Beamer deck, and a fork of the resume, each with its own cover color and engine badge">
             <div class="shelf">
               <div class="book book-lilac">
-                <span class="book-title">thesis</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
+                <span class="book-pages" aria-hidden="true">
                   <span class="bp-line bp-w60"></span>
                   <span class="bp-line bp-w90"></span>
                   <span class="bp-line bp-w80"></span>
                   <span class="bp-line bp-w85"></span>
+                  <span class="bp-line bp-w70"></span>
                   <span class="bp-cap">{compiledFirstPage}</span>
+                </span>
+                <span class="book-cover">
+                  <span class="book-title">thesis</span>
+                  <span class="book-badge">TeX</span>
                 </span>
               </div>
               <div class="book book-blue">
-                <span class="book-title">ieee-paper</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
+                <span class="book-pages" aria-hidden="true">
                   <span class="bp-line bp-w80"></span>
                   <span class="bp-line bp-w90"></span>
                   <span class="bp-line bp-w70"></span>
                   <span class="bp-line bp-w85"></span>
+                  <span class="bp-line bp-w65"></span>
                   <span class="bp-cap">{compiledFirstPage}</span>
+                </span>
+                <span class="book-cover">
+                  <span class="book-title">ieee-paper</span>
+                  <span class="book-badge">TeX</span>
                 </span>
               </div>
               <div class="book book-spring">
-                <span class="book-star" aria-hidden="true">★</span>
-                <span class="book-title">resume</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
+                <span class="book-pages" aria-hidden="true">
                   <span class="bp-line bp-w60"></span>
                   <span class="bp-line bp-w85"></span>
                   <span class="bp-line bp-w90"></span>
                   <span class="bp-line bp-w75"></span>
+                  <span class="bp-line bp-w80"></span>
                   <span class="bp-cap">{compiledFirstPage}</span>
+                </span>
+                <span class="book-cover">
+                  <span class="book-star" aria-hidden="true">★</span>
+                  <span class="book-title">resume</span>
+                  <span class="book-badge">TeX</span>
                 </span>
               </div>
               <div class="book book-aqua">
-                <span class="book-title">paper</span>
-                <span class="book-badge">Typst</span>
-                <span class="book-preview" aria-hidden="true">
+                <span class="book-pages" aria-hidden="true">
                   <span class="bp-line bp-w70"></span>
                   <span class="bp-line bp-w90"></span>
                   <span class="bp-line bp-w80"></span>
                   <span class="bp-line bp-w60"></span>
+                  <span class="bp-line bp-w85"></span>
                   <span class="bp-cap">{compiledFirstPage}</span>
+                </span>
+                <span class="book-cover">
+                  <span class="book-title">paper</span>
+                  <span class="book-badge">Typst</span>
                 </span>
               </div>
               <div class="book book-peach">
-                <span class="book-title">beamer-deck</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
+                <span class="book-pages" aria-hidden="true">
                   <span class="bp-line bp-w85"></span>
                   <span class="bp-line bp-w65"></span>
                   <span class="bp-line bp-w90"></span>
                   <span class="bp-line bp-w70"></span>
+                  <span class="bp-line bp-w80"></span>
                   <span class="bp-cap">{compiledFirstPage}</span>
+                </span>
+                <span class="book-cover">
+                  <span class="book-title">beamer-deck</span>
+                  <span class="book-badge">TeX</span>
                 </span>
               </div>
               <div class="book book-rose">
-                <span class="book-fork" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path></svg>
-                </span>
-                <span class="book-title">backend-swe</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
+                <span class="book-pages" aria-hidden="true">
                   <span class="bp-line bp-w60"></span>
                   <span class="bp-line bp-w85"></span>
                   <span class="bp-line bp-w90"></span>
                   <span class="bp-line bp-w75"></span>
+                  <span class="bp-line bp-w70"></span>
                   <span class="bp-cap">{compiledFirstPage}</span>
+                </span>
+                <span class="book-cover">
+                  <span class="book-fork" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path></svg>
+                  </span>
+                  <span class="book-title">backend-swe</span>
+                  <span class="book-badge">TeX</span>
                 </span>
               </div>
             </div>
@@ -545,12 +697,12 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
                 client:visible
                 words={[t(locale, "landing.templates.w1"), t(locale, "landing.templates.w2"), t(locale, "landing.templates.w3"), t(locale, "landing.templates.w4"), t(locale, "landing.templates.w5"), t(locale, "landing.templates.w6")]}
                 wordClassNames={[
-                  "text-[#60a5fa]",
-                  "text-[#4ec46a]",
-                  "text-[#a78bfa]",
-                  "text-[#f7bc55]",
-                  "text-[#f472b6]",
-                  "text-[#22d3ee]",
+                  "rotate-word rotate-c1",
+                  "rotate-word rotate-c2",
+                  "rotate-word rotate-c3",
+                  "rotate-word rotate-c4",
+                  "rotate-word rotate-c1",
+                  "rotate-word rotate-c2",
                 ]}
                 duration={2200}
                 motionProps={{
@@ -564,13 +716,15 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
             </span>
           </h2>
           <p class="sub">{t(locale, "landing.templates.sub")}</p>
-          <figure class="shot shot-wide">
-            <Image
-              src={projectTemplates}
+          <figure class="shot plate shot-wide">
+            <img
+              src={PROJECT_TEMPLATES}
               alt="Oleafly's template gallery with categories, search, and live previews"
-              widths={[720, 1200, 1800]}
+              width="2000"
+              height="1125"
               sizes="(max-width: 980px) 94vw, 1080px"
               loading="lazy"
+              decoding="async"
             />
           </figure>
         </div>
@@ -589,13 +743,15 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
               <li>{t(locale, "landing.git.t3")}</li>
               <li>{t(locale, "landing.git.t4")}</li>
             </ul>
-            <figure class="shot">
-              <Image
-                src={gitDiff}
+            <figure class="shot plate">
+              <img
+                src={GIT_DIFF}
                 alt="Side-by-side diff of a past version of a document in Oleafly"
-                widths={[720, 1200]}
+                width="2000"
+                height="1125"
                 sizes="(max-width: 980px) 94vw, 640px"
                 loading="lazy"
+                decoding="async"
               />
             </figure>
           </div>
@@ -604,6 +760,12 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
 
       <!-- ========================= On disk ========================= -->
       <section class="stack-card" id="disk">
+        <div class="section-doodles" data-doodle-zone data-doodle-play aria-hidden="true">
+          <span class="doodle-wrap d-d1" style="--r:-8deg; --float-delay:0.1s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-folder"/></svg></span>
+          <span class="doodle-wrap d-d2" style="--r:10deg; --float-delay:0.7s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-git"/></svg></span>
+          <span class="doodle-wrap d-d3" style="--r:-6deg; --float-delay:1.2s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-paper"/></svg></span>
+          <span class="doodle-wrap d-d4" style="--r:8deg; --float-delay:0.4s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-vault"/></svg></span>
+        </div>
         <div class="container">
           <p class="eyebrow">{t(locale, "landing.disk.eyebrow")}</p>
           <h2>{t(locale, "landing.disk.h2")}</h2>
@@ -633,7 +795,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           <h2>{t(locale, "landing.ai.h2")}</h2>
           <p class="sub">{t(locale, "landing.ai.sub")}</p>
           <div class="ai-card">
-            <NoiseTexture frequency={0.8} noiseOpacity={0.25} className="opacity-30" />
             <div class="rel">
               <div class="ai-steps">
                 <div class="ai-step"><span class="ai-num">1</span> {t(locale, "landing.ai.s1")}</div>
@@ -678,27 +839,27 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
                 <figure class="gauge">
                   <AnimatedCircularProgressBar
                     value={94}
-                    gaugePrimaryColor="#2563eb"
-                    gaugeSecondaryColor="rgba(37, 99, 235, 0.15)"
-                    className="size-24 text-xl"
+                    gaugePrimaryColor="#5aa3e0"
+                    gaugeSecondaryColor="rgba(42, 34, 24, 0.12)"
+                    className="size-24 text-xl text-[#1a1410]"
                   />
                   <figcaption>{t(locale, "landing.preflight.g1")}</figcaption>
                 </figure>
                 <figure class="gauge">
                   <AnimatedCircularProgressBar
                     value={91}
-                    gaugePrimaryColor="#34b44a"
-                    gaugeSecondaryColor="rgba(52, 180, 74, 0.15)"
-                    className="size-24 text-xl"
+                    gaugePrimaryColor="#4ecf74"
+                    gaugeSecondaryColor="rgba(42, 34, 24, 0.12)"
+                    className="size-24 text-xl text-[#1a1410]"
                   />
                   <figcaption>{t(locale, "landing.preflight.g2")}</figcaption>
                 </figure>
                 <figure class="gauge">
                   <AnimatedCircularProgressBar
                     value={97}
-                    gaugePrimaryColor="#f59e0b"
-                    gaugeSecondaryColor="rgba(245, 158, 11, 0.15)"
-                    className="size-24 text-xl"
+                    gaugePrimaryColor="#f29b3a"
+                    gaugeSecondaryColor="rgba(42, 34, 24, 0.12)"
+                    className="size-24 text-xl text-[#1a1410]"
                   />
                   <figcaption>{t(locale, "landing.preflight.g3")}</figcaption>
                 </figure>
@@ -711,13 +872,15 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
                 <li>Accessible-export preparation for a tagged PDF via an optional LuaLaTeX path</li>
               </ul>
             </div>
-            <figure class="shot">
-              <Image
-                src={preflightAts}
+            <figure class="shot plate">
+              <img
+                src={PREFLIGHT_ATS}
                 alt="The Preflight panel scoring a resume for ATS parsers and screen readers"
-                widths={[720, 1200]}
+                width="2000"
+                height="1125"
                 sizes="(max-width: 980px) 94vw, 640px"
                 loading="lazy"
+                decoding="async"
               />
             </figure>
           </div>
@@ -733,47 +896,41 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           <p class="sub">{t(locale, "landing.resume.sub")}</p>
           <div class="split split-rev">
             <div class="branch-card" role="img" aria-label="One resume project with a linear commit history, forked into three new projects: backend-swe, ml-eng, and consulting, each continuing its own history">
-              <DotPattern
-                width={18}
-                height={18}
-                cr={0.8}
-                className="fill-white/[0.05] [mask-image:radial-gradient(320px_circle_at_50%_40%,white,transparent)]"
-              />
               <div class="rel">
                 <svg viewBox="0 0 360 224" width="100%" aria-hidden="true">
-                  <g fill="none" stroke-width="1.5">
-                    <path class="fk-main" pathLength="1" d="M24 36 H336" stroke="#3a3d42"></path>
-                    <path class="fk-f1" pathLength="1" d="M96 36 C126 36 122 92 152 92 H336" stroke="#3b82f6"></path>
-                    <path class="fk-f2" pathLength="1" d="M136 36 C170 36 164 140 198 140 H336" stroke="#a371f7"></path>
-                    <path class="fk-f3" pathLength="1" d="M200 36 C234 36 228 188 262 188 H336" stroke="#f59e0b"></path>
+                  <g fill="none" stroke-width="2.75" stroke-linecap="round">
+                    <path class="fk-main" pathLength="1" d="M24 36 H336" stroke="#2a2218"></path>
+                    <path class="fk-f1" pathLength="1" d="M96 36 C126 36 122 92 152 92 H336" stroke="#5aa3e0"></path>
+                    <path class="fk-f2" pathLength="1" d="M136 36 C170 36 164 140 198 140 H336" stroke="#9b6edc"></path>
+                    <path class="fk-f3" pathLength="1" d="M200 36 C234 36 228 188 262 188 H336" stroke="#f29b3a"></path>
                   </g>
-                  <g class="fk-dots">
-                    <circle class="fk-p6" cx="56" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p10" cx="96" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p14" cx="136" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p26" cx="200" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p36" cx="268" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p44" cx="330" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p28" cx="196" cy="92" r="4" fill="#3b82f6"></circle>
-                    <circle class="fk-p34" cx="252" cy="92" r="4" fill="#3b82f6"></circle>
-                    <circle class="fk-p42" cx="312" cy="92" r="4" fill="#3b82f6"></circle>
-                    <circle class="fk-p38" cx="244" cy="140" r="4" fill="#a371f7"></circle>
-                    <circle class="fk-p46" cx="306" cy="140" r="4" fill="#a371f7"></circle>
-                    <circle class="fk-p48" cx="308" cy="188" r="4" fill="#f59e0b"></circle>
+                  <g class="fk-dots" stroke="#2a2218" stroke-width="1.5">
+                    <circle class="fk-p6" cx="56" cy="36" r="5" fill="#fff9ed"></circle>
+                    <circle class="fk-p10" cx="96" cy="36" r="5" fill="#fff9ed"></circle>
+                    <circle class="fk-p14" cx="136" cy="36" r="5" fill="#fff9ed"></circle>
+                    <circle class="fk-p26" cx="200" cy="36" r="5" fill="#fff9ed"></circle>
+                    <circle class="fk-p36" cx="268" cy="36" r="5" fill="#fff9ed"></circle>
+                    <circle class="fk-p44" cx="330" cy="36" r="5" fill="#fff9ed"></circle>
+                    <circle class="fk-p28" cx="196" cy="92" r="5.5" fill="#5aa3e0"></circle>
+                    <circle class="fk-p34" cx="252" cy="92" r="5.5" fill="#5aa3e0"></circle>
+                    <circle class="fk-p42" cx="312" cy="92" r="5.5" fill="#5aa3e0"></circle>
+                    <circle class="fk-p38" cx="244" cy="140" r="5.5" fill="#9b6edc"></circle>
+                    <circle class="fk-p46" cx="306" cy="140" r="5.5" fill="#9b6edc"></circle>
+                    <circle class="fk-p48" cx="308" cy="188" r="5.5" fill="#f29b3a"></circle>
                   </g>
-                  <g font-family="JetBrains Mono, monospace" font-size="11">
-                    <text x="24" y="20" fill="#8a8f98">resume/ · checkpointed as you work</text>
+                  <g font-family="Nunito, system-ui, sans-serif" font-size="12" font-weight="800">
+                    <text x="24" y="20" fill="#2a2218">resume/ · checkpointed as you work</text>
                     <g class="fk-l1">
-                      <path transform="translate(151, 69.5)" fill="#7cabf8" d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
-                      <text x="167" y="80" fill="#7cabf8">backend-swe/</text>
+                      <path transform="translate(151, 69.5)" fill="#5aa3e0" stroke="#2a2218" stroke-width="0.6" d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
+                      <text x="167" y="80" fill="#1a4a7a">backend-swe/</text>
                     </g>
                     <g class="fk-l2">
-                      <path transform="translate(197, 117.5)" fill="#c39bf9" d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
-                      <text x="213" y="128" fill="#c39bf9">ml-eng/</text>
+                      <path transform="translate(197, 117.5)" fill="#9b6edc" stroke="#2a2218" stroke-width="0.6" d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
+                      <text x="213" y="128" fill="#5c3d8a">ml-eng/</text>
                     </g>
                     <g class="fk-l3">
-                      <path transform="translate(261, 165.5)" fill="#f7bc55" d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
-                      <text x="277" y="176" fill="#f7bc55">consulting/</text>
+                      <path transform="translate(261, 165.5)" fill="#f29b3a" stroke="#2a2218" stroke-width="0.6" d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
+                      <text x="277" y="176" fill="#9a5a12">consulting/</text>
                     </g>
                   </g>
                 </svg>
@@ -802,7 +959,22 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
               <thead>
                 <tr>
                   <th></th>
-                  {compare.cols.map((c, i) => <th class={i === 0 ? "col-us" : ""}>{c}</th>)}
+                  {compare.cols.map((c, i) =>
+                    i === 0 ? (
+                      <th class="col-us col-us-brand" scope="col">
+                        <span class="compare-brand">
+                          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                            <path
+                              d="M21 2C6 2 4 16 3 22h1.998c.666-3.333 2.333-5.166 5.002-5.5 4-.5 7-4 8-7l-1.5-1 1-1c1-1 2.004-2.5 3.5-5.5z"
+                              fill="#34B44A"></path>
+                          </svg>
+                          <span class="compare-brand-name">Oleafly</span>
+                        </span>
+                      </th>
+                    ) : (
+                      <th>{c}</th>
+                    )
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -848,27 +1020,21 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         </div>
       </section>
 
-      <!-- ========================= Velocity strip ========================= -->
-      <section class="velocity" aria-hidden="true">
-        <VelocityStrip client:visible={{rootMargin: "200px"}} />
-      </section>
-
       <!-- ========================= Philosophy ========================= -->
       <section class="philosophy" id="philosophy">
+        <div class="section-doodles" data-doodle-zone data-doodle-play aria-hidden="true">
+          <span class="doodle-wrap d-p1" style="--r:-12deg; --float-delay:0.15s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-paper"/></svg></span>
+          <span class="doodle-wrap d-p2" style="--r:10deg; --float-delay:0.7s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-folder"/></svg></span>
+          <span class="doodle-wrap d-p3" style="--r:-8deg; --float-delay:0.35s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-cloud-x"/></svg></span>
+          <span class="doodle-wrap d-p4" style="--r:6deg; --float-delay:1s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-years"/></svg></span>
+          <span class="doodle-wrap d-p5" style="--r:-6deg; --float-delay:0.55s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-git"/></svg></span>
+          <span class="doodle-wrap d-p6" style="--r:12deg; --float-delay:1.25s"><svg viewBox="0 0 64 64" class="doodle" aria-hidden="true"><use href="#dd-thesis"/></svg></span>
+        </div>
         <div class="phil-grid">
-          <GridPattern
-            width={44}
-            height={44}
-            strokeDasharray="0"
-            className="stroke-white/[0.06] [mask-image:linear-gradient(to_bottom,transparent,black_28%,black_72%,transparent)]"
-          />
           <div class="container rel">
             <p class="eyebrow">{t(locale, "landing.philosophy.eyebrow")}</p>
-            <KineticText
-              text={t(locale, "landing.philosophy.h2")}
-              as="h2"
-              className="justify-center font-[620] text-[clamp(1.7rem,3.8vw,2.5rem)] tracking-tight text-[#f7f8f8]"
-            />
+            <h2 class="phil-title">{t(locale, "landing.philosophy.h2")}</h2>
+            <div class="section-rule" aria-hidden="true"></div>
           </div>
         </div>
         <PhilosophyReveal client:visible={{rootMargin: "200px"}} />
@@ -927,22 +1093,24 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         <div class="container">
           <p class="eyebrow">{t(locale, "landing.craft.eyebrow")}</p>
           <h2>{t(locale, "landing.craft.h2")}</h2>
-          <div class="craft-card">
-            <NoiseTexture frequency={0.8} noiseOpacity={0.25} className="opacity-30" />
-            <div class="rel craft-inner">
+          <div class="craft-layout">
+            <div class="craft-card">
               <p>{t(locale, "landing.craft.body")}</p>
               <p class="craft-note">{t(locale, "landing.craft.note")}{" "}
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer">{t(locale, "nav.github")}</a>.
               </p>
             </div>
-            <BorderBeam
-              client:visible
-              size={140}
-              duration={9}
-              borderWidth={1.5}
-              colorFrom="#34b44a"
-              colorTo="#2563eb"
-            />
+            <figure class="craft-scene plate">
+              <img
+                src={HERO_CLUB_CLASSROOM}
+                alt="Oleafly Club cartoon scene: writers, a helpful robot, and a festive research classroom"
+                width="960"
+                height="540"
+                loading="lazy"
+                decoding="async"
+                class="craft-scene-img"
+              />
+            </figure>
           </div>
         </div>
       </section>
@@ -950,29 +1118,30 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
 
       <!-- ========================= Download ========================= -->
       <section class="section download" id="download">
-        <GlyphMatrix
-          client:visible
-          glyphs={"\\{}[]$%&#_^∫∑αβπ"}
-          cellSize={16}
-          color="#3b82f6"
-          className="glyphs-bg"
-        />
         <div class="container rel">
           <p class="eyebrow">{t(locale, "landing.dl.eyebrow")}</p>
           <h2>{t(locale, "landing.dl.h2")}</h2>
+          <div class="section-rule section-rule-center" aria-hidden="true"></div>
           <p class="sub">
             {t(locale, "landing.dl.sub")}{" "}
             <a href={lp("/docs/install/")} target="_blank" rel="noopener noreferrer">{t(locale, "landing.dl.buildFromSource")}</a>
             {t(locale, "landing.dl.subAfter")}
           </p>
           <div class="dl-cta">
-            <RainbowLink
+            <a
+              class="btn btn-primary btn-lg dl-platform"
               href={RELEASES}
-              label={t(locale, "nav.download")}
-              size="lg"
-              platformAware
-              labelTemplate={t(locale, "common.downloadFor")}
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+              data-dl-label={t(locale, "common.downloadFor")}
+            >
+              <svg class="dl-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                <path data-os="mac" d={APPLE_PATH}></path>
+                <path data-os="windows" d={WINDOWS_PATH} hidden></path>
+                <path data-os="linux" d={LINUX_PATH} hidden></path>
+              </svg>
+              <span class="dl-label">{t(locale, "nav.download")}</span>
+            </a>
           </div>
           <div class="dl-grid" id="dl-os-grid">
             <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer" data-os="mac">
@@ -1007,6 +1176,18 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
     </main>
 
     <footer class="footer">
+      <div class="footer-bg" aria-hidden="true">
+        <img
+          src={HERO_CLUB_CLASSROOM}
+          alt=""
+          width="1400"
+          height="788"
+          loading="lazy"
+          decoding="async"
+          class="footer-bg-img"
+        />
+        <div class="footer-bg-scrim"></div>
+      </div>
       <div class="container footer-inner">
         <div class="footer-brand">
           <a class="brand" href={lp("/")}>
@@ -1018,7 +1199,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
             <span>Oleafly</span>
           </a>
           <p>{t(locale, "footer.tagline")}</p>
-          <p class="footer-license">{t(locale, "footer.license")}</p>
           <SocialLinks />
         </div>
         <nav class="footer-col" aria-label={t(locale, "footer.product")}>
@@ -1050,27 +1230,52 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
     </footer>
 
     <style>
-      /* ===== Tokens: linear.app system, Oleafly app-blue accent ===== */
+      /* ===== Tokens: cartoon classroom (YC Robotics Club palette) ===== */
       :root {
-        --brand: #2563eb;
-        --brand-hover: #3b82f6;
-        --brand-text: #60a5fa;
-        --bg: #08090a;
-        --bg-deep: #060607;
-        --surface: #0a0a0a;
-        --surface-2: #191a1c;
-        --text: #f7f8f8;
-        --muted: #8a8f98;
-        --line: rgba(255, 255, 255, 0.08);
-        --line-strong: rgba(255, 255, 255, 0.14);
-        --green: #34b44a;
-        --red: #eb5757;
-        --radius-sm: 4px;
-        --radius-md: 6px;
-        --radius-lg: 8px;
-        --shadow-popup: 0 4px 16px rgba(0, 0, 0, 0.4);
-        --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.5);
-        --font: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color-scheme: light;
+        /* Illustration palette — saturated, flat, outlined */
+        --brand: #ef5a45;
+        --brand-hover: #dc4632;
+        --brand-text: #d44532;
+        --accent: #f5c518;
+        --accent-soft: rgba(245, 197, 24, 0.35);
+        --club-teal: #4db8b0;
+        --club-blue: #5aa3e0;
+        --club-green: #4ecf74;
+        --club-purple: #9b6edc;
+        --club-orange: #f29b3a;
+        --club-pink: #ef6b8a;
+        --chalk: #2a5644;
+        --chalk-soft: #356b54;
+        --wood: #c9955c;
+        --wood-dark: #a6743f;
+        /* Warm cream only — no slate floor band */
+        --floor: #ebe0c8;
+        --floor-deep: #e4d6b8;
+        --wall: #f3e8d0;
+        --bg: #f3e8d0;
+        --bg-deep: #e8d9b8;
+        --surface: #fff8ec;
+        --surface-2: #f5e8cf;
+        --surface-hover: #ffe8a3;
+        --text: #2a2218;
+        --ink: #1a1410;
+        --outline: #2a2218;
+        --muted: #6a5d4c;
+        --line: rgba(42, 34, 24, 0.16);
+        --line-strong: rgba(42, 34, 24, 0.28);
+        --bronze: #c9955c;
+        --bronze-bright: #dcb07a;
+        --green: #4ecf74;
+        --red: #ef5a45;
+        --radius-sm: 10px;
+        --radius-md: 14px;
+        --radius-lg: 22px;
+        /* Comic hard shadows (illustration style) */
+        --shadow-popup: 3px 4px 0 var(--outline);
+        --shadow-modal: 6px 8px 0 rgba(42, 34, 24, 0.18), 10px 14px 28px rgba(42, 34, 24, 0.12);
+        --font: "Nunito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+        --font-ui: "Nunito", system-ui, sans-serif;
         --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
       }
 
@@ -1082,18 +1287,206 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       html {
         scroll-behavior: smooth;
         scroll-padding-top: 76px;
+        overflow-x: clip;
       }
       body {
-        background: var(--bg);
+        /* Even warm cream — no hard wall/floor color break */
+        position: relative;
+        background:
+          radial-gradient(ellipse 90% 50% at 50% -5%, #fff6e4 0%, transparent 55%),
+          linear-gradient(180deg, #f7edd8 0%, var(--wall) 40%, var(--bg-deep) 100%);
+        background-color: var(--wall);
+        /* fixed attachment is a major mobile jank source — desktop only */
+        background-attachment: scroll;
         color: var(--text);
         font-family: var(--font);
-        font-size: 15px;
+        font-size: 16.5px;
         line-height: 1.5;
+        font-weight: 600;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
+        overflow-x: clip;
+        max-width: 100vw;
+      }
+      @media (min-width: 961px) {
+        body {
+          background-attachment: fixed;
+        }
+      }
+      body::before {
+        display: none;
+      }
+      body > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ===== Section doodles (reveal on scroll; never block UI) ===== */
+      .page-washes {
+        position: fixed !important;
+        inset: 0;
+        z-index: 0 !important;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .doodle-sprite {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+      }
+      .doodle-wash {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(56px);
+        opacity: 0.4;
+      }
+      .doodle-wash-a {
+        width: min(380px, 36vw);
+        height: min(380px, 36vw);
+        top: 8vh;
+        left: -6vw;
+        background: radial-gradient(circle, #ffe8a8 0%, transparent 70%);
+      }
+      .doodle-wash-b {
+        width: min(340px, 32vw);
+        height: min(340px, 32vw);
+        top: 42vh;
+        right: -8vw;
+        background: radial-gradient(circle, #cce6ff 0%, transparent 70%);
+      }
+      .doodle-wash-c {
+        width: min(320px, 30vw);
+        height: min(320px, 30vw);
+        bottom: 6vh;
+        left: -4vw;
+        background: radial-gradient(circle, #c8f5d8 0%, transparent 70%);
+      }
+      .section-doodles {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden; /* hard play boundary — bounce inside */
+        user-select: none;
+        touch-action: none;
+      }
+      .section-doodles .doodle-wrap {
+        position: absolute;
+        display: block;
+        width: 56px;
+        height: 56px;
+        pointer-events: auto;
+        opacity: 0;
+        z-index: 1;
+        cursor: grab;
+        touch-action: none;
+        will-change: left, top, transform;
+        transition: opacity 0.45s ease;
+      }
+      .section-doodles .doodle-wrap.is-dragging {
+        z-index: 30;
+        cursor: grabbing;
+        opacity: 1 !important;
+      }
+      .section-doodles .doodle-wrap.is-dragging .doodle {
+        opacity: 1;
+        filter: drop-shadow(3px 8px 0 rgba(42, 34, 24, 0.16));
+        transform: scale(1.12) rotate(var(--r, 0deg));
+      }
+      .section-doodles .doodle {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        transform: rotate(var(--r, 0deg));
+        transform-origin: center center;
+        pointer-events: none;
+        opacity: 0.88;
+        transition: filter 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+      }
+      .section-doodles .doodle use {
+        width: 100%;
+        height: 100%;
+      }
+      .section-doodles.is-visible .doodle-wrap {
+        opacity: 1;
+      }
+      .section-doodles.is-visible .doodle-wrap:nth-child(1) { transition-delay: 0.04s; }
+      .section-doodles.is-visible .doodle-wrap:nth-child(2) { transition-delay: 0.1s; }
+      .section-doodles.is-visible .doodle-wrap:nth-child(3) { transition-delay: 0.16s; }
+      .section-doodles.is-visible .doodle-wrap:nth-child(4) { transition-delay: 0.22s; }
+      .section-doodles.is-visible .doodle-wrap:nth-child(5) { transition-delay: 0.28s; }
+      .section-doodles.is-visible .doodle-wrap:nth-child(6) { transition-delay: 0.34s; }
+      .section-doodles.is-visible .doodle-wrap:nth-child(7) { transition-delay: 0.4s; }
+      .section-doodles.is-visible .doodle-wrap:nth-child(8) { transition-delay: 0.46s; }
+      /* Playable physics owns motion — no CSS float/magnetic transforms */
+      .section-doodles.is-playable .doodle-wrap {
+        transition: opacity 0.4s ease;
+        animation: none !important;
+      }
+
+      /*
+        Hero gutters — 8 icons only, outside the ~1080 content column.
+        Left/right columns with generous vertical gaps (not a dense ring).
+      */
+      .section-doodles--hero .doodle-wrap { width: 58px; height: 58px; }
+      .d-h1 { top: 10%;  left: max(18px, calc(50% - 620px)); width: 52px; height: 52px; }
+      .d-h2 { top: 12%;  right: max(22px, calc(50% - 620px)); width: 58px; height: 58px; }
+      .d-h3 { top: 34%;  left: max(28px, calc(50% - 640px)); width: 36px; height: 36px; }
+      .d-h4 { top: 36%;  right: max(30px, calc(50% - 640px)); width: 44px; height: 44px; }
+      .d-h5 { top: 58%;  left: max(16px, calc(50% - 610px)); width: 54px; height: 54px; }
+      .d-h6 { top: 56%;  right: max(18px, calc(50% - 615px)); width: 50px; height: 50px; }
+      .d-h7 { top: 80%;  left: max(32px, calc(50% - 630px)); width: 56px; height: 56px; }
+      .d-h8 { top: 78%;  right: max(26px, calc(50% - 625px)); width: 42px; height: 42px; }
+
+      /* Features — 4 airy corners */
+      .d-f1 { top: 14%; left: max(16px, calc(50% - 600px)); width: 48px; height: 48px; }
+      .d-f2 { top: 20%; right: max(18px, calc(50% - 600px)); width: 50px; height: 50px; }
+      .d-f3 { top: 74%; left: max(22px, calc(50% - 590px)); width: 40px; height: 40px; }
+      .d-f4 { top: 78%; right: max(16px, calc(50% - 590px)); width: 54px; height: 54px; }
+
+      /* On-disk */
+      .d-d1 { top: 20%; left: max(16px, calc(50% - 580px)); width: 52px; height: 52px; }
+      .d-d2 { top: 24%; right: max(18px, calc(50% - 580px)); width: 42px; height: 42px; }
+      .d-d3 { top: 70%; left: max(22px, calc(50% - 570px)); width: 40px; height: 40px; }
+      .d-d4 { top: 72%; right: max(16px, calc(50% - 570px)); width: 46px; height: 46px; }
+
+      /* Philosophy — 6 spaced around the quote, not stacked */
+      .d-p1 { top: 12%; left: max(18px, calc(50% - 540px)); width: 40px; height: 40px; }
+      .d-p2 { top: 14%; right: max(20px, calc(50% - 540px)); width: 50px; height: 50px; }
+      .d-p3 { top: 42%; left: max(12px, calc(50% - 580px)); width: 56px; height: 56px; }
+      .d-p4 { top: 44%; right: max(14px, calc(50% - 560px)); width: 62px; height: 62px; }
+      .d-p5 { top: 76%; left: max(24px, calc(50% - 540px)); width: 40px; height: 40px; }
+      .d-p6 { top: 78%; right: max(18px, calc(50% - 540px)); width: 50px; height: 50px; }
+      .d-p7, .d-p8 { display: none; }
+
+      @media (max-width: 1280px) {
+        .section-doodles.is-visible .doodle { opacity: 0.75; }
+        .d-h1, .d-h3, .d-h5, .d-h7,
+        .d-f1, .d-f3, .d-d1, .d-d3, .d-p1, .d-p3, .d-p5 { left: 10px; }
+        .d-h2, .d-h4, .d-h6, .d-h8,
+        .d-f2, .d-f4, .d-d2, .d-d4, .d-p2, .d-p4, .d-p6 { right: 10px; }
+      }
+      @media (max-width: 760px) {
+        /* Mobile: hide playable layer — washes only (CPU + touch scroll) */
+        .section-doodles { display: none; }
+        .page-washes .doodle-wash { opacity: 0.18; filter: blur(40px); }
+        .doodle-wash-b { display: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .section-doodles .doodle-wrap {
+          transition: none !important;
+          animation: none !important;
+          opacity: 0.45;
+          pointer-events: none;
+          cursor: default;
+        }
+        .section-doodles.is-visible .doodle-wrap { opacity: 0.45; }
       }
       ::selection {
-        background: rgba(37, 99, 235, 0.4);
+        background: rgba(78, 207, 116, 0.4);
+        color: var(--ink);
       }
       .container {
         max-width: 1080px;
@@ -1110,7 +1503,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         border: 1px solid var(--line);
         border-radius: var(--radius-sm);
         padding: 1px 5px;
-        color: #d6d9e0;
+        color: var(--text);
       }
       a {
         color: inherit;
@@ -1119,8 +1512,8 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         position: absolute;
         left: -9999px;
         top: 0;
-        background: var(--brand);
-        color: #fff;
+        background: var(--ink);
+        color: #faf6ec;
         padding: 8px 12px;
         border-radius: var(--radius-md);
         z-index: 100;
@@ -1151,21 +1544,39 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         padding: 10px 18px;
       }
       .btn-primary {
-        background: #f7f8f8;
-        color: #08090a;
-        border: 1px solid transparent;
+        background: var(--brand);
+        color: #fffaf5;
+        border: 3px solid var(--outline);
+        font-family: var(--font-ui);
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        border-radius: 999px;
+        box-shadow: 0 5px 0 var(--outline);
       }
       .btn-primary:hover {
-        background: #ffffff;
+        background: #ff6d58;
+        color: #fffaf5;
+        transform: translateY(-2px);
+        box-shadow: 0 7px 0 var(--outline);
+      }
+      .btn-primary:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 var(--outline);
       }
       .btn-ghost {
-        background: transparent;
-        color: #d6d9e0;
-        border: 1px solid var(--line-strong);
+        background: var(--surface);
+        color: var(--ink);
+        border: 3px solid var(--outline);
+        font-family: var(--font-ui);
+        font-weight: 800;
+        border-radius: 999px;
+        box-shadow: 0 4px 0 var(--outline);
       }
       .btn-ghost:hover {
-        background: rgba(255, 255, 255, 0.04);
-        color: #fff;
+        background: #fff;
+        color: var(--ink);
+        border-color: var(--outline);
+        transform: translateY(-1px);
       }
 
       /* ===== Nav ===== */
@@ -1173,11 +1584,11 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         position: sticky;
         top: 0;
         z-index: 50;
-        background: rgba(8, 9, 10, 0.85);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid transparent;
-        transition: border-color 150ms ease;
+        background: rgba(255, 249, 237, 0.94);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 3px solid var(--outline);
+        transition: border-color 150ms ease, box-shadow 150ms ease;
       }
       .nav.scrolled {
         border-bottom-color: var(--line);
@@ -1196,10 +1607,11 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         align-items: center;
         gap: 8px;
         font-weight: 600;
-        font-size: 15px;
+        font-size: 16px;
         letter-spacing: -0.01em;
         text-decoration: none;
-        color: #fff;
+        color: var(--ink);
+        font-family: var(--font);
       }
       .nav-links {
         display: flex;
@@ -1216,8 +1628,8 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         transition: color 150ms ease, background 150ms ease;
       }
       .nav-links a:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.04);
+        color: var(--ink);
+        background: var(--surface-hover, #ffe8a3);
       }
       .nav-cta {
         margin-left: auto;
@@ -1234,12 +1646,13 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         background: transparent;
         border: 1px solid var(--line-strong);
         border-radius: var(--radius-md);
-        color: #d6d9e0;
+        color: var(--text);
         cursor: pointer;
       }
       .nav-burger:hover {
-        background: rgba(255, 255, 255, 0.06);
-        color: #fff;
+        background: var(--surface-hover, #ffe8a3);
+        color: var(--ink);
+        border-color: var(--outline);
       }
       @media (max-width: 760px) {
         .nav-burger {
@@ -1255,7 +1668,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           gap: 2px;
           margin: 0;
           padding: 10px 16px 16px;
-          background: rgba(8, 9, 10, 0.98);
+          background: rgba(255, 249, 237, 0.98);
           -webkit-backdrop-filter: blur(12px);
           backdrop-filter: blur(12px);
           border-bottom: 1px solid var(--line);
@@ -1269,45 +1682,146 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         }
       }
 
-      /* ===== Hero ===== */
+      /* ===== Hero (product-first) ===== */
       .hero {
         position: relative;
-        padding: 108px 0 40px;
-        overflow: hidden;
+        padding: 72px 0 48px;
+        overflow: clip;
         text-align: left;
       }
-      .hero-glow {
-        position: absolute;
-        inset: -30% -20% auto;
-        height: 620px;
-        background: radial-gradient(720px 360px at 30% 12%, rgba(37, 99, 235, 0.12), transparent 70%);
-        pointer-events: none;
+      .hero-foreground {
+        position: relative;
+        z-index: 2;
       }
+      .hero-glow,
+      .hero-scene,
+      .club-decor,
+      .hero-copy {
+        display: none;
+      }
+      .string-lights {
+        position: absolute;
+        top: 8px;
+        left: 2%;
+        right: 2%;
+        height: 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-top: 3px solid var(--outline);
+        padding-top: 0;
+      }
+      .bulb {
+        width: 18px;
+        height: 24px;
+        border-radius: 50% 50% 42% 42%;
+        margin-top: 6px;
+        border: 2.5px solid var(--outline);
+        box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 35%, transparent);
+        position: relative;
+      }
+      .bulb::before {
+        content: "";
+        position: absolute;
+        top: -7px;
+        left: 50%;
+        width: 6px;
+        height: 7px;
+        transform: translateX(-50%);
+        background: #8b7a5e;
+        border: 2px solid var(--outline);
+        border-bottom: none;
+        border-radius: 2px 2px 0 0;
+      }
+      .bulb-y { background: #f5c518; color: #f5c518; }
+      .bulb-r { background: #ef5a45; color: #ef5a45; }
+      .bulb-g { background: #4ecf74; color: #4ecf74; }
+      .bulb-b { background: #5aa3e0; color: #5aa3e0; }
+      .bulb-o { background: #f29b3a; color: #f29b3a; }
+      .bulb-p { background: #9b6edc; color: #9b6edc; }
+
+      .club-banner {
+        position: absolute;
+        top: 56px;
+        left: 50%;
+        transform: translateX(-50%) rotate(-1.8deg);
+        display: flex;
+        align-items: baseline;
+        gap: 1px;
+        background: #fff6e4;
+        border: 4px solid var(--outline);
+        border-radius: 14px;
+        padding: 10px 22px 12px;
+        box-shadow: 5px 6px 0 var(--outline);
+        white-space: nowrap;
+      }
+      .club-banner::before,
+      .club-banner::after {
+        content: "";
+        position: absolute;
+        top: -14px;
+        width: 10px;
+        height: 14px;
+        background: #8b7a5e;
+        border: 2px solid var(--outline);
+        border-radius: 3px;
+      }
+      .club-banner::before { left: 18px; }
+      .club-banner::after { right: 18px; }
+      .banner-letter {
+        font-family: var(--font);
+        font-weight: 900;
+        font-size: clamp(1.25rem, 2.8vw, 1.85rem);
+        line-height: 1;
+        letter-spacing: -0.03em;
+        text-shadow: 1.5px 1.5px 0 rgba(42, 34, 24, 0.12);
+      }
+      .banner-letter.c1 { color: #f5c518; }
+      .banner-letter.c2 { color: #ef5a45; }
+      .banner-letter.c3 { color: #4ecf74; }
+      .banner-letter.c4 { color: #5aa3e0; }
+      .banner-letter.c5 { color: #9b6edc; }
+      .banner-letter.c6 { color: #f29b3a; }
+      .banner-club {
+        margin-left: 10px;
+        font-weight: 900;
+        font-size: 0.78em;
+        color: var(--chalk);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
       .pill {
         position: relative;
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--muted);
+        font-size: 13.5px;
+        font-weight: 800;
+        color: var(--ink);
         text-decoration: none;
-        border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.02);
+        border: 3px solid var(--outline);
+        background: var(--surface);
         border-radius: 999px;
-        padding: 5px 12px;
-        margin-bottom: 28px;
-        transition: color 150ms ease, border-color 150ms ease;
+        padding: 8px 16px;
+        margin-bottom: 22px;
+        margin-top: 40px;
+        transition: color 150ms ease, border-color 150ms ease, transform 150ms ease;
+        font-family: var(--font);
+        box-shadow: 3px 4px 0 var(--outline);
       }
       .pill:hover {
-        color: #d6d9e0;
-        border-color: var(--line-strong);
+        color: var(--ink);
+        border-color: var(--outline);
+        transform: translateY(-2px);
+        box-shadow: 3px 6px 0 var(--outline);
       }
       .pill-dot {
-        width: 6px;
-        height: 6px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
-        background: var(--green);
+        background: var(--club-green);
+        border: 2px solid var(--outline);
       }
       .pill-os {
         display: inline-flex;
@@ -1316,25 +1830,62 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         margin-left: 4px;
         padding-left: 10px;
         border-left: 1px solid var(--line);
-        color: #a6abb5;
+        color: var(--muted);
       }
       .pill-os svg {
         display: block;
       }
       h1 {
         position: relative;
-        font-size: clamp(2.4rem, 6vw, 4rem);
-        font-weight: 600;
-        letter-spacing: -0.025em;
-        line-height: 1.08;
-        margin-bottom: 20px;
+        font-family: var(--font);
+        font-size: clamp(2rem, 7.2vw, 4rem);
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1.06;
+        margin-bottom: 18px;
+        color: var(--ink);
+        overflow-wrap: anywhere;
       }
       .h1-line {
         display: block;
-        background: linear-gradient(180deg, #ffffff 55%, #b8bcc8);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: var(--ink);
+        background: none;
+        -webkit-text-fill-color: unset;
+      }
+      .section-rule {
+        width: min(160px, 36%);
+        height: 0;
+        margin: 0 0 20px;
+        border: none;
+        border-top: 3px solid var(--accent);
+        border-radius: 2px;
+        opacity: 0.9;
+      }
+      .section-rule-center {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .plate {
+        border: 4px solid var(--outline);
+        box-shadow: 6px 8px 0 var(--outline);
+        border-radius: 18px;
+        background: var(--surface);
+        overflow: hidden;
+      }
+      .plate-caption {
+        font-family: var(--font);
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--ink);
+        text-align: center;
+        padding: 11px 14px 13px;
+        border-top: 3px solid var(--outline);
+        background: linear-gradient(90deg, #ffe8a3, #ffd0c4, #c8f0d8, #c8e4ff);
+      }
+      .phil-title {
+        color: var(--ink);
+        background: none;
+        -webkit-text-fill-color: unset;
       }
       .rotate-slot {
         display: inline-block;
@@ -1351,8 +1902,21 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         font-weight: inherit;
         letter-spacing: inherit;
         line-height: inherit;
-        white-space: nowrap;
+        white-space: normal;
       }
+      @media (min-width: 640px) {
+        :global(.h1-word) {
+          white-space: nowrap;
+        }
+      }
+      :global(.rotate-word) {
+        font-weight: 900 !important;
+        -webkit-text-fill-color: currentColor;
+      }
+      :global(.rotate-c1) { color: #ef5a45 !important; }
+      :global(.rotate-c2) { color: #5aa3e0 !important; }
+      :global(.rotate-c3) { color: #4ecf74 !important; }
+      :global(.rotate-c4) { color: #9b6edc !important; }
       .lede {
         position: relative;
         max-width: 620px;
@@ -1428,12 +1992,14 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         border: 1px solid var(--line);
         border-radius: 999px;
         padding: 5px 12px;
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(139, 115, 85, 0.05);
       }
 
       /* ===== Sections ===== */
       .section {
+        position: relative;
         padding: 104px 0 0;
+        overflow: visible;
       }
 
       /* ===== Feature stack: sticky 3D card deck. Cards are never
@@ -1451,19 +2017,27 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         max-width: 1080px;
         margin: 0 auto 56px;
         padding: 40px 44px 44px;
-        background: #0b0c0e;
+        background: var(--surface);
         border: 1px solid var(--line-strong);
         border-radius: 12px;
         transform-origin: 50% 0;
-        will-change: transform, filter;
-        box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.5);
+        overflow: visible;
+        box-shadow: 0 8px 28px rgba(44, 36, 22, 0.1);
+        /* paint containment for scroll perf on long stacks */
+        content-visibility: auto;
+        contain-intrinsic-size: auto 520px;
+      }
+      @media (min-width: 761px) {
+        .stack-card {
+          will-change: transform, filter;
+        }
       }
       .stack-card::before {
         content: "";
         position: absolute;
         inset: 0;
         border-radius: inherit;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.1px, transparent 1.1px);
+        background-image: radial-gradient(rgba(139, 115, 85, 0.12) 1.1px, transparent 1.1px);
         background-size: 22px 22px;
         -webkit-mask-image: radial-gradient(95% 75% at 50% 0%, black, transparent);
         mask-image: radial-gradient(95% 75% at 50% 0%, black, transparent);
@@ -1483,11 +2057,20 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       @media (max-width: 760px) {
         .stack {
           perspective: none;
+          margin-top: 56px;
+          padding: 0 12px;
         }
         .stack-card {
           position: static;
-          padding: 28px 20px 32px;
-          margin-bottom: 28px;
+          padding: 22px 16px 26px;
+          margin-bottom: 20px;
+          margin-left: 0;
+          margin-right: 0;
+          width: 100%;
+          max-width: 100%;
+          will-change: auto;
+          content-visibility: visible;
+          contain-intrinsic-size: none;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -1497,20 +2080,33 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         }
       }
       .eyebrow {
-        font-family: var(--mono);
-        font-size: 12.5px;
-        font-weight: 700;
+        font-family: var(--font);
+        font-size: 13px;
+        font-weight: 800;
+        font-style: normal;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: var(--brand-hover);
+        color: var(--chalk);
         margin-bottom: 12px;
       }
+      .eyebrow::before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 8px;
+        border-radius: 50%;
+        background: var(--club-orange);
+        vertical-align: middle;
+      }
       h2 {
-        font-size: clamp(1.6rem, 3.4vw, 2.25rem);
-        font-weight: 600;
+        font-family: var(--font);
+        font-size: clamp(1.7rem, 3.4vw, 2.35rem);
+        font-weight: 800;
         letter-spacing: -0.02em;
         line-height: 1.15;
         margin-bottom: 14px;
+        color: var(--ink);
       }
       :global(.h2-word) {
         font-size: inherit;
@@ -1529,13 +2125,13 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       .sub a {
         color: var(--brand-text);
         text-decoration: none;
-        border-bottom: 1px solid rgba(96, 165, 250, 0.35);
+        border-bottom: 1px solid rgba(47, 74, 138, 0.35);
       }
       .sub a:hover {
-        color: #93c5fd;
+        color: var(--brand-text);
       }
       .sub em {
-        color: #d6d9e0;
+        color: var(--text);
         font-style: normal;
         font-weight: 500;
       }
@@ -1577,25 +2173,27 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       .ticks li {
         position: relative;
-        padding-left: 26px;
-        color: #c9cdd6;
+        padding-left: 30px;
+        color: var(--text);
         font-size: 14.5px;
         line-height: 1.55;
+        font-weight: 600;
       }
       .ticks li::before {
         content: "";
         position: absolute;
         left: 0;
-        top: 3px;
-        width: 16px;
-        height: 16px;
+        top: 2px;
+        width: 18px;
+        height: 18px;
         border-radius: 50%;
-        background-color: rgba(52, 180, 74, 0.12);
-        border: 1px solid rgba(52, 180, 74, 0.4);
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec46a' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+        background-color: #4ecf74;
+        border: 2.5px solid var(--outline);
+        box-shadow: 1.5px 2px 0 var(--outline);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: center;
-        background-size: 8.5px 8.5px;
+        background-size: 11px 11px;
       }
       .ticks-row {
         margin-top: 24px;
@@ -1606,49 +2204,57 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
 
       /* ===== Tree card ===== */
       .tree-card {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-popup);
+        background: #fffaf0;
+        border: 3px solid var(--outline);
+        border-radius: 18px;
+        box-shadow: 4px 5px 0 var(--outline);
         overflow: hidden;
-        color: #c9cdd6;
+        color: var(--ink);
       }
       .tree-head {
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 9px 14px;
-        border-bottom: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.03);
+        padding: 11px 14px;
+        border-bottom: 3px solid var(--outline);
+        background: #c8f5d8;
       }
       .tree-dot {
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
-        background: var(--green);
+        background: #4ecf74;
+        border: 2px solid var(--outline);
+        box-shadow: 1px 1px 0 var(--outline);
       }
       .tree-title {
-        font-size: 12px;
-        color: var(--muted);
+        font-size: 12.5px;
+        font-weight: 800;
+        color: var(--ink);
+        font-family: var(--font);
       }
       .tree-card :global(svg) {
-        color: var(--muted);
+        color: var(--ink);
       }
       .tree-card :global(button) {
-        color: #c9cdd6;
+        color: var(--ink);
         background: transparent;
         border: none;
         cursor: pointer;
+        font-weight: 700;
+      }
+      .tree-card :global([class*="file"]) {
+        font-weight: 600;
       }
 
       /* ===== AI card ===== */
       .ai-card {
         position: relative;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
+        background: #fffaf0;
+        border: 3px solid var(--outline);
+        border-radius: 18px;
         padding: 20px;
-        box-shadow: var(--shadow-popup);
+        box-shadow: 4px 5px 0 var(--outline);
         display: flex;
         flex-direction: column;
         gap: 16px;
@@ -1657,39 +2263,51 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       .ai-steps {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
+        gap: 10px;
       }
       .ai-step {
         display: flex;
         align-items: center;
         gap: 9px;
         font-size: 13px;
-        font-weight: 500;
-        color: #c9cdd6;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-md);
-        padding: 9px 12px;
+        font-weight: 800;
+        color: var(--ink);
+        background: #fff;
+        border: 2.5px solid var(--outline);
+        border-radius: 999px;
+        padding: 10px 12px;
+        box-shadow: 2px 3px 0 var(--outline);
       }
+      .ai-step:nth-child(1) { background: #ffe8a8; }
+      .ai-step:nth-child(2) { background: #cce6ff; }
+      .ai-step:nth-child(3) { background: #ffd0c8; }
       .ai-num {
-        font-family: var(--mono);
-        font-size: 11px;
-        color: var(--muted);
-        width: 18px;
-        height: 18px;
+        font-family: var(--font);
+        font-size: 12px;
+        font-weight: 900;
+        color: #fff;
+        width: 22px;
+        height: 22px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid var(--line-strong);
+        border: 2px solid var(--outline);
         border-radius: 50%;
         flex-shrink: 0;
+        background: var(--ink);
+        box-shadow: 1px 1px 0 var(--outline);
       }
+      .ai-step:nth-child(1) .ai-num { background: #f29b3a; }
+      .ai-step:nth-child(2) .ai-num { background: #5aa3e0; }
+      .ai-step:nth-child(3) .ai-num { background: #ef5a45; }
       .ai-step-ok {
-        border-color: rgba(52, 180, 74, 0.4);
+        background: #c8f5d8 !important;
+        border-color: var(--outline);
       }
       .ai-step-ok .ai-num {
-        color: var(--green);
-        border-color: rgba(52, 180, 74, 0.5);
+        color: #fff;
+        background: #4ecf74 !important;
+        border-color: var(--outline);
       }
 
       /* ===== How it works ===== */
@@ -1706,16 +2324,20 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       .loop-step {
         position: relative;
         overflow: hidden;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
+        background: #fffaf0;
+        border: 3px solid var(--outline);
+        border-radius: 18px;
         padding: 20px 18px;
-        transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+        box-shadow: 4px 5px 0 var(--outline);
+        transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
       }
+      .loop-step:nth-child(1) { background: #fff6e8; }
+      .loop-step:nth-child(2) { background: #eef7ff; }
+      .loop-step:nth-child(3) { background: #eefbf2; }
+      .loop-step:nth-child(4) { background: #f6f0ff; }
       .loop-step:hover {
-        transform: translateY(-3px);
-        border-color: var(--line-strong);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+        transform: translateY(-4px);
+        box-shadow: 5px 8px 0 var(--outline);
       }
       /* Bento-style animated vignettes inside each loop card. */
       .loop-vis {
@@ -1734,38 +2356,42 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         justify-content: center;
       }
       .lv-chip {
-        font-size: 8.5px;
-        color: #c9cdd6;
-        background: #141517;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 4px;
-        padding: 2px 6px;
+        font-size: 9px;
+        font-weight: 700;
+        color: var(--ink);
+        background: #fff;
+        border: 2px solid var(--outline);
+        border-radius: 999px;
+        padding: 3px 8px;
         white-space: nowrap;
+        box-shadow: 1px 2px 0 var(--outline);
       }
       .lv-ok {
-        color: #7ed492;
-        background: rgba(52, 180, 74, 0.1);
-        border-color: rgba(52, 180, 74, 0.4);
+        color: #1f8a45;
+        background: #c8f5d8;
+        border-color: var(--outline);
         border-radius: 999px;
       }
       /* 1 · Research: DOI resolves into a bib entry */
-      .lvr-doi { opacity: 0; animation: lv-in 7s ease-in-out infinite; }
+      .lvr-doi { opacity: 0; animation: lv-in 7s ease-in-out infinite; background: #ffe8a8; }
       .lvr-bib { opacity: 0; animation: lv-in 7s ease-in-out 1.2s infinite; }
       /* 2 · Write: a line of LaTeX types itself */
       .lvw-line {
-        font-size: 9.5px;
-        color: #a8c3f5;
-        background: #0d0e10;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
-        padding: 3px 7px;
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--ink);
+        background: #ffd0c8;
+        border: 2px solid var(--outline);
+        border-radius: 8px;
+        padding: 4px 8px;
+        box-shadow: 1px 2px 0 var(--outline);
       }
       .lvw-type {
         display: inline-block;
         overflow: hidden;
         white-space: nowrap;
         vertical-align: bottom;
-        border-right: 1.5px solid #3b82f6;
+        border-right: 2px solid #ef5a45;
         width: 0;
         animation: lvw-type 7s steps(17, end) infinite;
       }
@@ -1774,14 +2400,14 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         width: 104px;
         height: 3px;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(139, 115, 85, 0.2);
         overflow: hidden;
       }
       .lvv-fill {
         display: block;
         height: 100%;
         border-radius: inherit;
-        background: linear-gradient(90deg, #2563eb, #34b44a);
+        background: linear-gradient(90deg, var(--brand), var(--green));
         transform: scaleX(0);
         transform-origin: left;
         animation: lvv-fill 7s ease-in-out infinite;
@@ -1807,9 +2433,9 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         98%, 100% { transform: scaleX(0); }
       }
       @keyframes lvp-pulse {
-        0%, 8% { opacity: 0.45; border-color: rgba(255, 255, 255, 0.15); color: #c9cdd6; }
-        16%, 80% { opacity: 1; border-color: rgba(59, 130, 246, 0.55); color: #a8c3f5; }
-        90%, 100% { opacity: 0.45; border-color: rgba(255, 255, 255, 0.15); color: #c9cdd6; }
+        0%, 8% { opacity: 0.55; border-color: rgba(42, 34, 24, 0.2); color: var(--muted); }
+        16%, 80% { opacity: 1; border-color: var(--outline); color: var(--ink); background: #cce6ff; }
+        90%, 100% { opacity: 0.55; border-color: rgba(42, 34, 24, 0.2); color: var(--muted); }
       }
       @media (prefers-reduced-motion: reduce) {
         .loop-step,
@@ -1832,29 +2458,36 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         }
       }
       .loop-step h3 {
-        font-size: 15px;
-        font-weight: 600;
-        margin: 10px 0 6px;
-        color: #f7f8f8;
+        font-size: 16px;
+        font-weight: 800;
+        margin: 12px 0 6px;
+        color: var(--ink);
+        font-family: var(--font);
       }
       .loop-step p {
-        font-size: 13px;
+        font-size: 13.5px;
         line-height: 1.55;
-        color: var(--muted);
+        color: var(--text);
+        font-weight: 600;
       }
       .loop-num {
-        font-family: var(--mono);
-        font-size: 12px;
-        color: var(--brand-text);
-        width: 22px;
-        height: 22px;
+        font-family: var(--font);
+        font-size: 13px;
+        font-weight: 900;
+        color: #fff;
+        width: 28px;
+        height: 28px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid rgba(59, 130, 246, 0.45);
+        border: 2.5px solid var(--outline);
         border-radius: 50%;
-        background: rgba(37, 99, 235, 0.1);
+        box-shadow: 2px 2px 0 var(--outline);
       }
+      .loop-step:nth-child(1) .loop-num { background: #ef5a45; }
+      .loop-step:nth-child(2) .loop-num { background: #5aa3e0; }
+      .loop-step:nth-child(3) .loop-num { background: #4ecf74; color: var(--ink); }
+      .loop-step:nth-child(4) .loop-num { background: #9b6edc; }
       @media (max-width: 980px) {
         .loop-grid {
           grid-template-columns: 1fr 1fr;
@@ -1866,46 +2499,71 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         }
       }
 
-      /* ===== Privacy matrix ===== */
+      /* ===== Privacy matrix — whiteboards ===== */
       .privacy-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        gap: 18px;
       }
       .privacy-card {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
-        padding: 22px 20px;
+        position: relative;
+        background:
+          repeating-linear-gradient(
+            transparent 0 27px,
+            rgba(90, 163, 224, 0.12) 27px 28px
+          ),
+          #fffcf5;
+        border: 6px solid var(--wood);
+        outline: 3px solid var(--outline);
+        border-radius: 10px;
+        padding: 22px 22px 24px;
+        box-shadow: 5px 6px 0 var(--outline);
+      }
+      .privacy-card::before {
+        /* marker tray */
+        content: "";
+        position: absolute;
+        left: 12%;
+        right: 12%;
+        bottom: -10px;
+        height: 8px;
+        background: var(--wood-dark, #a6743f);
+        border: 2px solid var(--outline);
+        border-radius: 3px;
+        box-shadow: 2px 2px 0 var(--outline);
       }
       .privacy-card h3 {
         display: flex;
         align-items: center;
         gap: 9px;
-        font-size: 15px;
-        font-weight: 600;
-        color: #f7f8f8;
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--ink);
         margin-bottom: 16px;
+        font-family: var(--font);
       }
       .dot-local,
       .dot-net {
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         flex-shrink: 0;
+        border: 2px solid var(--outline);
       }
       .dot-local {
-        background: var(--green);
-        box-shadow: 0 0 8px rgba(52, 180, 74, 0.6);
+        background: #4ecf74;
+        box-shadow: none;
       }
       .dot-net {
-        background: #f59e0b;
-        box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+        background: #f29b3a;
+        box-shadow: none;
       }
       .ticks-net li::before {
-        background-color: rgba(245, 158, 11, 0.1);
-        border-color: rgba(245, 158, 11, 0.4);
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f7bc55' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
+        background-color: #f29b3a;
+        border: 2.5px solid var(--outline);
+        box-shadow: 1.5px 2px 0 var(--outline);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
+        background-size: 11px 11px;
       }
       @media (max-width: 980px) {
         .privacy-grid {
@@ -1913,50 +2571,140 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         }
       }
 
+      /* ===== Chalk boards (classroom motif) ===== */
+      .chalk-board {
+        background: var(--chalk);
+        border: 7px solid var(--wood);
+        outline: 3px solid var(--outline);
+        border-radius: 8px;
+        padding: 16px 14px;
+        box-shadow: 5px 6px 0 var(--outline);
+        color: #e6f7ec;
+        font-family: var(--mono);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .chalk-line {
+        display: block;
+        color: #c8ebda;
+        margin-bottom: 8px;
+        opacity: 0.95;
+      }
+      .chalk-eq {
+        display: block;
+        color: #8ef0b0;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .chalk-mini {
+        width: fit-content;
+        max-width: 200px;
+        padding: 12px 14px;
+        border-width: 5px;
+        outline-width: 2.5px;
+        font-size: 11px;
+        transform: rotate(-2.5deg);
+      }
+      .chalk-mini .chalk-eq {
+        font-size: 11.5px;
+      }
+      .chalk-doodles {
+        margin-bottom: 10px;
+      }
+      .chalk-svg {
+        width: 120px;
+        height: 36px;
+        display: block;
+        opacity: 0.9;
+      }
+      .chalk-text {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        color: #d7f0e2 !important;
+        font-size: 13px !important;
+        line-height: 1.55 !important;
+        font-family: var(--font) !important;
+        font-weight: 600;
+      }
+      .chalk-text a {
+        color: #9fe3b8 !important;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        font-weight: 800;
+      }
+
       /* ===== Craft ===== */
+      .craft {
+        position: relative;
+      }
+      .craft-layout {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 28px;
+        align-items: stretch;
+      }
       .craft-card {
         position: relative;
         overflow: hidden;
         background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
+        border: 4px solid var(--outline);
+        border-radius: 20px;
         padding: 26px 28px;
-        box-shadow: var(--shadow-popup);
+        box-shadow: 5px 6px 0 var(--outline);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        justify-content: center;
       }
-      .craft-inner {
-        display: grid;
-        grid-template-columns: 3fr 2fr;
-        gap: 40px;
-        align-items: center;
-      }
-      .craft-card p {
-        color: #c9cdd6;
-        font-size: 15px;
+      .craft-card > p {
+        color: var(--text);
+        font-size: 15.5px;
         line-height: 1.65;
+        font-weight: 600;
+        margin: 0;
       }
       .craft-card .craft-note {
-        margin-top: 0;
-        padding-left: 32px;
-        border-left: 1px solid var(--line);
-        font-size: 13px;
-        line-height: 1.65;
+        margin: 0;
+        padding-top: 14px;
+        border-top: 2px dashed rgba(42, 34, 24, 0.15);
+        font-size: 14px;
+        line-height: 1.6;
         color: var(--muted);
+        font-weight: 600;
       }
-      .craft-card a {
-        color: var(--brand-text);
-        text-decoration: none;
+      .craft-card .craft-note a {
+        color: var(--brand);
+        font-weight: 800;
+        text-decoration: underline;
+        text-underline-offset: 2px;
       }
-      @media (max-width: 760px) {
-        .craft-inner {
+      .craft-scene {
+        margin: 0;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+      }
+      .craft-scene :global(img),
+      .craft-scene-img {
+        width: 100%;
+        height: 100%;
+        min-height: 280px;
+        object-fit: cover;
+        object-position: center 35%;
+        display: block;
+        flex: 1;
+      }
+      @media (max-width: 900px) {
+        .craft-layout {
           grid-template-columns: 1fr;
-          gap: 16px;
         }
-        .craft-card .craft-note {
-          padding-left: 0;
-          border-left: none;
+        .craft-scene-img {
+          min-height: 220px;
+          max-height: 320px;
         }
       }
-
       /* ===== Gauges ===== */
       .gauges {
         display: flex;
@@ -1971,95 +2719,146 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       .gauge figcaption {
         font-size: 12.5px;
-        font-weight: 500;
+        font-weight: 700;
         color: var(--muted);
+        font-family: var(--font);
       }
 
       /* ===== Branch card ===== */
       .branch-card {
         position: relative;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
-        padding: 24px 22px 16px;
-        box-shadow: var(--shadow-popup);
+        background: #fffaf0;
+        border: 3px solid var(--outline);
+        border-radius: 18px;
+        padding: 22px 20px 16px;
+        box-shadow: 4px 5px 0 var(--outline);
         overflow: hidden;
       }
       .branch-caption {
-        margin-top: 8px;
+        margin-top: 10px;
         text-align: center;
-        font-size: 13px;
-        color: var(--muted);
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--ink);
+        font-family: var(--font);
       }
 
       .shot-wide {
         max-width: 1080px;
       }
 
-      /* ===== Library shelf ===== */
+      /* ===== Library shelf — open-book hover ===== */
       .shelf-wrap {
         position: relative;
-        padding-top: 108px; /* headroom so hover previews stay inside the card */
-        max-width: 860px;
+        padding-top: 28px;
+        max-width: 920px;
         margin: 0 auto;
       }
       .shelf {
         display: flex;
         justify-content: center;
         align-items: flex-end;
-        gap: 18px;
+        gap: 14px;
         flex-wrap: wrap;
-        padding: 0 12px;
+        padding: 0 12px 4px;
+        perspective: 900px;
       }
       .book {
         position: relative;
         width: 104px;
         height: 132px;
+        flex: 0 0 auto;
+        transform-style: preserve-3d;
+        transition: transform 280ms ease;
+        transform-origin: bottom center;
+      }
+      .book-cover {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
         border-radius: 4px 8px 8px 4px;
         padding: 12px 10px 10px;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         gap: 6px;
+        transform-origin: left center;
+        transition: transform 420ms cubic-bezier(0.22, 0.9, 0.3, 1);
+        backface-visibility: hidden;
+        border: 2.5px solid var(--outline);
         box-shadow:
-          inset 5px 0 8px -5px rgba(0, 0, 0, 0.5),
-          inset -1px 0 0 rgba(255, 255, 255, 0.3),
-          0 10px 24px rgba(0, 0, 0, 0.45);
-        transition: transform 250ms ease, box-shadow 250ms ease;
-        transform-origin: bottom center;
+          inset 6px 0 10px -6px rgba(0, 0, 0, 0.28),
+          3px 4px 0 rgba(42, 34, 24, 0.18);
       }
-      .book::before {
+      .book-cover::before {
         content: "";
         position: absolute;
         left: 7px;
         top: 0;
         bottom: 0;
-        width: 1px;
-        background: rgba(0, 0, 0, 0.16);
+        width: 2px;
+        background: rgba(0, 0, 0, 0.12);
+      }
+      .book-pages {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        border-radius: 4px 8px 8px 4px;
+        background:
+          linear-gradient(90deg, #e8dfc8 0 10px, #fffaf0 10px);
+        border: 2.5px solid var(--outline);
+        padding: 14px 10px 10px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        justify-content: flex-start;
+        box-shadow: 3px 4px 0 rgba(42, 34, 24, 0.12);
+      }
+      .book-pages::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 6px;
+        bottom: 6px;
+        width: 8px;
+        background: repeating-linear-gradient(
+          180deg,
+          #d4c9a8 0 1px,
+          transparent 1px 3px
+        );
+        opacity: 0.7;
+        border-right: 1px solid rgba(42, 34, 24, 0.12);
       }
       .book:hover {
-        transform: translateY(-12px) rotate(-1.5deg);
+        transform: translateY(-6px);
+        z-index: 3;
+      }
+      .book:hover .book-cover {
+        transform: rotateY(-118deg);
         box-shadow:
-          inset 5px 0 8px -5px rgba(0, 0, 0, 0.5),
-          inset -1px 0 0 rgba(255, 255, 255, 0.3),
-          0 22px 40px rgba(0, 0, 0, 0.55);
+          inset 6px 0 10px -6px rgba(0, 0, 0, 0.2),
+          -4px 4px 0 rgba(42, 34, 24, 0.12);
       }
       .book-title {
         font-size: 12.5px;
-        font-weight: 600;
+        font-weight: 700;
         letter-spacing: -0.01em;
         font-family: var(--mono);
+        position: relative;
+        z-index: 1;
       }
       .book-badge {
         align-self: flex-start;
         font-family: var(--mono);
         font-size: 8.5px;
-        font-weight: 700;
+        font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.06em;
         padding: 1px 5px;
-        border-radius: 3px;
-        background: rgba(0, 0, 0, 0.14);
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.12);
+        position: relative;
+        z-index: 1;
       }
       .book-star,
       .book-fork {
@@ -2067,42 +2866,25 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         top: 8px;
         right: 8px;
         font-size: 11px;
-        opacity: 0.65;
+        opacity: 0.7;
+        z-index: 1;
       }
-      .book-lilac { background: linear-gradient(165deg, #cdbcf3, #b3a0e6); color: #35284f; }
-      .book-blue { background: linear-gradient(165deg, #b5cdf8, #9ab8f0); color: #1e2a44; }
-      .book-spring { background: linear-gradient(165deg, #c3ecab, #a9dd90); color: #2c4a20; }
-      .book-aqua { background: linear-gradient(165deg, #a3e2d3, #87ccba); color: #1e4038; }
-      .book-peach { background: linear-gradient(165deg, #f7cfa9, #eeb98a); color: #4f3520; }
-      .book-rose { background: linear-gradient(165deg, #f2a9ba, #e78ba0); color: #4c1f2b; }
-      .book-preview {
-        position: absolute;
-        left: 50%;
-        bottom: calc(100% + 10px);
-        transform: translateX(-50%) translateY(6px);
-        width: 92px;
-        padding: 9px 8px 6px;
-        background: #f3f4f2;
-        border-radius: 4px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        opacity: 0;
-        pointer-events: none;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
-        transition: opacity 250ms ease, transform 250ms ease;
-      }
-      .book:hover .book-preview {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
+      .book-lilac .book-cover { background: linear-gradient(165deg, #cdbcf3, #b3a0e6); color: #35284f; }
+      .book-blue .book-cover { background: linear-gradient(165deg, #b5cdf8, #9ab8f0); color: #1e2a44; }
+      .book-spring .book-cover { background: linear-gradient(165deg, #c3ecab, #a9dd90); color: #2c4a20; }
+      .book-aqua .book-cover { background: linear-gradient(165deg, #a3e2d3, #87ccba); color: #1e4038; }
+      .book-peach .book-cover { background: linear-gradient(165deg, #f7cfa9, #eeb98a); color: #4f3520; }
+      .book-rose .book-cover { background: linear-gradient(165deg, #f2a9ba, #e78ba0); color: #4c1f2b; }
       .bp-line {
         height: 3px;
         border-radius: 2px;
-        background: #c6c9c4;
+        background: #cfc6b0;
       }
-      .book-preview .bp-line:first-child {
-        background: #9a9e98;
+      .book-pages .bp-line:first-child {
+        background: #9a8f78;
+        height: 4px;
+        width: 70% !important;
+        margin-bottom: 2px;
       }
       .bp-w60 { width: 60%; }
       .bp-w65 { width: 65%; }
@@ -2112,43 +2894,55 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       .bp-w85 { width: 85%; }
       .bp-w90 { width: 90%; }
       .bp-cap {
-        margin-top: 3px;
+        margin-top: auto;
         font-family: var(--mono);
-        font-size: 7.5px;
+        font-size: 7px;
+        font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #8a8f98;
+        letter-spacing: 0.04em;
+        color: #7a7060;
+        line-height: 1.25;
       }
       .shelf-edge {
-        height: 10px;
+        height: 12px;
         margin: 0 24px;
-        border-radius: 3px;
-        background: linear-gradient(180deg, #26282c, #101113);
-        border: 1px solid var(--line);
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+        background: linear-gradient(180deg, #d4b896, #a67c4a);
+        border: 2px solid var(--outline);
+        box-shadow: 0 6px 0 rgba(42, 34, 24, 0.12);
       }
       #library .ticks-row {
         margin-top: 28px;
       }
       @media (prefers-reduced-motion: reduce) {
         .book,
-        .book-preview {
+        .book-cover {
           transition: none;
         }
         .book:hover {
           transform: none;
         }
+        .book:hover .book-cover {
+          transform: none;
+          /* Still reveal pages without 3D flip */
+          opacity: 0;
+        }
+        .book:hover .book-pages {
+          outline: 2px solid var(--club-blue);
+        }
       }
       @media (max-width: 640px) {
         .shelf-wrap {
-          padding-top: 64px;
+          padding-top: 16px;
         }
         .shelf {
-          gap: 12px;
+          gap: 10px;
         }
         .book {
           width: 86px;
           height: 112px;
+        }
+        .book-cover {
           padding: 10px 8px 8px;
         }
         .book-title {
@@ -2162,21 +2956,30 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       /* ===== Comparison table ===== */
       .table-wrap {
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
         border: 1px solid var(--line);
         border-radius: var(--radius-lg);
         background: var(--surface);
+        max-width: 100%;
       }
       table {
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
         font-size: 13px;
-        min-width: 760px;
+        min-width: min(760px, 100%);
+      }
+      @media (max-width: 760px) {
+        table {
+          min-width: 640px;
+          font-size: 12px;
+        }
       }
       thead th {
         text-align: left;
         font-weight: 600;
-        color: #d6d9e0;
+        color: var(--text);
         padding: 12px 14px;
         border-bottom: 1px solid var(--line-strong);
         white-space: nowrap;
@@ -2184,7 +2987,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       tbody th {
         text-align: left;
         font-weight: 500;
-        color: #c9cdd6;
+        color: var(--text);
         padding: 10px 14px;
         white-space: nowrap;
       }
@@ -2201,24 +3004,42 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         border-bottom: none;
       }
       tbody tr:hover {
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(139, 115, 85, 0.05);
       }
       .col-us {
-        color: #fff !important;
-        background: rgba(37, 99, 235, 0.08);
-        border-left: 2px solid #3b82f6;
-        border-right: 2px solid #3b82f6;
+        color: var(--ink) !important;
+        background: rgba(245, 197, 24, 0.14);
+        border-left: 3px solid var(--outline);
+        border-right: 3px solid var(--outline);
       }
       thead .col-us {
-        color: var(--brand-text) !important;
-        border-top: 2px solid #3b82f6;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
+        color: var(--ink) !important;
+        border-top: 3px solid var(--outline);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background: #fff3c4 !important;
       }
       tbody tr:last-child .col-us {
-        border-bottom: 2px solid #3b82f6;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
+        border-bottom: 3px solid var(--outline);
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+      .compare-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-family: var(--font);
+        font-weight: 900;
+        font-size: 14px;
+        color: var(--ink);
+        letter-spacing: -0.02em;
+      }
+      .compare-brand svg {
+        display: block;
+        flex-shrink: 0;
+      }
+      .compare-brand-name {
+        color: var(--ink);
       }
 
       /* ===== Velocity strip ===== */
@@ -2231,13 +3052,16 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
 
       /* ===== Philosophy ===== */
       .philosophy {
+        position: relative;
         text-align: center;
         margin-top: 48px;
+        overflow: visible;
       }
       .phil-grid {
         position: relative;
         padding: 150px 0 90px;
-        overflow: hidden;
+        overflow: visible;
+        z-index: 1;
       }
       .phil-grid .eyebrow {
         margin-bottom: 16px;
@@ -2248,12 +3072,12 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       .philosophy .eyebrow {
         margin-bottom: 10px;
       }
-      .philosophy h2 {
+      .philosophy h2,
+      .phil-title {
         margin-bottom: 0;
-        background: linear-gradient(180deg, #ffffff 55%, #b8bcc8);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: var(--ink);
+        background: none;
+        -webkit-text-fill-color: unset;
       }
 
       /* ===== Download ===== */
@@ -2299,11 +3123,11 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         gap: 6px;
         align-items: center;
         text-decoration: none;
-        background: #151515;
+        background: var(--surface-2);
         border: 1px solid var(--line);
         border-radius: var(--radius-lg);
         padding: 22px 16px;
-        color: #d6d9e0;
+        color: var(--text);
         transition:
           border-color 150ms ease,
           background 150ms ease,
@@ -2312,37 +3136,38 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           transform 150ms ease;
       }
       .dl-card:hover {
-        border-color: rgba(37, 99, 235, 0.55);
-        background: #141517;
-        color: #fff;
+        border-color: var(--outline);
+        background: var(--surface-hover, #ffe8a3);
+        color: var(--ink);
+        transform: translateY(-2px);
+        box-shadow: 4px 7px 0 var(--outline);
       }
       .dl-card.is-current {
-        border-color: rgba(37, 99, 235, 0.75);
-        background: linear-gradient(180deg, rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0.04));
-        color: #fff;
-        box-shadow:
-          0 0 0 1px rgba(37, 99, 235, 0.25),
-          0 8px 28px rgba(37, 99, 235, 0.18);
+        border-color: var(--outline);
+        background: #c8f5d8;
+        color: var(--ink);
+        box-shadow: 4px 5px 0 var(--outline);
         transform: translateY(-2px);
       }
       .dl-card.is-current svg {
-        color: #93c5fd;
+        color: #1f8a45;
       }
       .dl-os {
-        font-weight: 600;
+        font-weight: 700;
         font-size: 15px;
-        color: #fff;
+        color: var(--ink);
         margin-top: 4px;
+        font-family: var(--font);
       }
       .dl-card-badge {
         display: none;
         margin-top: 2px;
         font-family: var(--mono);
         font-size: 10px;
-        font-weight: 600;
+        font-weight: 800;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #93c5fd;
+        color: #1f8a45;
       }
       .dl-card.is-current .dl-card-badge {
         display: block;
@@ -2364,7 +3189,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         user-select: none;
         pointer-events: none;
         margin-bottom: -0.26em;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.025) 60%, transparent 95%);
+        background: linear-gradient(180deg, rgba(44, 36, 22, 0.12) 0%, rgba(44, 36, 22, 0.04) 60%, transparent 95%);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -2395,18 +3220,32 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        color: #d6d9e0;
+        color: var(--text);
         margin-bottom: 2px;
       }
       .footer-col a {
         font-size: 13px;
+        font-weight: 700;
         color: var(--muted);
         text-decoration: none;
-        transition: color 150ms ease;
         width: fit-content;
+        padding: 6px 12px;
+        margin: 0 -4px;
+        border-radius: 999px;
+        border: 2px solid transparent;
+        transition:
+          color 150ms ease,
+          background 150ms ease,
+          border-color 150ms ease,
+          box-shadow 150ms ease,
+          padding 150ms ease;
       }
       .footer-col a:hover {
-        color: #fff;
+        color: var(--ink);
+        background: var(--surface);
+        border-color: var(--outline);
+        box-shadow: 2px 3px 0 var(--outline);
+        padding: 8px 16px;
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -2417,6 +3256,9 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
 
       /* ===== Responsive ===== */
       @media (max-width: 980px) {
+        .container {
+          padding: 0 18px;
+        }
         .split,
         .split-rev {
           grid-template-columns: 1fr;
@@ -2434,21 +3276,96 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         .ticks-row {
           grid-template-columns: 1fr;
         }
+        .plate {
+          border-width: 3px;
+          box-shadow: 4px 5px 0 var(--outline);
+          border-radius: 14px;
+        }
+      }
+      @media (max-width: 760px) {
+        .container {
+          padding: 0 16px;
+        }
+        .nav-inner {
+          padding: 0 12px;
+        }
+        .nav-cta .stars span:first-of-type {
+          display: none; /* keep icon + count only */
+        }
+        .hero {
+          padding: 56px 0 28px;
+        }
+        .hero .lede {
+          font-size: 15.5px !important;
+          line-height: 1.5 !important;
+          margin-bottom: 18px;
+        }
+        .hero-actions {
+          margin-bottom: 28px;
+          gap: 10px;
+        }
+        .hero-actions .btn-lg {
+          width: 100%;
+          justify-content: center;
+        }
+        .section {
+          padding-top: 64px;
+        }
+        .section h2,
+        .stack-card h2,
+        .phil-title {
+          font-size: clamp(1.35rem, 6.5vw, 1.85rem);
+          letter-spacing: -0.02em;
+        }
+        .sub {
+          font-size: 14.5px;
+          line-height: 1.55;
+        }
+        .chips-marquee {
+          margin-top: 20px;
+        }
+        .chip {
+          font-size: 11.5px;
+          padding: 4px 10px;
+        }
+        .shot {
+          border-radius: 14px;
+        }
+        .shot img {
+          max-width: 100%;
+          height: auto;
+        }
+        .craft-layout {
+          grid-template-columns: 1fr !important;
+          gap: 20px;
+        }
+        .craft-scene-img,
+        .craft-scene {
+          max-width: 100%;
+        }
+        .download .btn-lg {
+          width: 100%;
+        }
+        .footer-wordmark {
+          font-size: clamp(2.5rem, 18vw, 6rem);
+          letter-spacing: -0.04em;
+        }
       }
       @media (max-width: 640px) {
         .hero {
-          padding-top: 64px;
+          padding-top: 52px;
         }
         .section,
         .velocity,
         .philosophy {
-          padding-top: 72px;
+          padding-top: 56px;
         }
         .dl-grid {
           grid-template-columns: 1fr;
         }
         .footer-inner {
           grid-template-columns: 1fr;
+          gap: 28px;
         }
         .ai-steps {
           grid-template-columns: 1fr;
@@ -2456,10 +3373,589 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         .gauges {
           justify-content: center;
         }
+        .phil-grid {
+          padding: 72px 0 48px;
+        }
+        .privacy-card {
+          padding: 16px 14px 20px;
+          border-width: 4px;
+        }
+        .loop-step {
+          padding: 16px;
+        }
       }
+
+
+      /* ===== Cartoon polish ===== */
+      .nav.scrolled {
+        box-shadow: 0 4px 0 rgba(42, 34, 24, 0.08);
+      }
+      .brand {
+        font-weight: 900 !important;
+        font-size: 18px !important;
+      }
+      .nav-links a {
+        font-weight: 800;
+        border-radius: 999px;
+      }
+      .nav-links a:hover {
+        background: var(--surface-hover, #ffe8a3);
+        color: var(--ink);
+      }
+      /* Landing overrides for shared chrome hovers (cartoon-safe) */
+      .footer-social a {
+        background: var(--surface) !important;
+        border: 2px solid var(--outline) !important;
+        color: var(--ink) !important;
+        box-shadow: 2px 2px 0 var(--outline) !important;
+      }
+      .footer-social a:hover {
+        background: var(--accent) !important;
+        color: var(--ink) !important;
+        border-color: var(--outline) !important;
+        box-shadow: 2px 3px 0 var(--outline) !important;
+        transform: translateY(-1px);
+      }
+      /* Match Star on GitHub / ghost pill buttons */
+      .lang-switcher-btn {
+        height: auto !important;
+        min-height: 34px;
+        padding: 6px 12px 6px 10px !important;
+        gap: 0.45rem !important;
+        border: 2.5px solid var(--outline) !important;
+        border-radius: 999px !important;
+        background: var(--surface) !important;
+        color: var(--ink) !important;
+        font-family: var(--font-ui) !important;
+        font-size: 13px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0 !important;
+        box-shadow: 2px 3px 0 var(--outline) !important;
+        transition:
+          background 150ms ease,
+          color 150ms ease,
+          transform 150ms ease,
+          box-shadow 150ms ease !important;
+      }
+      .lang-switcher-btn:hover {
+        background: #fff !important;
+        color: var(--ink) !important;
+        border-color: var(--outline) !important;
+        transform: translateY(-1px);
+        box-shadow: 2px 4px 0 var(--outline) !important;
+      }
+      .lang-switcher-flag {
+        border-radius: 3px !important;
+        box-shadow: 0 0 0 1.5px var(--outline) !important;
+        background: var(--surface-2) !important;
+      }
+      .lang-switcher-caret {
+        opacity: 0.75 !important;
+      }
+      .lang-switcher-menu {
+        background: var(--surface) !important;
+        border: 3px solid var(--outline) !important;
+        box-shadow: 4px 5px 0 var(--outline) !important;
+      }
+      .lang-switcher-option {
+        color: var(--ink) !important;
+        font-weight: 700;
+      }
+      .lang-switcher-option:hover {
+        background: var(--surface-hover) !important;
+        color: var(--ink) !important;
+      }
+      .lang-switcher-option.is-active {
+        background: var(--accent-soft) !important;
+        color: var(--ink) !important;
+      }
+      .stars:hover {
+        background: var(--surface-hover) !important;
+        color: var(--ink) !important;
+        border-color: var(--outline) !important;
+      }
+      .chip {
+        border-radius: 999px;
+        background: var(--surface);
+        font-family: var(--font);
+        font-weight: 800;
+        border: 3px solid var(--outline);
+        box-shadow: 2px 3px 0 var(--outline);
+        color: var(--ink);
+      }
+      .chip:nth-child(6n + 1) { background: #ffe8a8; }
+      .chip:nth-child(6n + 2) { background: #ffd0c8; }
+      .chip:nth-child(6n + 3) { background: #c8f5d8; }
+      .chip:nth-child(6n + 4) { background: #cce6ff; }
+      .chip:nth-child(6n + 5) { background: #e8d4ff; }
+      .chip:nth-child(6n + 6) { background: #ffd9a8; }
+      .stack-card {
+        border-radius: 22px !important;
+        background: var(--surface) !important;
+        border: 4px solid var(--outline) !important;
+        box-shadow: 6px 8px 0 var(--outline) !important;
+      }
+      .stack-card::before {
+        display: none !important;
+      }
+      .footer-wordmark {
+        font-family: var(--font);
+        font-weight: 900;
+        background: linear-gradient(90deg, #f5c518, #ef5a45, #4ecf74, #5aa3e0, #9b6edc) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        opacity: 0.35;
+      }
+      .sub em { color: var(--ink); font-weight: 800; }
+      tbody tr:hover { background: rgba(90, 163, 224, 0.15); }
+      .col-us {
+        background: rgba(245, 197, 24, 0.16) !important;
+        border-left-color: var(--outline) !important;
+        border-right-color: var(--outline) !important;
+      }
+      thead .col-us {
+        border-top-color: var(--outline) !important;
+        background: #fff3c4 !important;
+      }
+      tbody tr:last-child .col-us {
+        border-bottom-color: var(--outline) !important;
+      }
+      .dl-card {
+        background: var(--surface);
+        color: var(--text);
+        border: 3px solid var(--outline) !important;
+        border-radius: 18px !important;
+        box-shadow: 4px 5px 0 var(--outline) !important;
+        font-weight: 700;
+      }
+      .dl-card.is-current {
+        border-color: var(--outline) !important;
+        background: #c8f5d8 !important;
+      }
+      .dl-card.is-current svg { color: #1f8a45 !important; }
+      .dl-card.is-current .dl-card-badge { color: #1f8a45 !important; font-weight: 800; }
+      .footer-col .footer-h { color: var(--ink); font-weight: 900; }
+      .lede {
+        max-width: 560px;
+        font-size: 17.5px;
+        line-height: 1.55;
+        font-weight: 700;
+        color: var(--text) !important;
+      }
+      .hero .pill {
+        margin-top: 0;
+        margin-bottom: 18px;
+        background: #fff9ed;
+      }
+      .hero .lede {
+        margin-bottom: 22px;
+      }
+      .hero-actions {
+        margin-bottom: 40px;
+      }
+      .shot-product {
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+      .footer {
+        position: relative;
+        overflow: hidden;
+        background: var(--bg-deep);
+        border-top: 4px solid var(--outline);
+      }
+      .footer-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .footer-bg :global(img),
+      .footer-bg-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 40%;
+        filter: blur(16px) saturate(0.8) brightness(1.05);
+        transform: scale(1.12);
+        opacity: 0.28;
+        display: block;
+      }
+      .footer-bg-scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(243, 232, 208, 0.82) 0%,
+          rgba(232, 217, 184, 0.88) 100%
+        );
+      }
+      .footer-inner,
+      .footer-wordmark {
+        position: relative;
+        z-index: 1;
+      }
+      .footer-brand p,
+      .footer-license {
+        color: var(--muted) !important;
+      }
+      .footer-col a {
+        color: var(--muted) !important;
+      }
+      .footer-col a:hover {
+        color: var(--ink) !important;
+        background: var(--surface) !important;
+        border-color: var(--outline) !important;
+        box-shadow: 2px 3px 0 var(--outline) !important;
+        padding: 8px 16px !important;
+      }
+      .footer-col .footer-h {
+        color: var(--ink) !important;
+      }
+      .philosophy h2,
+      .phil-title {
+        font-weight: 900;
+      }
+      .craft-card {
+        border-radius: 20px !important;
+        border: 4px solid var(--outline) !important;
+        box-shadow: 5px 6px 0 var(--outline) !important;
+        background: var(--surface) !important;
+      }
+      .craft-scene.plate {
+        border: 4px solid var(--outline);
+        box-shadow: 5px 6px 0 var(--outline);
+        border-radius: 18px;
+        overflow: hidden;
+        background: var(--surface);
+      }
+      .table-wrap {
+        border-radius: 18px !important;
+        border: 4px solid var(--outline) !important;
+        box-shadow: 5px 6px 0 var(--outline) !important;
+        background: var(--surface) !important;
+      }
+      .btn-sm {
+        border-radius: 999px;
+        font-weight: 800;
+        border: 2.5px solid var(--outline);
+        box-shadow: 2px 3px 0 var(--outline);
+      }
+      .stars {
+        border-radius: 999px !important;
+        font-weight: 800;
+      }
+      .stars-count:not(:empty) {
+        border: 1.5px solid var(--outline) !important;
+        background: var(--surface-2) !important;
+        border-radius: 999px !important;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      h1 {
+        text-shadow: 2px 2px 0 rgba(42, 34, 24, 0.06);
+      }
+      .eyebrow {
+        background: #fff;
+        display: inline-flex;
+        align-items: center;
+        border: 3px solid var(--outline);
+        border-radius: 999px;
+        padding: 4px 12px 4px 8px;
+        box-shadow: 2px 3px 0 var(--outline);
+        margin-bottom: 14px !important;
+      }
+      .section {
+        position: relative;
+      }
+      /* multicolored section accent bars */
+      #features .eyebrow { background: #ffe8a8; }
+      #compare .eyebrow { background: #cce6ff; }
+      #download .eyebrow { background: #ffd0c8; }
+      #philosophy .eyebrow,
+      .philosophy .eyebrow { background: #e8d4ff; }
+
     </style>
 
     <script>
+      // Playable doodles: zero-g float + drag/throw, bounce off section edges.
+      (() => {
+        const zones = [...document.querySelectorAll("[data-doodle-zone]")];
+        if (!zones.length) return;
+        const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduce) {
+          zones.forEach((z) => z.classList.add("is-visible"));
+          return;
+        }
+
+        // Reveal on scroll
+        if ("IntersectionObserver" in window) {
+          const io = new IntersectionObserver(
+            (entries) => {
+              for (const entry of entries) {
+                const zone =
+                  entry.target.querySelector?.("[data-doodle-zone]") || entry.target;
+                if (!(zone instanceof HTMLElement)) continue;
+                if (entry.isIntersecting) zone.classList.add("is-visible");
+                else zone.classList.remove("is-visible");
+              }
+            },
+            { threshold: 0.1, rootMargin: "0px 0px -6% 0px" },
+          );
+          zones.forEach((zone) => {
+            const section = zone.closest("section") || zone;
+            io.observe(section);
+            if (section.classList.contains("hero")) {
+              const r = section.getBoundingClientRect();
+              if (r.top < innerHeight && r.bottom > 0) zone.classList.add("is-visible");
+            }
+          });
+        } else {
+          zones.forEach((z) => z.classList.add("is-visible"));
+        }
+
+        // Physics only where doodles are shown (desktop/tablet)
+        if (!matchMedia("(min-width: 761px)").matches) return;
+
+        const FRICTION = 0.985;
+        const REST = 0.72; // bounce restitution
+        const MAX_THROW = 28;
+        const PAD = 6;
+        // Always home: spring toward original slot after play
+        const SPRING = 0.018; // pull strength toward home
+        const SPRING_DAMP = 0.92; // extra damp on spring response
+        const HOME_SNAP = 0.6; // px — settle fully when this close & slow
+        const HOME_V = 0.12;
+
+        /** @type {{ zone: HTMLElement, bodies: any[], active: boolean, running: boolean }[]} */
+        const sims = [];
+
+        const parseRot = (el) => {
+          const v = getComputedStyle(el).getPropertyValue("--r").trim();
+          const n = parseFloat(v);
+          return Number.isFinite(n) ? n : 0;
+        };
+
+        const bootZone = (zone) => {
+          if (!zone.hasAttribute("data-doodle-play")) return;
+          zone.classList.add("is-playable");
+          const wraps = [...zone.querySelectorAll(".doodle-wrap")];
+          if (!wraps.length) return;
+
+          // Wait a frame so CSS layout positions exist, then pin to px left/top.
+          const measure = () => {
+            const zr = zone.getBoundingClientRect();
+            const bodies = wraps.map((el) => {
+              const er = el.getBoundingClientRect();
+              const w = el.offsetWidth || 48;
+              const h = el.offsetHeight || 48;
+              let x = er.left - zr.left;
+              let y = er.top - zr.top;
+              // CSS may use `right` — normalize to left/top only
+              el.style.right = "auto";
+              el.style.bottom = "auto";
+              el.style.left = `${x}px`;
+              el.style.top = `${y}px`;
+              el.style.margin = "0";
+              el.style.transform = `rotate(${parseRot(el)}deg)`;
+              const homeRot = parseRot(el);
+              const body = {
+                el,
+                x,
+                y,
+                w,
+                h,
+                homeX: x,
+                homeY: y,
+                homeRot,
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: (Math.random() - 0.5) * 0.25,
+                rot: homeRot,
+                vr: (Math.random() - 0.5) * 0.08,
+                dragging: false,
+                ox: 0,
+                oy: 0,
+                samples: [],
+              };
+              const onDown = (e) => {
+                if (e.button != null && e.button !== 0) return;
+                e.preventDefault();
+                body.dragging = true;
+                el.classList.add("is-dragging");
+                el.setPointerCapture?.(e.pointerId);
+                const r = zone.getBoundingClientRect();
+                body.ox = e.clientX - r.left - body.x;
+                body.oy = e.clientY - r.top - body.y;
+                body.vx = 0;
+                body.vy = 0;
+                body.samples = [{ t: performance.now(), x: body.x, y: body.y }];
+              };
+              const onMove = (e) => {
+                if (!body.dragging) return;
+                const r = zone.getBoundingClientRect();
+                const maxX = Math.max(PAD, r.width - body.w - PAD);
+                const maxY = Math.max(PAD, r.height - body.h - PAD);
+                body.x = Math.min(maxX, Math.max(PAD, e.clientX - r.left - body.ox));
+                body.y = Math.min(maxY, Math.max(PAD, e.clientY - r.top - body.oy));
+                const t = performance.now();
+                body.samples.push({ t, x: body.x, y: body.y });
+                if (body.samples.length > 6) body.samples.shift();
+                el.style.left = `${body.x}px`;
+                el.style.top = `${body.y}px`;
+              };
+              const onUp = (e) => {
+                if (!body.dragging) return;
+                body.dragging = false;
+                el.classList.remove("is-dragging");
+                try {
+                  el.releasePointerCapture?.(e.pointerId);
+                } catch {}
+                // Throw velocity from recent samples
+                const s = body.samples;
+                if (s.length >= 2) {
+                  const a = s[0];
+                  const b = s[s.length - 1];
+                  const dt = Math.max(16, b.t - a.t);
+                  body.vx = Math.max(-MAX_THROW, Math.min(MAX_THROW, ((b.x - a.x) / dt) * 16));
+                  body.vy = Math.max(-MAX_THROW, Math.min(MAX_THROW, ((b.y - a.y) / dt) * 16));
+                  body.vr = body.vx * 0.08 + (Math.random() - 0.5) * 0.3;
+                }
+                body.samples = [];
+              };
+              el.addEventListener("pointerdown", onDown);
+              el.addEventListener("pointermove", onMove);
+              el.addEventListener("pointerup", onUp);
+              el.addEventListener("pointercancel", onUp);
+              return body;
+            });
+
+            const sim = { zone, bodies, active: zone.classList.contains("is-visible"), running: true };
+            sims.push(sim);
+
+            // Track visibility for pausing off-screen sims
+            if ("IntersectionObserver" in window) {
+              const vio = new IntersectionObserver(
+                ([entry]) => {
+                  sim.active = entry.isIntersecting;
+                },
+                { threshold: 0.05 },
+              );
+              vio.observe(zone.closest("section") || zone);
+            }
+          };
+
+          // Double rAF so percentage CSS positions resolve first
+          requestAnimationFrame(() => requestAnimationFrame(measure));
+        };
+
+        document.querySelectorAll("[data-doodle-play]").forEach((z) => bootZone(z));
+
+        let last = performance.now();
+        const tick = (now) => {
+          const dt = Math.min(32, now - last) / 16.67; // ~frames
+          last = now;
+          for (const sim of sims) {
+            if (!sim.active || !sim.running) continue;
+            const { zone, bodies } = sim;
+            const bw = zone.clientWidth;
+            const bh = zone.clientHeight;
+            if (bw < 40 || bh < 40) continue;
+            for (const b of bodies) {
+              if (b.dragging) continue;
+
+              // Spring back to original slot (always wins long-term)
+              const dx = b.homeX - b.x;
+              const dy = b.homeY - b.y;
+              const dist = Math.hypot(dx, dy);
+              b.vx += dx * SPRING * dt;
+              b.vy += dy * SPRING * dt;
+              // Stronger pull when far away so throws always return
+              if (dist > 80) {
+                b.vx += dx * SPRING * 0.6 * dt;
+                b.vy += dy * SPRING * 0.6 * dt;
+              }
+              // Rotate gently toward home angle
+              let dRot = b.homeRot - b.rot;
+              while (dRot > 180) dRot -= 360;
+              while (dRot < -180) dRot += 360;
+              b.vr += dRot * 0.01 * dt;
+
+              b.x += b.vx * dt;
+              b.y += b.vy * dt;
+              b.rot += b.vr * dt;
+              b.vx *= Math.pow(FRICTION * SPRING_DAMP, dt);
+              b.vy *= Math.pow(FRICTION * SPRING_DAMP, dt);
+              b.vr *= Math.pow(FRICTION, dt);
+
+              const maxX = bw - b.w - PAD;
+              const maxY = bh - b.h - PAD;
+              if (b.x < PAD) {
+                b.x = PAD;
+                b.vx = Math.abs(b.vx) * REST;
+              } else if (b.x > maxX) {
+                b.x = maxX;
+                b.vx = -Math.abs(b.vx) * REST;
+              }
+              if (b.y < PAD) {
+                b.y = PAD;
+                b.vy = Math.abs(b.vy) * REST;
+              } else if (b.y > maxY) {
+                b.y = maxY;
+                b.vy = -Math.abs(b.vy) * REST;
+              }
+
+              // Snap home when close and slow enough
+              const speed = Math.hypot(b.vx, b.vy);
+              if (dist < HOME_SNAP && speed < HOME_V) {
+                b.x = b.homeX;
+                b.y = b.homeY;
+                b.vx = 0;
+                b.vy = 0;
+                b.rot = b.homeRot;
+                b.vr = 0;
+              }
+
+              b.el.style.left = `${b.x}px`;
+              b.el.style.top = `${b.y}px`;
+              b.el.style.transform = `rotate(${b.rot}deg)`;
+              b.el.style.setProperty("--r", `${b.rot}deg`);
+            }
+          }
+          requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+
+        // Keep bodies inside after resize
+        let resizeT = 0;
+        window.addEventListener(
+          "resize",
+          () => {
+            clearTimeout(resizeT);
+            resizeT = setTimeout(() => {
+              for (const sim of sims) {
+                // Re-measure home slots from current layout after resize
+                const zr = sim.zone.getBoundingClientRect();
+                // Keep relative offset from home, then reclamp; simpler: snap home
+                for (const b of sim.bodies) {
+                  // Scale home into new bounds if needed
+                  const maxX = Math.max(PAD, sim.zone.clientWidth - b.w - PAD);
+                  const maxY = Math.max(PAD, sim.zone.clientHeight - b.h - PAD);
+                  b.homeX = Math.min(maxX, Math.max(PAD, b.homeX));
+                  b.homeY = Math.min(maxY, Math.max(PAD, b.homeY));
+                  b.x = Math.min(maxX, Math.max(PAD, b.x));
+                  b.y = Math.min(maxY, Math.max(PAD, b.y));
+                  b.el.style.left = `${b.x}px`;
+                  b.el.style.top = `${b.y}px`;
+                }
+                void zr;
+              }
+            }, 120);
+          },
+          { passive: true },
+        );
+      })();
+
       // Eased smooth scroll for in-page links (accounts for the sticky nav
       // and the feature stack's sticky geometry).
       const docY = (el) => {
@@ -2513,27 +4009,25 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         a.addEventListener("click", () => nav.classList.remove("nav-open"));
       });
 
-      // Feature stack: pinned deck without clipping. Each card's sticky top is
-      // min(80, viewport - card height - margin), so short cards pin near the
-      // top while tall cards pin only once their bottom is on screen — the
-      // whole card is always readable. As the next card slides up, the pinned
-      // card recedes (scale down, tilt back, dim). Skipped for reduced motion.
+      // Feature stack: pinned deck without clipping. Desktop only — mobile
+      // keeps static cards (no per-scroll transform thrash).
       const stackCards = [...document.querySelectorAll(".stack-card")];
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const isMobileStack = () => matchMedia("(max-width: 760px)").matches;
       if (stackCards.length && !reduceMotion) {
         let ticking = false;
+        const clearStackStyles = () => {
+          for (const card of stackCards) {
+            card.style.transform = "";
+            card.style.filter = "";
+            card.style.top = "";
+          }
+        };
         const update = () => {
           ticking = false;
           const vh = window.innerHeight;
-          if (matchMedia("(max-width: 760px)").matches) {
-            // Mobile: cards flow normally, rising and scaling in on entry.
-            for (const card of stackCards) {
-              const r = card.getBoundingClientRect();
-              const p = Math.min(1, Math.max(0, (vh * 0.92 - r.top) / (vh * 0.35)));
-              card.style.transform = `translateY(${18 * (1 - p)}px) scale(${0.95 + 0.05 * p})`;
-              card.style.filter = "";
-              card.style.top = "";
-            }
+          if (isMobileStack()) {
+            clearStackStyles();
             return;
           }
           for (let i = 0; i < stackCards.length; i++) {
@@ -2556,14 +4050,18 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           }
         };
         const onStackScroll = () => {
+          if (isMobileStack()) return;
           if (!ticking) {
             ticking = true;
             requestAnimationFrame(update);
           }
         };
         window.addEventListener("scroll", onStackScroll, { passive: true });
-        window.addEventListener("resize", onStackScroll, { passive: true });
-        update();
+        window.addEventListener("resize", () => {
+          if (isMobileStack()) clearStackStyles();
+          else onStackScroll();
+        }, { passive: true });
+        if (!isMobileStack()) update();
       }
 
       // Quill confetti when the reader reaches the very bottom. Fires once
@@ -2582,22 +4080,26 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         }
         if (remaining > 24 || !confettiModule) return;
         confettiFired = true;
+        const mobile = matchMedia("(max-width: 760px)").matches;
         confettiModule.then(({ default: confetti }) => {
           const quill = confetti.shapeFromPath({ path: QUILL_PATH });
           const base = {
             shapes: [quill],
             colors: GREENS,
-            scalar: 1.7,
-            ticks: 240,
+            scalar: mobile ? 1.2 : 1.7,
+            ticks: mobile ? 160 : 240,
             gravity: 0.85,
             drift: 0.3,
             disableForReducedMotion: true,
           };
-          confetti({ ...base, particleCount: 60, spread: 70, angle: 60, origin: { x: 0, y: 1 } });
-          confetti({ ...base, particleCount: 60, spread: 70, angle: 120, origin: { x: 1, y: 1 } });
-          setTimeout(() => {
-            confetti({ ...base, particleCount: 40, spread: 100, angle: 90, origin: { x: 0.5, y: 1 } });
-          }, 250);
+          const n = mobile ? 28 : 60;
+          confetti({ ...base, particleCount: n, spread: 70, angle: 60, origin: { x: 0, y: 1 } });
+          confetti({ ...base, particleCount: n, spread: 70, angle: 120, origin: { x: 1, y: 1 } });
+          if (!mobile) {
+            setTimeout(() => {
+              confetti({ ...base, particleCount: 40, spread: 100, angle: 90, origin: { x: 0.5, y: 1 } });
+            }, 250);
+          }
         });
       };
       window.addEventListener("scroll", onBottomScroll, { passive: true });
