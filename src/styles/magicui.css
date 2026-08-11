@@ -12,9 +12,10 @@
   --color-4: oklch(80.2% 0.134 225);
   --color-5: oklch(90.7% 0.231 133);
 
-  /* magic-card reads these at runtime via var() in a motion template */
-  --color-background: #0a0a0a;
-  --color-border: rgba(255, 255, 255, 0.1);
+  /* magic-card reads these at runtime via var() in a motion template.
+     Club landing: warm classroom surfaces (this file is landing-only). */
+  --color-background: #fff9ed;
+  --color-border: #2a2218;
 }
 
 @theme inline {
@@ -27,9 +28,9 @@
   --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
 
   /* minimal shadcn-style tokens some vendored components reference */
-  --color-muted: rgba(255, 255, 255, 0.06);
-  --color-background: #0a0a0a;
-  --color-border: rgba(255, 255, 255, 0.1);
+  --color-muted: rgba(42, 34, 24, 0.08);
+  --color-background: #fff9ed;
+  --color-border: #2a2218;
 
   @keyframes marquee {
     from {
@@ -121,6 +122,13 @@
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
 }
+/* Filled triangle tips — opacity only, timed to appear as the stroke finishes */
+.dc-t1,
+.dc-t2,
+.dc-t3,
+.dc-t4 {
+  opacity: 0;
+}
 .dc-n1 { animation: dc-n1 9s ease-in-out infinite; }
 .dc-n2 { animation: dc-n2 9s ease-in-out infinite; }
 .dc-n3 { animation: dc-n3 9s ease-in-out infinite; }
@@ -128,6 +136,10 @@
 .dc-a2 { animation: dc-a2 9s linear infinite; }
 .dc-c1 { animation: dc-c1 9s linear infinite; }
 .dc-c2 { animation: dc-c2 9s linear infinite; }
+.dc-t1 { animation: dc-t1 9s linear infinite; }
+.dc-t2 { animation: dc-t2 9s linear infinite; }
+.dc-t3 { animation: dc-t3 9s linear infinite; }
+.dc-t4 { animation: dc-t4 9s linear infinite; }
 .dc-out { animation: dc-out 9s ease-in-out infinite; }
 .dc-badge { animation: dc-badge 9s ease-in-out infinite; }
 
@@ -177,6 +189,27 @@
   90% { opacity: 1; stroke-dashoffset: 0; }
   97%, 100% { opacity: 0; stroke-dashoffset: 0; }
 }
+/* Tips pop in as their line/curve finishes drawing */
+@keyframes dc-t1 {
+  0%, 10% { opacity: 0; }
+  11%, 90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes dc-t2 {
+  0%, 17% { opacity: 0; }
+  18%, 90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes dc-t3 {
+  0%, 27% { opacity: 0; }
+  28%, 90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes dc-t4 {
+  0%, 30% { opacity: 0; }
+  31%, 90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
 @keyframes dc-out {
   0%, 30% { opacity: 0; transform: translateY(5px) scale(0.96); }
   35% { opacity: 1; transform: none; }
@@ -193,15 +226,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   .dc-n1, .dc-n2, .dc-n3, .dc-out, .dc-badge,
-  .dc-a1, .dc-a2, .dc-c1, .dc-c2 {
+  .dc-a1, .dc-a2, .dc-c1, .dc-c2,
+  .dc-t1, .dc-t2, .dc-t3, .dc-t4 {
     animation: none;
     opacity: 1;
     stroke-dashoffset: 0;
   }
 }
 
-/* SyncTeX card: 8s loop. The cursor clicks a PDF line (pair A lights up in
-   both panes), then clicks a source line (pair B lights up). */
+/* SyncTeX card (comic): cursor clicks PDF ↔ source with chunky highlights. */
 .st-hl-a,
 .st-hl-b {
   transition: none;
@@ -218,16 +251,18 @@
   top: 0;
 }
 @keyframes st-hl-a {
-  0%, 12% { background-color: transparent; color: #6d727b; box-shadow: none; }
-  16%, 42% { background-color: rgba(37, 99, 235, 0.28); color: #a8c3f5; box-shadow: 0 0 10px rgba(37, 99, 235, 0.25); }
-  48%, 100% { background-color: transparent; color: #6d727b; box-shadow: none; }
+  0%, 12% { background-color: transparent; color: #2a2218; box-shadow: none; border-radius: 4px; }
+  16% { background-color: #cce6ff; color: #1a4a7a; box-shadow: 2px 2px 0 #2a2218; transform: scale(1.02); }
+  20%, 42% { background-color: #cce6ff; color: #1a4a7a; box-shadow: 2px 2px 0 #2a2218; transform: scale(1); }
+  48%, 100% { background-color: transparent; color: #2a2218; box-shadow: none; transform: scale(1); }
 }
 @keyframes st-hl-b {
-  0%, 54% { background-color: transparent; color: #6d727b; box-shadow: none; }
-  58%, 88% { background-color: rgba(52, 180, 74, 0.25); color: #8fd6a0; box-shadow: 0 0 10px rgba(52, 180, 74, 0.25); }
-  94%, 100% { background-color: transparent; color: #6d727b; box-shadow: none; }
+  0%, 54% { background-color: transparent; color: #2a2218; box-shadow: none; }
+  58% { background-color: #c8f5d8; color: #1f8a45; box-shadow: 2px 2px 0 #2a2218; transform: scale(1.02); }
+  64%, 88% { background-color: #c8f5d8; color: #1f8a45; box-shadow: 2px 2px 0 #2a2218; transform: scale(1); }
+  94%, 100% { background-color: transparent; color: #2a2218; box-shadow: none; transform: scale(1); }
 }
-/* PDF bars have no text; recolor the bar itself */
+/* PDF bars: solid comic fills when highlighted */
 div.st-hl-a.rounded-full {
   animation-name: st-bar-a;
 }
@@ -235,27 +270,27 @@ div.st-hl-b.rounded-full {
   animation-name: st-bar-b;
 }
 @keyframes st-bar-a {
-  0%, 12% { background-color: #3a3d42; box-shadow: none; }
-  16%, 42% { background-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
-  48%, 100% { background-color: #3a3d42; box-shadow: none; }
+  0%, 12% { background-color: #d8cbb0; box-shadow: none; border-color: rgba(42, 34, 24, 0.2); }
+  16%, 42% { background-color: #5aa3e0; box-shadow: 2px 2px 0 #2a2218; border-color: #2a2218; }
+  48%, 100% { background-color: #d8cbb0; box-shadow: none; border-color: rgba(42, 34, 24, 0.2); }
 }
 @keyframes st-bar-b {
-  0%, 54% { background-color: #3a3d42; box-shadow: none; }
-  58%, 88% { background-color: #34b44a; box-shadow: 0 0 10px rgba(52, 180, 74, 0.5); }
-  94%, 100% { background-color: #3a3d42; box-shadow: none; }
+  0%, 54% { background-color: #d8cbb0; box-shadow: none; border-color: rgba(42, 34, 24, 0.2); }
+  58%, 88% { background-color: #4ecf74; box-shadow: 2px 2px 0 #2a2218; border-color: #2a2218; }
+  94%, 100% { background-color: #d8cbb0; box-shadow: none; border-color: rgba(42, 34, 24, 0.2); }
 }
-/* cursor path: hover PDF line 2 -> click -> glide to source line 4 -> click */
+/* cursor: hover PDF line -> click -> glide to source -> click */
 @keyframes st-cursor {
-  0% { opacity: 0; left: 80%; top: 40%; transform: scale(1); }
-  8% { opacity: 1; left: 71%; top: 48%; transform: scale(1); }
-  14% { transform: scale(0.7); left: 71%; top: 48%; }
-  18% { transform: scale(1); left: 71%; top: 48%; }
-  44% { opacity: 1; left: 71%; top: 48%; }
-  52% { opacity: 1; left: 24%; top: 72%; }
-  56% { transform: scale(0.7); left: 24%; top: 72%; }
-  60% { transform: scale(1); left: 24%; top: 72%; }
-  86% { opacity: 1; left: 24%; top: 72%; }
-  94%, 100% { opacity: 0; left: 50%; top: 55%; }
+  0% { opacity: 0; left: 82%; top: 38%; transform: scale(0.85); }
+  8% { opacity: 1; left: 72%; top: 48%; transform: scale(1); }
+  14% { transform: scale(0.72); left: 72%; top: 48%; }
+  18% { transform: scale(1.08); left: 72%; top: 48%; }
+  22%, 44% { opacity: 1; left: 72%; top: 48%; transform: scale(1); }
+  52% { opacity: 1; left: 22%; top: 70%; transform: scale(1); }
+  56% { transform: scale(0.72); left: 22%; top: 70%; }
+  60% { transform: scale(1.08); left: 22%; top: 70%; }
+  66%, 86% { opacity: 1; left: 22%; top: 70%; transform: scale(1); }
+  94%, 100% { opacity: 0; left: 50%; top: 55%; transform: scale(0.85); }
 }
 @media (prefers-reduced-motion: reduce) {
   .st-hl-a, .st-hl-b, .st-cursor { animation: none; }
@@ -285,18 +320,19 @@ div.st-hl-b.rounded-full {
   animation: pg-bar 8s ease-in-out infinite;
 }
 @keyframes pg-bar {
-  0% { width: 2%; background-color: #3b82f6; }
-  72% { width: 100%; background-color: #3b82f6; }
-  76%, 94% { width: 100%; background-color: #34b44a; }
-  98%, 100% { width: 2%; background-color: #3b82f6; }
+  0% { width: 2%; background-color: #5aa3e0; }
+  72% { width: 100%; background-color: #5aa3e0; }
+  76%, 94% { width: 100%; background-color: #4ecf74; }
+  98%, 100% { width: 2%; background-color: #5aa3e0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .pg-drop, .pg-c1, .pg-c2, .pg-c3, .pg-c4, .pg-bar { animation: none; }
   .pg-drop, .pg-c4 { opacity: 1; }
-  .pg-bar { width: 100%; background-color: #34b44a; }
+  .pg-bar { width: 100%; background-color: #4ecf74; }
 }
 
-/* Command palette card: type -> results -> pick (7s cycle). */
+/* Command palette card (comic): type -> results -> pick (7s cycle). */
+.cp-panel { animation: cp-panel 7s ease-in-out infinite; transform-origin: top center; }
 .cp-type {
   display: inline-block;
   width: 0;
@@ -304,6 +340,11 @@ div.st-hl-b.rounded-full {
 }
 .cp-r { opacity: 0; animation: cp-rows 7s ease-in-out infinite; }
 .cp-r1 { animation-name: cp-r1; }
+@keyframes cp-panel {
+  0%, 4% { opacity: 0.7; transform: translateY(4px) scale(0.97); }
+  10%, 90% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0.7; transform: translateY(4px) scale(0.97); }
+}
 @keyframes cp-type {
   0%, 4% { width: 0; }
   30% { width: 9ch; }
@@ -311,38 +352,56 @@ div.st-hl-b.rounded-full {
   94%, 100% { width: 0; }
 }
 @keyframes cp-rows {
-  0%, 30% { opacity: 0; }
-  36%, 88% { opacity: 1; }
-  94%, 100% { opacity: 0; }
+  0%, 30% { opacity: 0; transform: translateY(3px); }
+  36%, 88% { opacity: 1; transform: none; }
+  94%, 100% { opacity: 0; transform: translateY(3px); }
 }
 @keyframes cp-r1 {
-  0%, 30% { opacity: 0; background-color: transparent; }
+  0%, 30% { opacity: 0; background-color: transparent; box-shadow: none; }
   36% { opacity: 1; }
-  44%, 62% { opacity: 1; background-color: rgba(37, 99, 235, 0.25); color: #a8c3f5; }
-  68%, 82% { opacity: 1; background-color: rgba(52, 180, 74, 0.22); color: #8fd6a0; }
-  88% { opacity: 1; background-color: transparent; }
+  44%, 62% {
+    opacity: 1;
+    background-color: #cce6ff;
+    color: #1a4a7a;
+    box-shadow: 1.5px 1.5px 0 #2a2218;
+  }
+  68%, 82% {
+    opacity: 1;
+    background-color: #c8f5d8;
+    color: #1f8a45;
+    box-shadow: 1.5px 1.5px 0 #2a2218;
+  }
+  88% { opacity: 1; background-color: transparent; box-shadow: none; }
   94%, 100% { opacity: 0; }
 }
 
-/* Code intelligence card: rename once, every file updates (8s cycle). */
-.ci-chip { opacity: 0; animation: ci-chip 8s ease-in-out infinite; }
+/* Code intelligence card (comic): F2 chip + rename across both files. */
+.ci-chip { opacity: 0; animation: ci-chip 8s ease-in-out infinite; transform-origin: right center; }
+.ci-row { animation: ci-row 8s ease-in-out infinite; }
 .ci-old { animation: ci-old 8s ease-in-out infinite; }
-.ci-new { opacity: 0; animation: ci-new 8s ease-in-out infinite; color: #8fd6a0; }
+.ci-new { opacity: 0; animation: ci-new 8s ease-in-out infinite; color: #1f8a45; }
 @keyframes ci-chip {
-  0%, 14% { opacity: 0; transform: translateY(3px); }
-  20%, 52% { opacity: 1; transform: none; }
-  58%, 100% { opacity: 0; }
+  0%, 10% { opacity: 0; transform: translateY(4px) scale(0.9); }
+  16% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+  22%, 48% { opacity: 1; transform: none; }
+  56%, 100% { opacity: 0; transform: translateY(-4px) scale(0.92); }
+}
+@keyframes ci-row {
+  0%, 8% { transform: translateY(2px); }
+  16%, 88% { transform: none; }
+  96%, 100% { transform: translateY(2px); }
 }
 @keyframes ci-old {
-  0%, 22% { opacity: 1; background-color: transparent; color: #7cabf8; }
-  28%, 46% { opacity: 1; background-color: rgba(37, 99, 235, 0.25); color: #a8c3f5; }
+  0%, 22% { opacity: 1; background-color: transparent; color: #1a4a7a; box-shadow: none; }
+  28%, 46% { opacity: 1; background-color: #cce6ff; color: #1a4a7a; box-shadow: 1.5px 1.5px 0 #2a2218; }
   52%, 94% { opacity: 0; }
-  100% { opacity: 1; background-color: transparent; color: #7cabf8; }
+  100% { opacity: 1; background-color: transparent; color: #1a4a7a; box-shadow: none; }
 }
 @keyframes ci-new {
-  0%, 52% { opacity: 0; }
-  58%, 78% { opacity: 1; background-color: rgba(52, 180, 74, 0.22); }
-  84%, 90% { opacity: 1; background-color: transparent; }
+  0%, 50% { opacity: 0; transform: scale(0.92); }
+  56% { opacity: 1; background-color: #c8f5d8; box-shadow: 1.5px 1.5px 0 #2a2218; transform: scale(1.06); }
+  64%, 84% { opacity: 1; background-color: #c8f5d8; box-shadow: 1.5px 1.5px 0 #2a2218; transform: scale(1); }
+  90% { opacity: 1; background-color: transparent; box-shadow: none; }
   96%, 100% { opacity: 0; }
 }
 
@@ -367,23 +426,23 @@ div.st-hl-b.rounded-full {
   94%, 100% { opacity: 0; }
 }
 
-/* Spell & grammar card: squiggle -> suggestion -> healed word (8s cycle). */
+/* Spell & grammar card (comic): squiggle -> suggestion -> healed word. */
 .sg-bad {
-  color: #8a8f98;
+  color: #c94334;
   animation: sg-bad 8s ease-in-out infinite;
-  text-decoration-color: #eb5757;
-  text-decoration-thickness: 1px;
+  text-decoration-color: #ef5a45;
+  text-decoration-thickness: 2px;
   text-underline-offset: 3px;
 }
 .sg-good {
   opacity: 0;
-  color: #8fd6a0;
+  color: #1f8a45;
   animation: sg-good 8s ease-in-out infinite;
-  text-decoration-color: #34b44a;
-  text-decoration-thickness: 1px;
+  text-decoration-color: #4ecf74;
+  text-decoration-thickness: 2px;
   text-underline-offset: 3px;
 }
-.sg-pop { opacity: 0; animation: sg-pop 8s ease-in-out infinite; }
+.sg-pop { opacity: 0; animation: sg-pop 8s ease-in-out infinite; transform-origin: left center; }
 @keyframes sg-bad {
   0%, 12% { opacity: 1; text-decoration-line: none; }
   16%, 52% { opacity: 1; text-decoration-line: underline; text-decoration-style: wavy; }
@@ -391,27 +450,30 @@ div.st-hl-b.rounded-full {
   100% { opacity: 1; text-decoration-line: none; }
 }
 @keyframes sg-good {
-  0%, 52% { opacity: 0; }
-  58%, 78% { opacity: 1; text-decoration-line: underline; text-decoration-style: solid; }
-  84%, 90% { opacity: 1; text-decoration-line: none; }
+  0%, 52% { opacity: 0; transform: scale(0.96); }
+  58% { opacity: 1; background-color: #c8f5d8; border-radius: 3px; transform: scale(1.04); }
+  66%, 84% { opacity: 1; background-color: #c8f5d8; border-radius: 3px; transform: scale(1); }
+  90% { opacity: 1; background-color: transparent; }
   96%, 100% { opacity: 0; }
 }
 @keyframes sg-pop {
-  0%, 26% { opacity: 0; transform: translateY(3px); }
-  32%, 52% { opacity: 1; transform: none; }
-  58%, 100% { opacity: 0; }
+  0%, 26% { opacity: 0; transform: translateY(6px) scale(0.9); }
+  32% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+  40%, 52% { opacity: 1; transform: none; }
+  58%, 100% { opacity: 0; transform: translateY(4px) scale(0.94); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cp-type, .cp-r, .cp-r1, .ci-chip, .ci-old, .ci-new,
+  .cp-panel, .cp-type, .cp-r, .cp-r1, .ci-chip, .ci-row, .ci-old, .ci-new,
   .ct-doi, .ct-bib, .ct-cite, .sg-bad, .sg-good, .sg-pop {
     animation: none;
   }
   .cp-type { width: 9ch; }
-  .cp-r, .ct-doi, .ct-bib, .ct-cite, .sg-bad { opacity: 1; }
+  .cp-panel, .cp-r, .ct-doi, .ct-bib, .ct-cite, .sg-bad, .sg-pop { opacity: 1; transform: none; }
+  .sg-good { opacity: 1; }
 }
 
-/* Slash commands card: type "/" -> menu -> pick /figure (7s cycle). */
+/* Slash commands card (comic): type "/" -> menu -> pick /figure. */
 .sl-type {
   width: 0;
   animation: sl-type 7s steps(4, end) infinite;
@@ -425,20 +487,29 @@ div.st-hl-b.rounded-full {
   95%, 100% { width: 0; }
 }
 @keyframes sl-menu {
-  0%, 24% { opacity: 0; transform: translateY(3px) scale(0.97); }
-  30%, 86% { opacity: 1; transform: none; }
-  92%, 100% { opacity: 0; }
+  0%, 24% { opacity: 0; transform: translateY(6px) scale(0.94); }
+  30% { opacity: 1; transform: translateY(-2px) scale(1.03); }
+  36%, 86% { opacity: 1; transform: none; }
+  92%, 100% { opacity: 0; transform: translateY(4px) scale(0.96); }
 }
 @keyframes sl-i1 {
-  0%, 34% { background-color: transparent; color: #8a8f98; }
-  40%, 62% { background-color: rgba(37, 99, 235, 0.25); color: #a8c3f5; }
-  68%, 80% { background-color: rgba(52, 180, 74, 0.22); color: #8fd6a0; }
-  86%, 100% { background-color: transparent; color: #8a8f98; }
+  0%, 34% { background-color: transparent; color: #6b5f50; box-shadow: none; }
+  40%, 62% {
+    background-color: #cce6ff;
+    color: #1a4a7a;
+    box-shadow: 1.5px 1.5px 0 #2a2218;
+  }
+  68%, 80% {
+    background-color: #c8f5d8;
+    color: #1f8a45;
+    box-shadow: 1.5px 1.5px 0 #2a2218;
+  }
+  86%, 100% { background-color: transparent; color: #6b5f50; box-shadow: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sl-type, .sl-menu, .sl-i1 { animation: none; }
   .sl-type { width: 4ch; }
-  .sl-menu { opacity: 1; }
+  .sl-menu { opacity: 1; transform: none; }
 }
 
 /* Resume fork diagram: timeline draws, commits tick in, forks peel off
@@ -612,66 +683,185 @@ div.st-hl-b.rounded-full {
 
 /* Visual editor card: the segmented toggle flips Code -> Visual, the source
    cross-fades into rendered prose, then flips back. One 10s cycle. */
+/* Three engines card (comic): tabs light up LaTeX → Typst → Markdown. */
+.eng-t1, .eng-t2, .eng-t3 {
+  animation-duration: 7.5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+}
+.eng-t1 { animation-name: eng-t1; }
+.eng-t2 { animation-name: eng-t2; }
+.eng-t3 { animation-name: eng-t3; }
+.eng-line { animation: eng-line 7.5s ease-in-out infinite; transform-origin: left center; }
+.eng-dot { animation: eng-dot 7.5s ease-in-out infinite; }
+@keyframes eng-t1 {
+  0%, 4% {
+    opacity: 0.45; transform: scale(0.94);
+    background: #fff9ed; color: #6b5f50;
+  }
+  8% { opacity: 1; transform: scale(1.06); background: #cce6ff; color: #1a4a7a; }
+  16%, 28% { opacity: 1; transform: scale(1); background: #cce6ff; color: #1a4a7a; }
+  34%, 100% {
+    opacity: 0.45; transform: scale(0.94);
+    background: #fff9ed; color: #6b5f50;
+  }
+}
+@keyframes eng-t2 {
+  0%, 30% {
+    opacity: 0.45; transform: scale(0.94);
+    background: #fff9ed; color: #6b5f50;
+  }
+  36% { opacity: 1; transform: scale(1.06); background: #ffe8a8; color: #2a2218; }
+  44%, 56% { opacity: 1; transform: scale(1); background: #ffe8a8; color: #2a2218; }
+  62%, 100% {
+    opacity: 0.45; transform: scale(0.94);
+    background: #fff9ed; color: #6b5f50;
+  }
+}
+@keyframes eng-t3 {
+  0%, 58% {
+    opacity: 0.45; transform: scale(0.94);
+    background: #fff9ed; color: #6b5f50;
+  }
+  64% { opacity: 1; transform: scale(1.06); background: #c8f5d8; color: #1f8a45; }
+  72%, 88% { opacity: 1; transform: scale(1); background: #c8f5d8; color: #1f8a45; }
+  94%, 100% {
+    opacity: 0.45; transform: scale(0.94);
+    background: #fff9ed; color: #6b5f50;
+  }
+}
+@keyframes eng-line {
+  0%, 6% { opacity: 0; transform: translateY(4px) scale(0.94); }
+  12% { opacity: 1; transform: translateY(-1px) scale(1.03); }
+  18%, 90% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0.85; transform: none; }
+}
+@keyframes eng-dot {
+  0%, 20% { transform: scale(1); box-shadow: none; }
+  30% { transform: scale(1.35); box-shadow: 0 0 0 3px rgba(78, 207, 116, 0.35); }
+  40%, 100% { transform: scale(1); box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eng-t1, .eng-t2, .eng-t3, .eng-line, .eng-dot {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+  .eng-t1 { background: #cce6ff; color: #1a4a7a; }
+  .eng-t2 { background: #ffe8a8; color: #2a2218; }
+  .eng-t3 { background: #c8f5d8; color: #1f8a45; }
+}
+
+/* Visual editor (comic): Code ⇄ Visual toggle + prose morph. */
+.ve-toggle { animation: ve-toggle 10s ease-in-out infinite; }
 .ve-knob { animation: ve-knob 10s ease-in-out infinite; }
+.ve-label-code { animation: ve-label-code 10s ease-in-out infinite; }
+.ve-label-vis { animation: ve-label-vis 10s ease-in-out infinite; }
 .ve-code { animation: ve-code 10s ease-in-out infinite; }
 .ve-prose { opacity: 0; animation: ve-prose 10s ease-in-out infinite; }
 .ve-caret { animation: ve-caret 1s step-end infinite; }
-.ve-badge { opacity: 0; animation: ve-badge 10s ease-in-out infinite; }
+.ve-badge { opacity: 0; animation: ve-badge 10s ease-in-out infinite; transform-origin: right bottom; }
+@keyframes ve-toggle {
+  0%, 28% { transform: translateX(-50%) scale(1); }
+  31% { transform: translateX(-50%) scale(1.04); }
+  34%, 88% { transform: translateX(-50%) scale(1); }
+  91% { transform: translateX(-50%) scale(1.04); }
+  94%, 100% { transform: translateX(-50%) scale(1); }
+}
 @keyframes ve-knob {
-  0%, 28% { transform: translateX(0); }
-  33%, 88% { transform: translateX(52px); }
-  93%, 100% { transform: translateX(0); }
+  0%, 28% { transform: translateX(0); background-color: #cce6ff; }
+  33%, 88% { transform: translateX(56px); background-color: #ffe8a8; }
+  93%, 100% { transform: translateX(0); background-color: #cce6ff; }
+}
+@keyframes ve-label-code {
+  0%, 28% { color: #1a4a7a; }
+  33%, 88% { color: #6b5f50; }
+  93%, 100% { color: #1a4a7a; }
+}
+@keyframes ve-label-vis {
+  0%, 28% { color: #6b5f50; }
+  33%, 88% { color: #2a2218; }
+  93%, 100% { color: #6b5f50; }
 }
 @keyframes ve-code {
   0%, 28% { opacity: 1; transform: translateY(0); }
-  33%, 88% { opacity: 0; transform: translateY(-6px); }
+  33%, 88% { opacity: 0; transform: translateY(-8px); }
   93%, 100% { opacity: 1; transform: translateY(0); }
 }
 @keyframes ve-prose {
-  0%, 30% { opacity: 0; transform: translateY(6px); }
-  35%, 86% { opacity: 1; transform: translateY(0); }
-  91%, 100% { opacity: 0; transform: translateY(6px); }
+  0%, 30% { opacity: 0; transform: translateY(8px); }
+  35% { opacity: 1; transform: translateY(-2px); }
+  40%, 86% { opacity: 1; transform: translateY(0); }
+  91%, 100% { opacity: 0; transform: translateY(8px); }
 }
 @keyframes ve-caret {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
 }
 @keyframes ve-badge {
-  0%, 38% { opacity: 0; }
-  44%, 84% { opacity: 1; }
-  90%, 100% { opacity: 0; }
+  0%, 38% { opacity: 0; transform: translateY(6px) scale(0.9); }
+  44% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+  50%, 84% { opacity: 1; transform: none; }
+  90%, 100% { opacity: 0; transform: scale(0.94); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ve-knob, .ve-code, .ve-prose, .ve-caret, .ve-badge {
+  .ve-toggle, .ve-knob, .ve-label-code, .ve-label-vis,
+  .ve-code, .ve-prose, .ve-caret, .ve-badge {
     animation: none;
     opacity: 1;
     transform: none;
   }
   .ve-code { opacity: 0; }
-  .ve-knob { transform: translateX(52px); }
+  .ve-knob { transform: translateX(56px); background-color: #ffe8a8; }
+  .ve-toggle { transform: translateX(-50%); }
+  .ve-label-vis { color: #2a2218; }
+  .ve-label-code { color: #6b5f50; }
 }
 
-/* Library import card: reference files pop in one by one, merge into the
-   project .bib, and the dedupe badge confirms. 8s cycle. */
-.zl-f1 { opacity: 0; animation: zl-f1 8s ease-in-out infinite; }
-.zl-f2 { opacity: 0; animation: zl-f2 8s ease-in-out infinite; }
-.zl-f3 { opacity: 0; animation: zl-f3 8s ease-in-out infinite; }
-.zl-f4 { opacity: 0; animation: zl-f4 8s ease-in-out infinite; }
-.zl-merge { opacity: 0; animation: zl-merge 8s ease-in-out infinite; }
-.zl-badge { opacity: 0; animation: zl-badge 8s ease-in-out infinite; }
-@keyframes zl-f1 { 0%, 2% { opacity: 0; transform: translateY(4px); } 6%, 92% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
-@keyframes zl-f2 { 0%, 8% { opacity: 0; transform: translateY(4px); } 12%, 92% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
-@keyframes zl-f3 { 0%, 14% { opacity: 0; transform: translateY(4px); } 18%, 92% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
-@keyframes zl-f4 { 0%, 20% { opacity: 0; transform: translateY(4px); } 24%, 92% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
+/* Library import card (comic): colored chips pop in, merge, dedupe badge. */
+.zl-f1, .zl-f2, .zl-f3, .zl-f4 { opacity: 0; transform-origin: center; }
+.zl-f1 { animation: zl-f1 8s ease-in-out infinite; }
+.zl-f2 { animation: zl-f2 8s ease-in-out infinite; }
+.zl-f3 { animation: zl-f3 8s ease-in-out infinite; }
+.zl-f4 { animation: zl-f4 8s ease-in-out infinite; }
+.zl-merge { opacity: 0; animation: zl-merge 8s ease-in-out infinite; transform-origin: left center; }
+.zl-badge { opacity: 0; animation: zl-badge 8s ease-in-out infinite; transform-origin: left center; }
+@keyframes zl-f1 {
+  0%, 2% { opacity: 0; transform: translateY(6px) scale(0.9); }
+  6% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+  10%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.94); }
+}
+@keyframes zl-f2 {
+  0%, 8% { opacity: 0; transform: translateY(6px) scale(0.9); }
+  12% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+  16%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.94); }
+}
+@keyframes zl-f3 {
+  0%, 14% { opacity: 0; transform: translateY(6px) scale(0.9); }
+  18% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+  22%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.94); }
+}
+@keyframes zl-f4 {
+  0%, 20% { opacity: 0; transform: translateY(6px) scale(0.9); }
+  24% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+  28%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.94); }
+}
 @keyframes zl-merge {
-  0%, 30% { opacity: 0; transform: translateY(4px); }
-  36%, 92% { opacity: 1; transform: translateY(0); }
-  97%, 100% { opacity: 0; }
+  0%, 30% { opacity: 0; transform: translateY(6px) scale(0.9); }
+  36% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+  42%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.94); }
 }
 @keyframes zl-badge {
-  0%, 46% { opacity: 0; transform: scale(0.92); }
-  52%, 92% { opacity: 1; transform: scale(1); }
-  97%, 100% { opacity: 0; }
+  0%, 46% { opacity: 0; transform: translateY(6px) scale(0.88); }
+  52% { opacity: 1; transform: translateY(-2px) scale(1.08); }
+  58%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.92); }
 }
 @media (prefers-reduced-motion: reduce) {
   .zl-f1, .zl-f2, .zl-f3, .zl-f4, .zl-merge, .zl-badge {
@@ -681,30 +871,34 @@ div.st-hl-b.rounded-full {
   }
 }
 
-/* Research connectors card: query -> results -> Crossref verification. 8s. */
-.rs-q { opacity: 0; animation: rs-q 8s ease-in-out infinite; }
-.rs-r1 { opacity: 0; animation: rs-r1 8s ease-in-out infinite; }
-.rs-r2 { opacity: 0; animation: rs-r2 8s ease-in-out infinite; }
-.rs-v { opacity: 0; animation: rs-v 8s ease-in-out infinite; }
+/* Research connectors card (comic): query -> hit -> Crossref badge. 8s. */
+.rs-q { opacity: 0; animation: rs-q 8s ease-in-out infinite; transform-origin: left center; }
+.rs-r1 { opacity: 0; animation: rs-r1 8s ease-in-out infinite; transform-origin: left center; }
+.rs-r2 { opacity: 0; animation: rs-r2 8s ease-in-out infinite; transform-origin: left center; }
+.rs-v { opacity: 0; animation: rs-v 8s ease-in-out infinite; transform-origin: right center; }
 @keyframes rs-q {
-  0%, 2% { opacity: 0; transform: translateY(4px); }
-  7%, 92% { opacity: 1; transform: translateY(0); }
-  97%, 100% { opacity: 0; }
+  0%, 2% { opacity: 0; transform: translateY(6px) scale(0.94); }
+  7% { opacity: 1; transform: translateY(-2px) scale(1.04); }
+  12%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.96); }
 }
 @keyframes rs-r1 {
-  0%, 16% { opacity: 0; transform: translateY(4px); }
-  22%, 92% { opacity: 1; transform: translateY(0); }
-  97%, 100% { opacity: 0; }
+  0%, 16% { opacity: 0; transform: translateY(6px) scale(0.94); }
+  22% { opacity: 1; transform: translateY(-2px) scale(1.04); }
+  28%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.96); }
 }
 @keyframes rs-r2 {
-  0%, 26% { opacity: 0; transform: translateY(4px); }
-  32%, 92% { opacity: 1; transform: translateY(0); }
-  97%, 100% { opacity: 0; }
+  0%, 26% { opacity: 0; transform: translateY(6px) scale(0.94); }
+  32% { opacity: 1; transform: translateY(-2px) scale(1.04); }
+  38%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.96); }
 }
 @keyframes rs-v {
-  0%, 44% { opacity: 0; transform: scale(0.92); }
-  50%, 92% { opacity: 1; transform: scale(1); }
-  97%, 100% { opacity: 0; }
+  0%, 44% { opacity: 0; transform: translateY(6px) scale(0.88); }
+  50% { opacity: 1; transform: translateY(-3px) scale(1.08); }
+  58%, 90% { opacity: 1; transform: none; }
+  97%, 100% { opacity: 0; transform: scale(0.92); }
 }
 @media (prefers-reduced-motion: reduce) {
   .rs-q, .rs-r1, .rs-r2, .rs-v {
@@ -725,7 +919,7 @@ div.st-hl-b.rounded-full {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 3px;
   font-size: 8px;
-  color: #7ed492;
+  color: #1a6b35;
   flex-shrink: 0;
 }
 .am-note { opacity: 0; animation: am-note 9s ease-in-out infinite; }
@@ -739,64 +933,194 @@ div.st-hl-b.rounded-full {
 }
 @keyframes am-check {
   0%, 24% { color: transparent; border-color: rgba(255, 255, 255, 0.2); }
-  30%, 100% { color: #7ed492; border-color: rgba(52, 180, 74, 0.5); }
+  30%, 100% { color: #1a6b35; border-color: rgba(78, 207, 116, 0.5); }
 }
 @keyframes am-check2 {
   0%, 44% { color: transparent; border-color: rgba(255, 255, 255, 0.2); }
-  50%, 100% { color: #7ed492; border-color: rgba(52, 180, 74, 0.5); }
+  50%, 100% { color: #1a6b35; border-color: rgba(78, 207, 116, 0.5); }
 }
 @media (prefers-reduced-motion: reduce) {
   .am-note { animation: none; opacity: 1; transform: none; }
-  .am-t1 .am-box, .am-t2 .am-box { animation: none; color: #7ed492; border-color: rgba(52, 180, 74, 0.5); }
+  .am-t1 .am-box, .am-t2 .am-box { animation: none; color: #1a6b35; border-color: rgba(78, 207, 116, 0.5); }
 }
 
-/* Detachable preview card: the PDF window pops out of the app frame and
-   drifts right, leaving a dashed ghost behind. 8s cycle. */
-.pv-win { animation: pv-win 8s ease-in-out infinite; }
+/* Detachable preview: PDF slides from the dashed pane into the reserved
+   right dock. Travel = gap(8) + dock inset ≈ 70px; dock is 56px so the
+   window lands fully inside the reserved slot (no card crop). */
+.pv-win { animation: pv-win 8s ease-in-out infinite; transform-origin: center center; will-change: transform; }
 .pv-ghost { opacity: 0; animation: pv-ghost 8s ease-in-out infinite; }
-.pv-badge { opacity: 0; animation: pv-badge 8s ease-in-out infinite; }
 @keyframes pv-win {
-  0%, 18% { transform: translate(-8px, -4px) scale(0.9); box-shadow: none; }
-  32%, 88% { transform: translate(26px, 2px) scale(1.06); }
-  96%, 100% { transform: translate(-8px, -4px) scale(0.9); box-shadow: none; }
+  0%, 18% { transform: translate(0, 2px) scale(0.94); }
+  32%, 88% { transform: translate(72px, -6px) scale(1.02); }
+  96%, 100% { transform: translate(0, 2px) scale(0.94); }
 }
 @keyframes pv-ghost {
   0%, 22% { opacity: 0; }
   34%, 88% { opacity: 1; }
   96%, 100% { opacity: 0; }
 }
-@keyframes pv-badge {
-  0%, 36% { opacity: 0; transform: translateY(3px); }
-  44%, 88% { opacity: 1; transform: translateY(0); }
-  96%, 100% { opacity: 0; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .pv-win { animation: none; transform: translate(26px, 2px); }
-  .pv-ghost, .pv-badge { animation: none; opacity: 1; transform: none; }
+  .pv-win { animation: none; transform: translate(72px, -6px) scale(1.02); }
+  .pv-ghost { animation: none; opacity: 1; }
 }
 
-/* Make-it-yours card: `:wq` types in the statusline; accent dots pulse in
-   sequence. */
+/* ── Import card (comic): pdf → tex, traveling bead, local ✓ ── */
+.im-src { animation: im-src 7s ease-in-out infinite; transform-origin: center; }
+.im-dot { left: 0; animation: im-dot 7s ease-in-out infinite; }
+.im-arrow { animation: im-arrow 7s ease-in-out infinite; }
+.im-out { animation: im-out 7s ease-in-out infinite; transform-origin: center; }
+.im-badge { animation: im-badge 7s ease-in-out infinite; transform-origin: center; }
+@keyframes im-src {
+  0%, 6% { transform: scale(0.92); opacity: 0.7; }
+  12%, 78% { transform: scale(1); opacity: 1; }
+  88%, 100% { transform: scale(0.92); opacity: 0.7; }
+}
+@keyframes im-dot {
+  0%, 10% { left: 0; opacity: 0; transform: translateY(-50%) scale(0.6); }
+  16% { opacity: 1; transform: translateY(-50%) scale(1); }
+  38% { left: calc(100% - 10px); opacity: 1; transform: translateY(-50%) scale(1); }
+  46%, 100% { left: calc(100% - 10px); opacity: 0; transform: translateY(-50%) scale(0.6); }
+}
+@keyframes im-arrow {
+  0%, 34% { opacity: 0.35; transform: translateY(-50%) translateX(0); }
+  40%, 78% { opacity: 1; transform: translateY(-50%) translateX(1px); }
+  88%, 100% { opacity: 0.35; transform: translateY(-50%) translateX(0); }
+}
+@keyframes im-out {
+  0%, 34% { opacity: 0.35; transform: scale(0.9); filter: saturate(0.4); }
+  42% { opacity: 1; transform: scale(1.08); filter: saturate(1); }
+  50%, 78% { opacity: 1; transform: scale(1); filter: saturate(1); }
+  88%, 100% { opacity: 0.35; transform: scale(0.9); filter: saturate(0.4); }
+}
+@keyframes im-badge {
+  0%, 48% { opacity: 0; transform: translateY(6px) scale(0.85); }
+  56% { opacity: 1; transform: translateY(-2px) scale(1.08); }
+  64%, 82% { opacity: 1; transform: translateY(0) scale(1); }
+  92%, 100% { opacity: 0; transform: translateY(4px) scale(0.9); }
+}
+
+/* ── Export card (comic): chips light up one-by-one ── */
+.ex-src { animation: ex-src 7.5s ease-in-out infinite; transform-origin: center; }
+.ex-arrow { animation: ex-arrow 7.5s ease-in-out infinite; }
+.ex-c1, .ex-c2, .ex-c3 {
+  animation-duration: 7.5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-origin: left center;
+}
+.ex-c1 { animation-name: ex-c1; }
+.ex-c2 { animation-name: ex-c2; }
+.ex-c3 { animation-name: ex-c3; }
+@keyframes ex-src {
+  0%, 8% { transform: scale(0.94); }
+  14%, 86% { transform: scale(1); }
+  94%, 100% { transform: scale(0.94); }
+}
+@keyframes ex-arrow {
+  0%, 12% { opacity: 0.3; transform: translateX(-2px); }
+  20%, 86% { opacity: 1; transform: translateX(0); }
+  94%, 100% { opacity: 0.3; transform: translateX(-2px); }
+}
+@keyframes ex-c1 {
+  0%, 16% {
+    opacity: 0.4; transform: translateX(-4px) scale(0.94);
+    background: #fff9ed; color: #6b5f50;
+  }
+  22% { opacity: 1; transform: translateX(0) scale(1.06); background: #ffd0c8; color: #2a2218; }
+  30%, 86% { opacity: 1; transform: translateX(0) scale(1); background: #ffd0c8; color: #2a2218; }
+  94%, 100% { opacity: 0.4; transform: translateX(-4px) scale(0.94); background: #fff9ed; color: #6b5f50; }
+}
+@keyframes ex-c2 {
+  0%, 30% {
+    opacity: 0.4; transform: translateX(-4px) scale(0.94);
+    background: #fff9ed; color: #6b5f50;
+  }
+  36% { opacity: 1; transform: translateX(0) scale(1.06); background: #cce6ff; color: #1a4a7a; }
+  44%, 86% { opacity: 1; transform: translateX(0) scale(1); background: #cce6ff; color: #1a4a7a; }
+  94%, 100% { opacity: 0.4; transform: translateX(-4px) scale(0.94); background: #fff9ed; color: #6b5f50; }
+}
+@keyframes ex-c3 {
+  0%, 44% {
+    opacity: 0.4; transform: translateX(-4px) scale(0.94);
+    background: #fff9ed; color: #6b5f50;
+  }
+  50% { opacity: 1; transform: translateX(0) scale(1.06); background: #c8f5d8; color: #1f8a45; }
+  58%, 86% { opacity: 1; transform: translateX(0) scale(1); background: #c8f5d8; color: #1f8a45; }
+  94%, 100% { opacity: 0.4; transform: translateX(-4px) scale(0.94); background: #fff9ed; color: #6b5f50; }
+}
+
+/* ── Make-it-yours card: comic statusline + accent swatches ── */
+.my-bar { animation: my-bar 7s ease-in-out infinite; transform-origin: left center; }
+.my-mode { animation: my-mode 7s ease-in-out infinite; }
 .my-type {
   width: 0;
-  animation: my-type 6s steps(3, end) infinite;
+  animation: my-type 7s steps(3, end) infinite;
+}
+.my-label { animation: my-label 7s ease-in-out infinite; }
+.my-d1 { animation: my-dot 7s ease-in-out infinite; }
+.my-d2 { animation: my-dot 7s ease-in-out 0.18s infinite; }
+.my-d3 { animation: my-dot 7s ease-in-out 0.36s infinite; }
+.my-d4 { animation: my-dot 7s ease-in-out 0.54s infinite; }
+.my-d5 { animation: my-dot 7s ease-in-out 0.72s infinite; }
+@keyframes my-bar {
+  0%, 6% { transform: translateY(3px) scale(0.97); opacity: 0.75; }
+  12%, 88% { transform: none; opacity: 1; }
+  96%, 100% { transform: translateY(3px) scale(0.97); opacity: 0.75; }
+}
+@keyframes my-mode {
+  0%, 18% { opacity: 1; }
+  24%, 68% { opacity: 0.55; }
+  76%, 100% { opacity: 1; }
 }
 @keyframes my-type {
   0%, 18% { width: 0; }
-  34%, 88% { width: 3ch; }
-  94%, 100% { width: 0; }
+  32%, 70% { width: 3ch; }
+  82%, 100% { width: 0; }
 }
-.my-d1 { animation: my-dot 6s ease-in-out infinite; }
-.my-d2 { animation: my-dot 6s ease-in-out 0.25s infinite; }
-.my-d3 { animation: my-dot 6s ease-in-out 0.5s infinite; }
-.my-d4 { animation: my-dot 6s ease-in-out 0.75s infinite; }
-.my-d5 { animation: my-dot 6s ease-in-out 1s infinite; }
 @keyframes my-dot {
-  0%, 55% { transform: scale(1); }
-  60% { transform: scale(1.35); }
-  65%, 100% { transform: scale(1); }
+  0%, 48% { transform: scale(1); box-shadow: 1.5px 1.5px 0 #2a2218; }
+  54% { transform: scale(1.35); box-shadow: 2.5px 2.5px 0 #2a2218; }
+  62%, 100% { transform: scale(1); box-shadow: 1.5px 1.5px 0 #2a2218; }
 }
+@keyframes my-label {
+  0%, 20% { opacity: 0.45; letter-spacing: 0.08em; }
+  36%, 80% { opacity: 1; letter-spacing: 0.14em; }
+  92%, 100% { opacity: 0.45; letter-spacing: 0.08em; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .my-type { animation: none; width: 3ch; }
-  .my-d1, .my-d2, .my-d3, .my-d4, .my-d5 { animation: none; }
+  .im-src, .im-dot, .im-arrow, .im-out, .im-badge,
+  .ex-src, .ex-arrow, .ex-c1, .ex-c2, .ex-c3,
+  .my-bar, .my-mode, .my-type, .my-label,
+  .my-d1, .my-d2, .my-d3, .my-d4, .my-d5 {
+    animation: none !important;
+  }
+  .im-src, .im-out, .im-badge, .ex-src, .ex-c1, .ex-c2, .ex-c3, .my-bar, .my-mode {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .im-dot { left: calc(100% - 10px); opacity: 1; transform: translateY(-50%); }
+  .im-arrow, .ex-arrow { opacity: 1; }
+  .my-type { width: 3ch; }
+  .ex-c1 { background: #ffd0c8; color: #2a2218; }
+  .ex-c2 { background: #cce6ff; color: #1a4a7a; }
+  .ex-c3 { background: #c8f5d8; color: #1f8a45; }
+}
+
+/* Mobile: slower infinite loops = less main-thread churn while scrolling */
+@media (max-width: 640px) {
+  .dc-n1, .dc-n2, .dc-n3, .dc-out, .dc-badge,
+  .dc-a1, .dc-a2, .dc-c1, .dc-c2, .dc-t1, .dc-t2, .dc-t3, .dc-t4,
+  .st-hl-a, .st-hl-b, .st-cursor,
+  .im-src, .im-dot, .im-arrow, .im-out, .im-badge,
+  .ex-src, .ex-arrow, .ex-c1, .ex-c2, .ex-c3,
+  .eng-t1, .eng-t2, .eng-t3, .eng-line, .eng-dot,
+  .ve-toggle, .ve-knob, .ve-code, .ve-prose, .ve-badge,
+  .zl-f1, .zl-f2, .zl-f3, .zl-f4, .zl-merge, .zl-badge,
+  .pv-win, .pv-ghost,
+  .sl-type, .sl-menu, .sl-i1,
+  .cp-panel, .cp-type, .cp-r, .cp-r1 {
+    animation-duration: 12s !important;
+  }
 }
