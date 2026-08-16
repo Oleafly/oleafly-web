@@ -5,6 +5,7 @@ import ToolBackNav from "../components/tools/ToolBackNav.astro";
 import "../styles/tools.css";
 import { DEFAULT_LOCALE, type Locale } from "../i18n/locales";
 import { localePath } from "../i18n/paths";
+import ToolCta from "../components/tools/ToolCta.astro";
 
 interface Props {
   locale?: Locale;
@@ -57,4 +58,6 @@ const lp = (path: string) => localePath(locale, path);
       </p>
     </div>
   </section>
+<ToolCta title="This page approximates. The app compiles." body="The browser preview runs KaTeX. Oleafly runs real Tectonic and Typst compiles with the math actually built, errors pointed at the source line, and SyncTeX jumping from any word in the PDF back to your file." locale={locale} />
+
 </SiteLayout>

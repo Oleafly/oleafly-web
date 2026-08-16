@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { cn } from "@/lib/utils";
 
 interface AnimatedCircularProgressBarProps {
@@ -19,7 +21,32 @@ export function AnimatedCircularProgressBar({
 }: AnimatedCircularProgressBarProps) {
   const circumference = 2 * Math.PI * 45;
   const percentPx = circumference / 100;
-  const currentPercent = Math.round(((value - min) / (max - min)) * 100);
+  const targetPercent = Math.round(((value - min) / (max - min)) * 100);
+
+  // Animate from 0 on mount: the registry version renders the final dash
+  // array immediately, so its CSS transitions never fire.
+  const [progress, setProgress] = React.useState(0);
+
+  React.useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      setProgress(targetPercent);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const duration = 1100;
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setProgress(targetPercent * eased);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [targetPercent]);
+
+  const currentPercent = Math.round(progress);
 
   return (
     <div

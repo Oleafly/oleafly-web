@@ -11,9 +11,11 @@ const starlightLocales = {
   "pt-br": { label: "Português", lang: "pt-BR" },
   fr: { label: "Français", lang: "fr" },
   de: { label: "Deutsch", lang: "de" },
-  it: { label: "Italiano", lang: "it" },
-  nl: { label: "Nederlands", lang: "nl" },
-  pl: { label: "Polski", lang: "pl" },
+  // it / nl / pl hidden for now — keep in sync with HIDDEN_LOCALES
+  // in src/i18n/locales.ts. Remove a code there to restore it here.
+  // it: { label: "Italiano", lang: "it" },
+  // nl: { label: "Nederlands", lang: "nl" },
+  // pl: { label: "Polski", lang: "pl" },
   ru: { label: "Русский", lang: "ru" },
   uk: { label: "Українська", lang: "uk" },
   tr: { label: "Türkçe", lang: "tr" },

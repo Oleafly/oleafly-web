@@ -25,6 +25,8 @@
   --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
   --animate-meteor: meteor 5s linear infinite;
   --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
+  --animate-shine: shine var(--duration) infinite linear;
+  --animate-blink: blink 1.1s steps(2, start) infinite;
 
   /* minimal shadcn-style tokens some vendored components reference */
   --color-muted: rgba(255, 255, 255, 0.06);
@@ -45,6 +47,22 @@
     }
     to {
       transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes blink {
+    to {
+      visibility: hidden;
+    }
+  }
+  @keyframes shine {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
     }
   }
   @keyframes shiny-text {
@@ -799,4 +817,23 @@ div.st-hl-b.rounded-full {
 @media (prefers-reduced-motion: reduce) {
   .my-type { animation: none; width: 3ch; }
   .my-d1, .my-d2, .my-d3, .my-d4, .my-d5 { animation: none; }
+}
+
+
+/* Oleafly quill-leaf cursor (landing page only). PNG data URI because
+   Safari does not support SVG cursors. Mirrored so the nib is the hotspot. */
+.leaf-cursor {
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAACXBIWXMAAC4jAAAuIwF4pT92AAABlUlEQVR4nOXWzytEURQH8OtHyo+S/AOS1ZSf5zwUNQu/3jmPYjFlJcXfIAulrC2UlayUjbdQ884ZYhaTtZUFW0WykbIRitEMoVG8570n5Vt3/emcczv3GvOvgp5tofA6Ki+D8oIlzkTP7khTbGAyl6xEoRNUzn88IHSJyqvg2f2Ro6DslIIl+EHkMCrlvkKLsPImZAfrIwG7xWlHpftvUeHzzrTdFgkKQnPfgS+Hrrt27N7wYt6UofKGHxSUrjrTwy2hzZSbqgChLV+VCp207Q3VhgItzx4A4VN/rS1epJVQICof+cVe5/nYpQ78GATlmWAg51F4P9QMg1fJechQ349RS7kDhe8CttY1YYLiTBbmE6CtD9b2eGMoFISmglRqKU+bsClsFBA+9rkM0iaKJNxUFWRoFoQPUfjpC/A24SbrTJRpVafBUrZReQmUzz7BGSITV3rdVHXhkS5Bl0zcAaW1D23Nxg96ozWodPH6Xt6YxcXy+FHl+fe2Os2xgz27I01voGePmd8IFr+b5BY+Zb8C/pk8AweG52OOlsTeAAAAAElFTkSuQmCC") 2 2, default;
+}
+.leaf-cursor a,
+.leaf-cursor button,
+.leaf-cursor [role="button"],
+.leaf-cursor summary,
+.leaf-cursor label {
+  cursor: pointer;
+}
+.leaf-cursor input,
+.leaf-cursor textarea,
+.leaf-cursor [contenteditable="true"] {
+  cursor: text;
 }

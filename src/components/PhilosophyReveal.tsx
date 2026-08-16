@@ -6,7 +6,7 @@
 import { TextReveal } from "@/components/magicui/text-reveal";
 
 const COPY =
-  "Your thesis shouldn't need a subscription. Your writing shouldn't stop when the Wi-Fi does. Your references shouldn't live only on someone else's servers. Your files belong to you.";
+  "Your thesis shouldn't need five subscriptions. Your AI shouldn't guess at edits it never checked. Your references shouldn't take an afternoon. Your first PDF shouldn't wait in a build queue. Your tools shouldn't cost more than your research. One free app. All of it.";
 
 export function PhilosophyReveal() {
   return <TextReveal>{COPY}</TextReveal>;

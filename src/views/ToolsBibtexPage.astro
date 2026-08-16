@@ -5,6 +5,7 @@ import ToolBackNav from "../components/tools/ToolBackNav.astro";
 import "../styles/tools.css";
 import { DEFAULT_LOCALE, type Locale } from "../i18n/locales";
 import { localePath } from "../i18n/paths";
+import ToolCta from "../components/tools/ToolCta.astro";
 
 interface Props {
   locale?: Locale;
@@ -67,4 +68,6 @@ const lp = (path: string) => localePath(locale, path);
       </p>
     </div>
   </section>
+<ToolCta title="Validate here, then let the app keep it that way." body="Oleafly checks your .bib on every compile, dedupes entries against the project, and can fetch a correct entry from a DOI, an arXiv id, or a plain title. No pasting, no [?] in the PDF." locale={locale} />
+
 </SiteLayout>

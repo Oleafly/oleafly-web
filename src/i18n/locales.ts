@@ -5,7 +5,7 @@
 export const DEFAULT_LOCALE = "en" as const;
 
 /** Order = language switcher order. English first, then major markets (CN/JA/KO), then others. */
-export const LOCALES = [
+const ALL_LOCALES = [
   "en",
   "zh-cn",
   "zh-tw",
@@ -26,7 +26,20 @@ export const LOCALES = [
   "vi",
 ] as const;
 
-export type Locale = (typeof LOCALES)[number];
+export type Locale = (typeof ALL_LOCALES)[number];
+
+/**
+ * Locales temporarily hidden from the published site: no URL routes, no
+ * language-switcher entries, no hreflang alternates, no browser-language
+ * matching. Content and UI translations stay on disk untouched — delete a
+ * code from this list to bring the locale back.
+ */
+export const HIDDEN_LOCALES: readonly Locale[] = ["it", "nl", "pl"];
+
+/** Locales the site actually serves and links to (ALL_LOCALES minus hidden). */
+export const LOCALES: readonly Locale[] = ALL_LOCALES.filter(
+  (code) => !HIDDEN_LOCALES.includes(code),
+);
 
 export type LocaleMeta = {
   /** BCP-47 / HTML lang */

@@ -5,6 +5,7 @@ import ToolBackNav from "../components/tools/ToolBackNav.astro";
 import "../styles/tools.css";
 import { DEFAULT_LOCALE, type Locale } from "../i18n/locales";
 import { localePath } from "../i18n/paths";
+import ToolCta from "../components/tools/ToolCta.astro";
 
 interface Props {
   locale?: Locale;
@@ -56,4 +57,6 @@ const lp = (path: string) => localePath(locale, path);
       </p>
     </div>
   </section>
+<ToolCta title="Found the labs. Now write the thing that gets you in." body="Cover letters, research statements, and the paper itself are plain files with real Git history in Oleafly. Fork your application per lab, tailor it with AI, and keep every version." locale={locale} />
+
 </SiteLayout>

@@ -6,7 +6,7 @@ import {
   flagImageUrl,
   type Locale,
 } from "../i18n/locales";
-import { localePath, parseLocalePath } from "../i18n/paths";
+import { localePath, localeShortCode, parseLocalePath } from "../i18n/paths";
 import { t } from "../i18n/t";
 
 interface Props {
@@ -49,6 +49,7 @@ const className = Astro.props.class ?? "";
       aria-hidden="true"
     />
     <span class="lang-switcher-label">{current.nativeLabel}</span>
+    <span class="lang-switcher-short">{localeShortCode(currentLocale)}</span>
     <svg
       class="lang-switcher-caret"
       width="12"
@@ -191,6 +192,17 @@ const className = Astro.props.class ?? "";
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .lang-switcher-short {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .lang-switcher-label {
+      display: none;
+    }
+    .lang-switcher-short {
+      display: inline;
+    }
   }
   .lang-switcher-caret {
     opacity: 0.6;

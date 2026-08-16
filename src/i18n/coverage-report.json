@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-01T12:31:01.799Z",
+  "generatedAt": "2026-08-16T11:02:15.560Z",
   "enUiKeys": 481,
   "enLearn": 139,
   "enBlog": 19,
-  "locales": 18,
+  "locales": 15,
   "switcherIncludesChinese": true,
   "byLocale": {
     "zh-cn": {
@@ -312,108 +312,6 @@
       },
       "composite": 100
     },
-    "it": {
-      "ui": {
-        "total": 481,
-        "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
-      },
-      "learn": {
-        "files": 139,
-        "expected": 139,
-        "metaTranslated": 139,
-        "bodyTranslated": 139,
-        "metaPct": 100,
-        "bodyPct": 100
-      },
-      "blog": {
-        "files": 19,
-        "expected": 19,
-        "metaTranslated": 19,
-        "bodyTranslated": 19,
-        "metaPct": 100,
-        "bodyPct": 100
-      },
-      "templates": {
-        "packs": 11,
-        "templates": 107,
-        "expectedPacks": 11,
-        "expectedTemplates": 107,
-        "packPct": 100,
-        "templatePct": 100
-      },
-      "composite": 100
-    },
-    "nl": {
-      "ui": {
-        "total": 481,
-        "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
-      },
-      "learn": {
-        "files": 139,
-        "expected": 139,
-        "metaTranslated": 139,
-        "bodyTranslated": 139,
-        "metaPct": 100,
-        "bodyPct": 100
-      },
-      "blog": {
-        "files": 19,
-        "expected": 19,
-        "metaTranslated": 19,
-        "bodyTranslated": 19,
-        "metaPct": 100,
-        "bodyPct": 100
-      },
-      "templates": {
-        "packs": 11,
-        "templates": 107,
-        "expectedPacks": 11,
-        "expectedTemplates": 107,
-        "packPct": 100,
-        "templatePct": 100
-      },
-      "composite": 100
-    },
-    "pl": {
-      "ui": {
-        "total": 481,
-        "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
-      },
-      "learn": {
-        "files": 139,
-        "expected": 139,
-        "metaTranslated": 139,
-        "bodyTranslated": 139,
-        "metaPct": 100,
-        "bodyPct": 100
-      },
-      "blog": {
-        "files": 19,
-        "expected": 19,
-        "metaTranslated": 19,
-        "bodyTranslated": 19,
-        "metaPct": 100,
-        "bodyPct": 100
-      },
-      "templates": {
-        "packs": 11,
-        "templates": 107,
-        "expectedPacks": 11,
-        "expectedTemplates": 107,
-        "packPct": 100,
-        "templatePct": 100
-      },
-      "composite": 100
-    },
     "ru": {
       "ui": {
         "total": 481,
@@ -595,9 +493,6 @@
     "fr",
     "de",
     "hi",
-    "it",
-    "nl",
-    "pl",
     "ru",
     "uk",
     "tr",

@@ -9,9 +9,9 @@ Open it from the shield icon in the left rail. The panel opens instantly, pre-se
 
 ![Preflight scoring a resume for ATS readiness](https://cdn.oleafly.com/images/screenshots/desktop/preflight-ats.png)
 
-## Two scores
+## Three scores
 
-At the top: **ATS readiness** and **Accessibility**, each out of 100, computed from the checks below. They move as you fix things, which turns cleanup into a satisfying loop.
+At the top: **ATS readiness**, **Accessibility**, and **References & assets**, each out of 100, computed from the checks below. They move as you fix things, which turns cleanup into a satisfying loop.
 
 ## Source checks
 

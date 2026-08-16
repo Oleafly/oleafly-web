@@ -17,11 +17,13 @@ import { Marquee } from "../components/magicui/marquee";
 import { DotPattern } from "../components/magicui/dot-pattern";
 import { AnimatedShinyText } from "../components/magicui/animated-shiny-text";
 import { BorderBeam } from "../components/magicui/border-beam";
+import { ShineBorder } from "../components/magicui/shine-border";
 import { RainbowLink } from "../components/RainbowLink";
 import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
 import Analytics from "../components/Analytics.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import LanguageSwitcher from "../components/LanguageSwitcher.astro";
+import GithubStar from "../components/GithubStar.astro";
 import LocalePreference from "../components/LocalePreference.astro";
 import { WordRotate } from "../components/magicui/word-rotate";
 import { Highlighter } from "../components/magicui/highlighter";
@@ -33,6 +35,8 @@ import { ScrollProgress } from "../components/magicui/scroll-progress";
 import { GridPattern } from "../components/magicui/grid-pattern";
 import { ProjectFileTree } from "../components/ProjectFileTree";
 import { BentoSection } from "../components/BentoSection";
+import { LandingCards } from "../components/landing/LandingCards";
+import { LandingFaq } from "../components/landing/LandingFaq";
 import { VelocityStrip } from "../components/VelocityStrip";
 import { PhilosophyReveal } from "../components/PhilosophyReveal";
 import CodeComparison from "../components/CodeComparison.astro";
@@ -59,6 +63,33 @@ const heroPreload = await getImage({
 
 const GITHUB = "https://github.com/Oleafly/Oleafly";
 const RELEASES = `${GITHUB}/releases/latest`;
+const likeCodeLine = t(locale, "landing.h1.likeCode");
+const tenxMatch = /^10x\s+(.*)$/.exec(likeCodeLine);
+
+const oneStopCards = [
+  { name: t(locale, "landing.oneshop.c1t"), desc: t(locale, "landing.oneshop.c1d"), visual: "latex" },
+  { name: t(locale, "landing.oneshop.c2t"), desc: t(locale, "landing.oneshop.c2d"), visual: "agent" },
+  { name: t(locale, "landing.oneshop.c3t"), desc: t(locale, "landing.oneshop.c3d"), visual: "refs" },
+  { name: t(locale, "landing.oneshop.c4t"), desc: t(locale, "landing.oneshop.c4d"), visual: "resume" },
+  { name: t(locale, "landing.oneshop.c5t"), desc: t(locale, "landing.oneshop.c5d"), visual: "git" },
+  { name: t(locale, "landing.oneshop.c6t"), desc: t(locale, "landing.oneshop.c6d"), visual: "pdf" },
+];
+const roadmapCards = [
+  { name: t(locale, "landing.roadmap.r1t"), desc: t(locale, "landing.roadmap.r1d"), badge: "Coming soon" },
+  { name: t(locale, "landing.roadmap.r2t"), desc: t(locale, "landing.roadmap.r2d"), badge: "Coming soon" },
+  { name: t(locale, "landing.roadmap.r3t"), desc: t(locale, "landing.roadmap.r3d"), badge: "Coming soon" },
+  { name: t(locale, "landing.roadmap.r4t"), desc: t(locale, "landing.roadmap.r4d"), badge: "Coming soon" },
+];
+const faqItems = [
+  { q: t(locale, "landing.faq.q1"), a: t(locale, "landing.faq.a1") },
+  { q: t(locale, "landing.faq.q2"), a: t(locale, "landing.faq.a2") },
+  { q: t(locale, "landing.faq.q3"), a: t(locale, "landing.faq.a3") },
+  { q: t(locale, "landing.faq.q4"), a: t(locale, "landing.faq.a4") },
+  { q: t(locale, "landing.faq.q5"), a: t(locale, "landing.faq.a5") },
+  { q: t(locale, "landing.faq.q6"), a: t(locale, "landing.faq.a6") },
+  { q: t(locale, "landing.faq.q7"), a: t(locale, "landing.faq.a7") },
+  { q: t(locale, "landing.faq.q8"), a: t(locale, "landing.faq.a8") },
+];
 
 // The craft/test-counts section is parked for now; flip to true to restore it.
 const SHOW_CRAFT = true;
@@ -265,7 +296,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Oleafly" />
-    <meta property="og:title" content="Oleafly: Write LaTeX like you write code" />
+    <meta property="og:title" content="Oleafly: Write research papers 10x faster, in one free app" />
     <meta property="og:description" content={description} />
     <meta property="og:url" content="https://oleafly.com/" />
     <meta property="og:image" content="https://oleafly.com/og.png" />
@@ -292,7 +323,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
     <Analytics />
     </head>
 
-  <body>
+  <body class="leaf-cursor">
     <LocalePreference />
     <a class="skip" href="#main">{t(locale, "nav.skip")}</a>
     <ScrollProgress client:idle className="h-[2px]" />
@@ -309,7 +340,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         </a>
         <nav class="nav-links" aria-label={t(locale, "nav.main")}>
           <a href="#features">{t(locale, "nav.features")}</a>
-          <a href="#compare">{t(locale, "landing.compare")}</a>
           <a href={lp("/learn/")}>{t(locale, "nav.learn")}</a>
           <a href={lp("/templates/")}>{t(locale, "nav.templates")}</a>
           <a href={lp("/blog/")}>{t(locale, "nav.blog")}</a>
@@ -320,14 +350,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         </nav>
         <div class="nav-cta">
           <LanguageSwitcher locale={locale} path="/" />
-          <a class="btn btn-ghost btn-sm stars" href={GITHUB} target="_blank" rel="noopener noreferrer">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-              <path
-                d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
-              ></path>
-            </svg>
-            <span>{t(locale, "landing.starGithub")}</span><span class="stars-count" id="stars-count"></span>
-          </a>
+          <GithubStar />
           <button class="nav-burger" id="nav-burger" type="button" aria-label={t(locale, "nav.openMenu")} aria-expanded="false" aria-controls="nav">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
           </button>
@@ -342,8 +365,8 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         <DotPattern
           width={24}
           height={24}
-          cr={1}
-          className="fill-white/[0.12] [mask-image:radial-gradient(85%_60%_at_50%_18%,white,transparent)]"
+          cr={1.6}
+          className="fill-white/[0.28] [mask-image:radial-gradient(90%_70%_at_50%_16%,white,transparent)]"
         />
         <div class="container">
           <a class="pill no-ext-icon" href={GITHUB} target="_blank" rel="noopener noreferrer">
@@ -385,7 +408,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
                 />
               </span>
             </span>
-            <span class="h1-line">{t(locale, "landing.h1.likeCode")}</span>
+            <span class="h1-line">{tenxMatch ? <span><span class="h1-tenx">10x</span> {tenxMatch[1]}</span> : likeCodeLine}</span>
           </h1>
           <p class="lede">
             {t(locale, "landing.lede")}
@@ -435,106 +458,74 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         </div>
       </section>
 
-      <!-- =========================== Bento =========================== -->
+      <!-- =========================== Bento + one stop shop =========================== -->
       <section class="section" id="features">
         <div class="container">
           <p class="eyebrow">{t(locale, "landing.features.eyebrow")}</p>
           <h2>{t(locale, "landing.features.h2")}</h2>
+          <p class="sub">{t(locale, "landing.oneshop.sub")}</p>
           <BentoSection client:visible={{rootMargin: "200px"}} cards={bentoCards} />
+          <LandingCards client:visible={{ rootMargin: "200px" }} cards={oneStopCards} columns={3} />
+        </div>
+      </section>
+
+      <!-- ========================= The research loop ========================= -->
+      <section class="section howitworks" id="how">
+        <div class="container">
+          <p class="eyebrow">{t(locale, "landing.loop.eyebrow")}</p>
+          <h2>{t(locale, "landing.loop.h2")}</h2>
+          <p class="sub">{t(locale, "landing.loop.sub")}</p>
+          <ol class="loop-grid">
+            <li class="loop-step">
+              <div class="loop-vis" aria-hidden="true">
+                <span class="lv-chip lvr-doi">doi:10.1145/3576915</span>
+                <span class="lv-chip lv-ok lvr-bib">@article{"{"}gatto24{"}"} ✓</span>
+              </div>
+              <div class="loop-head">
+                <span class="loop-num">1</span>
+                <h3>{t(locale, "landing.loop.r")}</h3>
+              </div>
+              <p>{t(locale, "landing.loop.rBody")}</p>
+            </li>
+            <li class="loop-step">
+              <div class="loop-vis" aria-hidden="true">
+                <span class="lvw-line"><span class="lvw-type">\section{"{"}Results{"}"}</span></span>
+              </div>
+              <div class="loop-head">
+                <span class="loop-num">2</span>
+                <h3>{t(locale, "landing.loop.w")}</h3>
+              </div>
+              <p>{t(locale, "landing.loop.wBody")}</p>
+            </li>
+            <li class="loop-step">
+              <div class="loop-vis loop-vis-col" aria-hidden="true">
+                <span class="lvv-bar"><span class="lvv-fill"></span></span>
+                <span class="lv-chip lv-ok lvv-ok">compiled · 0 errors ✓</span>
+              </div>
+              <div class="loop-head">
+                <span class="loop-num">3</span>
+                <h3>{t(locale, "landing.loop.v")}</h3>
+              </div>
+              <p>{t(locale, "landing.loop.vBody")}</p>
+            </li>
+            <li class="loop-step">
+              <div class="loop-vis" aria-hidden="true">
+                <span class="lv-chip lvp-1">PDF</span>
+                <span class="lv-chip lvp-2">arXiv</span>
+                <span class="lv-chip lvp-3">GitHub ↑</span>
+              </div>
+              <div class="loop-head">
+                <span class="loop-num">4</span>
+                <h3>{t(locale, "landing.loop.p")}</h3>
+              </div>
+              <p>{t(locale, "landing.loop.pBody")}</p>
+            </li>
+          </ol>
         </div>
       </section>
 
       <!-- ============== Feature stack: sticky 3D card deck ============== -->
       <div class="stack">
-      <!-- ========================= Library ========================= -->
-      <section class="stack-card" id="library">
-        <div class="container">
-          <p class="eyebrow">{t(locale, "landing.library.eyebrow")}</p>
-          <h2>{t(locale, "landing.library.h2")}</h2>
-          <p class="sub">{t(locale, "landing.library.sub")}</p>
-          <div class="shelf-wrap" role="img" aria-label="A shelf of project covers: thesis, IEEE paper, a bookmarked resume, a Typst paper, a Beamer deck, and a fork of the resume, each with its own cover color and engine badge">
-            <div class="shelf">
-              <div class="book book-lilac">
-                <span class="book-title">thesis</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
-                  <span class="bp-line bp-w60"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w80"></span>
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </span>
-              </div>
-              <div class="book book-blue">
-                <span class="book-title">ieee-paper</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
-                  <span class="bp-line bp-w80"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w70"></span>
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </span>
-              </div>
-              <div class="book book-spring">
-                <span class="book-star" aria-hidden="true">★</span>
-                <span class="book-title">resume</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
-                  <span class="bp-line bp-w60"></span>
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w75"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </span>
-              </div>
-              <div class="book book-aqua">
-                <span class="book-title">paper</span>
-                <span class="book-badge">Typst</span>
-                <span class="book-preview" aria-hidden="true">
-                  <span class="bp-line bp-w70"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w80"></span>
-                  <span class="bp-line bp-w60"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </span>
-              </div>
-              <div class="book book-peach">
-                <span class="book-title">beamer-deck</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-line bp-w65"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w70"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </span>
-              </div>
-              <div class="book book-rose">
-                <span class="book-fork" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path></svg>
-                </span>
-                <span class="book-title">backend-swe</span>
-                <span class="book-badge">TeX</span>
-                <span class="book-preview" aria-hidden="true">
-                  <span class="bp-line bp-w60"></span>
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w75"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </span>
-              </div>
-            </div>
-            <div class="shelf-edge" aria-hidden="true"></div>
-          </div>
-          <ul class="ticks ticks-row">
-            <li>{t(locale, "landing.library.t1")}</li>
-            <li>{t(locale, "landing.library.t2")}</li>
-            <li>{t(locale, "landing.library.t3")}</li>
-            <li>{t(locale, "landing.library.t4")}</li>
-          </ul>
-        </div>
-      </section>
       <!-- ========================= Templates ========================= -->
       <section class="stack-card" id="templates">
         <div class="container">
@@ -576,6 +567,107 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         </div>
       </section>
 
+      <!-- ========================= Library ========================= -->
+      <section class="stack-card" id="library">
+        <div class="container">
+          <p class="eyebrow">{t(locale, "landing.library.eyebrow")}</p>
+          <h2>{t(locale, "landing.library.h2")}</h2>
+          <p class="sub">{t(locale, "landing.library.sub")}</p>
+          <div class="shelf-wrap" role="img" aria-label="A shelf of project covers: thesis, IEEE paper, a bookmarked resume, a Typst paper, a Beamer deck, and a fork of the resume, each with its own cover color and engine badge">
+            <div class="shelf">
+              <div class="book book-lilac">
+                <div class="book-page" aria-hidden="true">
+                  <span class="bp-line bp-w60"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w80"></span>
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-cap">{compiledFirstPage}</span>
+                </div>
+                <div class="book-cover">
+                  <span class="book-title">thesis</span>
+                  <span class="book-badge">TeX</span>
+                </div>
+              </div>
+              <div class="book book-blue">
+                <div class="book-page" aria-hidden="true">
+                  <span class="bp-line bp-w80"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w70"></span>
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-cap">{compiledFirstPage}</span>
+                </div>
+                <div class="book-cover">
+                  <span class="book-title">ieee-paper</span>
+                  <span class="book-badge">TeX</span>
+                </div>
+              </div>
+              <div class="book book-spring">
+                <div class="book-page" aria-hidden="true">
+                  <span class="bp-line bp-w60"></span>
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w75"></span>
+                  <span class="bp-cap">{compiledFirstPage}</span>
+                </div>
+                <div class="book-cover">
+                  <span class="book-star" aria-hidden="true">★</span>
+                  <span class="book-title">resume</span>
+                  <span class="book-badge">TeX</span>
+                </div>
+              </div>
+              <div class="book book-aqua">
+                <div class="book-page" aria-hidden="true">
+                  <span class="bp-line bp-w70"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w80"></span>
+                  <span class="bp-line bp-w60"></span>
+                  <span class="bp-cap">{compiledFirstPage}</span>
+                </div>
+                <div class="book-cover">
+                  <span class="book-title">paper</span>
+                  <span class="book-badge">Typst</span>
+                </div>
+              </div>
+              <div class="book book-peach">
+                <div class="book-page" aria-hidden="true">
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-line bp-w65"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w70"></span>
+                  <span class="bp-cap">{compiledFirstPage}</span>
+                </div>
+                <div class="book-cover">
+                  <span class="book-title">beamer-deck</span>
+                  <span class="book-badge">TeX</span>
+                </div>
+              </div>
+              <div class="book book-rose">
+                <div class="book-page" aria-hidden="true">
+                  <span class="bp-line bp-w60"></span>
+                  <span class="bp-line bp-w85"></span>
+                  <span class="bp-line bp-w90"></span>
+                  <span class="bp-line bp-w75"></span>
+                  <span class="bp-cap">{compiledFirstPage}</span>
+                </div>
+                <div class="book-cover">
+                  <span class="book-fork" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path></svg>
+                  </span>
+                  <span class="book-title">backend-swe</span>
+                  <span class="book-badge">TeX</span>
+                </div>
+              </div>
+            </div>
+            <div class="shelf-edge" aria-hidden="true"></div>
+          </div>
+          <ul class="ticks ticks-row">
+            <li>{t(locale, "landing.library.t1")}</li>
+            <li>{t(locale, "landing.library.t2")}</li>
+            <li>{t(locale, "landing.library.t3")}</li>
+            <li>{t(locale, "landing.library.t4")}</li>
+          </ul>
+        </div>
+      </section>
       <!-- ============================ Git ============================ -->
       <section class="stack-card" id="git">
         <div class="container">
@@ -677,6 +769,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
               <div class="gauges">
                 <figure class="gauge">
                   <AnimatedCircularProgressBar
+                  client:visible
                     value={94}
                     gaugePrimaryColor="#2563eb"
                     gaugeSecondaryColor="rgba(37, 99, 235, 0.15)"
@@ -686,6 +779,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
                 </figure>
                 <figure class="gauge">
                   <AnimatedCircularProgressBar
+                  client:visible
                     value={91}
                     gaugePrimaryColor="#34b44a"
                     gaugeSecondaryColor="rgba(52, 180, 74, 0.15)"
@@ -695,6 +789,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
                 </figure>
                 <figure class="gauge">
                   <AnimatedCircularProgressBar
+                  client:visible
                     value={97}
                     gaugePrimaryColor="#f59e0b"
                     gaugeSecondaryColor="rgba(245, 158, 11, 0.15)"
@@ -874,53 +969,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         <PhilosophyReveal client:visible={{rootMargin: "200px"}} />
       </section>
 
-      <!-- ========================= The research loop ========================= -->
-      <section class="section howitworks" id="how">
-        <div class="container">
-          <p class="eyebrow">{t(locale, "landing.loop.eyebrow")}</p>
-          <h2>{t(locale, "landing.loop.h2")}</h2>
-          <p class="sub">{t(locale, "landing.loop.sub")}</p>
-          <ol class="loop-grid">
-            <li class="loop-step">
-              <span class="loop-num">1</span>
-              <div class="loop-vis" aria-hidden="true">
-                <span class="lv-chip lvr-doi">doi:10.1145/3576915</span>
-                <span class="lv-chip lv-ok lvr-bib">@article{"{"}gatto24{"}"} ✓</span>
-              </div>
-              <h3>{t(locale, "landing.loop.r")}</h3>
-              <p>{t(locale, "landing.loop.rBody")}</p>
-            </li>
-            <li class="loop-step">
-              <span class="loop-num">2</span>
-              <div class="loop-vis" aria-hidden="true">
-                <span class="lvw-line"><span class="lvw-type">\section{"{"}Results{"}"}</span></span>
-              </div>
-              <h3>{t(locale, "landing.loop.w")}</h3>
-              <p>{t(locale, "landing.loop.wBody")}</p>
-            </li>
-            <li class="loop-step">
-              <span class="loop-num">3</span>
-              <div class="loop-vis loop-vis-col" aria-hidden="true">
-                <span class="lvv-bar"><span class="lvv-fill"></span></span>
-                <span class="lv-chip lv-ok lvv-ok">compiled · 0 errors ✓</span>
-              </div>
-              <h3>{t(locale, "landing.loop.v")}</h3>
-              <p>{t(locale, "landing.loop.vBody")}</p>
-            </li>
-            <li class="loop-step">
-              <span class="loop-num">4</span>
-              <div class="loop-vis" aria-hidden="true">
-                <span class="lv-chip lvp-1">PDF</span>
-                <span class="lv-chip lvp-2">arXiv</span>
-                <span class="lv-chip lvp-3">GitHub ↑</span>
-              </div>
-              <h3>{t(locale, "landing.loop.p")}</h3>
-              <p>{t(locale, "landing.loop.pBody")}</p>
-            </li>
-          </ol>
-        </div>
-      </section>
-
       <!-- ========================= Craft (hidden via SHOW_CRAFT) ========================= -->
       {SHOW_CRAFT && (
       <section class="section craft" id="craft">
@@ -930,23 +978,49 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           <div class="craft-card">
             <NoiseTexture frequency={0.8} noiseOpacity={0.25} className="opacity-30" />
             <div class="rel craft-inner">
+              <img
+                class="craft-shot"
+                src="https://cdn.oleafly.com/images/web/oleafly-club.png"
+                alt="The Oleafly Club: an illustrated celebration of researchers at work, complete with a robot dog, math jokes, and a thesis crown"
+                width="960"
+                height="540"
+                loading="lazy"
+                decoding="async"
+              />
               <p>{t(locale, "landing.craft.body")}</p>
               <p class="craft-note">{t(locale, "landing.craft.note")}{" "}
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer">{t(locale, "nav.github")}</a>.
               </p>
             </div>
-            <BorderBeam
+            <ShineBorder
               client:visible
-              size={140}
-              duration={9}
+              shineColor={["#2563eb", "#34b44a"]}
               borderWidth={1.5}
-              colorFrom="#34b44a"
-              colorTo="#2563eb"
+              duration={12}
             />
           </div>
         </div>
       </section>
       )}
+
+      <!-- ========================= Roadmap ========================= -->
+      <section class="section" id="roadmap">
+        <div class="container">
+          <p class="eyebrow">{t(locale, "landing.roadmap.eyebrow")}</p>
+          <h2>{t(locale, "landing.roadmap.h2")}</h2>
+          <p class="sub">{t(locale, "landing.roadmap.sub")}</p>
+          <LandingCards client:visible={{ rootMargin: "200px" }} cards={roadmapCards} columns={4} />
+        </div>
+      </section>
+
+      <!-- ========================= FAQ ========================= -->
+      <section class="section" id="faq">
+        <div class="container">
+          <p class="eyebrow">{t(locale, "landing.faq.eyebrow")}</p>
+          <h2>{t(locale, "landing.faq.h2")}</h2>
+          <LandingFaq client:visible={{ rootMargin: "200px" }} items={faqItems} />
+        </div>
+      </section>
 
       <!-- ========================= Download ========================= -->
       <section class="section download" id="download">
@@ -1323,7 +1397,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       h1 {
         position: relative;
-        font-size: clamp(2.4rem, 6vw, 4rem);
+        font-size: clamp(2.6rem, 6.4vw, 4.35rem);
         font-weight: 600;
         letter-spacing: -0.025em;
         line-height: 1.08;
@@ -1332,6 +1406,16 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       .h1-line {
         display: block;
         background: linear-gradient(180deg, #ffffff 55%, #b8bcc8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .h1-tenx {
+        font-size: 1.32em;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        margin-right: 0.06em;
+        background: linear-gradient(100deg, #60a5fa 10%, #34b44a 90%);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -1372,20 +1456,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       .hero-actions :global(a[data-slot="button"]) {
         text-decoration: none;
-      }
-      .stars {
-        gap: 7px;
-      }
-      .stars svg {
-        color: #e8b339;
-      }
-      .stars-count:not(:empty) {
-        font-family: var(--mono);
-        font-size: 12px;
-        background: var(--surface-2);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-sm);
-        padding: 1px 6px;
       }
 
       .shot {
@@ -1586,16 +1656,17 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         content: "";
         position: absolute;
         left: 0;
-        top: 3px;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background-color: rgba(52, 180, 74, 0.12);
-        border: 1px solid rgba(52, 180, 74, 0.4);
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec46a' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+        top: 2.5px;
+        width: 17px;
+        height: 17px;
+        border-radius: 5.5px;
+        background-color: rgba(52, 180, 74, 0.16);
+        border: 1px solid rgba(78, 196, 106, 0.42);
+        box-shadow: 0 0 12px rgba(52, 180, 74, 0.22);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235ad375' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: center;
-        background-size: 8.5px 8.5px;
+        background-size: 10.5px 10.5px;
       }
       .ticks-row {
         margin-top: 24px;
@@ -1842,6 +1913,12 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         line-height: 1.55;
         color: var(--muted);
       }
+      .loop-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
       .loop-num {
         font-family: var(--mono);
         font-size: 12px;
@@ -1903,9 +1980,10 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
       }
       .ticks-net li::before {
-        background-color: rgba(245, 158, 11, 0.1);
-        border-color: rgba(245, 158, 11, 0.4);
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f7bc55' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
+        background-color: rgba(245, 158, 11, 0.14);
+        border-color: rgba(247, 188, 85, 0.42);
+        box-shadow: 0 0 12px rgba(245, 158, 11, 0.18);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f7bc55' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
       }
       @media (max-width: 980px) {
         .privacy-grid {
@@ -1925,9 +2003,9 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       .craft-inner {
         display: grid;
-        grid-template-columns: 3fr 2fr;
-        gap: 40px;
-        align-items: center;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        align-items: start;
       }
       .craft-card p {
         color: #c9cdd6;
@@ -1936,8 +2014,11 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       .craft-card .craft-note {
         margin-top: 0;
-        padding-left: 32px;
-        border-left: 1px solid var(--line);
+        padding-right: 32px;
+        padding-left: 0;
+        border-right: 1px solid var(--line);
+        border-left: none;
+        text-align: right;
         font-size: 13px;
         line-height: 1.65;
         color: var(--muted);
@@ -1952,9 +2033,20 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           gap: 16px;
         }
         .craft-card .craft-note {
+          padding-right: 0;
           padding-left: 0;
+          border-right: none;
           border-left: none;
+          text-align: left;
         }
+      }
+
+      .craft-shot {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--line);
+        border-radius: 10px;
       }
 
       /* ===== Gauges ===== */
@@ -1999,7 +2091,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       /* ===== Library shelf ===== */
       .shelf-wrap {
         position: relative;
-        padding-top: 108px; /* headroom so hover previews stay inside the card */
         max-width: 860px;
         margin: 0 auto;
       }
@@ -2015,6 +2106,31 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         position: relative;
         width: 104px;
         height: 132px;
+        perspective: 1100px;
+        transition: transform 250ms ease;
+        transform-origin: bottom center;
+        z-index: 1;
+      }
+      .book:hover {
+        transform: translateY(-12px);
+        z-index: 5;
+      }
+      .book-page {
+        position: absolute;
+        inset: 0;
+        padding: 12px 9px 8px;
+        border-radius: 4px 8px 8px 4px;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.1), transparent 14px),
+          #f3f4f2;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+      }
+      .book-cover {
+        position: absolute;
+        inset: 0;
         border-radius: 4px 8px 8px 4px;
         padding: 12px 10px 10px;
         display: flex;
@@ -2025,10 +2141,11 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           inset 5px 0 8px -5px rgba(0, 0, 0, 0.5),
           inset -1px 0 0 rgba(255, 255, 255, 0.3),
           0 10px 24px rgba(0, 0, 0, 0.45);
-        transition: transform 250ms ease, box-shadow 250ms ease;
-        transform-origin: bottom center;
+        transform-origin: left center;
+        transform-style: preserve-3d;
+        transition: transform 520ms cubic-bezier(0.25, 0.8, 0.25, 1);
       }
-      .book::before {
+      .book-cover::before {
         content: "";
         position: absolute;
         left: 7px;
@@ -2037,8 +2154,11 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         width: 1px;
         background: rgba(0, 0, 0, 0.16);
       }
-      .book:hover {
-        transform: translateY(-12px) rotate(-1.5deg);
+      .book-cover > * {
+        backface-visibility: hidden;
+      }
+      .book:hover .book-cover {
+        transform: rotateY(-150deg);
         box-shadow:
           inset 5px 0 8px -5px rgba(0, 0, 0, 0.5),
           inset -1px 0 0 rgba(255, 255, 255, 0.3),
@@ -2069,39 +2189,24 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         font-size: 11px;
         opacity: 0.65;
       }
-      .book-lilac { background: linear-gradient(165deg, #cdbcf3, #b3a0e6); color: #35284f; }
-      .book-blue { background: linear-gradient(165deg, #b5cdf8, #9ab8f0); color: #1e2a44; }
-      .book-spring { background: linear-gradient(165deg, #c3ecab, #a9dd90); color: #2c4a20; }
-      .book-aqua { background: linear-gradient(165deg, #a3e2d3, #87ccba); color: #1e4038; }
-      .book-peach { background: linear-gradient(165deg, #f7cfa9, #eeb98a); color: #4f3520; }
-      .book-rose { background: linear-gradient(165deg, #f2a9ba, #e78ba0); color: #4c1f2b; }
-      .book-preview {
-        position: absolute;
-        left: 50%;
-        bottom: calc(100% + 10px);
-        transform: translateX(-50%) translateY(6px);
-        width: 92px;
-        padding: 9px 8px 6px;
-        background: #f3f4f2;
-        border-radius: 4px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        opacity: 0;
-        pointer-events: none;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
-        transition: opacity 250ms ease, transform 250ms ease;
-      }
-      .book:hover .book-preview {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
+      .book-lilac { color: #35284f; }
+      .book-blue { color: #1e2a44; }
+      .book-spring { color: #2c4a20; }
+      .book-aqua { color: #1e4038; }
+      .book-peach { color: #4f3520; }
+      .book-rose { color: #4c1f2b; }
+      .book-lilac .book-cover { background: linear-gradient(165deg, #cdbcf3, #b3a0e6); }
+      .book-blue .book-cover { background: linear-gradient(165deg, #b5cdf8, #9ab8f0); }
+      .book-spring .book-cover { background: linear-gradient(165deg, #c3ecab, #a9dd90); }
+      .book-aqua .book-cover { background: linear-gradient(165deg, #a3e2d3, #87ccba); }
+      .book-peach .book-cover { background: linear-gradient(165deg, #f7cfa9, #eeb98a); }
+      .book-rose .book-cover { background: linear-gradient(165deg, #f2a9ba, #e78ba0); }
       .bp-line {
         height: 3px;
         border-radius: 2px;
         background: #c6c9c4;
       }
-      .book-preview .bp-line:first-child {
+      .book-page .bp-line:first-child {
         background: #9a9e98;
       }
       .bp-w60 { width: 60%; }
@@ -2132,23 +2237,26 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       @media (prefers-reduced-motion: reduce) {
         .book,
-        .book-preview {
+        .book-cover {
           transition: none;
         }
-        .book:hover {
+        .book:hover,
+        .book:hover .book-cover {
           transform: none;
         }
       }
       @media (max-width: 640px) {
-        .shelf-wrap {
-          padding-top: 64px;
-        }
         .shelf {
           gap: 12px;
         }
         .book {
           width: 86px;
           height: 112px;
+        }
+        .book-page {
+          padding: 10px 8px 7px;
+        }
+        .book-cover {
           padding: 10px 8px 8px;
         }
         .book-title {
@@ -2602,17 +2710,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       };
       window.addEventListener("scroll", onBottomScroll, { passive: true });
 
-      // GitHub star count (best-effort; silent on failure or rate limit).
-      fetch("https://api.github.com/repos/Oleafly/Oleafly")
-        .then((r) => (r.ok ? r.json() : null))
-        .then((d) => {
-          const n = d?.stargazers_count;
-          const el = document.getElementById("stars-count");
-          if (el && typeof n === "number") {
-            el.textContent = n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
-          }
-        })
-        .catch(() => {});
     </script>
     <PlatformDownloadInit />
   </body>

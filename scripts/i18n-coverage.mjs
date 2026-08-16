@@ -315,15 +315,24 @@ function buildReport() {
   const learnFiles = enLearnFiles();
   const blogFiles = enBlogFiles();
 
-  // Locales only from the LOCALES array (not flagIso / other quoted strings in locales.ts)
+  // Locales only from the ALL_LOCALES array (not flagIso / other quoted strings
+  // in locales.ts), minus HIDDEN_LOCALES — matching what the site serves.
   const localesRaw = readFileSync(path.join(root, "src/i18n/locales.ts"), "utf8");
   const localesBlock = localesRaw.match(
-    /export const LOCALES\s*=\s*\[([\s\S]*?)\]\s*as const/,
+    /const ALL_LOCALES\s*=\s*\[([\s\S]*?)\]\s*as const/,
   );
+  const hiddenBlock = localesRaw.match(
+    /HIDDEN_LOCALES[^=]*=\s*\[([\s\S]*?)\]\s*(?:as const|;)/,
+  );
+  const hidden = hiddenBlock
+    ? [...hiddenBlock[1].matchAll(/"([a-z]{2}(?:-[a-z]+)?)"/g)].map((m) => m[1])
+    : [];
   const locales = localesBlock
     ? [...localesBlock[1].matchAll(/"([a-z]{2}(?:-[a-z]+)?)"/g)]
         .map((m) => m[1])
-        .filter((l, i, a) => a.indexOf(l) === i && l !== "en")
+        .filter(
+          (l, i, a) => a.indexOf(l) === i && l !== "en" && !hidden.includes(l),
+        )
     : [];
 
   const byLocale = {};

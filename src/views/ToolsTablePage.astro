@@ -5,6 +5,7 @@ import ToolBackNav from "../components/tools/ToolBackNav.astro";
 import "../styles/tools.css";
 import { DEFAULT_LOCALE, type Locale } from "../i18n/locales";
 import { localePath } from "../i18n/paths";
+import ToolCta from "../components/tools/ToolCta.astro";
 
 interface Props {
   locale?: Locale;
@@ -51,4 +52,6 @@ const lp = (path: string) => localePath(locale, path);
       </p>
     </div>
   </section>
+<ToolCta title="Generate tables here. Keep them in Git there." body="In Oleafly, /table inserts a booktabs-ready table from a slash command, Preflight catches overfull boxes before reviewers do, and AI can restructure a table from a plain-language instruction, behind an approval diff." locale={locale} />
+
 </SiteLayout>

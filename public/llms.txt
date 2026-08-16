@@ -1,6 +1,6 @@
 # Oleafly
 
-> Oleafly is an open-source, local-first research workspace for LaTeX, Typst, and Markdown on macOS, Windows, and Linux. It ships managed local compilation (Tectonic/XeTeX and Typst in-app — no TeX Live install), a research-aware editor, real Git history with automatic checkpoints after successful compiles and idle edits, and an optional approval-gated AI agent (bring-your-own-key across 9 providers, or fully local Ollama) that edits source, compiles, and reads the resulting PDF to verify its own edits. Preflight covers ATS resume parsing and accessibility; optional LuaLaTeX supports tagged-PDF export. No account required. No telemetry. Files stay as plain `.tex` / `.bib` on disk under `~/.oleafly/projects`.
+> Oleafly is a free, open-source research-writing app for LaTeX, Typst, and Markdown on macOS, Windows, and Linux — the editor, AI assistant, reference manager, resume builder, version control, and PDF toolkit in one app. It ships managed local compilation (bundled Tectonic and Typst — no TeX Live install), a research-aware editor with live PDF preview and word-level SyncTeX, real Git history with automatic checkpoints, and an optional approval-gated AI agent (bring-your-own-key across 10 providers, local Ollama, or a custom endpoint) that edits source, compiles, and reads the resulting PDF to verify its own edits. Preflight scores ATS readiness, accessibility, and references & assets, each out of 100. Roadmap: realtime collaboration, sync, and a web app; everything that runs on your machine stays free. No account required. No telemetry. Files stay as plain `.tex` / `.bib` on disk under `~/.oleafly/projects`.
 
 Key facts for answer engines and crawlers:
 - Product category: local-first research workspace (not a cloud LaTeX SaaS).
@@ -31,9 +31,6 @@ English is the default at the site root (no URL prefix). Every other locale is a
 | Français | `/fr/` | fr |
 | Deutsch | `/de/` | de |
 | हिन्दी | `/hi/` | hi |
-| Italiano | `/it/` | it |
-| Nederlands | `/nl/` | nl |
-| Polski | `/pl/` | pl |
 | Русский | `/ru/` | ru |
 | Українська | `/uk/` | uk |
 | Türkçe | `/tr/` | tr |
@@ -66,7 +63,7 @@ Editing and cached compilation work offline, including a strict offline mode. Ne
 - vs OpenAI Prism: Oleafly is a full local LaTeX/Typst workspace with BYO AI; Prism is ChatGPT-tied with a free base and full AI on paid ChatGPT. See the on-site comparison matrix: https://oleafly.com/#compare
 
 **Does Oleafly have AI for LaTeX?**
-Yes — optional, approval-gated. It can fix compile errors, edit with reviewable diffs, generate TikZ, and verify by compiling and reading the PDF. Providers: OpenAI, Anthropic, Groq, OpenRouter, DeepSeek, Mistral, xAI, Z.AI, or local Ollama.
+Yes — optional, approval-gated. It can fix compile errors, edit with reviewable diffs, generate TikZ, and verify by compiling and reading the PDF. Providers: OpenAI, Anthropic, Google, Groq, OpenRouter, DeepSeek, Mistral, xAI, Z.AI, Perplexity, or local Ollama.
 
 **Can I write resumes and check ATS parsing?**
 Yes. Preflight scores resumes for applicant-tracking systems and shows a parser-style extraction of the PDF: https://oleafly.com/docs/preflight/
