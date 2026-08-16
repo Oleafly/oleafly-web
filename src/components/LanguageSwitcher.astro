@@ -215,7 +215,13 @@ const className = Astro.props.class ?? "";
     z-index: 80;
     min-width: 240px;
     max-height: min(70vh, 440px);
-    overflow: auto;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .lang-switcher-menu::-webkit-scrollbar {
+    display: none;
+  }
     margin: 0;
     padding: 0.35rem;
     list-style: none;

@@ -7,7 +7,6 @@ import DownloadButton from "../components/DownloadButton.astro";
 import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
 import Analytics from "../components/Analytics.astro";
 import SocialLinks from "../components/SocialLinks.astro";
-import GithubStar from "../components/GithubStar.astro";
 import LanguageSwitcher from "../components/LanguageSwitcher.astro";
 import { DEFAULT_LOCALE, LOCALE_META, type Locale } from "../i18n/locales";
 import { absoluteLocaleUrl, hreflangAlternates, localePath } from "../i18n/paths";
@@ -94,7 +93,6 @@ const alternates = hreflangAlternates(path);
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">{t(locale, "nav.github")}</a>
         </nav>
         <div class="nav-cta">
-          <GithubStar />
           <LanguageSwitcher locale={locale} path={path} />
           <DownloadButton href={RELEASES} size="sm" label={t(locale, "nav.download")} />
           <button

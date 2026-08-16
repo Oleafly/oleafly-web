@@ -23,7 +23,6 @@ import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
 import Analytics from "../components/Analytics.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import LanguageSwitcher from "../components/LanguageSwitcher.astro";
-import GithubStar from "../components/GithubStar.astro";
 import LocalePreference from "../components/LocalePreference.astro";
 import { WordRotate } from "../components/magicui/word-rotate";
 import { Highlighter } from "../components/magicui/highlighter";
@@ -350,7 +349,14 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         </nav>
         <div class="nav-cta">
           <LanguageSwitcher locale={locale} path="/" />
-          <GithubStar />
+          <a class="btn btn-ghost btn-sm stars" href={GITHUB} target="_blank" rel="noopener noreferrer">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path
+                d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
+              ></path>
+            </svg>
+            <span>{t(locale, "landing.starGithub")}</span><span class="stars-count" id="stars-count"></span>
+          </a>
           <button class="nav-burger" id="nav-burger" type="button" aria-label={t(locale, "nav.openMenu")} aria-expanded="false" aria-controls="nav">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
           </button>
@@ -1456,6 +1462,26 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       .hero-actions :global(a[data-slot="button"]) {
         text-decoration: none;
+      }
+
+      @media (max-width: 760px) {
+        .stars {
+          display: none;
+        }
+      }
+      .stars {
+        gap: 7px;
+      }
+      .stars svg {
+        color: #e8b339;
+      }
+      .stars-count:not(:empty) {
+        font-family: var(--mono);
+        font-size: 12px;
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        padding: 1px 6px;
       }
 
       .shot {
@@ -2710,6 +2736,18 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       };
       window.addEventListener("scroll", onBottomScroll, { passive: true });
 
+
+      // GitHub star count (best-effort; silent on failure or rate limit).
+      fetch("https://api.github.com/repos/Oleafly/Oleafly")
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          const n = d?.stargazers_count;
+          const el = document.getElementById("stars-count");
+          if (el && typeof n === "number") {
+            el.textContent = n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+          }
+        })
+        .catch(() => {});
     </script>
     <PlatformDownloadInit />
   </body>
