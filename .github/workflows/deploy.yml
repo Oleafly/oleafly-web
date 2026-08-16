@@ -5,6 +5,12 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Serialize deploys: only the newest push deploys; older queued runs cancel.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
