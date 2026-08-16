@@ -27,9 +27,14 @@ jobs:
 
       - run: pnpm build
 
+      # Cloudflare Pages rejects individual files larger than 25 MiB
+      # (e.g. a bloated sitemap-0.xml from an oversized template catalog).
+      - name: Check Cloudflare Pages file size limits
+        run: node scripts/check-dist-cloudflare-limits.mjs dist
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=oleafly --branch=main
+          command: pages deploy dist --project-name=oleafly --branch=main --commit-dirty=true

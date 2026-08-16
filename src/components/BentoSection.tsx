@@ -146,7 +146,7 @@ function SyncTexVisual() {
             <div
               key={i}
               className={cn(
-                "rounded-[3px] px-1 py-[1px] font-mono text-[8px] leading-[1.4] text-[#7d828b] whitespace-nowrap",
+                "rounded-[3px] px-1 py-[1px] font-mono text-[8px] leading-[1.4] text-[#a4a9b2] whitespace-nowrap",
                 i === 1 && "st-hl-a",
                 i === 2 && "st-hl-b"
               )}
