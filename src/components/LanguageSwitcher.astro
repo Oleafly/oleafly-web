@@ -218,10 +218,6 @@ const className = Astro.props.class ?? "";
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-  }
-  .lang-switcher-menu::-webkit-scrollbar {
-    display: none;
-  }
     margin: 0;
     padding: 0.35rem;
     list-style: none;
@@ -229,6 +225,9 @@ const className = Astro.props.class ?? "";
     border: 1px solid var(--line-strong, rgba(255, 255, 255, 0.14));
     background: var(--surface-2, #191a1c);
     box-shadow: var(--shadow-popup, 0 4px 16px rgba(0, 0, 0, 0.4));
+  }
+  .lang-switcher-menu::-webkit-scrollbar {
+    display: none;
   }
   .lang-switcher-option {
     display: flex;
