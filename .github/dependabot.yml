@@ -1,10 +1,11 @@
 version: 2
 updates:
-  - package-ecosystem: "pnpm"
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    # Bump the lockfile only; manifests stay hand-curated.
+    # pnpm workspace: Dependabot's "npm" ecosystem covers it. Bump the
+    # lockfile only; manifests stay hand-curated.
     versioning-strategy: lockfile-only
     # Transitive security bumps that repeatedly fail against the pnpm
     # workspace pins; audit these manually instead of via Dependabot.
