@@ -11,24 +11,24 @@ function parseEn(raw) {
   const out = {};
   const re = /"([^"]+)":\s*"((?:\\.|[^"\\])*)"/g;
   let m;
-  while ((m = re.exec(raw))) out[m[1]] = m[2].replace(/\\"/g, '"').replace(/\\n/g, "\n");
+  while ((m = re.exec(raw))) out[m[1]] = m[2].replaceAll('\\"', '"').replace(/\\n/g, "\n");
   return out;
 }
 
 function parseGenerated(src) {
   // nested: "es": { "key": "val", ... },
   const locales = {};
-  const re = /\n  ("?[a-z0-9-]+"?):\s*\{/g;
+  const re = /\n {2}("?[a-z0-9-]+"?):\s*\{/g;
   const starts = [];
   let m;
-  while ((m = re.exec(src))) starts.push({ code: m[1].replace(/"/g, ""), start: m.index + m[0].length });
+  while ((m = re.exec(src))) starts.push({ code: m[1].replaceAll('"', ""), start: m.index + m[0].length });
   for (let i = 0; i < starts.length; i++) {
     const end = i + 1 < starts.length ? starts[i + 1].start : src.length;
     const body = src.slice(starts[i].start, end);
     const dict = {};
     const re2 = /"([^"]+)":\s*"((?:\\.|[^"\\])*)"/g;
     let mm;
-    while ((mm = re2.exec(body))) dict[mm[1]] = mm[2].replace(/\\"/g, '"').replace(/\\n/g, "\n");
+    while ((mm = re2.exec(body))) dict[mm[1]] = mm[2].replaceAll('\\"', '"').replace(/\\n/g, "\n");
     locales[starts[i].code] = dict;
   }
   return locales;
@@ -45,7 +45,7 @@ const BAD_SENSES = [
   { re: /red el[ée]ctrica/i, why: 'ES "Red eléctrica" = power grid, not grid layout' },
   { re: /rede el[ée]trica/i, why: 'PT "rede elétrica" = power grid' },
   { re: /git hub|git-hub/i, why: '"GitHub" split/hyphenated' },
-  { re: /\bpdi[ff]\b.*archi/i, why: "possible PDF/artifact mistranslation" },
+  { re: /\bpdi[f]?\b.*archi/i, why: "possible PDF/artifact mistranslation" },
 ];
 
 const report = {};
@@ -55,8 +55,8 @@ for (const [code, dict] of Object.entries(locales)) {
     const t = dict[key];
     if (t === undefined) continue;
     // 1. placeholder integrity
-    const enPh = [...enVal.matchAll(/\{[a-z]+\}/g)].map((x) => x[0]).sort().join(",");
-    const tPh = [...t.matchAll(/\{[a-z]+\}/g)].map((x) => x[0]).sort().join(",");
+    const enPh = [...enVal.matchAll(/\{[a-z]+\}/g)].map((x) => x[0]).sort((a, b) => a.localeCompare(b)).join(",");
+    const tPh = [...t.matchAll(/\{[a-z]+\}/g)].map((x) => x[0]).sort((a, b) => a.localeCompare(b)).join(",");
     if (enPh !== tPh) issues.placeholder.push(`${key}: EN{${enPh}} → ${code}{${tPh}} "${t.slice(0, 60)}"`);
     // 2. brand preservation (only when EN has it)
     for (const b of BRAND) {

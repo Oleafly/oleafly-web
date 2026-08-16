@@ -3,19 +3,16 @@
 // gradient border) + bento typography, for static landing sections. Cards with
 // a visual key get a bento-style animated vignette in the top area with the
 // text block bottom-anchored; text-only cards (roadmap) stay top-anchored.
-import { MagicCard } from "@/components/magicui/magic-card";
+import { BentoCard, CARD_TEXT, CARD_DESC } from "@/components/bento-card";
 import { cn } from "@/lib/utils";
-
-const CARD_TEXT = "text-[15px] font-semibold text-[#f7f8f8]";
-const CARD_DESC = "text-[13px] leading-relaxed text-[#8a8f98]";
 
 export type CardVisual = "latex" | "agent" | "refs" | "resume" | "git" | "pdf";
 
 export interface LandingCard {
-  name: string;
-  desc: string;
-  badge?: string;
-  visual?: CardVisual;
+  readonly name: string;
+  readonly desc: string;
+  readonly badge?: string;
+  readonly visual?: CardVisual;
 }
 
 const chip =
@@ -138,15 +135,7 @@ export function LandingCards({
       {cards.map((card) => {
         const Visual = card.visual ? VISUALS[card.visual] : null;
         return (
-          <MagicCard
-            key={card.name}
-            className="rounded-lg"
-            gradientSize={240}
-            gradientColor="#1c1e22"
-            gradientOpacity={0.85}
-            gradientFrom="#2563eb"
-            gradientTo="#34b44a"
-          >
+          <BentoCard key={card.name}>
             <div
               className={cn(
                 "relative flex h-full flex-col overflow-hidden p-5",
@@ -168,7 +157,7 @@ export function LandingCards({
                 <p className={CARD_DESC}>{card.desc}</p>
               </div>
             </div>
-          </MagicCard>
+          </BentoCard>
         );
       })}
     </div>

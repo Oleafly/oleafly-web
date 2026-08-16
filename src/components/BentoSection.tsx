@@ -7,11 +7,8 @@
 // `visual` slot ready for product screenshots.
 import { cn } from "@/lib/utils";
 import { AI_LOGO_COLORS, AI_LOGO_PATHS } from "@/components/ai-logos";
-import { MagicCard } from "@/components/magicui/magic-card";
+import { BentoCard, CARD_TEXT, CARD_DESC } from "@/components/bento-card";
 import { DotPattern } from "@/components/magicui/dot-pattern";
-
-const CARD_TEXT = "text-[15px] font-semibold text-[#f7f8f8]";
-const CARD_DESC = "text-[13px] leading-relaxed text-[#8a8f98]";
 
 function Card({
   className,
@@ -27,14 +24,7 @@ function Card({
   desc: string;
 }) {
   return (
-    <MagicCard
-      className={cn("rounded-lg", className)}
-      gradientSize={240}
-      gradientColor="#1c1e22"
-      gradientOpacity={0.85}
-      gradientFrom="#2563eb"
-      gradientTo="#34b44a"
-    >
+    <BentoCard className={className}>
       <div className="relative flex h-full min-h-[176px] flex-col justify-end overflow-hidden p-5">
         {visual}
         <div className="relative z-10 flex flex-col gap-1.5">
@@ -43,7 +33,7 @@ function Card({
           <p className={CARD_DESC}>{desc}</p>
         </div>
       </div>
-    </MagicCard>
+    </BentoCard>
   );
 }
 

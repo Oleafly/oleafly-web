@@ -36,7 +36,7 @@ export function ShineBorder({
   className,
   style,
   ...props
-}: ShineBorderProps) {
+}: Readonly<ShineBorderProps>) {
   return (
     <div
       style={
