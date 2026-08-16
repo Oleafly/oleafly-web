@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: "pnpm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Bump the lockfile only; manifests stay hand-curated.
+    versioning-strategy: lockfile-only
+    # Transitive security bumps that repeatedly fail against the pnpm
+    # workspace pins; audit these manually instead of via Dependabot.
+    ignore:
+      - dependency-name: "postcss"
+      - dependency-name: "nanoid"
+      - dependency-name: "undici"
+      - dependency-name: "dompurify"
+      - dependency-name: "esbuild"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
