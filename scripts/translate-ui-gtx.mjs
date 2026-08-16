@@ -99,8 +99,7 @@ async function tr(text, locale) {
 }
 
 async function main() {
-  const enRaw = await readFile(path.join(root, "src/i18n/ui/en.ts"), "utf8");
-  const en = loadEn(enRaw);
+  const en = JSON.parse(await readFile(path.join(root, "src/i18n/ui/en.json"), "utf8"));
   let keys = Object.keys(en);
   if (PREFIX) keys = keys.filter((k) => k.startsWith(PREFIX));
   console.log(`English keys: ${Object.keys(en).length} (translating ${keys.length})`);

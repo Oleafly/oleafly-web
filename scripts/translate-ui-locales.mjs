@@ -48,14 +48,7 @@ async function tr(text, to) {
 
 async function loadEn() {
   // Dynamic import of compiled-ish: parse en.ts as text
-  const raw = await readFile(path.join(root, "src/i18n/ui/en.ts"), "utf8");
-  const map = {};
-  const re = /"([^"]+)":\s*"((?:\\.|[^"\\])*)"/g;
-  let m;
-  while ((m = re.exec(raw))) {
-    map[m[1]] = m[2].replace(/\\"/g, '"').replace(/\\n/g, "\n");
-  }
-  return map;
+  return JSON.parse(await readFile(path.join(root, "src/i18n/ui/en.json"), "utf8"));
 }
 
 function esc(s) {

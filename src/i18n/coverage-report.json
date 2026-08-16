@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-16T11:02:15.560Z",
-  "enUiKeys": 481,
+  "generatedAt": "2026-08-16T22:22:43.272Z",
+  "enUiKeys": 544,
   "enLearn": 139,
   "enBlog": 19,
   "locales": 15,
@@ -8,11 +8,20 @@
   "byLocale": {
     "zh-cn": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -38,15 +47,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "zh-tw": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -72,15 +90,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "ja": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -106,15 +133,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "ko": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -140,15 +176,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "es": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -174,15 +219,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "pt-br": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -208,15 +262,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "fr": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -242,15 +305,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "de": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -276,15 +348,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "hi": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -310,15 +391,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "ru": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -344,15 +434,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "uk": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -378,15 +477,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "tr": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -412,15 +520,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "ar": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -446,15 +563,24 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     },
     "vi": {
       "ui": {
-        "total": 481,
+        "total": 544,
         "translated": 481,
-        "missing": 0,
-        "pct": 100,
-        "sampleMissing": []
+        "missing": 63,
+        "pct": 88.4,
+        "sampleMissing": [
+          "landing.pain.eyebrow",
+          "landing.pain.h2",
+          "landing.pain.sub",
+          "landing.pain.p1t",
+          "landing.pain.p1d",
+          "landing.pain.p2t",
+          "landing.pain.p2d",
+          "landing.pain.p3t"
+        ]
       },
       "learn": {
         "files": 139,
@@ -480,7 +606,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 100
+      "composite": 95.4
     }
   },
   "targets": [

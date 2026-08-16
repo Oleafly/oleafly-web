@@ -42,18 +42,7 @@ const TARGET_LOCALES = [
 ];
 
 function loadEnKeys() {
-  const raw = readFileSync(path.join(root, "src/i18n/ui/en.ts"), "utf8");
-  const en = {};
-  const re = /"([^"]+)":\s*"((?:\\.|[^"\\])*)"/g;
-  let m;
-  while ((m = re.exec(raw))) {
-    en[m[1]] = m[2].replace(/\\"/g, '"').replace(/\\n/g, "\n").replace(/\\u00b7/g, "·");
-  }
-  const re2 = /"([^"]+)":\s*\n\s*"((?:\\.|[^"\\])*)"/g;
-  while ((m = re2.exec(raw))) {
-    if (!en[m[1]]) en[m[1]] = m[2].replace(/\\"/g, '"');
-  }
-  return en;
+  return JSON.parse(readFileSync(path.join(root, "src/i18n/ui/en.json"), "utf8"));
 }
 
 function loadGenerated() {

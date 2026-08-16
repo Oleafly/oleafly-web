@@ -4,15 +4,11 @@
 import { readFileSync } from "node:fs";
 
 const root = new URL("..", import.meta.url).pathname;
-const enRaw = readFileSync(root + "src/i18n/ui/en.ts", "utf8");
+const enRaw = readFileSync(root + "src/i18n/ui/en.json", "utf8");
 const genRaw = readFileSync(root + "src/i18n/ui/generated.ts", "utf8");
 
 function parseEn(raw) {
-  const out = {};
-  const re = /"([^"]+)":\s*"((?:\\.|[^"\\])*)"/g;
-  let m;
-  while ((m = re.exec(raw))) out[m[1]] = m[2].replaceAll('\\"', '"').replace(/\\n/g, "\n");
-  return out;
+  return JSON.parse(raw);
 }
 
 function parseGenerated(src) {
