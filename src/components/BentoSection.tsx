@@ -311,7 +311,7 @@ const PROVIDERS: Array<[string, string]> = [
 
 function ProviderStack() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-6 flex items-center">
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-5 top-3 flex items-center">
       {PROVIDERS.map(([name, key], i) => (
         <div
           key={name}

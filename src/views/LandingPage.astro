@@ -8,16 +8,12 @@
 // WordRotate, Highlighter, TextReveal, KineticText, VelocityScroll,
 // GlyphMatrix, NoiseTexture, FileTree, CodeComparison (build-time shiki),
 // AnimatedCircularProgressBar, ScrollProgress.
-import { Image, getImage } from "astro:assets";
-import heroEditor from "../assets/hero-editor.png";
+import { Image } from "astro:assets";
 import gitDiff from "../assets/git-diff.png";
 import preflightAts from "../assets/preflight-ats.png";
 import projectTemplates from "../assets/project-templates.png";
-import { Marquee } from "../components/magicui/marquee";
 import { DotPattern } from "../components/magicui/dot-pattern";
 import { AnimatedShinyText } from "../components/magicui/animated-shiny-text";
-import { BorderBeam } from "../components/magicui/border-beam";
-import { ShineBorder } from "../components/magicui/shine-border";
 import { RainbowLink } from "../components/RainbowLink";
 import PlatformDownloadInit from "../components/PlatformDownloadInit.astro";
 import Analytics from "../components/Analytics.astro";
@@ -39,6 +35,7 @@ import { LandingFaq } from "../components/landing/LandingFaq";
 import { VelocityStrip } from "../components/VelocityStrip";
 import { PhilosophyReveal } from "../components/PhilosophyReveal";
 import CodeComparison from "../components/CodeComparison.astro";
+import HeroAppView from "../components/hero/HeroAppView.astro";
 import "../styles/magicui.css";
 import "../styles/external-links.css";
 import { DEFAULT_LOCALE, LOCALE_META, type Locale } from "../i18n/locales";
@@ -52,13 +49,6 @@ const locale: Locale = Astro.props.locale ?? DEFAULT_LOCALE;
 const meta = LOCALE_META[locale];
 const lp = (path: string) => localePath(locale, path);
 const landingAlternates = hreflangAlternates("/");
-
-const heroPreload = await getImage({
-  src: heroEditor,
-  widths: [720, 1200, 1800],
-  sizes: "(max-width: 760px) 94vw, 1080px",
-  format: "webp",
-});
 
 const GITHUB = "https://github.com/Oleafly/Oleafly";
 const RELEASES = `${GITHUB}/releases/latest`;
@@ -271,7 +261,6 @@ const bentoCards = {
   },
 };
 
-const compiledFirstPage = t(locale, "landing.compiledFirstPage");
 const yourPlatform = t(locale, "landing.yourPlatform");
 const installGuideLabel = t(locale, "landing.installGuide");
 const installUnsignedParts = t(locale, "landing.installUnsigned", {
@@ -308,13 +297,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="https://oleafly.com/og.png" />
 
-    <link
-      rel="preload"
-      as="image"
-      imagesrcset={heroPreload.srcSet.attribute}
-      imagesizes="(max-width: 760px) 94vw, 1080px"
-      fetchpriority="high"
-    />
     <link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/jbmono-var-latin.woff2" as="font" type="font/woff2" crossorigin />
 
@@ -372,7 +354,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           width={24}
           height={24}
           cr={1.6}
-          className="fill-white/[0.28] [mask-image:radial-gradient(90%_70%_at_50%_16%,white,transparent)]"
+          className="hero-dot-field fill-white/[0.16]"
         />
         <div class="container">
           <a class="pill no-ext-icon" href={GITHUB} target="_blank" rel="noopener noreferrer">
@@ -427,40 +409,10 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
               platformAware
               labelTemplate={t(locale, "common.downloadFor")}
             />
-            <a class="btn btn-ghost btn-lg" href={lp("/docs/overview/")}>{t(locale, "landing.heroSecondary")}</a>
+            <a class="btn btn-ghost btn-lg btn-docs" href={lp("/docs/overview/")}>{t(locale, "landing.heroSecondary")}</a>
           </div>
-          <figure class="shot shot-hero">
-            <Image
-              src={heroEditor}
-              alt="The Oleafly editor: LaTeX source on the left, the compiled PDF building live on the right"
-              widths={[720, 1200, 1800]}
-              sizes="(max-width: 760px) 94vw, 1080px"
-              loading="eager"
-              fetchpriority="high"
-            />
-            <BorderBeam
-              client:load
-              size={240}
-              duration={10}
-              borderWidth={1.5}
-              colorFrom="#2563eb"
-              colorTo="#34b44a"
-            />
-          </figure>
-          <div class="chips-marquee" aria-label={t(locale, "landing.highlights")}>
-            <Marquee pauseOnHover className="p-0 [--duration:30s] [--gap:0.5rem]">
-              <span class="chip">{t(locale, "landing.chip1")}</span>
-              <span class="chip">{t(locale, "landing.chip2")}</span>
-              <span class="chip">{t(locale, "landing.chip3")}</span>
-              <span class="chip">{t(locale, "landing.chip4")}</span>
-              <span class="chip">{t(locale, "landing.chip5")}</span>
-              <span class="chip">{t(locale, "landing.chip6")}</span>
-              <span class="chip">{t(locale, "landing.chip7")}</span>
-              <span class="chip">{t(locale, "landing.chip8")}</span>
-              <span class="chip">{t(locale, "landing.chip9")}</span>
-              <span class="chip">{t(locale, "landing.chip10")}</span>
-            </Marquee>
-          </div>
+          <HeroAppView locale={locale} />
+          <!-- Highlights marquee is intentionally hidden for now. -->
         </div>
       </section>
 
@@ -573,107 +525,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         </div>
       </section>
 
-      <!-- ========================= Library ========================= -->
-      <section class="stack-card" id="library">
-        <div class="container">
-          <p class="eyebrow">{t(locale, "landing.library.eyebrow")}</p>
-          <h2>{t(locale, "landing.library.h2")}</h2>
-          <p class="sub">{t(locale, "landing.library.sub")}</p>
-          <div class="shelf-wrap" role="img" aria-label="A shelf of project covers: thesis, IEEE paper, a bookmarked resume, a Typst paper, a Beamer deck, and a fork of the resume, each with its own cover color and engine badge">
-            <div class="shelf">
-              <div class="book book-lilac">
-                <div class="book-page" aria-hidden="true">
-                  <span class="bp-line bp-w60"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w80"></span>
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </div>
-                <div class="book-cover">
-                  <span class="book-title">thesis</span>
-                  <span class="book-badge">TeX</span>
-                </div>
-              </div>
-              <div class="book book-blue">
-                <div class="book-page" aria-hidden="true">
-                  <span class="bp-line bp-w80"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w70"></span>
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </div>
-                <div class="book-cover">
-                  <span class="book-title">ieee-paper</span>
-                  <span class="book-badge">TeX</span>
-                </div>
-              </div>
-              <div class="book book-spring">
-                <div class="book-page" aria-hidden="true">
-                  <span class="bp-line bp-w60"></span>
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w75"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </div>
-                <div class="book-cover">
-                  <span class="book-star" aria-hidden="true">★</span>
-                  <span class="book-title">resume</span>
-                  <span class="book-badge">TeX</span>
-                </div>
-              </div>
-              <div class="book book-aqua">
-                <div class="book-page" aria-hidden="true">
-                  <span class="bp-line bp-w70"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w80"></span>
-                  <span class="bp-line bp-w60"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </div>
-                <div class="book-cover">
-                  <span class="book-title">paper</span>
-                  <span class="book-badge">Typst</span>
-                </div>
-              </div>
-              <div class="book book-peach">
-                <div class="book-page" aria-hidden="true">
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-line bp-w65"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w70"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </div>
-                <div class="book-cover">
-                  <span class="book-title">beamer-deck</span>
-                  <span class="book-badge">TeX</span>
-                </div>
-              </div>
-              <div class="book book-rose">
-                <div class="book-page" aria-hidden="true">
-                  <span class="bp-line bp-w60"></span>
-                  <span class="bp-line bp-w85"></span>
-                  <span class="bp-line bp-w90"></span>
-                  <span class="bp-line bp-w75"></span>
-                  <span class="bp-cap">{compiledFirstPage}</span>
-                </div>
-                <div class="book-cover">
-                  <span class="book-fork" aria-hidden="true">
-                    <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path></svg>
-                  </span>
-                  <span class="book-title">backend-swe</span>
-                  <span class="book-badge">TeX</span>
-                </div>
-              </div>
-            </div>
-            <div class="shelf-edge" aria-hidden="true"></div>
-          </div>
-          <ul class="ticks ticks-row">
-            <li>{t(locale, "landing.library.t1")}</li>
-            <li>{t(locale, "landing.library.t2")}</li>
-            <li>{t(locale, "landing.library.t3")}</li>
-            <li>{t(locale, "landing.library.t4")}</li>
-          </ul>
-        </div>
-      </section>
       <!-- ============================ Git ============================ -->
       <section class="stack-card" id="git">
         <div class="container">
@@ -998,12 +849,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer">{t(locale, "nav.github")}</a>.
               </p>
             </div>
-            <ShineBorder
-              client:visible
-              shineColor={["#2563eb", "#34b44a"]}
-              borderWidth={1.5}
-              duration={12}
-            />
           </div>
         </div>
       </section>
@@ -1045,15 +890,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
             <a href={lp("/docs/install/")} target="_blank" rel="noopener noreferrer">{t(locale, "landing.dl.buildFromSource")}</a>
             {t(locale, "landing.dl.subAfter")}
           </p>
-          <div class="dl-cta">
-            <RainbowLink
-              href={RELEASES}
-              label={t(locale, "nav.download")}
-              size="lg"
-              platformAware
-              labelTemplate={t(locale, "common.downloadFor")}
-            />
-          </div>
           <div class="dl-grid" id="dl-os-grid">
             <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer" data-os="mac">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
@@ -1247,6 +1083,12 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         background: rgba(255, 255, 255, 0.04);
         color: #fff;
       }
+      .btn-docs {
+        background: #08090a;
+      }
+      .btn-docs:hover {
+        background: #111316;
+      }
 
       /* ===== Nav ===== */
       .nav {
@@ -1363,6 +1205,9 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         background: radial-gradient(720px 360px at 30% 12%, rgba(37, 99, 235, 0.12), transparent 70%);
         pointer-events: none;
       }
+      :global(.hero-dot-field) {
+        mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+      }
       .pill {
         position: relative;
         display: inline-flex;
@@ -1445,7 +1290,8 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       .lede {
         position: relative;
-        max-width: 620px;
+        width: 100%;
+        max-width: none;
         margin: 0 0 32px;
         color: var(--muted);
         font-size: 16.5px;
@@ -2021,11 +1867,15 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       .craft-card {
         position: relative;
         overflow: hidden;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
+        background:
+          linear-gradient(var(--surface), var(--surface)) padding-box,
+          linear-gradient(90deg, var(--color-1), var(--color-5), var(--color-3), var(--color-4), var(--color-2)) border-box;
+        background-size: 200% 100%;
+        border: 2px solid transparent;
+        border-radius: 16px;
         padding: 26px 28px;
         box-shadow: var(--shadow-popup);
+        animation: var(--animate-rainbow);
       }
       .craft-inner {
         display: grid;
@@ -2112,185 +1962,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
 
       .shot-wide {
         max-width: 1080px;
-      }
-
-      /* ===== Library shelf ===== */
-      .shelf-wrap {
-        position: relative;
-        max-width: 860px;
-        margin: 0 auto;
-      }
-      .shelf {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        gap: 18px;
-        flex-wrap: wrap;
-        padding: 0 12px;
-      }
-      .book {
-        position: relative;
-        width: 104px;
-        height: 132px;
-        perspective: 1100px;
-        transition: transform 250ms ease;
-        transform-origin: bottom center;
-        z-index: 1;
-      }
-      .book:hover {
-        transform: translateY(-12px);
-        z-index: 5;
-      }
-      .book-page {
-        position: absolute;
-        inset: 0;
-        padding: 12px 9px 8px;
-        border-radius: 4px 8px 8px 4px;
-        background:
-          linear-gradient(90deg, rgba(0, 0, 0, 0.1), transparent 14px),
-          #f3f4f2;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
-      }
-      .book-cover {
-        position: absolute;
-        inset: 0;
-        border-radius: 4px 8px 8px 4px;
-        padding: 12px 10px 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        gap: 6px;
-        box-shadow:
-          inset 5px 0 8px -5px rgba(0, 0, 0, 0.5),
-          inset -1px 0 0 rgba(255, 255, 255, 0.3),
-          0 10px 24px rgba(0, 0, 0, 0.45);
-        transform-origin: left center;
-        transform-style: preserve-3d;
-        transition: transform 520ms cubic-bezier(0.25, 0.8, 0.25, 1);
-      }
-      .book-cover::before {
-        content: "";
-        position: absolute;
-        left: 7px;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-        background: rgba(0, 0, 0, 0.16);
-      }
-      .book-cover > * {
-        backface-visibility: hidden;
-      }
-      .book:hover .book-cover {
-        transform: rotateY(-150deg);
-        box-shadow:
-          inset 5px 0 8px -5px rgba(0, 0, 0, 0.5),
-          inset -1px 0 0 rgba(255, 255, 255, 0.3),
-          0 22px 40px rgba(0, 0, 0, 0.55);
-      }
-      .book-title {
-        font-size: 12.5px;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        font-family: var(--mono);
-      }
-      .book-badge {
-        align-self: flex-start;
-        font-family: var(--mono);
-        font-size: 8.5px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        padding: 1px 5px;
-        border-radius: 3px;
-        background: rgba(0, 0, 0, 0.14);
-      }
-      .book-star,
-      .book-fork {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        font-size: 11px;
-        opacity: 0.65;
-      }
-      .book-lilac { color: #35284f; }
-      .book-blue { color: #1e2a44; }
-      .book-spring { color: #2c4a20; }
-      .book-aqua { color: #1e4038; }
-      .book-peach { color: #4f3520; }
-      .book-rose { color: #4c1f2b; }
-      .book-lilac .book-cover { background: linear-gradient(165deg, #cdbcf3, #b3a0e6); }
-      .book-blue .book-cover { background: linear-gradient(165deg, #b5cdf8, #9ab8f0); }
-      .book-spring .book-cover { background: linear-gradient(165deg, #c3ecab, #a9dd90); }
-      .book-aqua .book-cover { background: linear-gradient(165deg, #a3e2d3, #87ccba); }
-      .book-peach .book-cover { background: linear-gradient(165deg, #f7cfa9, #eeb98a); }
-      .book-rose .book-cover { background: linear-gradient(165deg, #f2a9ba, #e78ba0); }
-      .bp-line {
-        height: 3px;
-        border-radius: 2px;
-        background: #c6c9c4;
-      }
-      .book-page .bp-line:first-child {
-        background: #9a9e98;
-      }
-      .bp-w60 { width: 60%; }
-      .bp-w65 { width: 65%; }
-      .bp-w70 { width: 70%; }
-      .bp-w75 { width: 75%; }
-      .bp-w80 { width: 80%; }
-      .bp-w85 { width: 85%; }
-      .bp-w90 { width: 90%; }
-      .bp-cap {
-        margin-top: 3px;
-        font-family: var(--mono);
-        font-size: 7.5px;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #8a8f98;
-      }
-      .shelf-edge {
-        height: 10px;
-        margin: 0 24px;
-        border-radius: 3px;
-        background: linear-gradient(180deg, #26282c, #101113);
-        border: 1px solid var(--line);
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5);
-      }
-      #library .ticks-row {
-        margin-top: 28px;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .book,
-        .book-cover {
-          transition: none;
-        }
-        .book:hover,
-        .book:hover .book-cover {
-          transform: none;
-        }
-      }
-      @media (max-width: 640px) {
-        .shelf {
-          gap: 12px;
-        }
-        .book {
-          width: 86px;
-          height: 112px;
-        }
-        .book-page {
-          padding: 10px 8px 7px;
-        }
-        .book-cover {
-          padding: 10px 8px 8px;
-        }
-        .book-title {
-          font-size: 10.5px;
-        }
-        .shelf-edge {
-          margin: 0 8px;
-        }
       }
 
       /* ===== Comparison table ===== */
@@ -2413,12 +2084,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         margin-left: auto;
         margin-right: auto;
       }
-      .dl-cta {
-        margin-bottom: 28px;
-      }
-      .dl-cta :global(a[data-slot="button"]) {
-        text-decoration: none;
-      }
       .dl-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -2434,7 +2099,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         align-items: center;
         text-decoration: none;
         background: #151515;
-        border: 1px solid var(--line);
+        border: 2px solid var(--line);
         border-radius: var(--radius-lg);
         padding: 22px 16px;
         color: #d6d9e0;
@@ -2451,16 +2116,20 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         color: #fff;
       }
       .dl-card.is-current {
-        border-color: rgba(37, 99, 235, 0.75);
-        background: linear-gradient(180deg, rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0.04));
-        color: #fff;
+        border-color: transparent;
+        background:
+          linear-gradient(#fff, #fff) padding-box,
+          linear-gradient(90deg, var(--color-1), var(--color-5), var(--color-3), var(--color-4), var(--color-2)) border-box;
+        background-size: 200% 100%;
+        color: #08090a;
         box-shadow:
-          0 0 0 1px rgba(37, 99, 235, 0.25),
-          0 8px 28px rgba(37, 99, 235, 0.18);
+          0 8px 28px rgba(37, 99, 235, 0.18),
+          0 12px 34px rgba(52, 180, 74, 0.1);
         transform: translateY(-2px);
+        animation: var(--animate-rainbow);
       }
       .dl-card.is-current svg {
-        color: #93c5fd;
+        color: #08090a;
       }
       .dl-os {
         font-weight: 600;
@@ -2469,7 +2138,8 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         margin-top: 4px;
       }
       .dl-card-badge {
-        display: none;
+        visibility: hidden;
+        min-height: 15px;
         margin-top: 2px;
         font-family: var(--mono);
         font-size: 10px;
@@ -2479,7 +2149,11 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         color: #93c5fd;
       }
       .dl-card.is-current .dl-card-badge {
-        display: block;
+        visibility: visible;
+        color: #2563eb;
+      }
+      .dl-card.is-current .dl-os {
+        color: #08090a;
       }
 
       /* ===== Footer ===== */
@@ -2572,6 +2246,15 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       @media (max-width: 640px) {
         .hero {
           padding-top: 64px;
+        }
+        .hero-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+        .hero-actions :global(a[data-slot="button"]),
+        .hero-actions .btn-docs {
+          justify-content: center;
+          width: 100%;
         }
         .section,
         .velocity,

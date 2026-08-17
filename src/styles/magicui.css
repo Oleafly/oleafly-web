@@ -821,9 +821,10 @@ div.st-hl-b.rounded-full {
 
 
 /* Oleafly quill-leaf cursor (landing page only). PNG data URI because
-   Safari does not support SVG cursors. Mirrored so the nib is the hotspot. */
+   Safari does not support SVG cursors. The artwork points in the same
+   lateral direction as the Oleafly brand mark; the hotspot remains the nib. */
 .leaf-cursor {
-  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAACXBIWXMAAC4jAAAuIwF4pT92AAABlUlEQVR4nOXWzytEURQH8OtHyo+S/AOS1ZSf5zwUNQu/3jmPYjFlJcXfIAulrC2UlayUjbdQ884ZYhaTtZUFW0WykbIRitEMoVG8570n5Vt3/emcczv3GvOvgp5tofA6Ki+D8oIlzkTP7khTbGAyl6xEoRNUzn88IHSJyqvg2f2Ro6DslIIl+EHkMCrlvkKLsPImZAfrIwG7xWlHpftvUeHzzrTdFgkKQnPfgS+Hrrt27N7wYt6UofKGHxSUrjrTwy2hzZSbqgChLV+VCp207Q3VhgItzx4A4VN/rS1epJVQICof+cVe5/nYpQ78GATlmWAg51F4P9QMg1fJechQ349RS7kDhe8CttY1YYLiTBbmE6CtD9b2eGMoFISmglRqKU+bsClsFBA+9rkM0iaKJNxUFWRoFoQPUfjpC/A24SbrTJRpVafBUrZReQmUzz7BGSITV3rdVHXhkS5Bl0zcAaW1D23Nxg96ozWodPH6Xt6YxcXy+FHl+fe2Os2xgz27I01voGePmd8IFr+b5BY+Zb8C/pk8AweG52OOlsTeAAAAAElFTkSuQmCC") 2 2, default;
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAACXBIWXMAAC4jAAAuIwF4pT92AAABnUlEQVR4nO3Wv0scURAH8BcNATUQQv4BEasDL8nNbBQUroianXkRtDhIFQTzN4QUgpDaQrASK8HGLQK3M6eYKw5rKwttAwnBRgQbicJlZY+TMz/Q3X1uI35h2v3w5c17rDH3SZHhrTf9ntgZUJ5H5UUUXsXQ98xtBkJ/DJWXQegQlaM/Ruig3Cg/vDUIhHb+QbQzoGzdofr4E1Bevw7C1lDDGXtZ9Ysg/CMBdvZK7HMnrLTpj6DS8c0YRyD00bHZ5CAoHSXBUHnNROZBZqy4PdEXb1vCZhuVoNLt1A6UlxI2i0D4mxf6rzNjJbWASs2kYHv2MoMo/DUlFoHyXCYMajSaFovbZT5DVApSYcK/POUXmTDvy/QzFD5PDlITxb7LhLVA5dk0zUDovXEJKFUTXoP9+AVywgpB+TEonV7T6DcI70KNPhSCyiPjGqwR/WfVv6PyZ0/ZH1L71Bm5mvjDf4HLI0Glx+QVUKp3mtGKyTULC10gfNJe9Z8Qvu3N1UO1A1fO7VOuWBwM/alLMP4DM3kHlG3rSRNezR0zdzUX1SLnYxXm7Q4AAAAASUVORK5CYII=") 25 2, default;
 }
 .leaf-cursor a,
 .leaf-cursor button,
