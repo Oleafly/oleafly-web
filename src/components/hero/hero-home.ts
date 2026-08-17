@@ -96,7 +96,10 @@ const sourceLine = (line: string, index: number) => {
   return `<div class="hv-resume-line"><span class="hv-resume-ln">${index + 1}</span><code>${html}</code></div>`;
 };
 
-const resumeCode = resumeSource.split("\n").map(sourceLine).join("");
+const resumeCode = resumeSource
+  .split("\n")
+  .map((line, index) => sourceLine(line, index))
+  .join("");
 
 const resumeProfiles = {
   alex: {
@@ -266,7 +269,7 @@ const library = `
       <span class="hv-space-topbtn">${ic.sliders}</span>
       <span class="hv-space-topbtn" id="hvHomeFavFilter">${ic.bookmark}<b>6</b></span>
     </header>
-    <main class="hv-space-shelf">${projects.map(book).join("")}</main>
+    <main class="hv-space-shelf">${projects.map((project, index) => book(project, index)).join("")}</main>
     <nav class="hv-space-dock">
       <span class="hv-space-dockbtn is-primary" id="hvHomeNewProject">${ic.plus}<em>New project</em></span>
       <span class="hv-space-dockbtn">${ic.search}</span>
@@ -289,7 +292,7 @@ const templateModal = `
           <span class="hv-ats-filter" id="hvAtsFilter">${ic.checkCircle} ATS-friendly</span>
           <span class="hv-offline-filter">Offline</span>
         </div>
-        <div class="hv-template-grid">${templates.map(templateCard).join("")}</div>
+        <div class="hv-template-grid">${templates.map((template, index) => templateCard(template, index)).join("")}</div>
       </div>
     </div>
   </section>`;

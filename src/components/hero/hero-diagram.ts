@@ -144,7 +144,7 @@ const library = `
       <span class="hv-space-topbtn">${ic.sliders}</span>
       <span class="hv-space-topbtn">${ic.bookmark}<b>6</b></span>
     </header>
-    <main class="hv-space-shelf">${diagramProjects.map(diagramBook).join("")}</main>
+    <main class="hv-space-shelf">${diagramProjects.map((project, index) => diagramBook(project, index)).join("")}</main>
     <nav class="hv-space-dock">
       <span class="hv-space-dockbtn is-primary">${ic.plus}<em>New project</em></span>
       <span class="hv-space-dockbtn">${ic.search}</span>
