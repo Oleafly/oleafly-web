@@ -145,7 +145,7 @@ const exportMenu = `
             <span class="hv-railbtn"><Fragment set:html={ic.gitBranch} /></span>
             <span class="hv-rsep"></span>
             <span class="hv-railbtn"><Fragment set:html={ic.shieldCheck} /></span>
-            <span class="hv-railbtn"><Fragment set:html={ic.searchCode} /></span>
+            <span class="hv-railbtn" id="hvRailRefs"><Fragment set:html={ic.searchCode} /></span>
             <span class="hv-rsep"></span>
             <span class="hv-railbtn" id="hvRailAssistant"><Fragment set:html={ic.sparkles} /></span>
             <span class="hv-rail-spacer"></span>
@@ -217,11 +217,17 @@ const exportMenu = `
   /* tour bar --------------------------------------------------------------- */
   .hv-tour {
     display: flex;
-    justify-content: center;
     margin: 0 auto 16px;
+    /* Scrolls when the pills outgrow the viewport (phones); margin-inline:auto
+       on the pill centers it when it fits — justify-content:center would make
+       the overflowing start edge unreachable. */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .hv-tour-in {
     position: relative;
+    margin-inline: auto;
+    flex: none;
     display: flex;
     isolation: isolate;
     gap: 3px;
@@ -929,6 +935,9 @@ const exportMenu = `
     animation: hv-blink 1s steps(1) infinite;
   }
   @keyframes hv-blink { 50% { opacity: 0; } }
+  /* referenced by the assistant/home/diagram/cite scenes */
+  @keyframes hv-caret { 50% { opacity: 0; } }
+  @keyframes hv-spin { to { transform: rotate(360deg); } }
 
   /* editor scrollbar (follows the tour's scroll) */
   .hv-sb {
@@ -1869,6 +1878,195 @@ const exportMenu = `
     font-weight: 500;
   }
 
+  /* --- citations flow states (root data-cite-* drive everything) --- */
+  /* left panel: source tree + structure ⇄ references, toggled by rail click */
+  .hv-cite-left { position: relative; display: flex; flex-shrink: 0; }
+  .hv-scene[data-scene="cite"] .hv-tree { --treew: 200; --treeinw: 200; --structh: 318; border-right-width: 1px; }
+  .heroapp[data-cite-panel="refs"] .hv-scene[data-scene="cite"] .hv-tree { display: none; }
+  .heroapp:not([data-cite-panel="refs"]) .hv-scene[data-scene="cite"] .hv-side { display: none; }
+  .heroapp[data-scene="cite"][data-cite-panel="refs"] #hvRailFiles { background: transparent; color: var(--hv-mut); }
+  .heroapp[data-scene="cite"][data-cite-panel="refs"] #hvRailRefs { background: rgba(37, 99, 235, 0.1); color: var(--hv-fg); }
+
+  /* structure row + block selection + Ask AI chip */
+  .hv-srow.is-selected { background: rgba(37, 99, 235, 0.2); }
+  .hv-srow.is-selected .hv-srow-name { color: var(--hv-fg); }
+  .hv-cl.is-bsel { background: rgba(37, 99, 235, 0.17); }
+  .hv-cl.is-bsel .hv-ln { color: var(--hv-fg); }
+  .hv-askai {
+    display: none;
+    position: absolute;
+    z-index: 6;
+    align-items: center;
+    gap: 3.5px;
+    height: 16px;
+    padding: 0 7px;
+    border: 1px solid var(--hv-line);
+    border-radius: 999px;
+    background: #0b0b0b;
+    color: var(--hv-fg);
+    font-size: 7.6px;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+  }
+  .hv-askai svg { width: 8px; height: 8px; color: #a78bfa; }
+  .heroapp[data-cite-sel] .hv-scene[data-scene="cite"] .hv-askai { display: inline-flex; }
+
+  /* References panel segments + the three list views */
+  .heroapp[data-cite-seg="cites"] #hvCSegRefs,
+  .heroapp[data-cite-seg="syms"] #hvCSegRefs { background: transparent; color: var(--hv-mut); box-shadow: none; font-weight: 400; }
+  .heroapp[data-cite-seg="cites"] #hvCSegCites,
+  .heroapp[data-cite-seg="syms"] #hvCSegSyms { background: var(--hv-panel); color: var(--hv-fg); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); font-weight: 500; }
+  .hv-reflist { display: none; }
+  .heroapp:not([data-cite-seg]) .hv-reflist[data-view="refs"],
+  .heroapp[data-cite-seg="refs"] .hv-reflist[data-view="refs"],
+  .heroapp[data-cite-seg="cites"] .hv-reflist[data-view="cites"],
+  .heroapp[data-cite-seg="syms"] .hv-reflist[data-view="syms"] { display: block; }
+  .hv-reflist .hv-sic svg { width: 9px; height: 9px; }
+
+  /* 12 → 13 counts and the freshly added bibliography row */
+  .hv-cite-c12, .hv-cite-c13 { font-style: normal; }
+  .hv-cite-c13, .heroapp[data-cite-inserted] .hv-cite-c12 { display: none; }
+  .heroapp[data-cite-inserted] .hv-cite-c13 { display: inline; }
+  .hv-cite-newrow { display: none; }
+  .heroapp[data-cite-inserted] .hv-cite-newrow { display: flex; animation: hv-cite-row-in 0.6s ease-out both; }
+  @keyframes hv-cite-row-in {
+    from { background: rgba(16, 185, 129, 0.2); transform: translateY(3px); opacity: 0; }
+    60% { background: rgba(16, 185, 129, 0.2); }
+    to { background: transparent; transform: none; opacity: 1; }
+  }
+
+  /* insertion point in main.tex line 13: caret while placing, body once added */
+  .hv-cins-caret, .hv-cins-body { display: none; }
+  .heroapp[data-cite-caret] .hv-scene[data-scene="cite"] .hv-cins-caret {
+    display: inline-block;
+    width: 1px;
+    height: 9px;
+    margin: 0 0.5px;
+    background: var(--hv-fg);
+    vertical-align: -1px;
+    animation: hv-caret 0.8s step-end infinite;
+  }
+  .heroapp[data-cite-inserted] .hv-scene[data-scene="cite"] .hv-cins-body { display: inline; border-radius: 2px; animation: hv-cite-ins-in 1.2s ease-out both; }
+  @keyframes hv-cite-ins-in { from { background: rgba(16, 185, 129, 0.3); } to { background: transparent; } }
+
+  /* @ citation picker popover */
+  .hv-cpick {
+    display: none;
+    position: absolute;
+    z-index: 9;
+    width: 268px;
+    padding: 4px;
+    border: 1px solid var(--hv-line);
+    border-radius: 7px;
+    background: var(--hv-pop);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  }
+  .heroapp[data-cite-pick] .hv-scene[data-scene="cite"] .hv-cpick { display: block; }
+  .hv-cpick-search {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 22px;
+    padding: 0 7px;
+    margin-bottom: 3px;
+    border-bottom: 1px solid var(--hv-line-soft);
+    color: var(--hv-mut2);
+    font-size: 8px;
+  }
+  .hv-cpick-search svg { width: 8.5px; height: 8.5px; }
+  .hv-cpick-row { display: flex; flex-direction: column; gap: 1px; padding: 3.5px 7px; border-radius: 4px; }
+  .hv-cpick-key { font-family: var(--hv-mono); font-size: 8px; color: var(--hv-fg); }
+  .hv-cpick-meta { color: var(--hv-mut2); font-size: 7.2px; white-space: nowrap; overflow: hidden; }
+  .hv-cpick-find {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 22px;
+    padding: 0 7px;
+    margin-top: 3px;
+    border-top: 1px solid var(--hv-line-soft);
+    border-radius: 4px;
+    color: var(--hv-fg);
+    font-size: 8px;
+  }
+  .hv-cpick-find svg { width: 9px; height: 9px; color: var(--hv-mut); }
+  .hv-cpick-find.is-hover { background: var(--hv-elev); }
+
+  /* Add-citation dialog: hidden until the flow opens it, then staged through
+     empty → filled → loading → result via data-cite-dlg */
+  .hv-scene[data-scene="cite"] .hv-modal-backdrop,
+  .hv-scene[data-scene="cite"] .hv-dialog { display: none; }
+  /* the backdrop dims the whole window, top toolbar included */
+  .hv-scene[data-scene="cite"] .hv-modal-backdrop { inset: -34px 0 0 0; }
+  .heroapp[data-cite-dlg] .hv-scene[data-scene="cite"] .hv-modal-backdrop { display: block; }
+  .heroapp[data-cite-dlg] .hv-scene[data-scene="cite"] .hv-dialog { display: block; animation: hv-dlg-in 0.18s ease-out; }
+  @keyframes hv-dlg-in {
+    from { transform: translateX(-50%) scale(0.97); opacity: 0; }
+    to { transform: translateX(-50%) scale(1); opacity: 1; }
+  }
+  .hv-dialog { top: 130px; }
+  .hv-dlg-note {
+    margin-top: 5px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--hv-line-soft);
+    color: var(--hv-mut2);
+    font-size: 7.2px;
+  }
+  .hv-dlg-help { margin: 7px 0 2px; color: var(--hv-mut); font-size: 7.6px; line-height: 1.5; }
+  .hv-dlg-ph, .hv-dlg-val { font-style: normal; }
+  .hv-dlg-ph { color: var(--hv-mut2); }
+  .hv-dlg-val { display: none; }
+  .heroapp[data-cite-dlg="filled"] .hv-dlg-ph,
+  .heroapp[data-cite-dlg="loading"] .hv-dlg-ph,
+  .heroapp[data-cite-dlg="result"] .hv-dlg-ph { display: none; }
+  .heroapp[data-cite-dlg="filled"] .hv-dlg-val,
+  .heroapp[data-cite-dlg="loading"] .hv-dlg-val,
+  .heroapp[data-cite-dlg="result"] .hv-dlg-val { display: inline; }
+  .hv-dlg-go { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; }
+  .hv-dlg-spin {
+    display: none;
+    width: 8px;
+    height: 8px;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: hv-spin 0.8s linear infinite;
+  }
+  .heroapp[data-cite-dlg="loading"] .hv-dlg-spin { display: inline-block; }
+  .heroapp[data-cite-dlg="loading"] .hv-dlg-go-t { display: none; }
+  .hv-dlg-result { display: none; }
+  .heroapp[data-cite-dlg="result"] .hv-dlg-empty { display: none; }
+  .heroapp[data-cite-dlg="result"] .hv-dlg-result { display: block; }
+  .hv-dlg-result .hv-dlg-bib { margin-top: 7px; }
+
+  /* “Added \cite{…}” toast */
+  .hv-cite-toast {
+    position: absolute;
+    right: 14px;
+    bottom: 12px;
+    z-index: 12;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    height: 32px;
+    padding: 0 13px;
+    border: 1px solid var(--hv-line);
+    border-radius: 7px;
+    background: #050505;
+    color: #ddd;
+    font-size: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+  }
+  .heroapp[data-cite-toast] .hv-cite-toast { opacity: 1; transform: none; }
+  .hv-cite-toast b { font-family: var(--hv-mono); font-weight: 500; color: #fff; }
+  .hv-cite-toast .hv-toast-ic { display: inline-flex; color: var(--hv-emerald); }
+  .hv-cite-toast .hv-toast-ic svg { width: 11px; height: 11px; }
+
   /* ======================== diagram scene ======================== */
   .hv-dg-top {
     display: flex;
@@ -2395,6 +2593,8 @@ const exportMenu = `
   }
   @media (max-width: 640px) {
     .heroapp { width:calc(100vw - 24px); }
+    .hv-tour { margin-bottom: 12px; }
+    .hv-tourbtn { padding: 6px 12px; font-size: 12px; }
   }
 </style>
 
@@ -2411,11 +2611,30 @@ const exportMenu = `
     const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>(".hv-tourbtn"));
 
     let zoomF = 1;
+    // zoom (not transform) where possible: fractional transforms blur
+    // sub-10px text in Chromium; zoom re-lays-out natively at the final size.
+    // WebKit, however, clamps zoomed text to its ~9px minimum font size, which
+    // blows the stage apart at phone widths — probe for that clamp once and
+    // fall back to transform: scale there (paint-time, no clamp).
+    const zoomClamps = (() => {
+      const probe = document.createElement("div");
+      probe.style.cssText =
+        "position:absolute;visibility:hidden;left:-9999px;font-size:12px;line-height:1;white-space:nowrap";
+      (probe.style as CSSStyleDeclaration & { zoom: string }).zoom = "0.25";
+      probe.textContent = "M";
+      document.body.appendChild(probe);
+      const h = probe.getBoundingClientRect().height; // ≈3px honest, ≥6px clamped
+      probe.remove();
+      return h > 6;
+    })();
     const fit = () => {
-      // zoom (not transform): fractional transforms blur sub-10px text in
-      // Chromium; zoom re-lays-out natively at the final size.
       zoomF = viewport.clientWidth / 1080;
-      (stage.style as CSSStyleDeclaration & { zoom: string }).zoom = String(zoomF);
+      if (zoomClamps) {
+        stage.style.transform = `scale(${zoomF})`;
+        stage.style.transformOrigin = "0 0";
+      } else {
+        (stage.style as CSSStyleDeclaration & { zoom: string }).zoom = String(zoomF);
+      }
     };
     fit();
     new ResizeObserver(fit).observe(viewport);
@@ -2517,10 +2736,30 @@ const exportMenu = `
     const diagramFilenameText = $("#hvDiagramFilenameText");
     const diagramFileSave = $("#hvDiagramFileSave");
 
+    // Citations-scene handles
+    const citeSceneEl = $('.hv-scene[data-scene="cite"]');
+    const citeCodein = citeSceneEl.querySelector<HTMLElement>(".hv-codein")!;
+    const citeFig = $("#hvCFig");
+    const citeAskAi = $("#hvCAskAi");
+    const citeAtBtn = $("#hvCAt");
+    const citePick = $("#hvCPick");
+    const citeFind = $("#hvCFind");
+    const citeChipDoi = $("#hvCChipDoi");
+    const citeLookup = $("#hvCLookup");
+    const citeAddBib = $("#hvCAddBib");
+    const citeIns = $("#hvCIns");
+    const citeSegRefs = $("#hvCSegRefs");
+    const citeSegCites = $("#hvCSegCites");
+    const citeSegSyms = $("#hvCSegSyms");
+    const citeRailRefs = $("#hvRailRefs");
+
     // editor scrollbar element (created here; styled globally)
     const sb = document.createElement("span");
     sb.className = "hv-sb";
     scene.querySelector(".hv-code")!.appendChild(sb);
+    const csb = document.createElement("span");
+    csb.className = "hv-sb";
+    citeSceneEl.querySelector(".hv-code")!.appendChild(csb);
 
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -2639,6 +2878,36 @@ const exportMenu = `
       const r = zoomBtn.getBoundingClientRect();
       const pr = preview.getBoundingClientRect();
       zoomMenu.style.left = `${Math.max(6, (r.left - pr.left) / zoomF - 26)}px`;
+    };
+
+    // ------------------------------------------------------ citations flow
+    let lastCiteScroll = 0;
+    const citeScrollToLine = (n: number) => {
+      lastCiteScroll = n;
+      const line = citeCodein.querySelector<HTMLElement>(`[data-l="${n}"]`);
+      const y = line ? line.offsetTop : 0;
+      citeCodein.style.transform = `translateY(${-y}px)`;
+      const range = citeCodein.scrollHeight - (citeCodein.parentElement?.clientHeight ?? 0);
+      csb.style.transform = `translateY(${(range > 0 ? y / range : 0) * 340}px)`;
+    };
+    /** Toggle the block selection on the figure environment (lines 71–79). */
+    const citeSelLines = (on: boolean) => {
+      for (let n = 71; n <= 79; n++)
+        citeCodein.querySelector(`[data-l="${n}"]`)?.classList.toggle("is-bsel", on);
+    };
+    const placeAskAi = () => {
+      const line = citeCodein.querySelector<HTMLElement>('[data-l="79"]');
+      if (!line) return;
+      const r = line.getBoundingClientRect();
+      const sc = citeSceneEl.getBoundingClientRect();
+      citeAskAi.style.left = `${(r.left - sc.left) / zoomF + 130}px`;
+      citeAskAi.style.top = `${(r.bottom - sc.top) / zoomF - 6}px`;
+    };
+    const placeCitePick = () => {
+      const r = citeAtBtn.getBoundingClientRect();
+      const sc = citeSceneEl.getBoundingClientRect();
+      citePick.style.left = `${Math.max(6, (r.left - sc.left) / zoomF - 10)}px`;
+      citePick.style.top = `${(r.bottom - sc.top) / zoomF + 5}px`;
     };
 
     // ------------------------------------------------------- project flow
@@ -3275,10 +3544,107 @@ const exportMenu = `
     });
     diagramAt(44450, () => setAttr("data-cursor", false));
 
+    // -------------------------------------------------- citations flow
+    // Structure navigation → References panel views → @ picker →
+    // DOI lookup dialog → "Add to .bib and cite" payoff.
+    const citeSteps: Step[] = [];
+    const cAt = (t: number, run: () => void) => citeSteps.push({ t, run });
+
+    // Click the "figure" structure row: editor jumps to the block, selects it,
+    // and offers Ask AI on the selection.
+    cAt(500, () => {
+      setAttr("data-cursor", true);
+      moveTo(citeFig);
+    });
+    cAt(1500, () => {
+      click();
+      citeFig.closest(".hv-srow")?.classList.add("is-selected");
+      citeScrollToLine(64);
+    });
+    cAt(2300, () => {
+      setAttr("data-cite-sel", true);
+      citeSelLines(true);
+      placeAskAi();
+    });
+    // Swap the left panel to References via the activity rail.
+    cAt(4600, () => moveTo(citeRailRefs));
+    cAt(5500, () => {
+      click();
+      root.setAttribute("data-cite-panel", "refs");
+    });
+    // Tour the three panel views: Citations, Symbols, back to References.
+    cAt(7200, () => moveTo(citeSegCites));
+    cAt(8000, () => {
+      click();
+      root.setAttribute("data-cite-seg", "cites");
+    });
+    cAt(9800, () => moveTo(citeSegSyms));
+    cAt(10600, () => {
+      click();
+      root.setAttribute("data-cite-seg", "syms");
+    });
+    cAt(12400, () => moveTo(citeSegRefs));
+    cAt(13200, () => {
+      click();
+      root.setAttribute("data-cite-seg", "refs");
+    });
+    // Place the caret where the new citation belongs (line 13).
+    cAt(14000, () => {
+      citeSelLines(false);
+      setAttr("data-cite-sel", false);
+      citeFig.closest(".hv-srow")?.classList.remove("is-selected");
+      citeScrollToLine(1);
+    });
+    cAt(14800, () => moveTo(citeIns, 2, 0));
+    cAt(15600, () => {
+      click();
+      setAttr("data-cite-caret", true);
+    });
+    // Open the @ citation picker, then "Find and add a new citation…".
+    cAt(16400, () => moveTo(citeAtBtn));
+    cAt(17200, () => {
+      click();
+      placeCitePick();
+      setAttr("data-cite-pick", true);
+    });
+    cAt(19000, () => moveTo(citeFind));
+    cAt(19700, () => citeFind.classList.add("is-hover"));
+    cAt(20200, () => {
+      click();
+      citeFind.classList.remove("is-hover");
+      setAttr("data-cite-pick", false);
+      root.setAttribute("data-cite-dlg", "empty");
+    });
+    // Try the DOI example, look it up, get the fetched BibTeX entry.
+    cAt(21600, () => moveTo(citeChipDoi));
+    cAt(22400, () => {
+      click();
+      root.setAttribute("data-cite-dlg", "filled");
+    });
+    cAt(23200, () => moveTo(citeLookup));
+    cAt(23900, () => {
+      click();
+      root.setAttribute("data-cite-dlg", "loading");
+    });
+    cAt(24800, () => root.setAttribute("data-cite-dlg", "result"));
+    // Add to .bib and cite: toast, editor insertion, References gains a row.
+    cAt(26900, () => moveTo(citeAddBib));
+    cAt(27700, () => {
+      click();
+      root.removeAttribute("data-cite-dlg");
+      setAttr("data-cite-caret", false);
+      setAttr("data-cite-inserted", true);
+      setAttr("data-cite-toast", true);
+    });
+    cAt(28500, () => moveTo(citeIns, 8, 0));
+    cAt(31200, () => setAttr("data-cite-toast", false));
+    cAt(32200, () => setAttr("data-cursor", false));
+
     const PROJECT_DUR = 29200;
     const ASSISTANT_DUR = 69500;
     const HOME_DUR = 26200;
     const DIAGRAM_DUR = 46300;
+    const CITE_DUR = 33000;
     const STATIC_DUR = 6000;
 
     const resetProject = () => {
@@ -3417,6 +3783,34 @@ const exportMenu = `
       curY = 400;
     };
 
+    const resetCite = () => {
+      window.clearTimeout(cursorHoverTimer);
+      setAttr("data-cursor", false);
+      for (const a of [
+        "data-cite-panel",
+        "data-cite-seg",
+        "data-cite-sel",
+        "data-cite-caret",
+        "data-cite-pick",
+        "data-cite-dlg",
+        "data-cite-inserted",
+        "data-cite-toast",
+      ])
+        root.removeAttribute(a);
+      citeSelLines(false);
+      citeFig.closest(".hv-srow")?.classList.remove("is-selected");
+      citeFind.classList.remove("is-hover");
+      citeScrollToLine(1);
+      lastCiteScroll = 0;
+      // the scene depicts an already-compiled project
+      cpLabel.textContent = "Recompile";
+      lastMove = null;
+      cursor.style.transitionDuration = "0ms, 300ms";
+      cursor.style.transform = "translate(760px, 400px)";
+      curX = 760;
+      curY = 400;
+    };
+
     /** Motionless end-state for prefers-reduced-motion viewers. */
     const applyTableau = () => {
       resetProject();
@@ -3467,6 +3861,13 @@ const exportMenu = `
       setDiagramState("exported");
     };
 
+    /** Payoff frame for reduced-motion viewers: citation added everywhere. */
+    const applyCiteTableau = () => {
+      resetCite();
+      root.setAttribute("data-cite-panel", "refs");
+      setAttr("data-cite-inserted", true);
+    };
+
     // --------------------------------------------------------- scene loop
     const order = ["project", "assistant", "cite", "diagram", "home"];
     let sceneIdx = 0;
@@ -3483,6 +3884,19 @@ const exportMenu = `
       root.dataset.pop = "";
       root.removeAttribute("data-ai-compiling");
       for (const tab of tabs) tab.setAttribute("aria-selected", String(tab.dataset.goto === order[idx]));
+      // On phones the tour bar scrolls; keep the active tab centered in it.
+      const tour = root.querySelector<HTMLElement>(".hv-tour")!;
+      if (tour.scrollWidth > tour.clientWidth + 1) {
+        const active = tabs.find((tab) => tab.dataset.goto === order[idx]);
+        if (active) {
+          const bt = active.getBoundingClientRect();
+          const tr = tour.getBoundingClientRect();
+          tour.scrollTo({
+            left: tour.scrollLeft + bt.left + bt.width / 2 - (tr.left + tr.width / 2),
+            behavior: "smooth",
+          });
+        }
+      }
       if (order[idx] === "project") {
         if (reduced) applyTableau();
         else resetProject();
@@ -3495,6 +3909,9 @@ const exportMenu = `
       } else if (order[idx] === "diagram") {
         if (reduced) applyDiagramTableau();
         else resetDiagram();
+      } else if (order[idx] === "cite") {
+        if (reduced) applyCiteTableau();
+        else resetCite();
       } else {
         root.removeAttribute("data-ai-pane");
         setAttr("data-cursor", false);
@@ -3509,8 +3926,8 @@ const exportMenu = `
     const tick = (now: number) => {
       const el = now - sceneStart;
       const activeScene = order[sceneIdx];
-      const activeSteps = activeScene === "project" ? steps : activeScene === "assistant" ? aiSteps : activeScene === "home" ? homeSteps : activeScene === "diagram" ? diagramSteps : [];
-      const dur = activeScene === "project" ? PROJECT_DUR : activeScene === "assistant" ? ASSISTANT_DUR : activeScene === "home" ? HOME_DUR : activeScene === "diagram" ? DIAGRAM_DUR : STATIC_DUR;
+      const activeSteps = activeScene === "project" ? steps : activeScene === "assistant" ? aiSteps : activeScene === "home" ? homeSteps : activeScene === "diagram" ? diagramSteps : activeScene === "cite" ? citeSteps : [];
+      const dur = activeScene === "project" ? PROJECT_DUR : activeScene === "assistant" ? ASSISTANT_DUR : activeScene === "home" ? HOME_DUR : activeScene === "diagram" ? DIAGRAM_DUR : activeScene === "cite" ? CITE_DUR : STATIC_DUR;
       if (activeSteps.length) {
         while (stepIdx < activeSteps.length && activeSteps[stepIdx].t <= el) {
           activeSteps[stepIdx].run();
@@ -3528,6 +3945,11 @@ const exportMenu = `
           if (root.dataset.pop === "cite") placeCitePop();
           if (root.dataset.pop === "zoom") placeZoomMenu();
           if (activeScene === "assistant") aiRunScroll.scrollTop = aiRunScroll.scrollHeight;
+          if (activeScene === "cite") {
+            if (lastCiteScroll) citeScrollToLine(lastCiteScroll);
+            if (root.hasAttribute("data-cite-sel")) placeAskAi();
+            if (root.hasAttribute("data-cite-pick")) placeCitePick();
+          }
           if (lastMove) moveTo(lastMove[0], lastMove[1], lastMove[2], { dur: 0 });
         }, 400);
         return;
@@ -3570,6 +3992,8 @@ const exportMenu = `
             ? devParams.get("hvhome") ?? devParams.get("hvt") ?? 0
             : jump === "diagram"
               ? devParams.get("hvdiagram") ?? devParams.get("hvt") ?? 0
+            : jump === "cite"
+              ? devParams.get("hvcite") ?? devParams.get("hvt") ?? 0
             : devParams.get("hvt") ?? 0,
       ) || 0;
       if (jump && order.includes(jump)) setScene(order.indexOf(jump));
@@ -3584,6 +4008,7 @@ const exportMenu = `
                 if (order[sceneIdx] === "assistant") resetAssistant();
                 if (order[sceneIdx] === "home") resetHome();
                 if (order[sceneIdx] === "diagram") resetDiagram();
+                if (order[sceneIdx] === "cite") resetCite();
                 sceneStart = performance.now() - pendingSkip;
                 pendingSkip = 0;
                 start();

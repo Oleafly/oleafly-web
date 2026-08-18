@@ -53,7 +53,9 @@ export const codeLines = [
   L(10, `${k("\\begin")}${b("{")}${a("abstract")}${b("}")}`, "fold"),
   L(11, `We present ${sp("EdgeSense")}, a low-power wildfire early-warning system that fuses thermal,`, "bulb"),
   L(12, `particulate, humidity, and wind observations across a mesh of battery-powered`),
-  L(13, `nodes. A gated temporal model runs locally and transmits only uncertain windows.`),
+  // .hv-cite-ins is empty here and in the project scene; the Citations flow
+  // reveals the \cite{lecun2015deep} body (and a caret) via root data-cite-*.
+  L(13, `nodes. A gated temporal model runs locally and transmits only uncertain windows<span class="hv-cite-ins"><span class="hv-cins-caret"></span><span class="hv-cins-body">~${k("\\cite")}${b("{")}${key("lecun2015deep")}${b("}")}</span></span>.`),
   L(14, `In a 16-week controlled field deployment, ${sp("EdgeSense")} detected 94.1${k("\\%")} of burn events`, "bulb"),
   L(15, `at 0.7 false alarms per node-week while reducing radio energy by 63${k("\\%")} relative to`),
   L(16, `periodic streaming. Results use a synthetic but realistic demo dataset.`),
