@@ -12,6 +12,7 @@ import {
   mistral,
   openai,
   openrouter,
+  ollama,
   zai,
 } from "./hero-icons";
 import { pdfPages } from "./hero-pdf";
@@ -189,6 +190,7 @@ const settingsModal = `
               ${providerCard("openai", openai, "OpenAI", openAiBody)}
               ${providerCard("anthropic", anthropic, "Anthropic")}
               ${providerCard("google", gemini, "Google Gemini")}
+              ${providerCard("ollama", ollama, "Ollama (local)")}
               ${providerCard("zai", zai, "Z.AI (GLM Coding Plan)")}
               ${providerCard("groq", groq, "Groq")}
               ${providerCard("openrouter", openrouter, "OpenRouter")}

@@ -120,6 +120,222 @@ const citeUsage = (bibkey: string, locs: string, danger = false) =>
 const symRow = (icon: string, name: string, prov: string) =>
   `<div class="hv-rrow ind"><span class="hv-sic">${icon}</span><span class="hv-rkey">${name}</span><span class="hv-rtag">${prov}</span></div>`;
 
+/* ------------------------------------------------------ versions & git */
+
+/* one diff row: n = line number, kind = "" | "del" | "add" */
+const dRow = (n: number | "", html: string, kind = "") =>
+  `<div class="hv-gd-row${kind ? ` is-${kind}` : ""}"><span class="hv-gd-ln">${n}</span><span class="hv-gd-ct">${html}</span></div>`;
+const dBand = (n: number) => `<div class="hv-gd-band">&#124; ${n} unchanged lines &#124;</div>`;
+
+const tk = {
+  cmd: (s: string) => `<span class="t-cmd">${s}</span>`,
+  br: (s: string) => `<span class="t-br">${s}</span>`,
+  env: (s: string) => `<span class="t-env">${s}</span>`,
+  key: (s: string) => `<span class="t-key">${s}</span>`,
+};
+const diffCtx = [
+  dRow(9, `${tk.cmd("\\begin")}${tk.br("{")}${tk.env("document")}${tk.br("}")}${tk.cmd("\\maketitle")}`),
+  dRow(10, `${tk.cmd("\\begin")}${tk.br("{")}${tk.env("abstract")}${tk.br("}")}`),
+  dRow(11, `We present EdgeSense, a low-power wildfire early-warning system that fuses thermal,`),
+  dRow(12, `particulate, humidity, and wind observations across a mesh of battery-powered`),
+];
+const diffTail = [
+  dRow(14, `In a 16-week controlled field deployment, EdgeSense detected 94.1${tk.cmd("\\%")} of burn events`),
+  dRow(15, `at 0.7 false alarms per node-week while reducing radio energy by 63${tk.cmd("\\%")} relative to`),
+  dRow(16, `periodic streaming. Results use a synthetic but realistic demo dataset.`),
+  dRow(17, `${tk.cmd("\\end")}${tk.br("{")}${tk.env("abstract")}${tk.br("}")}`),
+];
+const diffPane = `
+<div class="hv-gd">
+  <div class="hv-gd-bar">
+    <span class="hv-gd-mode">${ic.gitCompare}Working &#8646; Index</span>
+    <span class="hv-gd-nav">${ic.chevU}${ic.chevD}<i></i><b class="is-on">${ic.columns2}</b><b>${ic.rows}</b></span>
+  </div>
+  <div class="hv-gd-panes">
+    <div class="hv-gd-pane">
+      ${dBand(8)}${diffCtx.join("")}
+      ${dRow(13, `nodes. A gated temporal model runs locally and transmits only uncertain windows.`, "del")}
+      ${diffTail.join("")}${dBand(78)}
+    </div>
+    <div class="hv-gd-pane">
+      ${dBand(8)}${diffCtx.join("")}
+      ${dRow(13, `nodes. A gated temporal model runs locally and transmits only uncertain windows<span class="hv-gd-w">~${tk.cmd("\\cite")}${tk.br("{")}${tk.key("lecun2015deep")}${tk.br("}")}</span>.`, "add")}
+      ${diffTail.join("")}${dBand(78)}
+    </div>
+  </div>
+</div>`;
+
+/** Editor copy for the Versions & Git flow: the tab strip gains a
+ * "main.tex (Working Tree)" tab and the diff pane sits inside the editor,
+ * swapped in for the toolbar+code while [data-git-diff] is set. */
+const gitEditor = strip(editorPane)
+  .replace(
+    `<span class="hv-tab is-active">main.tex<span class="hv-tab-x">${ic.x}</span></span>`,
+    `<span class="hv-tab hv-gtab-main">main.tex<span class="hv-tab-x">${ic.x}</span></span><span class="hv-tab hv-gtab-diff">main.tex&nbsp;<i>(Working Tree)</i><span class="hv-tab-x">${ic.x}</span></span>`,
+  )
+  .replace('<div class="hv-code">', `${diffPane}<div class="hv-code">`);
+
+const commitRow = (label: string, msg: string, meta: string, opts: { cls?: string; actions?: string } = {}) =>
+  `<div class="hv-gh-row${opts.cls ? ` ${opts.cls}` : ""}">
+    <div class="hv-gh-main">
+      <span class="hv-gh-label">${label}<span class="hv-gh-pencil">${ic.pencil}</span></span>
+      <span class="hv-gh-msg">${msg}</span>
+      <span class="hv-gh-meta">${meta}</span>
+    </div>
+    ${opts.actions ?? `<span class="hv-gh-restore">${ic.rotateCcw}Restore</span>`}
+  </div>`;
+
+export const historyScene = `
+<section class="hv-scene" data-scene="history">
+  <aside class="hv-git">
+    <div class="hv-git-in">
+      <div class="hv-panel-head">
+        <span class="hv-ph-ic">${ic.gitBranch}</span><span class="hv-ph-label">Source Control</span>
+        <span class="hv-ph-actions">${iconBtn(ic.refresh, "hv-ib-xs")}</span>
+      </div>
+      <div class="hv-git-meta">
+        <span class="hv-git-branch">${ic.gitBranch}main</span>
+        <span class="hv-git-ahead"><i class="hv-git-up">&uarr;1</i></span>
+      </div>
+      <div class="hv-git-groups">
+        <div class="hv-git-ghead hv-git-staged-head">Staged <span class="hv-rtag">1</span></div>
+        <div class="hv-git-row hv-git-staged-row"><span class="hv-git-st m">M</span><span class="hv-git-fname">main.tex</span></div>
+        <div class="hv-git-ghead hv-git-changes-head">Changes <span class="hv-rtag hv-git-chg-n">1</span></div>
+        <div class="hv-git-row" id="hvGChange"><span class="hv-git-st m">M</span><span class="hv-git-fname">main.tex</span><span class="hv-git-stage" id="hvGStage">${ic.plus}</span></div>
+        <div class="hv-git-clean">No changes. Your working tree is clean.</div>
+      </div>
+      <div class="hv-git-foot">
+        <div class="hv-git-msg" id="hvGMsg"><span class="hv-git-msg-ph">Commit message</span><span class="hv-git-msg-t" id="hvGMsgText"></span><span class="hv-type-caret"></span></div>
+        <div class="hv-git-btns">
+          <span class="hv-git-commit">${ic.plus}Commit</span>
+          <span class="hv-git-push" id="hvGPush"><span class="hv-git-push-spin"></span><span class="hv-git-push-t">Commit &amp; Push</span></span>
+        </div>
+        <div class="hv-git-status">${ic.checkCircle}Pushed to origin/main</div>
+        <div class="hv-git-remote">github.com/prajwal-svm/edgesense-paper</div>
+      </div>
+    </div>
+  </aside>
+  ${gitEditor}
+  <div class="hv-modal-backdrop hv-gh-backdrop"></div>
+  <div class="hv-gh-modal">
+    <div class="hv-gh-head">${ic.history}<b>Version History</b><span class="hv-gh-git">Git</span><span class="hv-gh-x" id="hvGClose">${ic.x}</span></div>
+    <div class="hv-gh-tabs"><span class="hv-gh-seg"><span class="hv-gh-tab-all" id="hvGTabAll">All History</span><span class="hv-gh-tab-labels" id="hvGTabLabels">Labels</span></span></div>
+    <div class="hv-gh-rows">
+      ${commitRow("Manual Commit", "Add deep-learning citation", "Aug 17, 2026, 7:02 PM &middot; f4a9c21", { cls: "hv-gh-new" })}
+      ${commitRow("Compile V12", "Update: main.tex", "Aug 17, 2026, 6:47 PM &middot; 9f3e2a1")}
+      ${commitRow("AI checkpoint", "Oleafly AI checkpoint", "Aug 17, 2026, 6:31 PM &middot; 4c8d7b2")}
+      ${commitRow("Compile V11", "Update: main.tex, references.bib", "Aug 17, 2026, 6:24 PM &middot; b7e1d90", {
+        actions: `<span class="hv-gh-restore" id="hvGRestore">${ic.rotateCcw}Restore</span><span class="hv-gh-confirm"><span class="hv-gh-overwrite">Overwrite all</span><span class="hv-gh-cancel" id="hvGCancel">Cancel</span></span>`,
+      })}
+      ${commitRow("Compile V10", "Update: main.tex", "Aug 16, 2026, 11:12 PM &middot; 2c5f8a3")}
+      ${commitRow("Manual Commit", "Initial import from IEEE template", "Aug 14, 2026, 9:03 AM &middot; 07d41ce")}
+    </div>
+  </div>
+</section>`;
+
+/* --------------------------------------------------- polish & submit */
+/** Editor copy for the Polish & Submit flow: a Code|Visual switch and a
+ * word-count anchor in the toolbar, rename markers on both gelman2013 keys,
+ * and the visual-editor pane swapped in under [data-pl-visual]. */
+const visualPane = `
+<div class="hv-vis">
+  <div class="hv-vis-doc">
+    <h3>Results</h3>
+    <p><span class="hv-vis-sel" id="hvPVisSel">EdgeSense retains 98.3% of the streaming baseline&rsquo;s recall</span> while using 37% of its radio energy&nbsp;<i class="hv-vis-cite">gelman2014</i>. Peer voting removes 31% of fog-related false alarms&nbsp;<i class="hv-vis-cite">hastie2009</i>. At the median observed solar input, the modeled service interval rises from 11 to 29 months. Performance degrades gracefully when one sensing channel is unavailable.</p>
+    <h3>Ablations, safety, and limitations</h3>
+    <p>Removing peer voting increases false alarms by 44%; removing wind direction reduces recall by 3.8 points&nbsp;<i class="hv-vis-cite">lundberg2017</i>. EdgeSense is advisory: alerts require confirmation by the incident-management system.</p>
+  </div>
+</div>`;
+
+const polishEditor = strip(editorPane)
+  .replace(
+    `<span class="hv-ib-s hv-etb-type">`,
+    `<span class="hv-wys"><i class="hv-wys-side" id="hvPCodeBtn">Code</i><i class="hv-wys-side" id="hvPVisBtn">Visual</i></span><span class="hv-div"></span><span class="hv-ib-s hv-etb-type">`,
+  )
+  .replace(`<span class="hv-ib-s">${ic.bold}</span>`, `<span class="hv-ib-s" id="hvPBold">${ic.bold}</span>`)
+  .replace(`<span class="hv-ib-s">${ic.info}</span>`, `<span class="hv-ib-s" id="hvPInfo">${ic.info}</span>`)
+  .replaceAll('<span class="t-key">gelman2013</span>', '<span class="t-key hv-pl-ren">gelman2013</span>')
+  .replace('<div class="hv-code">', `${visualPane}<div class="hv-code">`);
+
+const polishPreview = strip(previewPane)
+  .replace('<span class="hv-syncw">', '<span class="hv-syncw" id="hvPSyncW">')
+  .replace(
+    `<span class="hv-pgmode only-done"><span class="hv-ib-s is-on">${ic.file}</span><span class="hv-ib-s">${ic.columns2}</span></span>`,
+    `<span class="hv-pgmode only-done"><span class="hv-ib-s hv-pg-one">${ic.file}</span><span class="hv-ib-s hv-pg-two" id="hvPTwoPage">${ic.columns2}</span></span>`,
+  );
+
+/** Preflight ring gauge (circumference 100 → dasharray = score). */
+const pfRing = (score: number, color: string, label: string) => `
+<div class="hv-pf-gauge">
+  <svg viewBox="0 0 40 40" aria-hidden="true">
+    <circle cx="20" cy="20" r="15.9" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="3.4"/>
+    <circle class="hv-pf-arc" cx="20" cy="20" r="15.9" fill="none" stroke="${color}" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="${score} 100" transform="rotate(-90 20 20)"/>
+  </svg>
+  <b>${score}</b><i>${label}</i>
+</div>`;
+
+const pfIssue = (icon: string, tint: string, title: string, meta: string) =>
+  `<div class="hv-pf-issue"><span class="hv-pf-iic" style="color:${tint}">${icon}</span><span class="hv-pf-itxt"><b>${title}</b><i>${meta}</i></span><span class="hv-pf-chev">${ic.chevR}</span></div>`;
+
+const preflightPanel = `
+<aside class="hv-pf">
+  <div class="hv-pf-in">
+    <div class="hv-panel-head">
+      <span class="hv-ph-ic">${ic.shieldCheck}</span><span class="hv-ph-label">Preflight</span>
+      <span class="hv-ph-actions">${iconBtn(ic.info, "hv-ib-xs")}</span>
+    </div>
+    <div class="hv-pf-cards">
+      <div class="hv-pf-card">
+        <div class="hv-pf-head"><span class="hv-pf-check"></span>${ic.fileText}<b>ATS readiness</b><span class="hv-pf-run">${ic.play}Run</span><span class="hv-pf-hchev">${ic.chevD}</span></div>
+      </div>
+      <div class="hv-pf-card is-open">
+        <div class="hv-pf-head"><span class="hv-pf-check is-on">${ic.checkCircle}</span>${ic.user}<b>Accessibility</b><span class="hv-pf-rerun">${ic.play}Re-run</span><span class="hv-pf-hchev">${ic.chevU}</span></div>
+        <div class="hv-pf-body">
+          <div class="hv-pf-lab">For research, government, and published PDFs</div>
+          <div class="hv-pf-desc">Checks screen-reader readiness against Section 508 / WCAG: missing alt text, document language, reading order, and whether the PDF is tagged.</div>
+          ${pfRing(82, "#f59e0b", "Access")}
+          <div class="hv-pf-lab">Compiled output</div>
+          ${pfIssue(ic.circleAlert, "#f59e0b", "PDF is missing a language and title", "ACCESSIBILITY")}
+          ${pfIssue(ic.info, "#8a8f98", "Not Section 508 / PDF-UA ready: this PDF is not tagged", "ACCESSIBILITY")}
+        </div>
+      </div>
+      <div class="hv-pf-card is-open">
+        <div class="hv-pf-head"><span class="hv-pf-check is-on">${ic.checkCircle}</span>${ic.link}<b>References &amp; assets</b><span class="hv-pf-rerun">${ic.play}Re-run</span><span class="hv-pf-hchev">${ic.chevU}</span></div>
+        <div class="hv-pf-body">
+          <div class="hv-pf-lab">For research and multi-file documents</div>
+          <div class="hv-pf-desc">Finds undefined citations and cross-references, duplicate labels, and missing figures before they break your PDF at submission.</div>
+          ${pfRing(72, "#f59e0b", "Refs")}
+          ${pfIssue(ic.circleAlert, "#ef4444", "3 citations have no bibliography entry", "REFERENCES &middot; main.tex")}
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>`;
+
+export const polishScene = `
+<section class="hv-scene" data-scene="polish">
+  ${preflightPanel}
+  ${polishEditor}
+  <div class="hv-vsplit"><span class="hv-vthumb"></span></div>
+  ${polishPreview}
+  <div class="hv-modal-backdrop hv-pl-backdrop"></div>
+  <div class="hv-rn-modal">
+    <div class="hv-rn-title">Rename <b>gelman2013</b></div>
+    <div class="hv-rn-input"><span class="hv-rn-old">gelman2013</span><span class="hv-rn-new" id="hvPRnNew"></span><span class="hv-type-caret"></span></div>
+    <div class="hv-rn-hint">2 edits across 1 file</div>
+    <div class="hv-dlg-foot"><span class="hv-btn-ghost">Cancel</span><span class="hv-btn-primary" id="hvPRnGo">Rename</span></div>
+  </div>
+  <div class="hv-wc-modal">
+    <div class="hv-wc-title">Word count</div>
+    <div class="hv-wc-file">main.tex</div>
+    <div class="hv-wc-row"><span>Words</span><b>1,284</b></div>
+    <div class="hv-wc-row"><span>Characters</span><b>8,946</b></div>
+    <div class="hv-wc-row"><span>Lines</span><b>95</b></div>
+    <div class="hv-dlg-foot"><span class="hv-btn-ghost" id="hvPWcClose">Close</span></div>
+  </div>
+  <div class="hv-cite-toast hv-pl-toast"><span class="hv-toast-ic">${ic.checkCircle}</span><span>Renamed to <b>&quot;gelman2014&quot;</b> (2 edits in 1 file)</span></div>
+</section>`;
+
 export const citeScene = `
 <section class="hv-scene" data-scene="cite">
   <div class="hv-cite-left">

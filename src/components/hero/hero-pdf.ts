@@ -87,7 +87,7 @@ const pageOne = `
       <div class="hv-fcap">Fig. 2.&nbsp;&nbsp;Cumulative detection performance remained stable across the deployment.</div>
       <p class="hv-p ind">We compare periodic streaming, fixed thresholds, an ungated neural baseline, and EdgeSense. The primary metrics are event recall, false alarms per node-week, median alert latency, and measured radio energy.</p>
       <div class="hv-sec">IV.&nbsp;&nbsp;R<span>ESULTS</span></div>
-      <p class="hv-p ind">EdgeSense retains 98.3% of the streaming baseline's recall while using 37% of its radio energy ${cit(4)}. Peer voting removes 31% of fog-related false alarms ${cit(9)}. At the median observed solar input, the modeled service interval rises from 11 to 29 months. Performance degrades gracefully when one sensing channel is unavailable.</p>
+      <p class="hv-p ind">EdgeSense retains <span class="hv-syncw">98.3%</span> of the streaming baseline's recall while using 37% of its radio energy ${cit(4)}. Peer voting removes 31% of fog-related false alarms ${cit(9)}. At the median observed solar input, the modeled service interval rises from 11 to 29 months. Performance degrades gracefully when one sensing channel is unavailable.</p>
       <div class="hv-sec">V.&nbsp;&nbsp;A<span>BLATIONS, SAFETY, AND LIMITATIONS</span></div>
       <p class="hv-p ind">Removing peer voting increases false alarms by 44%; removing wind direction reduces recall by 3.8 points ${cit(3)}. EdgeSense is advisory: alerts require confirmation by the incident-management system, and nodes never autonomously dispatch a public warning ${cit(3)}. The deployment did not cover crown fires or winter conditions.</p>
       <div class="hv-sec">VI.&nbsp;&nbsp;C<span>ONCLUSION</span></div>

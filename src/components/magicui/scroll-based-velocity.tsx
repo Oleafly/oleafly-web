@@ -102,9 +102,9 @@ function ScrollVelocityRowImpl({
       isPageVisibleRef.current = document.visibilityState === "visible"
     }
     const handlePRM = () => {
-      if (mq) {
-        prefersReducedMotionRef.current = mq.matches
-      }
+      // Landing-page product decision: the strip keeps moving even under
+      // prefers-reduced-motion so phones with "remove animations" still see it.
+      prefersReducedMotionRef.current = false
     }
 
     if (container && block) {

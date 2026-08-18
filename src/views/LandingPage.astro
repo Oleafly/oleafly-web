@@ -9,9 +9,6 @@
 // GlyphMatrix, NoiseTexture, FileTree, CodeComparison (build-time shiki),
 // AnimatedCircularProgressBar, ScrollProgress.
 import { Image } from "astro:assets";
-import gitDiff from "../assets/git-diff.png";
-import preflightAts from "../assets/preflight-ats.png";
-import projectTemplates from "../assets/project-templates.png";
 import { DotPattern } from "../components/magicui/dot-pattern";
 import { AnimatedShinyText } from "../components/magicui/animated-shiny-text";
 import { RainbowLink } from "../components/RainbowLink";
@@ -25,16 +22,13 @@ import { Highlighter } from "../components/magicui/highlighter";
 import { KineticText } from "../components/magicui/kinetic-text";
 import { GlyphMatrix } from "../components/magicui/glyph-matrix";
 import { NoiseTexture } from "../components/magicui/noise-texture";
-import { AnimatedCircularProgressBar } from "../components/magicui/animated-circular-progress-bar";
 import { ScrollProgress } from "../components/magicui/scroll-progress";
 import { GridPattern } from "../components/magicui/grid-pattern";
-import { ProjectFileTree } from "../components/ProjectFileTree";
 import { BentoSection } from "../components/BentoSection";
 import { LandingCards } from "../components/landing/LandingCards";
 import { LandingFaq } from "../components/landing/LandingFaq";
 import { VelocityStrip } from "../components/VelocityStrip";
 import { PhilosophyReveal } from "../components/PhilosophyReveal";
-import CodeComparison from "../components/CodeComparison.astro";
 import HeroAppView from "../components/hero/HeroAppView.astro";
 import "../styles/magicui.css";
 import "../styles/external-links.css";
@@ -93,18 +87,6 @@ const WINDOWS_PATH =
   "M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699m10.949-8.099H24V24l-13.051-1.851";
 const LINUX_PATH =
   "M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 01-.004-.021l-.004-.024a1.807 1.807 0 01-.15.706.953.953 0 01-.213.335.71.71 0 00-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 00-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 00-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 00-.205.334 1.18 1.18 0 00-.09.4v.019c.002.089.008.179.02.267-.193-.067-.438-.135-.607-.202a1.635 1.635 0 01-.018-.2v-.02a1.772 1.772 0 01.15-.768c.082-.22.232-.406.43-.533a.985.985 0 01.594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2.012-.09.013-.18.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.613.613 0 00-.166-.267.248.248 0 00-.183-.064h-.021c-.071.006-.13.04-.186.132a.552.552 0 00-.12.27.944.944 0 00-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268.01.009.02.018.034.024-.07.057-.117.07-.176.136a.304.304 0 01-.131.068 2.62 2.62 0 01-.275-.402 1.772 1.772 0 01-.155-.667 1.759 1.759 0 01.08-.668 1.43 1.43 0 01.283-.535c.128-.133.26-.2.418-.2zm1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.571.571 0 01.016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.139 1.139 0 01-.448-.067 3.566 3.566 0 01-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71-.07-.268-.005-.47.193-.6.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.645 2.645 0 00-.402-.533 1.45 1.45 0 00-.275-.333c.182 0 .338-.03.465-.067a.615.615 0 00.314-.334c.108-.267 0-.697-.345-1.163-.345-.467-.931-.995-1.788-1.521-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.123 8.123 0 01.647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335.039.003.075.006.11.006.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01c.053 0 .105.005.157.014.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602-.369-.066-.61-.2-.723-.4-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336zm7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8.097 8.097 0 01-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065zm-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z";
-
-const beforeCode = String.raw`\section{Experince}
-\begin{itemize}
-  \item Led migration to a Rust core
-  \item Cut compile times by 40%
-\end{itemize}`;
-
-const afterCode = String.raw`\section{Experience}
-\begin{itemize}
-  \item Led migration to a Rust core
-  \item Cut compile times by 40\%
-\end{itemize}`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -482,266 +464,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         </div>
       </section>
 
-      <!-- ============== Feature stack: sticky 3D card deck ============== -->
-      <div class="stack">
-      <!-- ========================= Templates ========================= -->
-      <section class="stack-card" id="templates">
-        <div class="container">
-          <p class="eyebrow">{t(locale, "landing.templates.eyebrow")}</p>
-          <h2 class="h2-rotate-line">
-            {t(locale, "landing.templates.h2prefix")}&nbsp;<span class="rotate-slot rotate-slot-h2">
-              <WordRotate
-                client:visible
-                words={[t(locale, "landing.templates.w1"), t(locale, "landing.templates.w2"), t(locale, "landing.templates.w3"), t(locale, "landing.templates.w4"), t(locale, "landing.templates.w5"), t(locale, "landing.templates.w6")]}
-                wordClassNames={[
-                  "text-[#60a5fa]",
-                  "text-[#4ec46a]",
-                  "text-[#a78bfa]",
-                  "text-[#f7bc55]",
-                  "text-[#f472b6]",
-                  "text-[#22d3ee]",
-                ]}
-                duration={2200}
-                motionProps={{
-                  initial: { opacity: 0, y: -12 },
-                  animate: { opacity: 1, y: 0 },
-                  exit: { opacity: 0, y: 12 },
-                  transition: { duration: 0.22, ease: "easeOut" },
-                }}
-                className="h2-word"
-              />
-            </span>
-          </h2>
-          <p class="sub">{t(locale, "landing.templates.sub")}</p>
-          <figure class="shot shot-wide">
-            <Image
-              src={projectTemplates}
-              alt="Oleafly's template gallery with categories, search, and live previews"
-              widths={[720, 1200, 1800]}
-              sizes="(max-width: 980px) 94vw, 1080px"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-      </section>
-
-      <!-- ============================ Git ============================ -->
-      <section class="stack-card" id="git">
-        <div class="container">
-          <p class="eyebrow">{t(locale, "landing.git.eyebrow")}</p>
-          <h2>{t(locale, "landing.git.h2")}</h2>
-          <p class="sub">{t(locale, "landing.git.sub")}</p>
-          <div class="split">
-            <ul class="ticks">
-              <li>{t(locale, "landing.git.t1")}</li>
-              <li>{t(locale, "landing.git.t2")}</li>
-              <li>{t(locale, "landing.git.t3")}</li>
-              <li>{t(locale, "landing.git.t4")}</li>
-            </ul>
-            <figure class="shot">
-              <Image
-                src={gitDiff}
-                alt="Side-by-side diff of a past version of a document in Oleafly"
-                widths={[720, 1200]}
-                sizes="(max-width: 980px) 94vw, 640px"
-                loading="lazy"
-              />
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================= On disk ========================= -->
-      <section class="stack-card" id="disk">
-        <div class="container">
-          <p class="eyebrow">{t(locale, "landing.disk.eyebrow")}</p>
-          <h2>{t(locale, "landing.disk.h2")}</h2>
-          <p class="sub">{t(locale, "landing.disk.sub")}</p>
-          <div class="split split-rev">
-            <div class="tree-card">
-              <div class="tree-head">
-                <span class="tree-dot" aria-hidden="true"></span>
-                <span class="tree-title">resume: Finder-proof, script-proof, future-proof</span>
-              </div>
-              <ProjectFileTree client:visible={{rootMargin: "200px"}} />
-            </div>
-            <ul class="ticks">
-              <li>{t(locale, "landing.disk.t1")}</li>
-              <li>{t(locale, "landing.disk.t2")}</li>
-              <li>{t(locale, "landing.disk.t3")}</li>
-              <li>{t(locale, "landing.disk.t4")}</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================ AI ============================ -->
-      <section class="stack-card" id="ai">
-        <div class="container">
-          <p class="eyebrow">{t(locale, "landing.ai.eyebrow")}</p>
-          <h2>{t(locale, "landing.ai.h2")}</h2>
-          <p class="sub">{t(locale, "landing.ai.sub")}</p>
-          <div class="ai-card">
-            <NoiseTexture frequency={0.8} noiseOpacity={0.25} className="opacity-30" />
-            <div class="rel">
-              <div class="ai-steps">
-                <div class="ai-step"><span class="ai-num">1</span> {t(locale, "landing.ai.s1")}</div>
-                <div class="ai-step"><span class="ai-num">2</span> {t(locale, "landing.ai.s2")}</div>
-                <div class="ai-step"><span class="ai-num">3</span> {t(locale, "landing.ai.s3")}</div>
-                <div class="ai-step ai-step-ok"><span class="ai-num">✓</span> {t(locale, "landing.ai.s4")}</div>
-              </div>
-            </div>
-            <div class="rel">
-              <CodeComparison
-                beforeCode={beforeCode}
-                afterCode={afterCode}
-                language="latex"
-                filename="main.tex"
-                beforeLabel="before · 1 error"
-                afterLabel="after · compiles ✓"
-                removeLines={[1, 4]}
-                addLines={[1, 4]}
-              />
-            </div>
-          </div>
-          <ul class="ticks ticks-row">
-            <li>{t(locale, "landing.ai.t1")}</li>
-            <li>{t(locale, "landing.ai.t2")}</li>
-            <li>{t(locale, "landing.ai.t3")}</li>
-            <li>{t(locale, "landing.ai.t4")}</li>
-            <li>{t(locale, "landing.ai.t5")}</li>
-            <li>{t(locale, "landing.ai.t6")}</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- ========================= Preflight ========================= -->
-      <section class="stack-card" id="preflight">
-        <div class="container">
-          <p class="eyebrow">{t(locale, "landing.preflight.eyebrow")}</p>
-          <h2>{t(locale, "landing.preflight.h2")}</h2>
-          <p class="sub">{t(locale, "landing.preflight.sub")}</p>
-          <div class="split">
-            <div>
-              <div class="gauges">
-                <figure class="gauge">
-                  <AnimatedCircularProgressBar
-                  client:visible
-                    value={94}
-                    gaugePrimaryColor="#2563eb"
-                    gaugeSecondaryColor="rgba(37, 99, 235, 0.15)"
-                    className="size-24 text-xl"
-                  />
-                  <figcaption>{t(locale, "landing.preflight.g1")}</figcaption>
-                </figure>
-                <figure class="gauge">
-                  <AnimatedCircularProgressBar
-                  client:visible
-                    value={91}
-                    gaugePrimaryColor="#34b44a"
-                    gaugeSecondaryColor="rgba(52, 180, 74, 0.15)"
-                    className="size-24 text-xl"
-                  />
-                  <figcaption>{t(locale, "landing.preflight.g2")}</figcaption>
-                </figure>
-                <figure class="gauge">
-                  <AnimatedCircularProgressBar
-                  client:visible
-                    value={97}
-                    gaugePrimaryColor="#f59e0b"
-                    gaugeSecondaryColor="rgba(245, 158, 11, 0.15)"
-                    className="size-24 text-xl"
-                  />
-                  <figcaption>{t(locale, "landing.preflight.g3")}</figcaption>
-                </figure>
-              </div>
-              <ul class="ticks">
-                <li>Simulated ATS extraction: name, email, links, and the sections a parser detects</li>
-                <li>Screen-reader-oriented checks: language, title, headings, alt text, link text</li>
-                <li>Plain-text preview of your PDF in reading order</li>
-                <li>Reference &amp; asset checks: undefined citations, duplicate labels, missing includes</li>
-                <li>Accessible-export preparation for a tagged PDF via an optional LuaLaTeX path</li>
-              </ul>
-            </div>
-            <figure class="shot">
-              <Image
-                src={preflightAts}
-                alt="The Preflight panel scoring a resume for ATS parsers and screen readers"
-                widths={[720, 1200]}
-                sizes="(max-width: 980px) 94vw, 640px"
-                loading="lazy"
-              />
-            </figure>
-          </div>
-          <p class="aside-note">{t(locale, "landing.preflight.aside")}</p>
-        </div>
-      </section>
-
-      <!-- ========================= Resume mode ========================= -->
-      <section class="stack-card" id="resume">
-        <div class="container">
-          <p class="eyebrow">{t(locale, "landing.resume.eyebrow")}</p>
-          <h2>{t(locale, "landing.resume.h2")}</h2>
-          <p class="sub">{t(locale, "landing.resume.sub")}</p>
-          <div class="split split-rev">
-            <div class="branch-card" role="img" aria-label="One resume project with a linear commit history, forked into three new projects: backend-swe, ml-eng, and consulting, each continuing its own history">
-              <DotPattern
-                width={18}
-                height={18}
-                cr={0.8}
-                className="fill-white/[0.05] [mask-image:radial-gradient(320px_circle_at_50%_40%,white,transparent)]"
-              />
-              <div class="rel">
-                <svg viewBox="0 0 360 224" width="100%" aria-hidden="true">
-                  <g fill="none" stroke-width="1.5">
-                    <path class="fk-main" pathLength="1" d="M24 36 H336" stroke="#3a3d42"></path>
-                    <path class="fk-f1" pathLength="1" d="M96 36 C126 36 122 92 152 92 H336" stroke="#3b82f6"></path>
-                    <path class="fk-f2" pathLength="1" d="M136 36 C170 36 164 140 198 140 H336" stroke="#a371f7"></path>
-                    <path class="fk-f3" pathLength="1" d="M200 36 C234 36 228 188 262 188 H336" stroke="#f59e0b"></path>
-                  </g>
-                  <g class="fk-dots">
-                    <circle class="fk-p6" cx="56" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p10" cx="96" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p14" cx="136" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p26" cx="200" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p36" cx="268" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p44" cx="330" cy="36" r="4" fill="#e6e6e6"></circle>
-                    <circle class="fk-p28" cx="196" cy="92" r="4" fill="#3b82f6"></circle>
-                    <circle class="fk-p34" cx="252" cy="92" r="4" fill="#3b82f6"></circle>
-                    <circle class="fk-p42" cx="312" cy="92" r="4" fill="#3b82f6"></circle>
-                    <circle class="fk-p38" cx="244" cy="140" r="4" fill="#a371f7"></circle>
-                    <circle class="fk-p46" cx="306" cy="140" r="4" fill="#a371f7"></circle>
-                    <circle class="fk-p48" cx="308" cy="188" r="4" fill="#f59e0b"></circle>
-                  </g>
-                  <g font-family="JetBrains Mono, monospace" font-size="11">
-                    <text x="24" y="20" fill="#8a8f98">resume/ · checkpointed as you work</text>
-                    <g class="fk-l1">
-                      <path transform="translate(151, 69.5)" fill="#7cabf8" d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
-                      <text x="167" y="80" fill="#7cabf8">backend-swe/</text>
-                    </g>
-                    <g class="fk-l2">
-                      <path transform="translate(197, 117.5)" fill="#c39bf9" d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
-                      <text x="213" y="128" fill="#c39bf9">ml-eng/</text>
-                    </g>
-                    <g class="fk-l3">
-                      <path transform="translate(261, 165.5)" fill="#f7bc55" d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
-                      <text x="277" y="176" fill="#f7bc55">consulting/</text>
-                    </g>
-                  </g>
-                </svg>
-                <p class="branch-caption">{t(locale, "landing.resume.caption")}</p>
-              </div>
-            </div>
-            <ul class="ticks">
-              <li>{t(locale, "landing.resume.t1")}</li>
-              <li>{t(locale, "landing.resume.t2")}</li>
-              <li>{t(locale, "landing.resume.t3")}</li>
-              <li>{t(locale, "landing.resume.t4")}</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-      </div>
 
       <!-- ========================= Comparison ========================= -->
       <section class="section" id="compare">
@@ -1012,7 +734,8 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         background: rgba(37, 99, 235, 0.4);
       }
       .container {
-        max-width: 1080px;
+        /* content width matches the hero app player: min(1280px, 100vw - 48px) */
+        max-width: 1328px;
         margin: 0 auto;
         padding: 0 24px;
       }
@@ -1105,7 +828,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         border-bottom-color: var(--line);
       }
       .nav-inner {
-        max-width: 1080px;
+        max-width: 1328px;
         margin: 0 auto;
         padding: 0 24px;
         height: 56px;
@@ -1330,114 +1053,12 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         padding: 1px 6px;
       }
 
-      .shot {
-        position: relative;
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        border: 1px solid var(--line-strong);
-        background: var(--surface);
-        box-shadow: var(--shadow-modal);
-      }
-      .shot img {
-        display: block;
-        width: 100%;
-        height: auto;
-      }
-      .shot-hero {
-        max-width: 1080px;
-        margin: 0 auto;
-      }
-      .shot-hero::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        pointer-events: none;
-      }
-
-      .chips-marquee {
-        position: relative;
-        margin-top: 32px;
-        -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-        mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-      }
-      .chip {
-        font-size: 12.5px;
-        font-weight: 500;
-        white-space: nowrap;
-        color: var(--muted);
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 5px 12px;
-        background: rgba(255, 255, 255, 0.02);
-      }
 
       /* ===== Sections ===== */
       .section {
         padding: 104px 0 0;
       }
 
-      /* ===== Feature stack: sticky 3D card deck. Cards are never
-         height-capped; JS pins tall cards with a negative top so you scroll
-         through the full content before the card sticks and the next one
-         slides over it. ===== */
-      .stack {
-        position: relative;
-        perspective: 1400px;
-        margin-top: 104px;
-      }
-      .stack-card {
-        position: sticky;
-        top: 80px;
-        max-width: 1080px;
-        margin: 0 auto 56px;
-        padding: 40px 44px 44px;
-        background: #0b0c0e;
-        border: 1px solid var(--line-strong);
-        border-radius: 12px;
-        transform-origin: 50% 0;
-        will-change: transform, filter;
-        box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.5);
-      }
-      .stack-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.1px, transparent 1.1px);
-        background-size: 22px 22px;
-        -webkit-mask-image: radial-gradient(95% 75% at 50% 0%, black, transparent);
-        mask-image: radial-gradient(95% 75% at 50% 0%, black, transparent);
-        pointer-events: none;
-      }
-      .stack-card .container {
-        position: relative;
-        max-width: none;
-        padding: 0;
-      }
-      .stack-card h2 {
-        font-size: clamp(1.45rem, 2.8vw, 2rem);
-      }
-      .stack-card .sub {
-        margin-bottom: 28px;
-      }
-      @media (max-width: 760px) {
-        .stack {
-          perspective: none;
-        }
-        .stack-card {
-          position: static;
-          padding: 28px 20px 32px;
-          margin-bottom: 28px;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .stack-card {
-          transform: none !important;
-          filter: none !important;
-        }
-      }
       .eyebrow {
         font-family: var(--mono);
         font-size: 12.5px;
@@ -1453,13 +1074,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         letter-spacing: -0.02em;
         line-height: 1.15;
         margin-bottom: 14px;
-      }
-      :global(.h2-word) {
-        font-size: inherit;
-        font-weight: inherit;
-        letter-spacing: inherit;
-        line-height: inherit;
-        white-space: nowrap;
       }
       .sub {
         max-width: 680px;
@@ -1502,15 +1116,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         vertical-align: super;
       }
 
-      .split {
-        display: grid;
-        grid-template-columns: minmax(280px, 5fr) 7fr;
-        gap: 40px;
-        align-items: center;
-      }
-      .split-rev {
-        grid-template-columns: 7fr 5fr;
-      }
       .ticks {
         list-style: none;
         display: flex;
@@ -1540,100 +1145,10 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         background-position: center;
         background-size: 10.5px 10.5px;
       }
-      .ticks-row {
-        margin-top: 24px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px 32px;
-      }
 
       /* ===== Tree card ===== */
-      .tree-card {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-popup);
-        overflow: hidden;
-        color: #c9cdd6;
-      }
-      .tree-head {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 9px 14px;
-        border-bottom: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.03);
-      }
-      .tree-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--green);
-      }
-      .tree-title {
-        font-size: 12px;
-        color: var(--muted);
-      }
-      .tree-card :global(svg) {
-        color: var(--muted);
-      }
-      .tree-card :global(button) {
-        color: #c9cdd6;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-      }
 
       /* ===== AI card ===== */
-      .ai-card {
-        position: relative;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
-        padding: 20px;
-        box-shadow: var(--shadow-popup);
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        overflow: hidden;
-      }
-      .ai-steps {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-      }
-      .ai-step {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        font-size: 13px;
-        font-weight: 500;
-        color: #c9cdd6;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-md);
-        padding: 9px 12px;
-      }
-      .ai-num {
-        font-family: var(--mono);
-        font-size: 11px;
-        color: var(--muted);
-        width: 18px;
-        height: 18px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid var(--line-strong);
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-      .ai-step-ok {
-        border-color: rgba(52, 180, 74, 0.4);
-      }
-      .ai-step-ok .ai-num {
-        color: var(--green);
-        border-color: rgba(52, 180, 74, 0.5);
-      }
 
       /* ===== How it works ===== */
       .howitworks {
@@ -1754,26 +1269,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         16%, 80% { opacity: 1; border-color: rgba(59, 130, 246, 0.55); color: #a8c3f5; }
         90%, 100% { opacity: 0.45; border-color: rgba(255, 255, 255, 0.15); color: #c9cdd6; }
       }
-      @media (prefers-reduced-motion: reduce) {
-        .loop-step,
-        .loop-step:hover {
-          transform: none;
-          transition: none;
-        }
-        .lvr-doi, .lvr-bib, .lvv-ok, .lvp-1, .lvp-2, .lvp-3 {
-          animation: none;
-          opacity: 1;
-          transform: none;
-        }
-        .lvw-type {
-          animation: none;
-          width: 17ch;
-        }
-        .lvv-fill {
-          animation: none;
-          transform: scaleX(1);
-        }
-      }
+      
       .loop-step h3 {
         font-size: 15px;
         font-weight: 600;
@@ -1925,44 +1421,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         border-radius: 10px;
       }
 
-      /* ===== Gauges ===== */
-      .gauges {
-        display: flex;
-        gap: 28px;
-        margin-bottom: 26px;
-      }
-      .gauge {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-      }
-      .gauge figcaption {
-        font-size: 12.5px;
-        font-weight: 500;
-        color: var(--muted);
-      }
-
-      /* ===== Branch card ===== */
-      .branch-card {
-        position: relative;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
-        padding: 24px 22px 16px;
-        box-shadow: var(--shadow-popup);
-        overflow: hidden;
-      }
-      .branch-caption {
-        margin-top: 8px;
-        text-align: center;
-        font-size: 13px;
-        color: var(--muted);
-      }
-
-      .shot-wide {
-        max-width: 1080px;
-      }
 
       /* ===== Comparison table ===== */
       .table-wrap {
@@ -2225,22 +1683,8 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
 
       /* ===== Responsive ===== */
       @media (max-width: 980px) {
-        .split,
-        .split-rev {
-          grid-template-columns: 1fr;
-          gap: 28px;
-        }
-        .split-rev > :first-child {
-          order: 2;
-        }
         .footer-inner {
           grid-template-columns: 1fr 1fr;
-        }
-        .ai-steps {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .ticks-row {
-          grid-template-columns: 1fr;
         }
       }
       @media (max-width: 640px) {
@@ -2266,12 +1710,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         }
         .footer-inner {
           grid-template-columns: 1fr;
-        }
-        .ai-steps {
-          grid-template-columns: 1fr;
-        }
-        .gauges {
-          justify-content: center;
         }
       }
     </style>
@@ -2330,59 +1768,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         a.addEventListener("click", () => nav.classList.remove("nav-open"));
       });
 
-      // Feature stack: pinned deck without clipping. Each card's sticky top is
-      // min(80, viewport - card height - margin), so short cards pin near the
-      // top while tall cards pin only once their bottom is on screen — the
-      // whole card is always readable. As the next card slides up, the pinned
-      // card recedes (scale down, tilt back, dim). Skipped for reduced motion.
-      const stackCards = [...document.querySelectorAll(".stack-card")];
-      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (stackCards.length && !reduceMotion) {
-        let ticking = false;
-        const update = () => {
-          ticking = false;
-          const vh = window.innerHeight;
-          if (matchMedia("(max-width: 760px)").matches) {
-            // Mobile: cards flow normally, rising and scaling in on entry.
-            for (const card of stackCards) {
-              const r = card.getBoundingClientRect();
-              const p = Math.min(1, Math.max(0, (vh * 0.92 - r.top) / (vh * 0.35)));
-              card.style.transform = `translateY(${18 * (1 - p)}px) scale(${0.95 + 0.05 * p})`;
-              card.style.filter = "";
-              card.style.top = "";
-            }
-            return;
-          }
-          for (let i = 0; i < stackCards.length; i++) {
-            const card = stackCards[i];
-            const pin = Math.min(80, vh - card.offsetHeight - 40);
-            card.style.top = `${pin}px`;
-            const next = stackCards[i + 1];
-            let t = 0;
-            if (next && card.getBoundingClientRect().top <= pin + 1) {
-              const nTop = next.getBoundingClientRect().top;
-              t = Math.min(1, Math.max(0, (vh - nTop) / (vh - Math.max(pin, 0))));
-            }
-            if (t > 0) {
-              card.style.transform = `translateY(${-16 * t}px) scale(${1 - 0.055 * t}) rotateX(${4 * t}deg)`;
-              card.style.filter = `brightness(${1 - 0.3 * t})`;
-            } else {
-              card.style.transform = "";
-              card.style.filter = "";
-            }
-          }
-        };
-        const onStackScroll = () => {
-          if (!ticking) {
-            ticking = true;
-            requestAnimationFrame(update);
-          }
-        };
-        window.addEventListener("scroll", onStackScroll, { passive: true });
-        window.addEventListener("resize", onStackScroll, { passive: true });
-        update();
-      }
-
       // Quill confetti when the reader reaches the very bottom. Fires once
       // per visit, leaf-shaped in Oleafly greens, skipped for reduced motion.
       let confettiFired = false;
@@ -2391,7 +1776,7 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
         "M21 2C6 2 4 16 3 22h1.998c.666-3.333 2.333-5.166 5.002-5.5 4-.5 7-4 8-7l-1.5-1 1-1c1-1 2.004-2.5 3.5-5.5z";
       const GREENS = ["#34B44A", "#4ec46a", "#7ed492", "#2b8f3c"];
       const onBottomScroll = () => {
-        if (confettiFired || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        if (confettiFired) return;
         const remaining = document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
         // prewarm the module as the reader approaches the end
         if (remaining < 1600 && !confettiModule) {
@@ -2408,7 +1793,6 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
             ticks: 240,
             gravity: 0.85,
             drift: 0.3,
-            disableForReducedMotion: true,
           };
           confetti({ ...base, particleCount: 60, spread: 70, angle: 60, origin: { x: 0, y: 1 } });
           confetti({ ...base, particleCount: 60, spread: 70, angle: 120, origin: { x: 1, y: 1 } });

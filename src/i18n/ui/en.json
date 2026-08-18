@@ -251,6 +251,8 @@
   "landing.tour.assistant": "AI Research Assistant",
   "landing.tour.diagramTool": "Create Diagrams",
   "landing.tour.citations": "Citations & References",
+  "landing.tour.history": "Versions & Git",
+  "landing.tour.polish": "Polish & Submit",
   "landing.tour.home": "Organize in Spaces",
   "landing.bento.import.name": "Import what you have",
   "landing.bento.import.desc": "Reconstruct many text-based PDFs into editable LaTeX locally, convert DOCX through a managed Pandoc, or let a vision model transcribe a photo of a page. Optional AI refinement after.",

@@ -209,15 +209,6 @@
   97%, 100% { opacity: 0; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .dc-n1, .dc-n2, .dc-n3, .dc-out, .dc-badge,
-  .dc-a1, .dc-a2, .dc-c1, .dc-c2 {
-    animation: none;
-    opacity: 1;
-    stroke-dashoffset: 0;
-  }
-}
-
 /* SyncTeX card: 8s loop. The cursor clicks a PDF line (pair A lights up in
    both panes), then clicks a source line (pair B lights up). */
 .st-hl-a,
@@ -275,10 +266,6 @@ div.st-hl-b.rounded-full {
   86% { opacity: 1; left: 24%; top: 72%; }
   94%, 100% { opacity: 0; left: 50%; top: 55%; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .st-hl-a, .st-hl-b, .st-cursor { animation: none; }
-  .st-cursor { opacity: 0; }
-}
 
 /* "From one page to six hundred" card: pages drop onto the stack while the
    counter climbs and the compile bar fills (8s cycle; drop is 1.6s). */
@@ -307,11 +294,6 @@ div.st-hl-b.rounded-full {
   72% { width: 100%; background-color: #3b82f6; }
   76%, 94% { width: 100%; background-color: #34b44a; }
   98%, 100% { width: 2%; background-color: #3b82f6; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .pg-drop, .pg-c1, .pg-c2, .pg-c3, .pg-c4, .pg-bar { animation: none; }
-  .pg-drop, .pg-c4 { opacity: 1; }
-  .pg-bar { width: 100%; background-color: #34b44a; }
 }
 
 /* Command palette card: type -> results -> pick (7s cycle). */
@@ -420,15 +402,6 @@ div.st-hl-b.rounded-full {
   58%, 100% { opacity: 0; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .cp-type, .cp-r, .cp-r1, .ci-chip, .ci-old, .ci-new,
-  .ct-doi, .ct-bib, .ct-cite, .sg-bad, .sg-good, .sg-pop {
-    animation: none;
-  }
-  .cp-type { width: 9ch; }
-  .cp-r, .ct-doi, .ct-bib, .ct-cite, .sg-bad { opacity: 1; }
-}
-
 /* Slash commands card: type "/" -> menu -> pick /figure (7s cycle). */
 .sl-type {
   width: 0;
@@ -452,11 +425,6 @@ div.st-hl-b.rounded-full {
   40%, 62% { background-color: rgba(37, 99, 235, 0.25); color: #a8c3f5; }
   68%, 80% { background-color: rgba(52, 180, 74, 0.22); color: #8fd6a0; }
   86%, 100% { background-color: transparent; color: #8a8f98; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .sl-type, .sl-menu, .sl-i1 { animation: none; }
-  .sl-type { width: 4ch; }
-  .sl-menu { opacity: 1; }
 }
 
 /* Resume fork diagram: timeline draws, commits tick in, forks peel off
@@ -618,15 +586,6 @@ div.st-hl-b.rounded-full {
   90% { opacity: 1; }
   96%, 100% { opacity: 0; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .fk-main, .fk-f1, .fk-f2, .fk-f3, .fk-l1, .fk-l2, .fk-l3,
-  .fk-p6, .fk-p10, .fk-p14, .fk-p26, .fk-p28, .fk-p34, .fk-p36, .fk-p38, .fk-p42, .fk-p44, .fk-p46, .fk-p48 {
-    animation: none;
-    opacity: 1;
-    stroke-dashoffset: 0;
-    transform: none;
-  }
-}
 
 /* Visual editor card: the segmented toggle flips Code -> Visual, the source
    cross-fades into rendered prose, then flips back. One 10s cycle. */
@@ -659,15 +618,6 @@ div.st-hl-b.rounded-full {
   44%, 84% { opacity: 1; }
   90%, 100% { opacity: 0; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .ve-knob, .ve-code, .ve-prose, .ve-caret, .ve-badge {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-  .ve-code { opacity: 0; }
-  .ve-knob { transform: translateX(52px); }
-}
 
 /* Library import card: reference files pop in one by one, merge into the
    project .bib, and the dedupe badge confirms. 8s cycle. */
@@ -690,13 +640,6 @@ div.st-hl-b.rounded-full {
   0%, 46% { opacity: 0; transform: scale(0.92); }
   52%, 92% { opacity: 1; transform: scale(1); }
   97%, 100% { opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .zl-f1, .zl-f2, .zl-f3, .zl-f4, .zl-merge, .zl-badge {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
 }
 
 /* Research connectors card: query -> results -> Crossref verification. 8s. */
@@ -723,13 +666,6 @@ div.st-hl-b.rounded-full {
   0%, 44% { opacity: 0; transform: scale(0.92); }
   50%, 92% { opacity: 1; transform: scale(1); }
   97%, 100% { opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .rs-q, .rs-r1, .rs-r2, .rs-v {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
 }
 
 /* Agent memory card: the sticky note lands, then todos check off. The
@@ -763,10 +699,6 @@ div.st-hl-b.rounded-full {
   0%, 44% { color: transparent; border-color: rgba(255, 255, 255, 0.2); }
   50%, 100% { color: #7ed492; border-color: rgba(52, 180, 74, 0.5); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .am-note { animation: none; opacity: 1; transform: none; }
-  .am-t1 .am-box, .am-t2 .am-box { animation: none; color: #7ed492; border-color: rgba(52, 180, 74, 0.5); }
-}
 
 /* Detachable preview card: the PDF window pops out of the app frame and
    drifts right, leaving a dashed ghost behind. 8s cycle. */
@@ -787,10 +719,6 @@ div.st-hl-b.rounded-full {
   0%, 36% { opacity: 0; transform: translateY(3px); }
   44%, 88% { opacity: 1; transform: translateY(0); }
   96%, 100% { opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .pv-win { animation: none; transform: translate(26px, 2px); }
-  .pv-ghost, .pv-badge { animation: none; opacity: 1; transform: none; }
 }
 
 /* Make-it-yours card: `:wq` types in the statusline; accent dots pulse in
@@ -814,11 +742,6 @@ div.st-hl-b.rounded-full {
   60% { transform: scale(1.35); }
   65%, 100% { transform: scale(1); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .my-type { animation: none; width: 3ch; }
-  .my-d1, .my-d2, .my-d3, .my-d4, .my-d5 { animation: none; }
-}
-
 
 /* Oleafly quill-leaf cursor (landing page only). PNG data URI because
    Safari does not support SVG cursors. The artwork points in the same

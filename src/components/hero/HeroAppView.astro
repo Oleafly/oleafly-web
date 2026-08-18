@@ -16,7 +16,7 @@
 import { t } from "../../i18n/t";
 import type { Locale } from "../../i18n/locales";
 import { ic, github, leaf, iconBtn } from "./hero-icons";
-import { projectScene, assistantScene, diagramScene, citeScene, homeScene } from "./hero-scenes";
+import { projectScene, assistantScene, diagramScene, citeScene, historyScene, homeScene, polishScene } from "./hero-scenes";
 import avatar from "./avatar.png";
 
 interface Props {
@@ -28,8 +28,10 @@ const scenes = [
   { id: "project", label: t(locale, "landing.tour.project") },
   { id: "assistant", label: t(locale, "landing.tour.assistant") },
   { id: "cite", label: t(locale, "landing.tour.citations") },
+  { id: "history", label: t(locale, "landing.tour.history") },
   { id: "diagram", label: t(locale, "landing.tour.diagramTool") },
   { id: "home", label: t(locale, "landing.tour.home") },
+  { id: "polish", label: t(locale, "landing.tour.polish") },
 ];
 
 /* ------------------------------------------------------- compile dropdown */
@@ -126,7 +128,7 @@ const exportMenu = `
               <span class="hv-cp-chev" id="hvCpChev"><Fragment set:html={ic.chevD} /></span>
             </span>
             <span class="hv-ib" id="hvExportBtn"><Fragment set:html={ic.download} /></span>
-            <span class="hv-ib"><Fragment set:html={ic.history} /></span>
+            <span class="hv-ib" id="hvHistoryBtn"><Fragment set:html={ic.history} /></span>
             <span class="hv-ib"><Fragment set:html={ic.fork} /></span>
             <span class="hv-tdiv"></span>
             <span class="hv-gh"><img class="hv-avatar-img" src={avatar.src} alt="" width="14" height="14" /><span class="hv-gh-name">prajwal-svm</span></span>
@@ -142,9 +144,9 @@ const exportMenu = `
           <nav class="hv-rail">
             <span class="hv-railbtn is-active" id="hvRailFiles"><Fragment set:html={ic.fileText} /></span>
             <span class="hv-railbtn"><Fragment set:html={ic.search} /></span>
-            <span class="hv-railbtn"><Fragment set:html={ic.gitBranch} /></span>
+            <span class="hv-railbtn" id="hvRailGit"><Fragment set:html={ic.gitBranch} /></span>
             <span class="hv-rsep"></span>
-            <span class="hv-railbtn"><Fragment set:html={ic.shieldCheck} /></span>
+            <span class="hv-railbtn" id="hvRailShield"><Fragment set:html={ic.shieldCheck} /></span>
             <span class="hv-railbtn" id="hvRailRefs"><Fragment set:html={ic.searchCode} /></span>
             <span class="hv-rsep"></span>
             <span class="hv-railbtn" id="hvRailAssistant"><Fragment set:html={ic.sparkles} /></span>
@@ -159,7 +161,9 @@ const exportMenu = `
           <Fragment set:html={assistantScene} />
           <Fragment set:html={diagramScene} />
           <Fragment set:html={citeScene} />
+          <Fragment set:html={historyScene} />
           <Fragment set:html={homeScene} />
+          <Fragment set:html={polishScene} />
         </div>
 
         <!-- toast + simulated cursor -->
@@ -650,6 +654,8 @@ const exportMenu = `
   .heroapp[data-scene="assistant"] .hv-scene[data-scene="assistant"],
   .heroapp[data-scene="diagram"] .hv-scene[data-scene="diagram"],
   .heroapp[data-scene="cite"] .hv-scene[data-scene="cite"],
+  .heroapp[data-scene="history"] .hv-scene[data-scene="history"],
+  .heroapp[data-scene="polish"] .hv-scene[data-scene="polish"],
   .heroapp[data-scene="home"] .hv-scene[data-scene="home"] {
     display: flex;
     animation: hv-scene-in 0.4s cubic-bezier(0.2, 0.7, 0.3, 1);
@@ -2067,6 +2073,405 @@ const exportMenu = `
   .hv-cite-toast .hv-toast-ic { display: inline-flex; color: var(--hv-emerald); }
   .hv-cite-toast .hv-toast-ic svg { width: 11px; height: 11px; }
 
+  /* ======================== versions & git scene ======================== */
+  /* the scene depicts the project after the citations flow */
+  .hv-scene[data-scene="history"] .hv-cins-body { display: inline; }
+
+  /* Source Control panel: width slides open via --gitw (mkAnim) */
+  .hv-git {
+    width: calc(var(--gitw, 0) * 1px);
+    min-width: 0;
+    overflow: hidden;
+    background: var(--hv-panel);
+    border-right: 0 solid var(--hv-line-soft);
+    flex-shrink: 0;
+  }
+  .heroapp[data-git-panel] .hv-git { border-right-width: 1px; }
+  .hv-git-in { display: flex; flex-direction: column; width: 200px; height: 100%; }
+  .heroapp[data-scene="history"] #hvRailGit { position: relative; }
+  .heroapp[data-scene="history"]:not([data-git-committed]) #hvRailGit::after {
+    content: "1";
+    position: absolute;
+    right: 0;
+    top: -1px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--hv-blue);
+    color: #fff;
+    font: 600 6px/10px var(--hv-font);
+    text-align: center;
+  }
+  .heroapp[data-scene="history"][data-git-panel] #hvRailFiles { background: transparent; color: var(--hv-mut); }
+  .heroapp[data-scene="history"][data-git-panel] #hvRailGit { background: rgba(37, 99, 235, 0.1); color: var(--hv-fg); }
+  .hv-git-meta { display: flex; align-items: center; gap: 5px; padding: 6px 8px; }
+  .hv-git-branch {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #16a34a;
+    color: #fff;
+    font-size: 7px;
+    font-weight: 500;
+  }
+  .hv-git-branch svg { width: 7px; height: 7px; }
+  .hv-git-ahead { display: inline-flex; align-items: center; height: 14px; padding: 0 5px; border: 1px solid var(--hv-line); border-radius: 999px; font-size: 7px; }
+  .hv-git-up { font-style: normal; color: #34d399; }
+  .heroapp[data-git-committed] .hv-git-ahead { display: none; }
+  .hv-git-groups { flex: 1; min-height: 0; padding: 2px 6px; }
+  .hv-git-ghead {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 16px;
+    padding: 0 4px;
+    color: var(--hv-mut2);
+    font-size: 7px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .hv-git-row { display: flex; align-items: center; gap: 5px; height: 19px; padding: 0 5px; border-radius: 4px; font-size: 8.5px; }
+  .hv-git-st {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    font-size: 7px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .hv-git-st.m { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+  .hv-git-stage { display: inline-flex; margin-left: auto; width: 14px; height: 14px; align-items: center; justify-content: center; border-radius: 3px; color: var(--hv-mut); }
+  .hv-git-stage svg { width: 9px; height: 9px; }
+  .hv-git-staged-head, .hv-git-staged-row, .hv-git-clean { display: none; }
+  .heroapp[data-git-staged]:not([data-git-committed]) .hv-git-staged-head,
+  .heroapp[data-git-staged]:not([data-git-committed]) .hv-git-staged-row { display: flex; }
+  .heroapp[data-git-staged] .hv-scene[data-scene="history"] #hvGChange,
+  .heroapp[data-git-staged] .hv-scene[data-scene="history"] .hv-git-changes-head { display: none; }
+  .heroapp[data-git-committed] .hv-git-clean { display: block; padding: 8px 5px; color: var(--hv-mut2); font-size: 7.6px; }
+  .hv-git-foot { border-top: 1px solid var(--hv-line-soft); padding: 7px 7px 8px; display: flex; flex-direction: column; gap: 6px; }
+  .hv-git-msg { min-height: 30px; padding: 5px 6px; border: 1px solid var(--hv-line); border-radius: 5px; background: var(--hv-bg); font-size: 8px; }
+  .hv-git-msg-ph { color: var(--hv-mut2); }
+  .heroapp[data-git-typing] .hv-git-msg-ph { display: none; }
+  .hv-git-btns { display: flex; gap: 5px; }
+  .hv-git-commit, .hv-git-push {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 20px;
+    border-radius: 5px;
+    font-size: 7.8px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .hv-git-commit { border: 1px solid var(--hv-line); color: var(--hv-mut); }
+  .hv-git-commit svg { width: 8px; height: 8px; }
+  .hv-git-push { background: var(--hv-blue); color: #fff; }
+  .heroapp:not([data-git-staged]) .hv-git-commit,
+  .heroapp:not([data-git-staged]) .hv-git-push { opacity: 0.4; }
+  .hv-git-push-spin {
+    display: none;
+    width: 8px;
+    height: 8px;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: hv-spin 0.8s linear infinite;
+  }
+  .heroapp[data-git-busy] .hv-git-push-spin { display: inline-block; }
+  .hv-git-status {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 5px;
+    background: rgba(16, 185, 129, 0.1);
+    color: #34d399;
+    font-size: 7.4px;
+  }
+  .hv-git-status svg { width: 9px; height: 9px; flex-shrink: 0; }
+  .heroapp[data-git-committed] .hv-git-status { display: flex; }
+  .hv-git-remote { color: var(--hv-mut2); font-family: var(--hv-mono); font-size: 6.8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* working-tree diff: replaces toolbar+code inside the editor */
+  .hv-gtab-diff { display: none; }
+  .hv-gtab-diff i { font-style: normal; color: var(--hv-mut); }
+  .heroapp[data-git-diff] .hv-scene[data-scene="history"] .hv-gtab-diff { display: inline-flex; }
+  .heroapp[data-git-diff] .hv-scene[data-scene="history"] .hv-gtab-main { background: transparent; color: var(--hv-mut); }
+  .hv-gd { display: none; flex: 1; min-height: 0; flex-direction: column; background: var(--hv-bg); }
+  .heroapp[data-git-diff] .hv-scene[data-scene="history"] .hv-gd { display: flex; }
+  .heroapp[data-git-diff] .hv-scene[data-scene="history"] .hv-editor .hv-etb,
+  .heroapp[data-git-diff] .hv-scene[data-scene="history"] .hv-editor .hv-code { display: none; }
+  .hv-gd-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 22px;
+    padding: 0 8px;
+    border-bottom: 1px solid var(--hv-line-soft);
+    flex-shrink: 0;
+  }
+  .hv-gd-mode { display: inline-flex; align-items: center; gap: 5px; color: var(--hv-mut); font-size: 8px; }
+  .hv-gd-mode svg { width: 9px; height: 9px; }
+  .hv-gd-nav { display: inline-flex; align-items: center; gap: 3px; color: var(--hv-mut); }
+  .hv-gd-nav svg { width: 9px; height: 9px; }
+  .hv-gd-nav i { width: 1px; height: 11px; background: var(--hv-line); margin: 0 3px; }
+  .hv-gd-nav b { display: inline-flex; width: 16px; height: 16px; align-items: center; justify-content: center; border-radius: 3px; }
+  .hv-gd-nav b.is-on { background: var(--hv-elev); color: var(--hv-fg); }
+  .hv-gd-panes { flex: 1; min-height: 0; display: flex; padding-top: 6px; }
+  .hv-gd-pane { flex: 1; min-width: 0; overflow: hidden; margin: 0 6px; }
+  .hv-gd-band { margin: 4px 0; padding: 3px 8px; background: rgba(56, 89, 138, 0.18); color: #8b98a9; font-family: var(--hv-mono); font-size: 7.4px; border-radius: 2px; }
+  .hv-gd-row { display: flex; font-family: var(--hv-mono); font-size: 8.2px; line-height: 1.65; }
+  .hv-gd-ln { flex-shrink: 0; width: 22px; padding-right: 7px; color: var(--hv-mut2); text-align: right; }
+  .hv-gd-ct { min-width: 0; overflow: hidden; overflow-wrap: break-word; }
+  .hv-gd-row.is-del { background: rgba(248, 81, 73, 0.14); box-shadow: inset 2px 0 0 rgba(248, 81, 73, 0.6); }
+  .hv-gd-row.is-add { background: rgba(63, 185, 80, 0.13); box-shadow: inset 2px 0 0 rgba(63, 185, 80, 0.6); }
+  .hv-gd-w { background: rgba(63, 185, 80, 0.35); border-radius: 2px; }
+
+  /* Version History modal */
+  .hv-scene[data-scene="history"] .hv-modal-backdrop { display: none; inset: -34px 0 0 0; }
+  .heroapp[data-git-history] .hv-scene[data-scene="history"] .hv-modal-backdrop { display: block; }
+  .hv-gh-modal {
+    display: none;
+    position: absolute;
+    z-index: 9;
+    left: 50%;
+    top: 46px;
+    transform: translateX(-50%);
+    width: 363px;
+    border: 1px solid var(--hv-line);
+    border-radius: 9px;
+    background: var(--hv-pop);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
+    padding: 10px 8px 8px;
+    flex-direction: column;
+  }
+  .heroapp[data-git-history] .hv-scene[data-scene="history"] .hv-gh-modal { display: flex; animation: hv-dlg-in 0.18s ease-out; }
+  .hv-gh-head { display: flex; align-items: center; gap: 5px; padding: 0 4px 7px; }
+  .hv-gh-head > svg { width: 10px; height: 10px; }
+  .hv-gh-head b { font-size: 10px; font-weight: 600; }
+  .hv-gh-git { padding: 1.5px 6px; border-radius: 999px; background: rgba(37, 99, 235, 0.15); color: #7fa6f5; font-size: 7px; font-weight: 500; }
+  .hv-gh-x { margin-left: auto; display: inline-flex; width: 16px; height: 16px; align-items: center; justify-content: center; border-radius: 4px; color: var(--hv-mut); }
+  .hv-gh-x svg { width: 9px; height: 9px; }
+  .hv-gh-tabs { display: flex; justify-content: center; padding: 2px 0 7px; }
+  .hv-gh-seg { display: flex; padding: 2px; border-radius: 6px; background: var(--hv-elev); font-size: 7.8px; color: var(--hv-mut); }
+  .hv-gh-seg span { padding: 2.5px 10px; border-radius: 4.5px; }
+  .heroapp:not([data-git-tab="labels"]) .hv-gh-tab-all,
+  .heroapp[data-git-tab="labels"] .hv-gh-tab-labels { background: var(--hv-pop); color: var(--hv-fg); font-weight: 500; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); }
+  .hv-gh-rows { min-height: 0; overflow: hidden; padding: 0 2px; }
+  .hv-gh-row { display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 5px; }
+  .hv-gh-main { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 1px; }
+  .hv-gh-label { font-size: 8.8px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+  .hv-gh-pencil { display: none; color: var(--hv-mut); }
+  .hv-gh-pencil svg { width: 7px; height: 7px; }
+  .heroapp[data-git-tab="labels"] .hv-gh-pencil { display: inline-flex; }
+  .hv-gh-msg { color: var(--hv-mut); font-size: 7.6px; }
+  .hv-gh-meta { color: var(--hv-mut2); font-family: var(--hv-mono); font-size: 7px; }
+  .hv-gh-restore { display: inline-flex; align-items: center; gap: 3px; height: 17px; padding: 0 7px; border-radius: 4.5px; color: var(--hv-fg); font-size: 7.6px; white-space: nowrap; }
+  .hv-gh-restore svg { width: 8px; height: 8px; }
+  .hv-gh-restore.is-hover { background: var(--hv-elev); }
+  .hv-gh-confirm { display: none; align-items: center; gap: 4px; }
+  .heroapp[data-git-confirm] #hvGRestore { display: none; }
+  .heroapp[data-git-confirm] .hv-gh-confirm { display: inline-flex; }
+  .hv-gh-overwrite { height: 17px; padding: 0 7px; display: inline-flex; align-items: center; border-radius: 4.5px; background: #dc2626; color: #fff; font-size: 7.6px; font-weight: 500; white-space: nowrap; }
+  .hv-gh-cancel { height: 17px; padding: 0 7px; display: inline-flex; align-items: center; border-radius: 4.5px; color: var(--hv-mut); font-size: 7.6px; }
+  .hv-gh-cancel.is-hover { background: var(--hv-elev); color: var(--hv-fg); }
+  .hv-gh-new { display: none; }
+  .heroapp[data-git-committed] .hv-gh-new { display: flex; animation: hv-cite-row-in 0.6s ease-out both; }
+
+  /* ======================== polish & submit scene ======================== */
+  /* depicts the finished project: citation inserted, everything compiled */
+  .hv-scene[data-scene="polish"] .hv-cins-body { display: inline; }
+  .hv-scene[data-scene="polish"] .hv-startup { display: none; }
+  .hv-scene[data-scene="polish"] .hv-preview { --pvw: 517; }
+
+  /* Code | Visual switch (WysiwygModeSwitch in the app) */
+  .hv-wys { display: inline-flex; align-items: center; height: 18px; padding: 1.5px; border-radius: 999px; background: var(--hv-elev); margin: 0 2px; }
+  .hv-wys-side { display: inline-flex; align-items: center; height: 15px; padding: 0 7px; border-radius: 999px; color: var(--hv-mut); font-size: 7.6px; font-weight: 500; font-style: normal; }
+  .heroapp:not([data-pl-visual]) #hvPCodeBtn,
+  .heroapp[data-pl-visual] #hvPVisBtn { background: var(--hv-blue); color: #fff; }
+
+  /* visual editor pane swaps in for the code view */
+  .hv-vis { display: none; flex: 1; min-height: 0; overflow: hidden; background: var(--hv-bg); }
+  .heroapp[data-pl-visual] .hv-scene[data-scene="polish"] .hv-vis { display: block; }
+  .heroapp[data-pl-visual] .hv-scene[data-scene="polish"] .hv-code { display: none; }
+  .hv-vis-doc { max-width: 340px; margin: 0 auto; padding: 18px 16px; }
+  .hv-vis-doc h3 { font-size: 12.5px; font-weight: 650; letter-spacing: -0.01em; margin: 10px 0 6px; color: var(--hv-fg); }
+  .hv-vis-doc p { font-size: 8.8px; line-height: 1.75; color: rgba(250, 250, 250, 0.88); margin-bottom: 8px; }
+  .hv-vis-cite {
+    display: inline-block;
+    padding: 0 4px;
+    border: 1px solid rgba(37, 99, 235, 0.35);
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.12);
+    color: #7fa6f5;
+    font-family: var(--hv-mono);
+    font-size: 7px;
+    font-style: normal;
+    line-height: 1.6;
+    vertical-align: 0.5px;
+  }
+  .heroapp[data-pl-sel] .hv-vis-sel { background: rgba(37, 99, 235, 0.35); border-radius: 1.5px; }
+  .heroapp[data-pl-bold] .hv-vis-sel { font-weight: 700; background: transparent; }
+
+  /* SyncTeX: PDF word ring + source-line flash */
+  .heroapp[data-pl-synced] #hvPSyncW { outline: 1.5px solid var(--hv-blue); outline-offset: 0.5px; border-radius: 1px; background: rgba(37, 99, 235, 0.18); }
+  .hv-cl.is-sync-flash { animation: hv-sync-flash 1.6s ease-out both; }
+  @keyframes hv-sync-flash {
+    from { background: rgba(37, 99, 235, 0.4); }
+    to { background: rgba(38, 38, 38, 0.45); }
+  }
+  .hv-pl-ren.is-renamed { animation: hv-cite-ins-in 1.2s ease-out both; border-radius: 2px; }
+
+  /* rename + word count modals */
+  .hv-scene[data-scene="polish"] .hv-modal-backdrop { display: none; inset: -34px 0 0 0; }
+  .heroapp[data-pl-rn] .hv-scene[data-scene="polish"] .hv-modal-backdrop,
+  .heroapp[data-pl-wc] .hv-scene[data-scene="polish"] .hv-modal-backdrop { display: block; }
+  .hv-rn-modal, .hv-wc-modal {
+    display: none;
+    position: absolute;
+    z-index: 9;
+    left: 50%;
+    top: 110px;
+    transform: translateX(-50%);
+    width: 262px;
+    border: 1px solid var(--hv-line);
+    border-radius: 8px;
+    background: var(--hv-pop);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
+    padding: 11px 12px;
+  }
+  .heroapp[data-pl-rn] .hv-scene[data-scene="polish"] .hv-rn-modal,
+  .heroapp[data-pl-wc] .hv-scene[data-scene="polish"] .hv-wc-modal { display: block; animation: hv-dlg-in 0.18s ease-out; }
+  .hv-rn-title { font-size: 9.4px; font-weight: 600; margin-bottom: 7px; }
+  .hv-rn-title b { font-family: var(--hv-mono); font-weight: 500; }
+  .hv-rn-input {
+    display: flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 7px;
+    border: 1px solid var(--hv-blue);
+    border-radius: 5px;
+    background: var(--hv-bg);
+    font-family: var(--hv-mono);
+    font-size: 8.4px;
+  }
+  .hv-rn-old { background: rgba(37, 99, 235, 0.35); border-radius: 1px; }
+  .heroapp[data-pl-rn="typed"] .hv-rn-old,
+  .heroapp[data-pl-rn="typing"] .hv-rn-old { display: none; }
+  .hv-rn-input .hv-type-caret { display: inline-block; width: 1px; height: 10px; margin-left: 0.5px; background: var(--hv-fg); animation: hv-caret 0.8s step-end infinite; }
+  .hv-rn-hint { margin: 6px 0 2px; height: 10px; color: var(--hv-mut2); font-size: 7.4px; }
+  .hv-rn-hint { visibility: hidden; }
+  .heroapp[data-pl-rn="typed"] .hv-rn-hint { visibility: visible; }
+  .heroapp:not([data-pl-rn="typed"]) #hvPRnGo { opacity: 0.5; }
+
+  .hv-wc-title { font-size: 10px; font-weight: 600; margin-bottom: 2px; }
+  .hv-wc-file { color: var(--hv-mut2); font-size: 7.6px; margin-bottom: 6px; }
+  .hv-wc-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-top: 1px solid var(--hv-line-soft);
+    font-size: 8.6px;
+    color: var(--hv-mut);
+  }
+  .hv-wc-row b { font-family: var(--hv-mono); font-weight: 500; color: var(--hv-fg); font-variant-numeric: tabular-nums; }
+
+  /* two-page spread: whole document on screen */
+  .heroapp[data-pl-spread] .hv-scene[data-scene="polish"] .hv-pv-pages {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    /* overflow must stay visible: the box clips children BEFORE its own
+       transform, which would slice the left page off the spread */
+    overflow: visible;
+    transform: scale(0.53);
+    transform-origin: top center;
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  .heroapp:not([data-pl-spread]) .hv-scene[data-scene="polish"] .hv-pg-one { background: var(--hv-elev); color: var(--hv-fg); }
+  .heroapp[data-pl-spread] .hv-scene[data-scene="polish"] .hv-pg-two { background: var(--hv-elev); color: var(--hv-fg); }
+
+  /* preflight panel */
+  .hv-pf {
+    width: calc(var(--pfw, 0) * 1px);
+    min-width: 0;
+    overflow: hidden;
+    background: var(--hv-panel);
+    border-right: 0 solid var(--hv-line-soft);
+    flex-shrink: 0;
+  }
+  .heroapp[data-pl-preflight] .hv-pf { border-right-width: 1px; }
+  .hv-pf-in { display: flex; flex-direction: column; width: 200px; height: 100%; }
+  .heroapp[data-scene="polish"][data-pl-preflight] #hvRailFiles { background: transparent; color: var(--hv-mut); }
+  .heroapp[data-scene="polish"][data-pl-preflight] #hvRailShield { background: rgba(37, 99, 235, 0.1); color: var(--hv-fg); }
+  .hv-pf-cards { flex: 1; min-height: 0; padding: 6px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+  .hv-pf-card { border: 1px solid var(--hv-line-soft); border-radius: 7px; background: var(--hv-bg); }
+  .hv-pf-head { display: flex; align-items: center; gap: 4px; height: 24px; padding: 0 7px; font-size: 8px; }
+  .hv-pf-head > svg { width: 9px; height: 9px; color: var(--hv-mut); flex-shrink: 0; }
+  .hv-pf-head b { font-weight: 500; flex: 1; white-space: nowrap; overflow: hidden; }
+  .hv-pf-check {
+    width: 9px;
+    height: 9px;
+    border: 1px solid var(--hv-line);
+    border-radius: 2.5px;
+    flex-shrink: 0;
+  }
+  .hv-pf-check.is-on { border: none; color: var(--hv-blue); display: inline-flex; }
+  .hv-pf-check.is-on svg { width: 10px; height: 10px; }
+  .hv-pf-run, .hv-pf-rerun {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    height: 15px;
+    padding: 0 6px;
+    border-radius: 4px;
+    font-size: 7px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .hv-pf-run { color: var(--hv-mut2); border: 1px solid var(--hv-line-soft); }
+  .hv-pf-rerun { background: var(--hv-blue); color: #fff; }
+  .hv-pf-run svg, .hv-pf-rerun svg { width: 7px; height: 7px; }
+  .hv-pf-hchev { display: inline-flex; color: var(--hv-mut2); flex-shrink: 0; }
+  .hv-pf-hchev svg { width: 8px; height: 8px; }
+  .hv-pf-body { padding: 0 8px 8px; }
+  .hv-pf-lab { margin: 5px 0 3px; color: var(--hv-mut2); font-size: 6.4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .hv-pf-desc { color: var(--hv-mut); font-size: 7px; line-height: 1.55; }
+  .hv-pf-gauge { position: relative; display: flex; flex-direction: column; align-items: center; margin: 7px 0 3px; }
+  .hv-pf-gauge svg { width: 40px; height: 40px; }
+  .hv-pf-gauge b { position: absolute; top: 12px; font-size: 11px; font-weight: 650; }
+  .hv-pf-gauge i { margin-top: 2px; color: var(--hv-mut2); font-size: 6.4px; font-weight: 600; font-style: normal; text-transform: uppercase; letter-spacing: 0.06em; }
+  .hv-pf-issue {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 5px 6px;
+    margin-top: 4px;
+    border: 1px solid var(--hv-line-soft);
+    border-radius: 5px;
+  }
+  .hv-pf-iic { display: inline-flex; flex-shrink: 0; margin-top: 1px; }
+  .hv-pf-iic svg { width: 8.5px; height: 8.5px; }
+  .hv-pf-itxt { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 1.5px; }
+  .hv-pf-itxt b { font-size: 7.4px; font-weight: 500; line-height: 1.35; }
+  .hv-pf-itxt i { color: var(--hv-mut2); font-size: 6.2px; font-style: normal; letter-spacing: 0.04em; }
+  .hv-pf-chev { display: inline-flex; color: var(--hv-mut2); margin-top: 2px; }
+  .hv-pf-chev svg { width: 7px; height: 7px; }
+
+  /* the polish toast reuses the cite toast shell */
+  .heroapp[data-pl-toast] .hv-pl-toast { opacity: 1; transform: none; }
+
   /* ======================== diagram scene ======================== */
   .hv-dg-top {
     display: flex;
@@ -2587,10 +2992,6 @@ const exportMenu = `
   .heroapp.hv-freeze *,
   .heroapp.hv-freeze .hv-cursor { animation: none !important; transition: none !important; }
 
-  @media (prefers-reduced-motion: reduce) {
-    .heroapp * { animation: none !important; transition: none !important; }
-    .hv-tour-prog { display: none; }
-  }
   @media (max-width: 640px) {
     .heroapp { width:calc(100vw - 24px); }
     .hv-tour { margin-bottom: 12px; }
@@ -2753,6 +3154,42 @@ const exportMenu = `
     const citeSegSyms = $("#hvCSegSyms");
     const citeRailRefs = $("#hvRailRefs");
 
+    // Versions & Git scene handles
+    const histSceneEl = $('.hv-scene[data-scene="history"]');
+    const gitPanelEl = histSceneEl.querySelector<HTMLElement>(".hv-git")!;
+    const gitChange = $("#hvGChange");
+    const gitStage = $("#hvGStage");
+    const gitMsgBox = $("#hvGMsg");
+    const gitMsgText = $("#hvGMsgText");
+    const gitMsgCaret = gitMsgBox.querySelector<HTMLElement>(".hv-type-caret")!;
+    const gitPush = $("#hvGPush");
+    const railGit = $("#hvRailGit");
+    const histBtn = $("#hvHistoryBtn");
+    const gitRestore = $("#hvGRestore");
+    const gitCancel = $("#hvGCancel");
+    const gitTabLabels = $("#hvGTabLabels");
+    const gitClose = $("#hvGClose");
+
+    // Polish & Submit scene handles
+    const plSceneEl = $('.hv-scene[data-scene="polish"]');
+    const plCodein = plSceneEl.querySelector<HTMLElement>(".hv-codein")!;
+    const plPfEl = plSceneEl.querySelector<HTMLElement>(".hv-pf")!;
+    const plSyncW = $("#hvPSyncW");
+    const plVisBtn = $("#hvPVisBtn");
+    const plCodeBtn = $("#hvPCodeBtn");
+    const plVisSel = $("#hvPVisSel");
+    const plBoldBtn = $("#hvPBold");
+    const plInfoBtn = $("#hvPInfo");
+    const plWcClose = $("#hvPWcClose");
+    const plRnNew = $("#hvPRnNew");
+    const plRnGo = $("#hvPRnGo");
+    const plRnCaret = plSceneEl.querySelector<HTMLElement>(".hv-rn-input .hv-type-caret")!;
+    const plTwoPage = $("#hvPTwoPage");
+    const plRailShield = $("#hvRailShield");
+    const plRenSpans = Array.from(plSceneEl.querySelectorAll<HTMLElement>(".hv-pl-ren"));
+    const plLine66 = plCodein.querySelector<HTMLElement>('[data-l="66"] .hv-ct')!;
+    const plLine66Html = plLine66.innerHTML;
+
     // editor scrollbar element (created here; styled globally)
     const sb = document.createElement("span");
     sb.className = "hv-sb";
@@ -2760,8 +3197,16 @@ const exportMenu = `
     const csb = document.createElement("span");
     csb.className = "hv-sb";
     citeSceneEl.querySelector(".hv-code")!.appendChild(csb);
+    const psb = document.createElement("span");
+    psb.className = "hv-sb";
+    plSceneEl.querySelector(".hv-code")!.appendChild(psb);
 
-    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Product decision: the tour IS the hero content, so it plays even when
+    // the OS reports prefers-reduced-motion (common on phones with "remove
+    // animations" enabled — otherwise viewers only ever see the end-state
+    // tableau and report the hero as frozen). The tableau paths are kept for
+    // an easy re-enable.
+    const reduced = false;
 
     // ------------------------------------------------------------- helpers
     const setAttr = (name: string, on: boolean) => {
@@ -2839,6 +3284,10 @@ const exportMenu = `
     const structA = mkAnim((v) => treeEl.style.setProperty("--structh", String(v)), 240);
     // rendered-page zoom (auto-fit + "Fit to width")
     const pgzA = mkAnim((v) => preview.style.setProperty("--pgz", v.toFixed(4)), 1.037);
+    // Source Control panel width (Versions & Git scene)
+    const gitwA = mkAnim((v) => gitPanelEl.style.setProperty("--gitw", String(v)), 0);
+    // Preflight panel width (Polish & Submit scene)
+    const pfwA = mkAnim((v) => plPfEl.style.setProperty("--pfw", String(v)), 0);
 
     let lastScrollLine = 0;
     const scrollToLine = (n: number) => {
@@ -2909,6 +3358,20 @@ const exportMenu = `
       citePick.style.left = `${Math.max(6, (r.left - sc.left) / zoomF - 10)}px`;
       citePick.style.top = `${(r.bottom - sc.top) / zoomF + 5}px`;
     };
+
+    // -------------------------------------------------- polish & submit
+    let lastPlScroll = 0;
+    const plScrollToLine = (n: number) => {
+      lastPlScroll = n;
+      const line = plCodein.querySelector<HTMLElement>(`[data-l="${n}"]`);
+      const y = line ? line.offsetTop : 0;
+      plCodein.style.transform = `translateY(${-y}px)`;
+      const range = plCodein.scrollHeight - (plCodein.parentElement?.clientHeight ?? 0);
+      psb.style.transform = `translateY(${(range > 0 ? y / range : 0) * 340}px)`;
+    };
+    /** Line 66 with the visual-editor bold round-tripped back into source. */
+    const PL_LINE66_BOLD =
+      `<span class="t-sp">EdgeSense</span> retains <span class="t-cmd">\\textbf</span><span class="t-br">{</span>98.3<span class="t-cmd">\\%</span> of the streaming baseline's recall<span class="t-br">}</span> while using 37<span class="t-cmd">\\%</span> of`;
 
     // ------------------------------------------------------- project flow
     const KEY_FIX = "wilkinson2016";
@@ -3640,11 +4103,209 @@ const exportMenu = `
     cAt(31200, () => setAttr("data-cite-toast", false));
     cAt(32200, () => setAttr("data-cursor", false));
 
+    // ------------------------------------------------ versions & git flow
+    // Open Source Control → working-tree diff → stage → commit & push →
+    // Version History modal → restore confirm (cancelled) → Labels view.
+    const GIT_MSG = "Add deep-learning citation";
+    const histSteps: Step[] = [];
+    const hAt = (t: number, run: () => void) => histSteps.push({ t, run });
+
+    // Open the Source Control panel from the activity rail.
+    hAt(500, () => {
+      setAttr("data-cursor", true);
+      moveTo(railGit);
+    });
+    hAt(1400, () => {
+      click();
+      setAttr("data-git-panel", true);
+      gitwA.anim(200, 300);
+    });
+    // Click the modified file: the working-tree diff opens.
+    hAt(2500, () => moveTo(gitChange, -20, 0));
+    hAt(3300, () => {
+      click();
+      setAttr("data-git-diff", true);
+    });
+    // Stage it, write the message, commit & push.
+    hAt(6300, () => moveTo(gitStage));
+    hAt(7000, () => {
+      click();
+      setAttr("data-git-staged", true);
+    });
+    hAt(7900, () => moveTo(gitMsgBox, 0, -4));
+    hAt(8600, () => {
+      click();
+      setAttr("data-git-typing", true);
+      gitMsgCaret.classList.add("is-typing");
+    });
+    for (let i = 0; i < GIT_MSG.length; i++) {
+      hAt(8750 + i * 70, () => {
+        gitMsgText.textContent = GIT_MSG.slice(0, i + 1);
+      });
+    }
+    hAt(11000, () => moveTo(gitPush));
+    hAt(11800, () => {
+      click();
+      setAttr("data-git-busy", true);
+    });
+    hAt(13100, () => {
+      setAttr("data-git-busy", false);
+      setAttr("data-git-committed", true);
+      setAttr("data-git-diff", false);
+      // the app clears the message box once the commit lands
+      setAttr("data-git-typing", false);
+      gitMsgText.textContent = "";
+      gitMsgCaret.classList.remove("is-typing");
+    });
+    // Version History from the header clock icon.
+    hAt(15400, () => moveTo(histBtn));
+    hAt(16200, () => {
+      click();
+      setAttr("data-git-history", true);
+    });
+    // Restore an earlier version — show the confirm, then cancel it.
+    hAt(18600, () => moveTo(gitRestore));
+    hAt(19300, () => gitRestore.classList.add("is-hover"));
+    hAt(19700, () => {
+      click();
+      gitRestore.classList.remove("is-hover");
+      setAttr("data-git-confirm", true);
+    });
+    hAt(21300, () => moveTo(gitCancel));
+    hAt(22000, () => gitCancel.classList.add("is-hover"));
+    hAt(22400, () => {
+      click();
+      gitCancel.classList.remove("is-hover");
+      setAttr("data-git-confirm", false);
+    });
+    // Peek at the Labels view, then close.
+    hAt(23200, () => moveTo(gitTabLabels));
+    hAt(24000, () => {
+      click();
+      root.setAttribute("data-git-tab", "labels");
+    });
+    hAt(25800, () => moveTo(gitClose));
+    hAt(26600, () => {
+      click();
+      setAttr("data-git-history", false);
+      root.removeAttribute("data-git-tab");
+    });
+    hAt(27400, () => {
+      const line = histSceneEl.querySelector<HTMLElement>('[data-l="13"]');
+      if (line) moveTo(line, 130, 0);
+    });
+    hAt(28800, () => setAttr("data-cursor", false));
+
+    // ------------------------------------------------ polish & submit flow
+    // SyncTeX jump → rename across project → Visual editing round-trip →
+    // word count → two-page spread → Preflight scores.
+    const PL_RENAME = "gelman2014";
+    const plSteps: Step[] = [];
+    const pAt = (t: number, run: () => void) => plSteps.push({ t, run });
+
+    // SyncTeX: click a number in the PDF, land on the source line.
+    pAt(500, () => {
+      setAttr("data-cursor", true);
+      moveTo(plSyncW, 0, 0);
+    });
+    pAt(1800, () => {
+      click();
+      setAttr("data-pl-synced", true);
+      plScrollToLine(60);
+      const line = plCodein.querySelector('[data-l="66"]');
+      line?.classList.remove("is-sync-flash");
+      void (line as HTMLElement)?.offsetWidth;
+      line?.classList.add("is-sync-flash");
+    });
+    // Rename gelman2013 project-wide (the entry is Gelman & Carlin 2014).
+    pAt(5000, () => moveTo(plRenSpans[1] ?? plRenSpans[0]));
+    pAt(5900, () => {
+      click();
+      setAttr("data-pl-synced", false);
+      root.setAttribute("data-pl-rn", "open");
+    });
+    pAt(6900, () => {
+      root.setAttribute("data-pl-rn", "typing");
+      plRnCaret.classList.add("is-typing");
+    });
+    for (let i = 0; i < PL_RENAME.length; i++) {
+      pAt(7000 + i * 70, () => {
+        plRnNew.textContent = PL_RENAME.slice(0, i + 1);
+      });
+    }
+    pAt(7800, () => root.setAttribute("data-pl-rn", "typed"));
+    pAt(8300, () => moveTo(plRnGo));
+    pAt(9100, () => {
+      click();
+      root.removeAttribute("data-pl-rn");
+      plRnCaret.classList.remove("is-typing");
+      for (const el of plRenSpans) {
+        el.textContent = PL_RENAME;
+        el.classList.add("is-renamed");
+      }
+      setAttr("data-pl-toast", true);
+    });
+    pAt(11600, () => setAttr("data-pl-toast", false));
+    // Visual editing: flip to Visual, bold a claim, flip back to source.
+    pAt(12000, () => moveTo(plVisBtn));
+    pAt(12800, () => {
+      click();
+      setAttr("data-pl-visual", true);
+    });
+    pAt(14000, () => moveTo(plVisSel, -20, 0));
+    pAt(14800, () => {
+      click();
+      setAttr("data-pl-sel", true);
+    });
+    pAt(15700, () => moveTo(plBoldBtn));
+    pAt(16400, () => {
+      click();
+      setAttr("data-pl-sel", false);
+      setAttr("data-pl-bold", true);
+    });
+    pAt(17900, () => moveTo(plCodeBtn));
+    pAt(18700, () => {
+      click();
+      setAttr("data-pl-visual", false);
+      plLine66.innerHTML = PL_LINE66_BOLD;
+      const line = plCodein.querySelector('[data-l="66"]');
+      line?.classList.remove("is-sync-flash");
+      void (line as HTMLElement)?.offsetWidth;
+      line?.classList.add("is-sync-flash");
+    });
+    // LaTeX-aware word count.
+    pAt(20700, () => moveTo(plInfoBtn));
+    pAt(21500, () => {
+      click();
+      setAttr("data-pl-wc", true);
+    });
+    pAt(23700, () => moveTo(plWcClose));
+    pAt(24400, () => {
+      click();
+      setAttr("data-pl-wc", false);
+    });
+    // Two-page spread: the whole document on screen.
+    pAt(25200, () => moveTo(plTwoPage));
+    pAt(26000, () => {
+      click();
+      setAttr("data-pl-spread", true);
+    });
+    // Preflight: ATS + accessibility + reference checks.
+    pAt(28300, () => moveTo(plRailShield));
+    pAt(29100, () => {
+      click();
+      setAttr("data-pl-preflight", true);
+      pfwA.anim(200, 300);
+    });
+    pAt(33600, () => setAttr("data-cursor", false));
+
     const PROJECT_DUR = 29200;
     const ASSISTANT_DUR = 69500;
     const HOME_DUR = 26200;
     const DIAGRAM_DUR = 46300;
     const CITE_DUR = 33000;
+    const HISTORY_DUR = 30000;
+    const POLISH_DUR = 34800;
     const STATIC_DUR = 6000;
 
     const resetProject = () => {
@@ -3811,6 +4472,70 @@ const exportMenu = `
       curY = 400;
     };
 
+    const resetHistory = () => {
+      window.clearTimeout(cursorHoverTimer);
+      setAttr("data-cursor", false);
+      for (const a of [
+        "data-git-panel",
+        "data-git-diff",
+        "data-git-staged",
+        "data-git-typing",
+        "data-git-busy",
+        "data-git-committed",
+        "data-git-history",
+        "data-git-confirm",
+        "data-git-tab",
+      ])
+        root.removeAttribute(a);
+      gitwA.set(0);
+      gitMsgText.textContent = "";
+      gitMsgCaret.classList.remove("is-typing");
+      gitRestore.classList.remove("is-hover");
+      gitCancel.classList.remove("is-hover");
+      // the scene depicts an already-compiled project
+      cpLabel.textContent = "Recompile";
+      lastMove = null;
+      cursor.style.transitionDuration = "0ms, 300ms";
+      cursor.style.transform = "translate(760px, 400px)";
+      curX = 760;
+      curY = 400;
+    };
+
+    const resetPolish = () => {
+      window.clearTimeout(cursorHoverTimer);
+      setAttr("data-cursor", false);
+      for (const a of [
+        "data-pl-synced",
+        "data-pl-rn",
+        "data-pl-toast",
+        "data-pl-visual",
+        "data-pl-sel",
+        "data-pl-bold",
+        "data-pl-wc",
+        "data-pl-spread",
+        "data-pl-preflight",
+      ])
+        root.removeAttribute(a);
+      pfwA.set(0);
+      plScrollToLine(1);
+      lastPlScroll = 0;
+      plRnNew.textContent = "";
+      plRnCaret.classList.remove("is-typing");
+      plLine66.innerHTML = plLine66Html;
+      plCodein.querySelector('[data-l="66"]')?.classList.remove("is-sync-flash");
+      for (const el of plRenSpans) {
+        el.textContent = "gelman2013";
+        el.classList.remove("is-renamed");
+      }
+      // the scene depicts an already-compiled project
+      cpLabel.textContent = "Recompile";
+      lastMove = null;
+      cursor.style.transitionDuration = "0ms, 300ms";
+      cursor.style.transform = "translate(760px, 400px)";
+      curX = 760;
+      curY = 400;
+    };
+
     /** Motionless end-state for prefers-reduced-motion viewers. */
     const applyTableau = () => {
       resetProject();
@@ -3868,8 +4593,24 @@ const exportMenu = `
       setAttr("data-cite-inserted", true);
     };
 
+    /** Reduced-motion frame: Source Control open on the working-tree diff. */
+    const applyHistoryTableau = () => {
+      resetHistory();
+      setAttr("data-git-panel", true);
+      gitwA.set(200);
+      setAttr("data-git-diff", true);
+    };
+
+    /** Reduced-motion frame: Preflight scores beside the two-page spread. */
+    const applyPolishTableau = () => {
+      resetPolish();
+      setAttr("data-pl-spread", true);
+      setAttr("data-pl-preflight", true);
+      pfwA.set(200);
+    };
+
     // --------------------------------------------------------- scene loop
-    const order = ["project", "assistant", "cite", "diagram", "home"];
+    const order = ["project", "assistant", "cite", "history", "diagram", "home", "polish"];
     let sceneIdx = 0;
     let sceneStart = performance.now();
     let stepIdx = 0;
@@ -3912,6 +4653,12 @@ const exportMenu = `
       } else if (order[idx] === "cite") {
         if (reduced) applyCiteTableau();
         else resetCite();
+      } else if (order[idx] === "history") {
+        if (reduced) applyHistoryTableau();
+        else resetHistory();
+      } else if (order[idx] === "polish") {
+        if (reduced) applyPolishTableau();
+        else resetPolish();
       } else {
         root.removeAttribute("data-ai-pane");
         setAttr("data-cursor", false);
@@ -3926,8 +4673,8 @@ const exportMenu = `
     const tick = (now: number) => {
       const el = now - sceneStart;
       const activeScene = order[sceneIdx];
-      const activeSteps = activeScene === "project" ? steps : activeScene === "assistant" ? aiSteps : activeScene === "home" ? homeSteps : activeScene === "diagram" ? diagramSteps : activeScene === "cite" ? citeSteps : [];
-      const dur = activeScene === "project" ? PROJECT_DUR : activeScene === "assistant" ? ASSISTANT_DUR : activeScene === "home" ? HOME_DUR : activeScene === "diagram" ? DIAGRAM_DUR : activeScene === "cite" ? CITE_DUR : STATIC_DUR;
+      const activeSteps = activeScene === "project" ? steps : activeScene === "assistant" ? aiSteps : activeScene === "home" ? homeSteps : activeScene === "diagram" ? diagramSteps : activeScene === "cite" ? citeSteps : activeScene === "history" ? histSteps : activeScene === "polish" ? plSteps : [];
+      const dur = activeScene === "project" ? PROJECT_DUR : activeScene === "assistant" ? ASSISTANT_DUR : activeScene === "home" ? HOME_DUR : activeScene === "diagram" ? DIAGRAM_DUR : activeScene === "cite" ? CITE_DUR : activeScene === "history" ? HISTORY_DUR : activeScene === "polish" ? POLISH_DUR : STATIC_DUR;
       if (activeSteps.length) {
         while (stepIdx < activeSteps.length && activeSteps[stepIdx].t <= el) {
           activeSteps[stepIdx].run();
@@ -3949,6 +4696,9 @@ const exportMenu = `
             if (lastCiteScroll) citeScrollToLine(lastCiteScroll);
             if (root.hasAttribute("data-cite-sel")) placeAskAi();
             if (root.hasAttribute("data-cite-pick")) placeCitePick();
+          }
+          if (activeScene === "polish") {
+            if (lastPlScroll) plScrollToLine(lastPlScroll);
           }
           if (lastMove) moveTo(lastMove[0], lastMove[1], lastMove[2], { dur: 0 });
         }, 400);
@@ -3994,6 +4744,10 @@ const exportMenu = `
               ? devParams.get("hvdiagram") ?? devParams.get("hvt") ?? 0
             : jump === "cite"
               ? devParams.get("hvcite") ?? devParams.get("hvt") ?? 0
+            : jump === "history"
+              ? devParams.get("hvhistory") ?? devParams.get("hvt") ?? 0
+            : jump === "polish"
+              ? devParams.get("hvpolish") ?? devParams.get("hvt") ?? 0
             : devParams.get("hvt") ?? 0,
       ) || 0;
       if (jump && order.includes(jump)) setScene(order.indexOf(jump));
@@ -4009,6 +4763,8 @@ const exportMenu = `
                 if (order[sceneIdx] === "home") resetHome();
                 if (order[sceneIdx] === "diagram") resetDiagram();
                 if (order[sceneIdx] === "cite") resetCite();
+                if (order[sceneIdx] === "history") resetHistory();
+                if (order[sceneIdx] === "polish") resetPolish();
                 sceneStart = performance.now() - pendingSkip;
                 pendingSkip = 0;
                 start();
