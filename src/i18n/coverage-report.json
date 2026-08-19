@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-16T22:22:43.272Z",
-  "enUiKeys": 544,
+  "generatedAt": "2026-08-19T11:17:27.316Z",
+  "enUiKeys": 556,
   "enLearn": 139,
   "enBlog": 19,
   "locales": 15,
@@ -8,19 +8,19 @@
   "byLocale": {
     "zh-cn": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -47,23 +47,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "zh-tw": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -90,23 +90,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "ja": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -133,23 +133,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "ko": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -176,23 +176,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "es": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -219,23 +219,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "pt-br": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -262,23 +262,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "fr": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -305,23 +305,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "de": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -348,23 +348,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "hi": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -391,23 +391,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "ru": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -434,23 +434,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "uk": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -477,23 +477,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "tr": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -520,23 +520,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "ar": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -563,23 +563,23 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     },
     "vi": {
       "ui": {
-        "total": 544,
-        "translated": 481,
-        "missing": 63,
-        "pct": 88.4,
+        "total": 556,
+        "translated": 480,
+        "missing": 76,
+        "pct": 86.3,
         "sampleMissing": [
-          "landing.pain.eyebrow",
-          "landing.pain.h2",
-          "landing.pain.sub",
-          "landing.pain.p1t",
-          "landing.pain.p1d",
-          "landing.pain.p2t",
-          "landing.pain.p2d",
-          "landing.pain.p3t"
+          "landing.tour.group",
+          "landing.tour.write",
+          "landing.tour.agent",
+          "landing.tour.cite",
+          "landing.tour.diagram",
+          "landing.tour.build",
+          "landing.tour.project",
+          "landing.tour.assistant"
         ]
       },
       "learn": {
@@ -606,7 +606,7 @@
         "packPct": 100,
         "templatePct": 100
       },
-      "composite": 95.4
+      "composite": 94.5
     }
   },
   "targets": [

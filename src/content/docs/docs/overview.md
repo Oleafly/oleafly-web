@@ -45,9 +45,9 @@ Paste a DOI, arXiv id, or paper title. Oleafly fetches BibTeX, deduplicates agai
 
 A [diagram composer](/docs/figures-diagrams/) with canvas and TikZ code, live preview, and round-trip editing. Or [draw with AI](/docs/ai-figures/): describe a figure, refine it against compile (and vision when available), then insert editable LaTeX.
 
-### Preflight: ATS and accessibility
+### Preflight before submission
 
-Before you submit, [Preflight](/docs/preflight/) scores resume-parser and screen-reader readiness, shows what an ATS extracts, flags undefined refs and duplicate labels, and can prepare tagged export flows.
+Before you submit, [Preflight](/docs/preflight/) checks compile and layout quality, publisher profiles, ATS parsing, accessibility, references, and privacy for blind review. It separates verified findings from advice, shows the text a machine can extract, and can prepare a tagged export flow.
 
 ### Research helpers in the app
 
