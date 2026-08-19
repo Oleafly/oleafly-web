@@ -3,6 +3,7 @@
 // gradient border) + bento typography, for static landing sections. Cards with
 // a visual key get a bento-style animated vignette in the top area with the
 // text block bottom-anchored; text-only cards (roadmap) stay top-anchored.
+import { useId } from "react";
 import { BentoCard, CARD_TEXT, CARD_DESC } from "@/components/bento-card";
 import { cn } from "@/lib/utils";
 
@@ -13,10 +14,44 @@ export interface LandingCard {
   readonly desc: string;
   readonly badge?: string;
   readonly visual?: CardVisual;
+  readonly pattern?: boolean;
 }
 
 const chip =
   "rounded-[4px] border px-1.5 py-[2px] font-mono text-[9.5px] leading-none";
+
+// Subtle 45° dash lattice (roadmap cards): faint dark strokes over the card
+// surface, tuned to sit just above the background noise level.
+function DashPattern() {
+  const id = useId();
+  return (
+    <svg
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 h-full w-full"
+    >
+      <defs>
+        <pattern
+          id={id}
+          width="32"
+          height="32"
+          patternUnits="userSpaceOnUse"
+          patternTransform="rotate(-45)"
+        >
+          <line
+            x1="16"
+            y1="5"
+            x2="16"
+            y2="22"
+            stroke="rgba(255,255,255,0.11)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill={`url(#${id})`} />
+    </svg>
+  );
+}
 
 function LatexVisual() {
   return (
@@ -142,6 +177,7 @@ export function LandingCards({
                 Visual ? "min-h-[190px]" : "min-h-[150px] justify-start",
               )}
             >
+              {card.pattern ? <DashPattern /> : null}
               {Visual ? (
                 <div className="flex flex-1 items-center justify-center py-1 opacity-90">
                   <Visual />

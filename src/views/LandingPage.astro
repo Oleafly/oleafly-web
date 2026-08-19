@@ -58,10 +58,10 @@ const oneStopCards = [
   { name: t(locale, "landing.oneshop.c6t"), desc: t(locale, "landing.oneshop.c6d"), visual: "pdf" },
 ];
 const roadmapCards = [
-  { name: t(locale, "landing.roadmap.r1t"), desc: t(locale, "landing.roadmap.r1d"), badge: "Coming soon" },
-  { name: t(locale, "landing.roadmap.r2t"), desc: t(locale, "landing.roadmap.r2d"), badge: "Coming soon" },
-  { name: t(locale, "landing.roadmap.r3t"), desc: t(locale, "landing.roadmap.r3d"), badge: "Coming soon" },
-  { name: t(locale, "landing.roadmap.r4t"), desc: t(locale, "landing.roadmap.r4d"), badge: "Coming soon" },
+  { name: t(locale, "landing.roadmap.r1t"), desc: t(locale, "landing.roadmap.r1d"), badge: "Coming soon", pattern: true },
+  { name: t(locale, "landing.roadmap.r2t"), desc: t(locale, "landing.roadmap.r2d"), badge: "Coming soon", pattern: true },
+  { name: t(locale, "landing.roadmap.r3t"), desc: t(locale, "landing.roadmap.r3d"), badge: "Coming soon", pattern: true },
+  { name: t(locale, "landing.roadmap.r4t"), desc: t(locale, "landing.roadmap.r4d"), badge: "Coming soon", pattern: true },
 ];
 const faqItems = [
   { q: t(locale, "landing.faq.q1"), a: t(locale, "landing.faq.a1") },
@@ -243,7 +243,6 @@ const bentoCards = {
   },
 };
 
-const yourPlatform = t(locale, "landing.yourPlatform");
 const installGuideLabel = t(locale, "landing.installGuide");
 const installUnsignedParts = t(locale, "landing.installUnsigned", {
   link: "§LINK§",
@@ -614,25 +613,34 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
           </p>
           <div class="dl-grid" id="dl-os-grid">
             <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer" data-os="mac">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
                 <path d={APPLE_PATH}></path>
               </svg>
               <span class="dl-os">macOS</span>
-              <span class="dl-card-badge">{yourPlatform}</span>
+              <svg class="dl-check" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="11" fill="currentColor"></circle>
+                <path d="M16.5 8.5 10.5 15l-3-3" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
             </a>
             <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer" data-os="windows">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
                 <path d={WINDOWS_PATH}></path>
               </svg>
               <span class="dl-os">Windows</span>
-              <span class="dl-card-badge">{yourPlatform}</span>
+              <svg class="dl-check" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="11" fill="currentColor"></circle>
+                <path d="M16.5 8.5 10.5 15l-3-3" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
             </a>
             <a class="dl-card" href={RELEASES} target="_blank" rel="noopener noreferrer" data-os="linux">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
                 <path d={LINUX_PATH}></path>
               </svg>
               <span class="dl-os">Linux</span>
-              <span class="dl-card-badge">{yourPlatform}</span>
+              <svg class="dl-check" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="11" fill="currentColor"></circle>
+                <path d="M16.5 8.5 10.5 15l-3-3" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
             </a>
           </div>
           <p class="aside-note">
@@ -1363,15 +1371,10 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       .craft-card {
         position: relative;
         overflow: hidden;
-        background:
-          linear-gradient(var(--surface), var(--surface)) padding-box,
-          linear-gradient(90deg, var(--color-1), var(--color-5), var(--color-3), var(--color-4), var(--color-2)) border-box;
-        background-size: 200% 100%;
-        border: 2px solid transparent;
+        background: var(--surface);
         border-radius: 16px;
         padding: 26px 28px;
         box-shadow: var(--shadow-popup);
-        animation: var(--animate-rainbow);
       }
       .craft-inner {
         display: grid;
@@ -1545,21 +1548,21 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       .dl-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        max-width: 720px;
+        gap: 10px;
+        max-width: 560px;
         margin: 0 auto;
       }
       .dl-card {
         position: relative;
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 5px;
         align-items: center;
         text-decoration: none;
         background: #151515;
         border: 2px solid var(--line);
         border-radius: var(--radius-lg);
-        padding: 22px 16px;
+        padding: 16px 12px;
         color: #d6d9e0;
         transition:
           border-color 150ms ease,
@@ -1591,23 +1594,21 @@ const installUnsignedParts = t(locale, "landing.installUnsigned", {
       }
       .dl-os {
         font-weight: 600;
-        font-size: 15px;
+        font-size: 13px;
         color: #fff;
-        margin-top: 4px;
-      }
-      .dl-card-badge {
-        visibility: hidden;
-        min-height: 15px;
         margin-top: 2px;
-        font-family: var(--mono);
-        font-size: 10px;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: #93c5fd;
       }
-      .dl-card.is-current .dl-card-badge {
-        visibility: visible;
+      .dl-check {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: none;
+        width: 14px;
+        height: 14px;
+        color: #2563eb;
+      }
+      .dl-card.is-current .dl-check {
+        display: block;
         color: #2563eb;
       }
       .dl-card.is-current .dl-os {
