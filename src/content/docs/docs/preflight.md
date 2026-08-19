@@ -1,17 +1,30 @@
 ---
-title: "Preflight: ATS & accessibility"
-description: "Score your document for resume parsers and screen readers before you submit: source checks, output audits, a live ATS extraction preview, and one-click prep for tagged PDF export."
+title: "Preflight checks"
+description: "Check compile quality, publication requirements, ATS parsing, accessibility, references, and privacy before you submit."
 ---
 
-Two audiences read your PDF without ever telling you what went wrong: applicant tracking systems and screen readers. Both fail on the same underlying defects, and both usually fail silently. Preflight makes those failures visible before you submit, and we don't know another LaTeX editor that does this.
+Compiler warnings, submission portals, screen readers, and resume parsers all see a different part of a document. Preflight brings those checks into one place before you submit.
 
 Open it from the shield icon in the left rail. The panel opens instantly, pre-selects the checks relevant to your document type, and every check explains itself with an info icon.
 
 ![Preflight scoring a resume for ATS readiness](https://cdn.oleafly.com/images/screenshots/desktop/preflight-ats.png)
 
-## Three scores
+## Six independent checks
 
-At the top: **ATS readiness**, **Accessibility**, and **References & assets**, each out of 100, computed from the checks below. They move as you fix things, which turns cleanup into a satisfying loop.
+Turn on the checks that fit the document. Each one has its own result and can run by itself:
+
+- **Compile & layout** reads the latest build log and PDF for unresolved references, missing glyphs, overfull boxes, clipped text, rerun warnings, duplicate destinations, and mixed page sizes.
+- **Submission readiness** applies a publication profile to the whole project. It checks document class, abstract and keywords, figure formats, embedded fonts, PDF restrictions, captions, portable paths, and source-package clutter.
+- **ATS readiness** simulates resume parsing and reports the contact fields and expected sections it can recover.
+- **Accessibility** checks reading order, selectable text, language and title metadata, tags, alt text, bookmarks where appropriate, and text that may be too small.
+- **References & assets** finds missing files, undefined citations and cross-references, duplicate labels and DOIs, incomplete bibliography entries, and uncited references when the whole project is available.
+- **Privacy & blind review** scans for credentials, private keys, sensitive files, draft notes, internal comments, acknowledgements, and identity metadata.
+
+A finding is marked **verified** when Oleafly observed it directly. **Advisory** findings are documented heuristics that need author review. **Manual** items cannot be decided safely from the files alone.
+
+## Publication profiles
+
+Submission requirements conflict across publishers. Pick a general publication, arXiv, IEEE, ACM, journal, or thesis profile instead of applying one global rule set. Preflight checks stable requirements in that profile and leaves changing venue rules, such as page limits and margins, to the current call for papers or author guide.
 
 ## Source checks
 
@@ -38,16 +51,12 @@ After a compile, Preflight audits the actual PDF:
 - Pages with no selectable text at all
 - Missing PDF language or title metadata
 
-## See what the machine sees
+## See what the reader gets
 
 Two views take the guesswork out:
 
-- **What the reader sees**: a plain-text rendering of your compiled PDF in reading order, exactly what a parser or screen reader receives. If your name is missing or your sections are shuffled here, they're shuffled for the ATS too.
+- **What the reader sees** opens from the Preflight header. It shows the compiled PDF's extracted text page by page, close to what a parser or screen reader receives. If a name is missing or the sections are shuffled here, the same problem is likely to reach the reader.
 - **What a parser extracted**: for resumes, a simulation of a real ATS pass: the name, email, phone, and links it found, and which standard sections (Experience, Education, Skills) it detected. A missing phone number or an invisible Work Experience section shows up here first.
-
-## References & assets
-
-A pre-submission integrity sweep that catches what breaks bibliographies at the worst moment: undefined citations and cross-references, duplicate labels, duplicate bibliography entries (two keys sharing one DOI), and missing figure or included files.
 
 ## Running checks
 
@@ -64,4 +73,4 @@ LuaLaTeX comes from a detected system TeX distribution or Oleafly's managed Tiny
 
 ## Honest scope
 
-Preflight detects risks but does not certify a document. It finds common source and PDF defects that break parsers and screen readers, shows what a machine can extract, and prepares a tagged-export path. A clean run means those detected risks are gone. It does not guarantee that a specific ATS or formal accessibility audit will pass. The scores help prioritize work and are not compliance evidence.
+Preflight finds risks but does not certify a document. A clean run means the selected checks found no known problem in the inputs they could inspect. It does not guarantee acceptance, a particular ATS result, or a formal accessibility audit. The results are evidence for review, not compliance paperwork.
