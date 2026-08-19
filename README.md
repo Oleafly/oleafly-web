@@ -5,7 +5,7 @@
 ### The website and documentation for [Oleafly](https://github.com/Oleafly/Oleafly), a free and open-source local-first writing studio.
 
 [![CI](https://img.shields.io/github/actions/workflow/status/Oleafly/oleafly-web/deploy.yml?branch=main&label=CI)](https://github.com/Oleafly/oleafly-web/actions/workflows/deploy.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](LICENSE)
+[![License: PolyForm Strict 1.0.0](https://img.shields.io/badge/License-PolyForm%20Strict%201.0.0-22c55e.svg)](LICENSE)
 [![Lighthouse desktop](https://img.shields.io/badge/Lighthouse_desktop-98_·_100_·_100_·_100-22c55e)](https://oleafly.com)
 [![Lighthouse mobile](https://img.shields.io/badge/Lighthouse_mobile-83_·_100_·_100_·_100-3b82f6)](https://oleafly.com)
 [![Stars](https://img.shields.io/github/stars/Oleafly/oleafly-web?style=social)](https://github.com/Oleafly/oleafly-web)
@@ -85,4 +85,4 @@ Every push to `main` deploys automatically. A GitHub Action builds the site and 
 
 ## License
 
-MIT. The Oleafly app itself is AGPL-3.0, but this website's code is free to reuse however you like.
+PolyForm Strict 1.0.0. The source stays public so you can read it, learn from it, and send fixes, but you can't republish this site or spin your own off it. The Oleafly app itself is AGPL-3.0.

@@ -1,6 +1,7 @@
 {
   "name": "oleafly.com",
   "type": "module",
+  "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "description": "oleafly.com — landing page and documentation site for Oleafly, built with Astro + Starlight, deployed on Cloudflare Pages.",
   "scripts": {
